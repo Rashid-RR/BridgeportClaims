@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ReferenceManagerService} from '../../services/reference-manager.service';
-import {ActiveToast, ToastrService} from 'ngx-toastr';
+import {ToastrService} from 'ngx-toastr';
 
 declare var $: any;
 

@@ -621,25 +621,25 @@ export class HttpService {
 
   handleResponseError(res: any) {
     if (res.status === 401) {
-      let toast = this.toast.toasts.find(t => t.toastId == this.activeToastId)
+      const toast = this.toast.toasts.find(t => t.toastId === this.activeToastId);
       if (toast) {
         toast.message = 'An invalid login was detected. Please log in again.';
       } else {
         this.activeToastId = this.toast.info('An invalid login was detected. Please log in again.', null,
-          { timeOut: 10000 }).toastId
+          { timeOut: 10000 }).toastId;
       }
       this.router.navigate(['/login']);
       this.events.broadcast('logout', true);
     } else if (res.status === 406) {
       const err = res.error;
-      let toast = this.toast.toasts.find(t => t.toastId == this.errorToastId)
+      const toast = this.toast.toasts.find(t => t.toastId === this.errorToastId);
       if (toast) {
         toast.message = err.message;
       } else {
         this.errorToastId = this.toast.error(err.message, null, { timeOut: 100000 }).toastId;
       }
     } else if (res.status === 500) {
-      let toast = this.toast.toasts.find(t => t.toastId == this.errorToastId)
+      const toast = this.toast.toasts.find(t => t.toastId === this.errorToastId);
       if (toast) {
         toast.message = 'A server error was detected. Please contact your system administrator.';
       } else {
@@ -648,7 +648,7 @@ export class HttpService {
       }
       this.events.broadcast('loading-error', true);
     } else if (res.status === 0 || res.status === 504) {
-      let toast = this.toast.toasts.find(t => t.toastId == this.errorToastId)
+      const toast = this.toast.toasts.find(t => t.toastId === this.errorToastId);
       if (toast) {
         toast.message = 'Cannot reach the server. Please check your network connection.';
       } else {
@@ -704,7 +704,6 @@ export class HttpService {
 
   getPayments(claimId: Number, sort: String = null, sortDir: 'asc' | 'desc' = 'asc',
     page: Number = 1, pageSize: Number = 30) {
-    // api/payment/payments-blade?claimId=776&sort=RxDate&sortDirection=DESC&page=1&pageSize=30
     let params = new HttpParams().set('claimId', claimId.toString());
     if (sort) {
       params = params.set('sort', sort.toString());
@@ -755,7 +754,8 @@ export class HttpService {
   }
 
   reIndexedCheck(data: any): Observable<any> {
-    return this.http.post(this.baseUrl + '/payment/re-index-check/?documentId=' + data.documentId + '&skipPayments=' + data.skipPayments + '&prescriptionPaymentId', {})
+    return this.http.post(this.baseUrl + '/payment/re-index-check/?documentId=' + data.documentId + '&skipPayments='
+      + data.skipPayments + '&prescriptionPaymentId', {})
       .pipe(
         tap(_ => { }, error => {
           this.handleResponseError(error);
@@ -763,22 +763,6 @@ export class HttpService {
       );
   }
 
-  /* cancelIndexedCheck(documentId: any): Observable<any> {
-    return this.http.post(this.baseUrl + `/payment/cancel-posting/?sessionId=9a2012bd-9a7c-4c75-ad17-3b5f099e462b?documentId=${documentId}`,{})
-      .pipe(
-            tap(event=>{}, error => {
-                this.handleResponseError(error);
-               })
-        );
-  }
-  deleteIndexedCheck(documentId: any): Observable<any> {
-    return this.http.post(this.baseUrl + `/payment/get-indexed-check-details/?documentId=${documentId}`,{})
-      .pipe(
-            tap(event=>{}, error => {
-                this.handleResponseError(error);
-               })
-        );
-  } */
   saveFlex2(data: any): Observable<any> {
     return this.http.post(this.baseUrl + '/claims/set-flex2/?claimId=' + data.claimId + '&claimFlex2Id=' + data.claimFlex2Id, data)
       .pipe(
@@ -789,7 +773,8 @@ export class HttpService {
   }
 
   updatePrescriptionStatus(data: any): Observable<any> {
-    return this.http.post(this.baseUrl + '/prescriptions/set-status/?prescriptionId=' + data.prescriptionId + '&prescriptionStatusId=' + data.prescriptionStatusId, data)
+    return this.http.post(this.baseUrl + '/prescriptions/set-status/?prescriptionId=' + data.prescriptionId
+      + '&prescriptionStatusId=' + data.prescriptionStatusId, data)
       .pipe(
         tap(_ => { }, error => {
           this.handleResponseError(error);

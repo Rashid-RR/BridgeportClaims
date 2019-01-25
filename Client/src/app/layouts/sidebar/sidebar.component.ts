@@ -15,7 +15,6 @@ export class SidebarComponent implements OnInit {
 
   disableLinks = false;
   constructor(
-    private http: HttpService,
     private events: EventsService,
     public router: Router,
     private profileManager: ProfileManager,
@@ -45,10 +44,12 @@ export class SidebarComponent implements OnInit {
   }
 
   get allowed(): Boolean {
-    return (this.profileManager.profile.roles && (this.profileManager.profile.roles instanceof Array) && this.profileManager.profile.roles.indexOf('Admin') > -1);
+    return (this.profileManager.profile.roles && (this.profileManager.profile.roles instanceof Array)
+      && this.profileManager.profile.roles.indexOf('Admin') > -1);
   }
   get adminOrAsociate(): Boolean {
-    return (this.profileManager.profile.roles && (this.profileManager.profile.roles instanceof Array) && (this.profileManager.profile.roles.indexOf('Admin') > -1 || this.profileManager.profile.roles.indexOf('Indexer') > -1));
+    return (this.profileManager.profile.roles && (this.profileManager.profile.roles instanceof Array)
+      && (this.profileManager.profile.roles.indexOf('Admin') > -1 || this.profileManager.profile.roles.indexOf('Indexer') > -1));
   }
   goToClaim(id: Number) {
     if (!this.disableLinks) {
@@ -56,7 +57,7 @@ export class SidebarComponent implements OnInit {
         claimNumber: null, firstName: null, lastName: null,
         rxNumber: null, invoiceNumber: null, claimId: id
       }, false);
-      if (this.router.url != '/main/claims') {
+      if (this.router.url !== '/main/claims') {
         this.router.navigate(['/main/claims']);
       }
     }

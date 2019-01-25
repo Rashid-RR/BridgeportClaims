@@ -52,6 +52,7 @@ export class ReferenceManagerService {
     this.adjustorForm = this.formBuilder.group({
       adjustorId: [null],
       adjustorName: [null, Validators.compose([Validators.required])],
+      address1: [null],
       faxNumber: [null],
       phoneNumber: [null],
       emailAddress: [null],

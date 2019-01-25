@@ -16,5 +16,4 @@ export class ReferencesComponent implements OnInit {
   ngOnInit() {
 
   }
-
 }
