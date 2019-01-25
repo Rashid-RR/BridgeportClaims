@@ -53,11 +53,11 @@
                   <i class="fa fa-book" aria-hidden="true"></i> References - {{rs.typeSelected}}
                 </span>
                 <span class="total pull-right">
-                  <span *ngIf="rs.totalAdjustors" style="margin-right:100px;">
+                  <span *ngIf="rs.totalEntities || rs.totalEntities === 0" style="margin-right:100px;">
                     {{rs.getCurrentStartPage() + " to " + rs.currentPage * rs.pageSize}}</span>
-                  <span *ngIf="rs.totalAdjustors">
-                    <span style="font-size:13pt">{{rs.totalAdjustors}}</span>
-                    Record{{rs.totalAdjustors > 1 ? 's' : ''}} found</span>
+                  <span *ngIf="rs.totalEntities || rs.totalEntities === 0">
+                    <span style="font-size:13pt">{{rs.totalEntities}}</span>
+                    Record{{rs.totalEntities !== 1 ? 's' : ''}} found</span>
                 </span>
               </div>
               <div class="box-body diary-results">

@@ -4,6 +4,7 @@ import {AdjustorItem} from '../references/dataitems/adjustors';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { UsState } from '../models/us-state';
 import { PayorItem } from '../references/dataitems/payors';
+import { AttorneyItem } from '../references/dataitems/attorneys';
 
 declare var $: any;
 
@@ -17,6 +18,7 @@ export class ReferenceManagerService {
   public loading = false;
   public adjustors: Array<AdjustorItem>;
   public payors: Array<PayorItem>;
+  public attorneys: Array<AttorneyItem>;
   public totalEntityRows = 0;
   public totalRows = 0;
   public pageSize: number;
@@ -158,7 +160,7 @@ export class ReferenceManagerService {
     this.loading = true;
     this.http.getAttorneyName(data)
       .subscribe((result: any) => {
-          this.adjustors = result.results;
+          this.attorneys = result.results;
           this.totalEntityRows = result.totalRows;
           this.loading = false;
         }, error => {
@@ -173,6 +175,14 @@ export class ReferenceManagerService {
 
   getAdjustors(): AdjustorItem[] {
     return this.adjustors;
+  }
+
+  getAttorneys(): AttorneyItem[] {
+    return this.attorneys;
+  }
+
+  get totalEntities(): number {
+    return this.totalEntityRows;
   }
 
   getTotalRows(): number {

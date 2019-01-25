@@ -1227,7 +1227,7 @@ export class HttpService {
   }
 
   getReferencesPayorsList(data: any): Observable<any> {
-    const s = this.http.post(this.baseUrl + 'payors/get-references-payors-list/', data)
+    const s = this.http.post(this.baseUrl + '/payors/get-references-payors-list/', data)
       .pipe(
         tap(_ => { }, error => {
           this.handleResponseError(error);

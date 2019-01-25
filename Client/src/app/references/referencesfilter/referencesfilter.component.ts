@@ -19,7 +19,7 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
   @ViewChild(MatAutocomplete) matAutocomplete: MatAutocomplete;
   stateControl = new FormControl();
   date: string;
-  adjustorName: string;
+  public entitySearchName: string;
   adjustorModel: any = {};
   submitted = false;
   public flag = 'File Name';
@@ -80,8 +80,7 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
   }
 
   search() {
-
-    this.rs.setSearchText(this.adjustorName);
+    this.rs.setSearchText(this.entitySearchName);
     this.rs.getReferencesList();
   }
 
@@ -89,7 +88,7 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
   }
 
   clearFilters() {
-    this.adjustorName = '';
+    this.entitySearchName = '';
     this.rs.setSearchText(null);
     this.rs.getReferencesList();
   }
@@ -172,9 +171,9 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
     this.rs.openModal(isModalEdit);
   }
 
-  changeSelection(event) {
+  changeSelection(event: { value: string; }): void {
     this.rs.typeSelected = event.value;
-    this.rs.sortColumn = event.value.toLowerCase() + 'Name';
+    this.rs.sortColumn = (event.value.toLowerCase() === 'payor' ? 'group' : event.value.toLowerCase()) + 'Name';
     this.rs.getReferencesList();
   }
 }

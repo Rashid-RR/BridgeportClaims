@@ -71,20 +71,56 @@
     </div>
     <div class="table-responsive table-body">
       <table class="table no-margin table-striped" id="maintable">
-        <tbody class="overflowable" tabindex="0">
+        <!-- Payors -->
+        <tbody class="overflowable" tabindex="0" *ngIf="rs.typeSelected==rs.types[2]">
+          <ng-container *ngFor="let payor of rs.getPayors()">
+            <tr>
+              <td>{{payor?.groupName}}</td>
+              <td>{{payor?.billingAddress}}</td>
+              <td>{{payor?.phoneNumber}}</td>
+              <td>{{payor?.alternatePhoneNumber}}</td>
+              <td>{{payor?.faxNumber}}</td>
+              <td>{{payor?.notes}}</td>
+              <td>{{payor?.contact}}</td>
+              <td>{{payor?.letterName}}</td>
+              <td>{{payor?.modifiedBy}}</td>
+              <td>
+                <button style="float: right;" (click)="edit(payor)" class="btn btn-primary btn-xs" type="button">
+                  Edit
+                </button>
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
+        <!-- End Payors -->
+        <!-- Attorneys -->
+        <tbody class="overflowable" tabindex="0" *ngIf="rs.typeSelected==rs.types[1]">
+          <ng-container *ngFor="let attorney of rs.getAttorneys()">
+            <tr>
+              <td>{{attorney?.attorneyName}}</td>
+              <td>
+                <button style="float: right;" (click)="edit(attorney)" class="btn btn-primary btn-xs" type="button">
+                  Edit
+                </button>
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
+        <!-- End Attorneys -->
+        <tbody class="overflowable" tabindex="0" *ngIf="rs.typeSelected==rs.types[0]">
           <ng-container *ngFor="let adjustor of rs.getAdjustors()">
             <tr>
-              <td *ngIf="rs.typeSelected==rs.types[0]">{{adjustor?.adjustorName}}</td>
-              <td *ngIf="rs.typeSelected==rs.types[1]">{{adjustor?.attorneyName}}</td>
-              <td *ngIf="rs.typeSelected==rs.types[1]">{{adjustor?.address1}}</td>
-              <td *ngIf="rs.typeSelected==rs.types[1]">{{adjustor?.address2}}</td>
-              <td>{{adjustor?.phoneNumber }}</td>
+              <td>{{adjustor?.adjustorName}}</td>
+              <td>{{adjustor?.attorneyName}}</td>
+              <td>{{adjustor?.address1}}</td>
+              <td>{{adjustor?.address2}}</td>
+              <td>{{adjustor?.phoneNumber}}</td>
               <td>{{adjustor?.faxNumber}}</td>
-              <td *ngIf="rs.typeSelected==rs.types[1]">{{adjustor?.postalCode}}</td>
-              <td *ngIf="rs.typeSelected==rs.types[1]">{{adjustor?.stateName}}</td>
-              <td *ngIf="rs.typeSelected==rs.types[1]">{{adjustor?.city}}</td>
-              <td *ngIf="rs.typeSelected==rs.types[0]">{{adjustor?.emailAddress}}</td>
-              <td *ngIf="rs.typeSelected==rs.types[0]">{{adjustor?.extension}}</td>
+              <td>{{adjustor?.postalCode}}</td>
+              <td>{{adjustor?.stateName}}</td>
+              <td>{{adjustor?.city}}</td>
+              <td>{{adjustor?.emailAddress}}</td>
+              <td>{{adjustor?.extension}}</td>
               <td>{{adjustor?.modifiedBy}}</td>
               <td>
                 <button style="float: right;" (click)="edit(adjustor)" class="btn btn-primary btn-xs" type="button">
