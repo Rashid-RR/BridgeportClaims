@@ -1,8 +1,9 @@
 import {Injectable} from '@angular/core';
 import {HttpService} from './http-service';
-import {adjustorItem} from '../references/dataitems/adjustors';
+import {AdjustorItem} from '../references/dataitems/adjustors';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { UsState } from '../models/us-state';
+import { PayorItem } from '../references/dataitems/payors';
 
 declare var $: any;
 
@@ -10,24 +11,25 @@ declare var $: any;
 export class ReferenceManagerService {
   adjustorForm: FormGroup;
   attorneyForm: FormGroup;
+  payorForm: FormGroup;
   states: UsState[];
-  selectedState: any = {};
   public editFlag = false;
   public loading = false;
-  public adjustors: Array<adjustorItem>;
-  public totalAdjustors = 0;
+  public adjustors: Array<AdjustorItem>;
+  public payors: Array<PayorItem>;
+  public totalEntityRows = 0;
   public totalRows = 0;
   public pageSize: number;
-  public types = ['Adjustor', 'Attorney'];
+  public types = ['Adjustor', 'Attorney', 'Payor'];
   public typeSelected: string;
-  public editAdjustor: any;
+  public editedEntity: any;
   private searchText: string;
   public sortColumn: string;
   public currentPage = 1;
   public currentStartedPage: number;
   private sortType = 'ASC';
   checkDisplay = 'list';
-  private data = {
+  private abstractSearchParams = {
     'searchText': null,
     'sort': '',
     'sortDirection': 'ASC',
@@ -37,18 +39,17 @@ export class ReferenceManagerService {
 
   constructor(private http: HttpService, private formBuilder: FormBuilder) {
     this.typeSelected = this.types[0];
-    this.totalAdjustors = 0;
+    this.totalEntityRows = 0;
     this.pageSize = 30;
-    this.data.sort = this.typeSelected + 'Name';
+    this.abstractSearchParams.sort = this.typeSelected + 'Name';
     this.searchText = null;
     this.sortColumn = 'AdjustorName';
     this.sortType = 'ASC';
-    this.data.sortDirection = this.sortType;
-    this.data.searchText = this.searchText;
-    this.data.pageSize = this.pageSize;
-    this.data.sort = this.sortColumn;
-    this.fetchAdjustors(this.data);
-    this.selectedState = 'null';
+    this.abstractSearchParams.sortDirection = this.sortType;
+    this.abstractSearchParams.searchText = this.searchText;
+    this.abstractSearchParams.pageSize = this.pageSize;
+    this.abstractSearchParams.sort = this.sortColumn;
+    this.fetchAdjustors(this.abstractSearchParams);
     this.adjustorForm = this.formBuilder.group({
       adjustorId: [null],
       adjustorName: [null, Validators.compose([Validators.required])],
@@ -72,6 +73,24 @@ export class ReferenceManagerService {
       faxNumber: [null],
       phoneNumber: [null]
     });
+    this.payorForm = this.formBuilder.group({
+      payorId: [null],
+      groupName: [null, Validators.compose([Validators.required])],
+      billToName: [null, Validators.compose([Validators.required])],
+      billToAddress1: [null],
+      billToAddress2: [null],
+      billToCity: [null],
+      billToState: [null],
+      billToStateName: [null],
+      billToStateId: [null],
+      billToPostalCode: [null],
+      phoneNumber: [null],
+      alternatePhoneNumber: [null],
+      faxNumber: [null],
+      notes: [null],
+      contact: [null],
+      letterName: [null, Validators.compose([Validators.required])]
+    });
   }
 
   editStatus() {
@@ -79,41 +98,43 @@ export class ReferenceManagerService {
   }
 
   getReferencesList() {
-    this.data.searchText = this.searchText;
-    this.data.pageSize = this.pageSize;
-    this.data.page = this.currentPage;
-    this.data.sortDirection = this.sortType;
-    this.data.sort = this.sortColumn;
+    this.abstractSearchParams.searchText = this.searchText;
+    this.abstractSearchParams.pageSize = this.pageSize;
+    this.abstractSearchParams.page = this.currentPage;
+    this.abstractSearchParams.sortDirection = this.sortType;
+    this.abstractSearchParams.sort = this.sortColumn;
     if (this.typeSelected === 'Adjustor') {
-      this.fetchAdjustors(this.data);
+      this.fetchAdjustors(this.abstractSearchParams);
     } else if (this.typeSelected === 'Attorney') {
-      this.fetchAttorneys(this.data);
+      this.fetchAttorneys(this.abstractSearchParams);
+    } else if (this.typeSelected === 'Payor') {
+      this.fetchPayors(this.abstractSearchParams);
     }
   }
 
-  onSortColumn($event) {
+  onSortColumn($event: { column: string; dir: string; }) {
     this.sortColumn = $event.column;
     this.sortType = $event.dir;
     this.getReferencesList();
   }
 
-  setSearchText(key: any) {
+  setSearchText(key: any): void {
     this.searchText = key;
   }
 
-  setSortType(option: any) {
+  setSortType(option: any): void {
     if (this.sortType !== option) {
       this.sortType = option;
       this.getReferencesList();
     }
   }
 
-  fetchAdjustors(data: any) {
+  fetchAdjustors(data: any): void {
     this.loading = true;
     this.http.getAdjustorName(data)
       .subscribe((result: any) => {
           this.adjustors = result.results;
-          this.totalAdjustors = result.totalRows;
+          this.totalEntityRows = result.totalRows;
           this.loading = false;
         }, error => {
           this.loading = false;
@@ -121,13 +142,24 @@ export class ReferenceManagerService {
       );
   }
 
+  fetchPayors(data: any): void {
+    this.loading = true;
+    this.http.getReferencesPayorsList(data)
+      .subscribe((result: any) => {
+        this.payors = result.results;
+        this.totalEntityRows = result.totalRowCount;
+        this.loading = false;
+      }, error => {
+        this.loading = false;
+      });
+  }
 
-  fetchAttorneys(data: any) {
+  fetchAttorneys(data: any): void {
     this.loading = true;
     this.http.getAttorneyName(data)
       .subscribe((result: any) => {
           this.adjustors = result.results;
-          this.totalAdjustors = result.totalRows;
+          this.totalEntityRows = result.totalRows;
           this.loading = false;
         }, error => {
           this.loading = false;
@@ -135,21 +167,21 @@ export class ReferenceManagerService {
       );
   }
 
-  getAdjustors() {
+  getPayors(): PayorItem[] {
+    return this.payors;
+  }
+
+  getAdjustors(): AdjustorItem[] {
     return this.adjustors;
   }
 
-  getTotalAdjustors() {
-    return this.totalAdjustors;
-  }
-
-  getTotalRows() {
-    this.totalRows = this.totalAdjustors / this.pageSize;
+  getTotalRows(): number {
+    this.totalRows = this.totalEntityRows / this.pageSize;
     return Math.floor(this.totalRows);
   }
 
-  getLastPage() {
-    this.totalRows = this.totalAdjustors / this.pageSize;
+  getLastPage(): number {
+    this.totalRows = this.totalEntityRows / this.pageSize;
     return Math.ceil(this.totalRows);
   }
 
@@ -158,7 +190,7 @@ export class ReferenceManagerService {
     return Math.floor(this.currentStartedPage);
   }
 
-  openModal(isModalEdit: boolean) {
+  openModal(isModalEdit: boolean): void {
     this.editFlag = isModalEdit;
     $('#modalAddAdjustor').modal('show');
     $('#phoneNumber').inputmask().on('change', (ev) => {
@@ -179,27 +211,43 @@ export class ReferenceManagerService {
     });
     if (this.editFlag === true) {
       if (this.typeSelected === this.types[0]) {
-        this.adjustorForm.controls.adjustorId.setValue(this.editAdjustor.adjustorId);
-        this.adjustorForm.controls.adjustorName.setValue(this.editAdjustor.adjustorName);
-        this.adjustorForm.controls.phoneNumber.setValue(this.editAdjustor.phoneNumber);
-        this.adjustorForm.controls.emailAddress.setValue(this.editAdjustor.emailAddress);
-        this.adjustorForm.controls.extension.setValue(this.editAdjustor.extension);
-        this.adjustorForm.controls.faxNumber.setValue(this.editAdjustor.faxNumber);
+        this.adjustorForm.controls.adjustorId.setValue(this.editedEntity.adjustorId);
+        this.adjustorForm.controls.adjustorName.setValue(this.editedEntity.adjustorName);
+        this.adjustorForm.controls.phoneNumber.setValue(this.editedEntity.phoneNumber);
+        this.adjustorForm.controls.emailAddress.setValue(this.editedEntity.emailAddress);
+        this.adjustorForm.controls.extension.setValue(this.editedEntity.extension);
+        this.adjustorForm.controls.faxNumber.setValue(this.editedEntity.faxNumber);
       } else if (this.typeSelected === this.types[1]) {
-        this.attorneyForm.controls.attorneyId.setValue(this.editAdjustor.attorneyId);
-        this.attorneyForm.controls.attorneyName.setValue(this.editAdjustor.attorneyName);
-        this.attorneyForm.controls.phoneNumber.setValue(this.editAdjustor.phoneNumber);
-        this.attorneyForm.controls.extension.setValue(this.editAdjustor.extension);
-        this.attorneyForm.controls.faxNumber.setValue(this.editAdjustor.faxNumber);
-        this.attorneyForm.controls.city.setValue(this.editAdjustor.city);
-        this.attorneyForm.controls.address1.setValue(this.editAdjustor.address1);
-        this.attorneyForm.controls.address2.setValue(this.editAdjustor.address2);
-        this.attorneyForm.controls.stateName.setValue(this.editAdjustor.stateName);
-        this.attorneyForm.controls.postalCode.setValue(this.editAdjustor.postalCode);
-        const state = this.states.find(st => st.stateName === this.editAdjustor.stateName); // Single or default
+        this.attorneyForm.controls.attorneyId.setValue(this.editedEntity.attorneyId);
+        this.attorneyForm.controls.attorneyName.setValue(this.editedEntity.attorneyName);
+        this.attorneyForm.controls.phoneNumber.setValue(this.editedEntity.phoneNumber);
+        this.attorneyForm.controls.extension.setValue(this.editedEntity.extension);
+        this.attorneyForm.controls.faxNumber.setValue(this.editedEntity.faxNumber);
+        this.attorneyForm.controls.city.setValue(this.editedEntity.city);
+        this.attorneyForm.controls.address1.setValue(this.editedEntity.address1);
+        this.attorneyForm.controls.address2.setValue(this.editedEntity.address2);
+        this.attorneyForm.controls.stateName.setValue(this.editedEntity.stateName);
+        this.attorneyForm.controls.postalCode.setValue(this.editedEntity.postalCode);
+        const state = this.states.find(st => st.stateName === this.editedEntity.stateName);
         if (state) {
-          this.selectedState = state;
           this.attorneyForm.get('stateId').setValue(state.stateId);
+        }
+      } else if (this.typeSelected === this.types[2]) {
+        this.payorForm.controls.payorId.setValue(this.editedEntity.payorId);
+        this.payorForm.controls.groupName.setValue(this.editedEntity.groupName);
+        this.payorForm.controls.billToAddress1.setValue(this.editedEntity.billToAddress1);
+        this.payorForm.controls.billToAddress2.setValue(this.editedEntity.billToAddress2);
+        this.payorForm.controls.billToCity.setValue(this.editedEntity.billToCity);
+        this.payorForm.controls.billToPostalCode.setValue(this.editedEntity.billToPostalCode);
+        this.payorForm.controls.phoneNumber.setValue(this.editedEntity.phoneNumber);
+        this.payorForm.controls.alternatePhoneNumber.setValue(this.editedEntity.alternatePhoneNumber);
+        this.payorForm.controls.faxNumber.setValue(this.editedEntity.faxNumber);
+        this.payorForm.controls.notes.setValue(this.editedEntity.notes);
+        this.payorForm.controls.contact.setValue(this.editedEntity.contact);
+        this.payorForm.controls.letterName.setValue(this.editedEntity.letterName);
+        const billToState = this.states.find(st => st.stateName === this.editedEntity.billToStateName);
+        if (billToState) {
+          this.payorForm.get('billToStateId').setValue(billToState.stateName);
         }
       }
     }

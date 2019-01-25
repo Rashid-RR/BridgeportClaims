@@ -97,7 +97,6 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
   cancel() {
     this.rs.adjustorForm.reset();
     this.rs.attorneyForm.reset();
-    this.rs.selectedState = 'null';
     this.rs.editFlag = false;
     this.stateControl.reset();
   }

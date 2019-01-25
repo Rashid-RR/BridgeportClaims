@@ -362,7 +362,7 @@ export class HttpService {
     return s;
   }
 
-  getPayours(pageNumber: Number, pageSize: Number): Observable<any> {
+  getPayors(pageNumber: Number, pageSize: Number): Observable<any> {
     const s = this.http.get(this.baseUrl + '/payor/getpayors/?pageNumber=' + pageNumber + '&pageSize=' + pageSize)
       .pipe(
         tap(_ => { }, error => {
@@ -1224,6 +1224,16 @@ export class HttpService {
           this.handleResponseError(error);
         })
       );
+  }
+
+  getReferencesPayorsList(data: any): Observable<any> {
+    const s = this.http.post(this.baseUrl + 'payors/get-references-payors-list/', data)
+      .pipe(
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
+        })
+      );
+    return s;
   }
 
   updateBilledAmount(data: any): Observable<any> {

@@ -1,4 +1,4 @@
-export interface adjustorItem {
+export interface AdjustorItem {
   'adjustorId': string;
   'adjustorName': string;
   'phoneNumber': string;

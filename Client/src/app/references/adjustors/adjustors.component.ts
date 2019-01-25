@@ -59,9 +59,9 @@ export class AdjustorsComponent implements OnInit {
     // }
   }
 
-  edit(adjustor: any) {
+  edit(entity: any) {
     this.rs.editFlag = true;
-    this.rs.editAdjustor = adjustor;
+    this.rs.editedEntity = entity;
     this.rs.openModal(true);
   }
 }
