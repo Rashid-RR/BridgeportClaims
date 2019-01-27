@@ -4,10 +4,10 @@ import { RouterModule } from '@angular/router';
 import { SweetAlert2Module } from '@toverux/ngx-sweetalert2';
 import { SharedModule } from '../shared';
 import { ReferencesRoutes } from './references.routing';
-import { ReferencesComponent } from './references/references.component';
 import { ReferencesfilterComponent } from './referencesfilter/referencesfilter.component';
-import { AdjustorsComponent } from './adjustors/adjustors.component';
+import { ReferencesGridComponent } from './references-grid/references-grid.component';
 import { MaterialComponentsModule } from '../material/material-components.module';
+import { ReferencesContainerComponent } from './references-container/references-container.component';
 
 @NgModule({
   imports: [
@@ -18,9 +18,9 @@ import { MaterialComponentsModule } from '../material/material-components.module
     RouterModule.forChild(ReferencesRoutes),
   ],
   declarations: [
-    ReferencesComponent,
+    ReferencesContainerComponent,
     ReferencesfilterComponent,
-    AdjustorsComponent
+    ReferencesGridComponent
   ],
   providers: [CurrencyPipe, DecimalPipe]
 })

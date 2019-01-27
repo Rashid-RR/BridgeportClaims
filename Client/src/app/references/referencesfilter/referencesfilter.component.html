@@ -1,20 +1,19 @@
 <form (keyup.enter)="search()" autocapitalize="none" autocomplete="off" autocomplete="off" role="form">
-  <div class="row">
-    <!--</div>-->
-    <div class="col-md-3">
-      <div class="form-group">
+  <section class="row">
+    <section class="col-md-3">
+      <section class="form-group">
         <label>{{rs.typeSelected}} Name</label>
-        <div class="">
-          <div class="">
+        <section class="">
+          <section class="">
             <i class=""></i>
-          </div>
+          </section>
           <input (focus)="submitted=false" [(ngModel)]="entitySearchName" class="form-control pull-right" id="entitySearchName"
             name="entitySearchName" [placeholder]="'Type '+rs.typeSelected+' Name...'" type="text">
-        </div>
-      </div>
-    </div>
-    <div class="col-md-2">
-      <div class="form-group">
+        </section>
+      </section>
+    </section>
+    <section class="col-md-2">
+      <section class="form-group">
         <label>Reference</label>
         <mat-form-field>
           <mat-select (selectionChange)="changeSelection($event)" [(value)]="rs.typeSelected">
@@ -23,10 +22,10 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
-      </div>
-    </div>
-    <div class="col-sm-3 col-md-2 flex">
-      <div class="form-group">
+      </section>
+    </section>
+    <section class="col-sm-3 col-md-2 flex">
+      <section class="form-group">
         <label>&nbsp;</label>
         <br />
         <span>
@@ -38,140 +37,172 @@
             type="button">
             <i aria-hidden="true" class="fa fa-plus"></i> Add {{rs.typeSelected}}</button>
         </span>
-      </div>
-    </div>
-  </div>
+      </section>
+    </section>
+  </section>
 </form>
-<div class="modal fade" id="modalAddAdjustor" tabindex="-1" role="dialog" aria-labelledby="modalAddAdjustorTitle"
+<section class="modal fade" id="modalAddAdjustor" tabindex="-1" role="dialog" aria-labelledby="modalAddAdjustorTitle"
   aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-body">
+  <section class="modal-dialog modal-dialog-centered" role="document">
+    <section class="modal-content">
+      <section class="modal-body">
+        <!-- Adjustors -->
         <form role="form" *ngIf="rs.typeSelected==rs.types[0]" [formGroup]="rs.adjustorForm" autocomplete="off"
           autocapitalize="none" autocomplete="off">
-          <div class="row">
-            <div class="form-group col-sm-12">
+          <section class="row">
+            <section class="form-group col-sm-12">
               <label>Adjustor Name <span class="text-danger">*</span>: </label>
               <input class="form-control" placeholder="Adjustor Name" formControlName="adjustorName" tabindex="1">
               <p class="text-danger form-control-static" *ngIf="rs.adjustorForm.get('adjustorName').errors && rs.adjustorForm.get('adjustorName').touched">Adjustor
                 Name
                 is required</p>
-            </div>
-          </div>
-          <div class="row">
-            <div class="form-group col-sm-12">
+            </section>
+          </section>
+          <section class="row">
+            <section class="form-group col-sm-12">
               <label>Address 1:</label>
               <input class="form-control" placeholder="Address 1" id="address1" formControlName="address1" tabindex="2">
-            </div>
-          </div>
-          <div class="row">
-            <div class="form-group col-sm-12">
+            </section>
+          </section>
+          <section class="row">
+            <section class="form-group col-sm-12">
+              <label>Address 2:</label>
+              <input class="form-control" placeholder="Address 2" id="address2" formControlName="address2" tabindex="3">
+            </section>
+          </section>
+          <section class="row">
+            <section class="form-group col-sm-12">
+              <label>City:</label>
+              <input class="form-control" placeholder="City" id="city" formControlName="city" tabindex="4">
+            </section>
+          </section>
+          <section class="row">
+            <section class="form-group col-sm-12">
+              <label>State Name:</label>
+              <!-- Using this:
+                    https://material.angular.io/components/autocomplete/overview#automatically-highlighting-the-first-option
+                  -->
+              <mat-form-field>
+                <input type="text" formControlName="state" placeholder="" aria-label="State:" matInput [formControl]="adjustorStateControl"
+                  tabindex="5" [matAutocomplete]="auto">
+                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                  <mat-option *ngFor="let state of adjustorFilteredStates | async" [value]="state.stateName"
+                    (onSelectionChange)="onAdjustorStateSelection(state.stateId)">
+                    {{state.stateName}}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+            </section>
+          </section>
+          <!-- End State Drop Down -->
+          <section class="row">
+            <section class="form-group col-sm-12">
+              <label>Zip:</label>
+              <input class="form-control" placeholder="Zip" id="postalCode" formControlName="postalCode" tabindex="6">
+            </section>
+          </section>
+          <section class="row">
+            <section class="form-group col-sm-12">
               <label>Phone Number:</label>
-              <input class="form-control" placeholder="Phone Number" id="phoneNumber" formControlName="phoneNumber"
-                tabindex="2" data-inputmask='"mask": "(999) 999-9999"' data-mask>
-            </div>
-          </div>
-          <div class="row">
-            <div class="form-group col-sm-12">
+              <input class="form-control" placeholder="Phone Number" id="adjustorPhoneNumber" formControlName="phoneNumber"
+                tabindex="7" data-inputmask='"mask": "(999) 999-9999"' data-mask>
+            </section>
+          </section>
+          <section class="row">
+            <section class="form-group col-sm-12">
               <label>Fax:</label>
-              <input class="form-control" placeholder="Fax" formControlName="faxNumber" tabindex="3" id="faxNumber"
+              <input class="form-control" placeholder="Fax" formControlName="faxNumber" tabindex="8" id="adjustorFaxNumber"
                 data-inputmask='"mask": "(999) 999-9999"' data-mask>
-            </div>
-          </div>
-          <div class="row">
-            <div class="form-group col-sm-12">
+            </section>
+          </section>
+          <section class="row">
+            <section class="form-group col-sm-12">
               <label>Email:</label>
-              <input class="form-control" placeholder="Email" id="email" formControlName="emailAddress" tabindex="4">
-            </div>
-          </div>
-          <div class="row">
-            <div class="form-group col-sm-12">
+              <input class="form-control" placeholder="Email" id="email" formControlName="emailAddress" tabindex="9">
+            </section>
+          </section>
+          <section class="row">
+            <section class="form-group col-sm-12">
               <label>Extension:</label>
-              <input class="form-control" placeholder="Extension" formControlName="extension" id="extension" tabindex="5"
+              <input class="form-control" placeholder="Extension" formControlName="extension" id="extension" tabindex="10"
                 inputs-mask>
-            </div>
-          </div>
+            </section>
+          </section>
         </form>
+        <!-- End Adjustors -->
+        <!-- Attorneys -->
         <form role="form" *ngIf="rs.typeSelected==rs.types[1]" [formGroup]="rs.attorneyForm" autocomplete="off"
           autocapitalize="none" autocomplete="off">
-          <div class="row">
-            <div class="form-group col-sm-12">
+          <section class="row">
+            <section class="form-group col-sm-12">
               <label>Attorney Name <span class="text-danger">*</span>: </label>
               <input class="form-control" placeholder="Attorney Name" formControlName="attorneyName" tabindex="1">
               <p class="text-danger form-control-static" *ngIf="rs.attorneyForm.get('attorneyName').errors && rs.attorneyForm.get('attorneyName').touched">Attorney
                 Name
                 is required</p>
-            </div>
-          </div>
-          <div class="row">
-            <div class="form-group col-sm-12">
+            </section>
+          </section>
+          <section class="row">
+            <section class="form-group col-sm-12">
+              <label>Adress 1:</label>
+              <input class="form-control" placeholder="Address 1" formControlName="address1" id="address1" tabindex="2">
+            </section>
+          </section>
+          <section class="row">
+            <section class="form-group col-sm-12">
+              <label>Adress 2:</label>
+              <input class="form-control" placeholder="Address 2" formControlName="address2" id="address2" tabindex="3">
+            </section>
+          </section>
+          <section class="row">
+            <section class="form-group col-sm-12">
+              <label>City:</label>
+              <input class="form-control" placeholder="City" formControlName="city" id="city" tabindex="4">
+            </section>
+          </section>
+          <section class="row">
+            <section class="form-group col-sm-12">
+              <label>State Name:</label>
+              <!-- Using this:
+                    https://material.angular.io/components/autocomplete/overview#automatically-highlighting-the-first-option
+                  -->
+              <mat-form-field>
+                <input type="text" formControlName="state" placeholder="" aria-label="State:" matInput [formControl]="attorneyStateControl"
+                  tabindex="5" [matAutocomplete]="auto">
+                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                  <mat-option *ngFor="let state of attorneyFilteredStates | async" [value]="state.stateName"
+                    (onSelectionChange)="onAttorneyStateSelection(state.stateId)">
+                    {{state.stateName}}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+            </section>
+          </section>
+          <!-- End State Drop Down -->
+          <section class="row">
+            <section class="form-group col-sm-12">
+              <label>Zip:</label>
+              <input class="form-control" placeholder="Zip" formControlName="postalCode" id="postalCode" tabindex="6">
+            </section>
+          </section>
+          <section class="row">
+            <section class="form-group col-sm-12">
               <label>Phone Number:</label>
               <input class="form-control" placeholder="Phone Number" id="at_phoneNumber" data-inputmask='"mask": "(999) 999-9999"'
-                data-mask formControlName="phoneNumber" tabindex="2">
-            </div>
-          </div>
-          <div class="row">
-            <div class="form-group col-sm-12">
+                data-mask formControlName="phoneNumber" tabindex="7">
+            </section>
+          </section>
+          <section class="row">
+            <section class="form-group col-sm-12">
               <label>Fax:</label>
-              <input class="form-control" placeholder="Fax Number" formControlName="faxNumber" tabindex="3" id="at_faxNumber"
+              <input class="form-control" placeholder="Fax Number" formControlName="faxNumber" tabindex="8" id="at_faxNumber"
                 data-inputmask='"mask": "(999) 999-9999"' data-mask>
-            </div>
-          </div>
-          <div class="row">
-            <div class="form-group col-sm-12">
-              <label>Adress 1:</label>
-              <input class="form-control" placeholder="Address 1" formControlName="address1" id="address1" tabindex="5">
-            </div>
-          </div>
-          <div class="row">
-            <div class="form-group col-sm-12">
-              <label>Adress 2:</label>
-              <input class="form-control" placeholder="Address 2" formControlName="address2" id="address2" tabindex="5">
-            </div>
-          </div>
-          <div class="row">
-            <div class="form-group col-sm-12">
-              <label>City:</label>
-              <input class="form-control" placeholder="City" formControlName="city" id="city" tabindex="6">
-            </div>
-          </div>
-          <article class="row">
-            <article class="form-group col-sm-12">
-              <label>State Name:</label>
-              <mat-form-field>
-                <!-- Using this:
-                  https://material.angular.io/components/autocomplete/overview#automatically-highlighting-the-first-option
-                -->
-                <mat-form-field>
-                  <input type="text" formControlName="state" placeholder="" aria-label="State:" matInput [formControl]="stateControl" tabindex="7"
-                    [matAutocomplete]="auto">
-                  <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-                    <mat-option *ngFor="let state of filteredStates | async" [value]="state.stateName" (onSelectionChange)="onStateSelection(state.stateId)">
-                      {{state.stateName}}
-                    </mat-option>
-                  </mat-autocomplete>
-                </mat-form-field>
-                <!-- End State Drop Down -->
-                <div class="row">
-                  <div class="form-group col-sm-12">
-                    <label>Postal Code:</label>
-                    <input class="form-control" placeholder="Postal Code" formControlName="postalCode" id="postalCode"
-                      tabindex="8">
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="form-group col-sm-12">
-                    <label>Extension:</label>
-                    <input class="form-control" placeholder="Extension" formControlName="extension" id="at_extension"
-                      tabindex="9">
-                  </div>
-                </div>
-              </mat-form-field>
-            </article>
-          </article>
+            </section>
+          </section>
         </form>
-      </div>
-      <div class="modal-footer">
+        <!-- End Attorneys -->
+      </section>
+      <section class="modal-footer">
         <button (click)="cancel()" class="color-palette btn bg-darkblue btn-flat btn-small" type="button" data-dismiss="modal">
           <i class="fa fa-eraser"></i> Cancel
         </button>
@@ -183,6 +214,12 @@
           (click)="addAdjustor()" [disabled]="!rs.attorneyForm.valid" type="button">
           <i aria-hidden="true" class="fa fa-plus"></i> Save
         </button>
-      </div>
-    </div>
-  </div>
+      </section>
+    </section>
+  </section>
+</section>
+<section>
+  <section class="item row text-center" *ngIf="loading">
+    <i class="fa fa-spinner text-darkRed fa-spin fa-4x"></i>
+  </section>
+</section>

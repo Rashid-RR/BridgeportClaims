@@ -13,7 +13,7 @@ namespace BridgeportClaims.Data.DataProviders.AttorneyProviders
         public AttorneyDto GetAttorneys(string searchText, int page, int pageSize, string sort, string sortDirection)
             => DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
-                const string sp = "[claims].[uspGetAttorneys]";
+                const string sp = "[dbo].[uspGetReferencesAttorneys]";
                 const string totalRows = "@TotalRows";
                 if (conn.State != ConnectionState.Open)
                 {

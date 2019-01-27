@@ -74,7 +74,7 @@ namespace BridgeportClaims.Data.DataProviders.AdjustorSearches
         public AdjustorDto GetAdjustors(string searchText, int page, int pageSize, string sort, string sortDirection)
             => DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
-                const string sp = "[claims].[uspGetAdjustors]";
+                const string sp = "[dbo].[uspGetReferencesAdjustors]";
                 const string totalRows = "@TotalRows";
                 if (conn.State != ConnectionState.Open)
                 {

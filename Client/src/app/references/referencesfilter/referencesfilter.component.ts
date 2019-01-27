@@ -17,13 +17,15 @@ declare var $: any;
 })
 export class ReferencesfilterComponent implements OnInit, AfterViewInit {
   @ViewChild(MatAutocomplete) matAutocomplete: MatAutocomplete;
-  stateControl = new FormControl();
+  adjustorStateControl = new FormControl();
+  attorneyStateControl = new FormControl();
   date: string;
   public entitySearchName: string;
   adjustorModel: any = {};
   submitted = false;
   public flag = 'File Name';
-  filteredStates: Observable<UsState[]>;
+  adjustorFilteredStates: Observable<UsState[]>;
+  attorneyFilteredStates: Observable<UsState[]>;
 
   constructor(public rs: ReferenceManagerService,
     private http: HttpService,
@@ -43,25 +45,32 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    this.filteredStates = this.stateControl.valueChanges.pipe(
+    this.adjustorFilteredStates = this.adjustorStateControl.valueChanges.pipe(
+      startWith(''),
+      map(val => this._filter(val))
+    );
+    this.attorneyFilteredStates = this.attorneyStateControl.valueChanges.pipe(
       startWith(''),
       map(val => this._filter(val))
     );
   }
 
-  onStateSelection(stateId) {
+  onAdjustorStateSelection(stateId: number) {
+    const selected = this.rs.states.find(st => st.stateId === stateId);
+    this.rs.adjustorForm.patchValue({state: selected.stateName, stateId: selected.stateId});
+  }
+
+  onAttorneyStateSelection(stateId: number) {
     const selected = this.rs.states.find(option => option.stateId === stateId);
-    this.rs.attorneyForm.patchValue({stateName: selected.stateName, stateId: stateId}); // patch the state name and stateId to the attorney form
-    // TODO: Remove.
-    console.log(this.rs.attorneyForm.value);
+    this.rs.attorneyForm.patchValue({state: selected.stateName, stateId: selected.stateId});
   }
 
   ngAfterViewInit() {
-    $('#phoneNumber').inputmask().on('change', (ev) => {
+    $('#adjustorPhoneNumber').inputmask().on('change', (ev) => {
       const val = ev.target.value.replace(/[()-\s]/g, '');
       this.rs.adjustorForm.controls.phoneNumber.setValue(val);
     });
-    $('#faxNumber').inputmask().on('change', (ev) => {
+    $('#adjustorFaxNumber').inputmask().on('change', (ev) => {
       const val = ev.target.value.replace(/[()-\s]/g, '');
       this.rs.adjustorForm.controls.faxNumber.setValue(val);
     });
@@ -84,8 +93,7 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
     this.rs.getReferencesList();
   }
 
-  filter($event) {
-  }
+  filter($event) { }
 
   clearFilters() {
     this.entitySearchName = '';
@@ -96,8 +104,10 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
   cancel() {
     this.rs.adjustorForm.reset();
     this.rs.attorneyForm.reset();
+    this.rs.payorForm.reset();
     this.rs.editFlag = false;
-    this.stateControl.reset();
+    this.adjustorStateControl.reset();
+    this.attorneyStateControl.reset();
   }
 
   addAdjustor() {

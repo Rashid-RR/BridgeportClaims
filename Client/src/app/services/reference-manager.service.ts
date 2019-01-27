@@ -1,10 +1,10 @@
 import {Injectable} from '@angular/core';
 import {HttpService} from './http-service';
-import {AdjustorItem} from '../references/dataitems/adjustors';
+import {AdjustorItem} from '../references/dataitems/adjustor-item.model';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { UsState } from '../models/us-state';
-import { PayorItem } from '../references/dataitems/payors';
-import { AttorneyItem } from '../references/dataitems/attorneys';
+import { PayorItem } from '../references/dataitems/payor-item.model';
+import { AttorneyItem } from '../references/dataitems/attorney-item.model';
 
 declare var $: any;
 
@@ -56,24 +56,27 @@ export class ReferenceManagerService {
       adjustorId: [null],
       adjustorName: [null, Validators.compose([Validators.required])],
       address1: [null],
-      faxNumber: [null],
+      address2: [null],
+      city: [null],
+      state: [null], // placeholder for drop-down.
+      stateId: [null],
+      postalCode: [null],
       phoneNumber: [null],
+      faxNumber: [null],
       emailAddress: [null],
       extension: [null]
     });
     this.attorneyForm = this.formBuilder.group({
       attorneyId: [null],
       attorneyName: [null, Validators.compose([Validators.required])],
-      address2: [null],
       address1: [null],
+      address2: [null],
       city: [null],
-      postalCode: [null],
-      state: [null],
+      state: [null], // placeholder for drop-down.
       stateId: [null],
-      stateName: [null],
-      extension: [null],
-      faxNumber: [null],
-      phoneNumber: [null]
+      postalCode: [null],
+      phoneNumber: [null],
+      faxNumber: [null]
     });
     this.payorForm = this.formBuilder.group({
       payorId: [null],
@@ -82,8 +85,6 @@ export class ReferenceManagerService {
       billToAddress1: [null],
       billToAddress2: [null],
       billToCity: [null],
-      billToState: [null],
-      billToStateName: [null],
       billToStateId: [null],
       billToPostalCode: [null],
       phoneNumber: [null],
@@ -133,7 +134,7 @@ export class ReferenceManagerService {
 
   fetchAdjustors(data: any): void {
     this.loading = true;
-    this.http.getAdjustorName(data)
+    this.http.getReferencesAdjustorsList(data)
       .subscribe((result: any) => {
           this.adjustors = result.results;
           this.totalEntityRows = result.totalRows;
@@ -158,7 +159,7 @@ export class ReferenceManagerService {
 
   fetchAttorneys(data: any): void {
     this.loading = true;
-    this.http.getAttorneyName(data)
+    this.http.getReferencesAttorneysList(data)
       .subscribe((result: any) => {
           this.attorneys = result.results;
           this.totalEntityRows = result.totalRows;
@@ -203,11 +204,11 @@ export class ReferenceManagerService {
   openModal(isModalEdit: boolean): void {
     this.editFlag = isModalEdit;
     $('#modalAddAdjustor').modal('show');
-    $('#phoneNumber').inputmask().on('change', (ev) => {
+    $('#adjustorPhoneNumber').inputmask().on('change', (ev) => {
       const val = ev.target.value.replace(/[()-\s]/g, '');
       this.adjustorForm.controls.phoneNumber.setValue(val);
     });
-    $('#faxNumber').inputmask().on('change', (ev) => {
+    $('#adjustorFaxNumber').inputmask().on('change', (ev) => {
       const val = ev.target.value.replace(/[()-\s]/g, '');
       this.adjustorForm.controls.faxNumber.setValue(val);
     });
@@ -220,34 +221,48 @@ export class ReferenceManagerService {
       this.attorneyForm.controls.faxNumber.setValue(val);
     });
     if (this.editFlag === true) {
+      // Adjustors
       if (this.typeSelected === this.types[0]) {
         this.adjustorForm.controls.adjustorId.setValue(this.editedEntity.adjustorId);
         this.adjustorForm.controls.adjustorName.setValue(this.editedEntity.adjustorName);
+        this.adjustorForm.controls.address1.setValue(this.editedEntity.address1);
+        this.adjustorForm.controls.address2.setValue(this.editedEntity.address2);
+        this.adjustorForm.controls.city.setValue(this.editedEntity.city);
+        const adjustorState = this.states.find(st => st.stateName === this.editedEntity.stateName);
+        if (adjustorState) {
+          this.adjustorForm.get('stateId').setValue(adjustorState.stateId);
+        }
+        this.adjustorForm.controls.postalCode.setValue(this.editedEntity.postalCode);
         this.adjustorForm.controls.phoneNumber.setValue(this.editedEntity.phoneNumber);
+        this.adjustorForm.controls.faxNumber.setValue(this.editedEntity.faxNumber);
         this.adjustorForm.controls.emailAddress.setValue(this.editedEntity.emailAddress);
         this.adjustorForm.controls.extension.setValue(this.editedEntity.extension);
-        this.adjustorForm.controls.faxNumber.setValue(this.editedEntity.faxNumber);
+        // Attorneys
       } else if (this.typeSelected === this.types[1]) {
         this.attorneyForm.controls.attorneyId.setValue(this.editedEntity.attorneyId);
         this.attorneyForm.controls.attorneyName.setValue(this.editedEntity.attorneyName);
-        this.attorneyForm.controls.phoneNumber.setValue(this.editedEntity.phoneNumber);
-        this.attorneyForm.controls.extension.setValue(this.editedEntity.extension);
-        this.attorneyForm.controls.faxNumber.setValue(this.editedEntity.faxNumber);
-        this.attorneyForm.controls.city.setValue(this.editedEntity.city);
         this.attorneyForm.controls.address1.setValue(this.editedEntity.address1);
         this.attorneyForm.controls.address2.setValue(this.editedEntity.address2);
-        this.attorneyForm.controls.stateName.setValue(this.editedEntity.stateName);
-        this.attorneyForm.controls.postalCode.setValue(this.editedEntity.postalCode);
-        const state = this.states.find(st => st.stateName === this.editedEntity.stateName);
-        if (state) {
-          this.attorneyForm.get('stateId').setValue(state.stateId);
+        this.attorneyForm.controls.city.setValue(this.editedEntity.city);
+        const attorneyState = this.states.find(st => st.stateName === this.editedEntity.stateName);
+        if (attorneyState) {
+          this.attorneyForm.get('stateId').setValue(attorneyState.stateId);
         }
+        this.attorneyForm.controls.postalCode.setValue(this.editedEntity.postalCode);
+        this.attorneyForm.controls.phoneNumber.setValue(this.editedEntity.phoneNumber);
+        this.attorneyForm.controls.faxNumber.setValue(this.editedEntity.faxNumber);
+        // Payors
       } else if (this.typeSelected === this.types[2]) {
         this.payorForm.controls.payorId.setValue(this.editedEntity.payorId);
         this.payorForm.controls.groupName.setValue(this.editedEntity.groupName);
+        this.payorForm.controls.billToName.setValue(this.editedEntity.billToName);
         this.payorForm.controls.billToAddress1.setValue(this.editedEntity.billToAddress1);
         this.payorForm.controls.billToAddress2.setValue(this.editedEntity.billToAddress2);
         this.payorForm.controls.billToCity.setValue(this.editedEntity.billToCity);
+        const payorState = this.states.find(st => st.stateName === this.editedEntity.billToStateName);
+        if (payorState) {
+          this.payorForm.get('billToStateId').setValue(payorState.stateId);
+        }
         this.payorForm.controls.billToPostalCode.setValue(this.editedEntity.billToPostalCode);
         this.payorForm.controls.phoneNumber.setValue(this.editedEntity.phoneNumber);
         this.payorForm.controls.alternatePhoneNumber.setValue(this.editedEntity.alternatePhoneNumber);
@@ -255,10 +270,6 @@ export class ReferenceManagerService {
         this.payorForm.controls.notes.setValue(this.editedEntity.notes);
         this.payorForm.controls.contact.setValue(this.editedEntity.contact);
         this.payorForm.controls.letterName.setValue(this.editedEntity.letterName);
-        const billToState = this.states.find(st => st.stateName === this.editedEntity.billToStateName);
-        if (billToState) {
-          this.payorForm.get('billToStateId').setValue(billToState.stateName);
-        }
       }
     }
   }

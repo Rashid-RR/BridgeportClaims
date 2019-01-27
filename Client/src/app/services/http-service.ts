@@ -1342,8 +1342,7 @@ export class HttpService {
       );
   }
 
-
-  getAdjustorName(data: any): Observable<any> {
+  getReferencesAdjustorsList(data: any): Observable<any> {
     const s = this.http.post(this.baseUrl + '/adjustors/get-adjustors', data)
       .pipe(
         tap(_ => { }, error => {
@@ -1389,7 +1388,7 @@ export class HttpService {
     return s;
   }
 
-  getAttorneyName(data: any): Observable<any> {
+  getReferencesAttorneysList(data: any): Observable<any> {
     const s = this.http.post(this.baseUrl + '/attorney/get-attorneys', data)
       .pipe(
         tap(_ => { }, error => {

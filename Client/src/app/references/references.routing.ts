@@ -1,7 +1,7 @@
-import {ReferencesComponent} from './references/references.component';
 import {Routes} from '@angular/router';
+import { ReferencesContainerComponent } from './references-container/references-container.component';
 
 export const ReferencesRoutes: Routes = [
-  {path: '', component: ReferencesComponent},
+  {path: '', component: ReferencesContainerComponent},
 
 ];

@@ -5,11 +5,11 @@ import {ToastrService} from 'ngx-toastr';
 declare var $: any;
 
 @Component({
-  selector: 'app-adjustors',
-  templateUrl: './adjustors.component.html',
-  styleUrls: ['./adjustors.component.css']
+  selector: 'app-references-grid',
+  templateUrl: './references-grid.component.html',
+  styleUrls: ['./references-grid.component.css']
 })
-export class AdjustorsComponent implements OnInit {
+export class ReferencesGridComponent implements OnInit {
   goToPage: any = '';
   toastId: number;
   toastIsActive = false;

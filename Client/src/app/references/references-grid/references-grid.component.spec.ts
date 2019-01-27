@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AdjustorsComponent } from './adjustors.component';
+import { ReferencesGridComponent } from './references-grid.component';
 
-describe('AdjustorsComponent', () => {
-  let component: AdjustorsComponent;
-  let fixture: ComponentFixture<AdjustorsComponent>;
+describe('ReferencesGridComponent', () => {
+  let component: ReferencesGridComponent;
+  let fixture: ComponentFixture<ReferencesGridComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AdjustorsComponent ]
+      declarations: [ ReferencesGridComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AdjustorsComponent);
+    fixture = TestBed.createComponent(ReferencesGridComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

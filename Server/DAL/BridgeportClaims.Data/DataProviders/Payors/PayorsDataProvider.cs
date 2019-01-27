@@ -53,7 +53,7 @@ namespace BridgeportClaims.Data.DataProviders.Payors
         public PayorListDto GetPayorList(string searchText, int page, int pageSize, string sort, string sortDirection)
             => DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
-                const string sp = "[dbo].[uspGetPayorList]";
+                const string sp = "[dbo].[uspGetReferencesPayors]";
                 const string totalRows = "@TotalRows";
                 if (conn.State != ConnectionState.Open)
                 {
