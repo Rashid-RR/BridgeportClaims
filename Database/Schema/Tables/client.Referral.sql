@@ -20,6 +20,9 @@ CREATE TABLE [client].[Referral]
 [PatientPhone] [varchar] (30) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 [AdjustorName] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [AdjustorPhone] [varchar] (30) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[PersonCode] [char] (2) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[GenderID] [int] NOT NULL,
+[GroupName] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 [CreatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfReferralCreatedOnUTC] DEFAULT (sysutcdatetime()),
 [UpdatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfReferralUpdatedOnUTC] DEFAULT (sysutcdatetime()),
 [DataVersion] [timestamp] NOT NULL
@@ -30,6 +33,8 @@ DATA_COMPRESSION = ROW
 )
 GO
 ALTER TABLE [client].[Referral] ADD CONSTRAINT [pkReferral] PRIMARY KEY CLUSTERED  ([ReferralID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = ROW) ON [PRIMARY]
+GO
+ALTER TABLE [client].[Referral] ADD CONSTRAINT [fkReferralGenderIDGenderGenderID] FOREIGN KEY ([GenderID]) REFERENCES [dbo].[Gender] ([GenderID])
 GO
 ALTER TABLE [client].[Referral] ADD CONSTRAINT [fkReferralJurisdictionStateIDUsStateStateID] FOREIGN KEY ([JurisdictionStateID]) REFERENCES [dbo].[UsState] ([StateID])
 GO
