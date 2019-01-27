@@ -116,7 +116,7 @@ import { ReferenceManagerService } from './services/reference-manager.service';
       positionClass: 'toast-bottom-center',
       timeOut:15000
     }),
-    BootstrapModalModule,
+    BootstrapModalModule.forRoot({container:document.body}),
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
