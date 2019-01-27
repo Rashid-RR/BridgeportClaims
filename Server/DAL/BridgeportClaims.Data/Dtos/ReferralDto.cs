@@ -38,9 +38,10 @@ namespace BridgeportClaims.Data.Dtos
         public string PatientPhone { get; set; }
         public string AdjustorName { get; set; }
         public string AdjustorPhone { get; set; }
+        public string PersonCode { get; set; }
         [Required]
-        public DateTime CreatedOnUtc { get; set; }
+        public int GenderId { get; set; }
         [Required]
-        public DateTime UpdatedOnUtc { get; set; }
+        public string GroupName { get; set; }
     }
 }

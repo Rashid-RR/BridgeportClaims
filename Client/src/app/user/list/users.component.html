@@ -86,7 +86,6 @@
                 <thead>
                 <tr>
                   <th>User Name</th>
-
                   <th>First Name</th>
                   <th>Last Name</th>
                   <th>Active</th>
@@ -130,7 +129,7 @@
                     <td class="center-in">
                       <label class="checkboxFive">
                         <input type="checkbox" id="checkboxFiveInput" [(ngModel)]="user.client"
-                               (ngModelChange)="showRoleConfirm(i,clientRole,$event)">
+                               (ngModelChange)="showRoleConfirm(user.userName,clientRole,$event)">
                         <div for="checkboxFiveInput"></div>
                       </label>
                     </td>

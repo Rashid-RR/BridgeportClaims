@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { HttpService } from '../../services/http-service';
 import { ToastrService } from 'ngx-toastr';
 import { DatePipe } from '@angular/common';
+import { GenderItem } from './gender-item.model';
 
 declare var $: any;
 
@@ -16,6 +17,11 @@ export class ReferralDefaultComponent implements OnInit, AfterViewInit {
   form: FormGroup;
   submitted = false;
   states: any[] = [];
+  genders: GenderItem[] = [
+    { genderId: 1, genderName: 'Male' },
+    { genderId: 2, genderName: 'Female' },
+    { genderId: 3, genderName: 'Not Specified' }
+  ];
   constructor(
     private dp: DatePipe,
     private formBuilder: FormBuilder,
@@ -40,7 +46,11 @@ export class ReferralDefaultComponent implements OnInit, AfterViewInit {
       postalCode: [null, Validators.compose([Validators.required])],
       patientPhone: [null],
       adjustorName: [null],
-      adjustorPhone: [null]
+      adjustorPhone: [null],
+      personCode: [null],
+      genderId: [null, Validators.compose([Validators.required])],
+      genderName: [null],
+      groupName: [null, Validators.compose([Validators.required])],
     });
   }
 
@@ -52,21 +62,21 @@ export class ReferralDefaultComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     // Date picker
     $('#eligibilityStart').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' })
-    .on('change', (ev) => {
-      this.form.controls.eligibilityStart.setValue(ev.target.value);
-    });
+      .on('change', (ev) => {
+        this.form.controls.eligibilityStart.setValue(ev.target.value);
+      });
     $('#eligibilityEnd').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' })
-    .on('change', (ev) => {
-      this.form.controls.eligibilityEnd.setValue(ev.target.value);
-    });
+      .on('change', (ev) => {
+        this.form.controls.eligibilityEnd.setValue(ev.target.value);
+      });
     $('#dateOfBirth').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' })
-    .on('change', (ev) => {
-      this.form.controls.dateOfBirth.setValue(ev.target.value);
-    });
+      .on('change', (ev) => {
+        this.form.controls.dateOfBirth.setValue(ev.target.value);
+      });
     $('#injuryDate').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' })
-    .on('change', (ev) => {
-      this.form.controls.injuryDate.setValue(ev.target.value);
-    });
+      .on('change', (ev) => {
+        this.form.controls.injuryDate.setValue(ev.target.value);
+      });
     $('#patientPhone').inputmask().on('change', (ev) => {
       const val = ev.target.value.replace(/[()-\s]/g, '');
       this.form.controls.patientPhone.setValue(val);

@@ -154,6 +154,32 @@
                 </div>
               </div>
               <div class="row">
+                  <div class="form-group col-sm-5">
+                    <label>Person Code:</label>
+                    <input class="form-control" placeholder="Person Code" formControlName="personCode" id="personCode"
+                      tabindex="9" maxlength="2">
+                    <p class="text-danger form-control-static" *ngIf="form.get('personCode').errors">Person code has a maximum of two characters</p>
+                  </div>
+                </div>
+              <div class="row">
+                <div class="form-group col-sm-5">
+                  <mat-form-field>
+                    <mat-select placeholder="Gender:" tabindex="10">
+                      <mat-option *ngFor="let gender of genders" [value]="gender.genderId">
+                        {{gender.genderName}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                  <div class="form-group col-sm-5">
+                    <label>Group Name:</label>
+                    <input class="form-control" placeholder="Group Name" formControlName="groupName" id="groupName"
+                      tabindex="8">
+                    <p class="text-danger form-control-static" *ngIf="form.get('eligibilityEnd').errors">Group Name is required</p>
+                  </div>
+              <div class="row">
                 <div class="form-group col-sm-12">
                   <label>Any special handling instruction:</label>
                   <textarea formControlName="notes" class="form-control" tabindex="18"></textarea>
