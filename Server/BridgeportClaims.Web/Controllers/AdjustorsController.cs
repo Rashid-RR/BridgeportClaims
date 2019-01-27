@@ -76,8 +76,9 @@ namespace BridgeportClaims.Web.Controllers
             try
             {
                 var modifiedByUserId = User.Identity.GetUserId();
-                var adjustor = _adjustorSearchProvider.Value.InsertAdjustor(model.AdjustorName, model.PhoneNumber, model.FaxNumber,
-                    model.EmailAddress, model.Extension, modifiedByUserId);
+                var adjustor = _adjustorSearchProvider.Value.InsertAdjustor(model.AdjustorName, model.Address1,
+                    model.Address2, model.City, model.StateId, model.PostalCode, model.PhoneNumber, model.FaxNumber, model.EmailAddress,
+                    model.Extension, modifiedByUserId);
                 return Ok(adjustor);
             }
             catch (Exception ex)
@@ -94,7 +95,8 @@ namespace BridgeportClaims.Web.Controllers
             try
             {
                 var modifiedByUserId = User.Identity.GetUserId();
-                var adjustor = _adjustorSearchProvider.Value.UpdateAdjustor(model.AdjustorId, model.AdjustorName, model.PhoneNumber, model.FaxNumber,
+                var adjustor = _adjustorSearchProvider.Value.UpdateAdjustor(model.AdjustorId, model.AdjustorName, model.Address1, model.Address2,
+                    model.City, model.StateId, model.PostalCode, model.PhoneNumber, model.FaxNumber,
                     model.EmailAddress, model.Extension, modifiedByUserId);
                 return Ok(adjustor);
             }

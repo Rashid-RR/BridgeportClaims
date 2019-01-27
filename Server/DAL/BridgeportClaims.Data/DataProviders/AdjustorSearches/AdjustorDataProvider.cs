@@ -96,7 +96,8 @@ namespace BridgeportClaims.Data.DataProviders.AdjustorSearches
                 return adj;
             });
 
-        public AdjustorResultDto InsertAdjustor(string adjustorName, string phoneNumber,
+        public AdjustorResultDto InsertAdjustor(string adjustorName, string address1, string address2,
+            string city, int? stateId, string postalCode, string phoneNumber,
             string faxNumber, string emailAddress, string extension, string modifiedByUserId)
             => DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
@@ -107,6 +108,11 @@ namespace BridgeportClaims.Data.DataProviders.AdjustorSearches
                 }
                 var ps = new DynamicParameters();
                 ps.Add("@AdjustorName", adjustorName, DbType.AnsiString, size: 255);
+                ps.Add("@Address1", address1, DbType.AnsiString, size: 255);
+                ps.Add("@Address2", address2, DbType.AnsiString, size: 255);
+                ps.Add("@City", city, DbType.AnsiString, size: 255);
+                ps.Add("@StateID", stateId, DbType.Int32);
+                ps.Add("@PostalCode", postalCode, DbType.AnsiString, size: 255);
                 ps.Add("@PhoneNumber", phoneNumber, DbType.AnsiString, size: 30);
                 ps.Add("@FaxNumber", faxNumber, DbType.AnsiString, size: 30);
                 ps.Add("@EmailAddress", emailAddress, DbType.AnsiString, size: 155);
@@ -116,7 +122,8 @@ namespace BridgeportClaims.Data.DataProviders.AdjustorSearches
                     ?.SingleOrDefault();
             });
 
-        public AdjustorResultDto UpdateAdjustor(int adjustorId, string adjustorName, string phoneNumber,
+        public AdjustorResultDto UpdateAdjustor(int adjustorId, string adjustorName, string address1,
+            string address2, string city, int? stateId, string postalCode, string phoneNumber,
             string faxNumber, string emailAddress, string extension, string modifiedByUserId)
             => DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
@@ -128,6 +135,11 @@ namespace BridgeportClaims.Data.DataProviders.AdjustorSearches
                 var ps = new DynamicParameters();
                 ps.Add("@AdjustorID", adjustorId, DbType.Int32);
                 ps.Add("@AdjustorName", adjustorName, DbType.AnsiString, size: 255);
+                ps.Add("@Address1", address1, DbType.AnsiString, size: 255);
+                ps.Add("@Address2", address2, DbType.AnsiString, size: 255);
+                ps.Add("@City", city, DbType.AnsiString, size: 255);
+                ps.Add("@StateID", stateId, DbType.Int32);
+                ps.Add("@PostalCode", postalCode, DbType.AnsiString, size: 255);
                 ps.Add("@PhoneNumber", phoneNumber, DbType.AnsiString, size: 30);
                 ps.Add("@FaxNumber", faxNumber, DbType.AnsiString, size: 30);
                 ps.Add("@EmailAddress", emailAddress, DbType.AnsiString, size: 155);
