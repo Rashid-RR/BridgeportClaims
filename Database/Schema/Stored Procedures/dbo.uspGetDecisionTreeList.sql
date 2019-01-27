@@ -30,7 +30,7 @@ AS BEGIN
 	CREATE TABLE [#TreeRoots](
 		[TreeId] [int] NOT NULL PRIMARY KEY,
 		[NodeName] [varchar](255) NOT NULL,
-		[NodeDescription] [varchar](4000) NOT NULL,
+		[NodeDescription] [varchar](4000) NULL,
 		[CreatedBy] [nvarchar](201) NOT NULL,
 		[CreatedOn] [date] NULL
 	);

@@ -2,7 +2,18 @@ SET QUOTED_IDENTIFIER ON
 GO
 SET ANSI_NULLS ON
 GO
-CREATE PROC [claims].[uspGetAttorneys]
+/* 
+ =============================================
+ Author:            Jordan Gurney
+ Create date:       11/29/2018
+ Description:       Get the Attorneys for the new References page.
+ Example Execute:
+					DECLARE @I INT;
+                    EXECUTE [dbo].[uspGetReferencesAttorneys] NULL, 'AttorneyName', 'ASC', 1, 5000, @TotalRows = @I OUTPUT;
+					SELECT @I TotalRows;
+ =============================================
+*/
+CREATE PROC [dbo].[uspGetReferencesAttorneys]
 (
 	@SearchText VARCHAR(4000),
 	@SortColumn VARCHAR(50),
@@ -82,6 +93,7 @@ AS BEGIN
 			 CASE WHEN @SortColumn = 'ModifiedBy' AND  @SortDirection = 'DESC' THEN [a].[ModifiedBy] END DESC
 	 OFFSET @PageSize * (@PageNumber - 1) ROWS FETCH NEXT @PageSize ROWS ONLY;
 END
+
 
 
 GO
