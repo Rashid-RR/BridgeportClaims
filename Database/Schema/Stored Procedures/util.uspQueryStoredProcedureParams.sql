@@ -61,9 +61,11 @@ AS BEGIN
                                                     'Double'
                                                WHEN 'smalldatetime' THEN
                                                     'DateTime'
+												WHEN 'char' THEN
+													'AnsiStringFixedLength'
                    END
                  + CASE WHEN is_output = 1 THEN ', ParameterDirection.Output' ELSE '' END
-                 + CASE WHEN TYPE_NAME(user_type_id) IN ('varchar', 'nvarchar') THEN
+                 + CASE WHEN TYPE_NAME(user_type_id) IN ('varchar', 'nvarchar', 'char', 'nchar') THEN
                             ', size: '
                             + CONVERT(   VARCHAR(50)
                                         ,CASE WHEN TYPE_NAME(system_type_id) = 'uniqueidentifier' THEN

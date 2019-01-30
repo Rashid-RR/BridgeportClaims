@@ -9,6 +9,7 @@ import {ToastrService} from 'ngx-toastr';
 import { map } from 'rxjs/operators';
 import {ConfirmComponent} from '../../components/confirm.component';
 import {DialogService} from 'ng2-bootstrap-modal';
+import { throwError } from 'rxjs';
 declare var $: any;
 
 @Component({
@@ -100,7 +101,7 @@ export class UsersComponent implements OnInit {
     pipe(map(res => {
       this.loading = false;
       return res;
-    })).subscribe((result:any[]) => {
+    })).subscribe((result: any[]) => {
       result.forEach(element => {
         if (element.referralTypeId) {
           element.referralType = this.referralTypes.find(r => r.referralTypeId === element.referralTypeId);
@@ -240,23 +241,32 @@ export class UsersComponent implements OnInit {
     this.processRoleChangeRequest(data, role, index, event);
   }
 
-  showRoleConfirm(index, role, event) {
+  showRoleConfirm(userName: string, role: string, event: any): void {
     const title = 'Update Role';
     let msg = '';
     const action = (event) ? 'Assign ' + role + ' role to ' : 'Revoke ' + role + ' role from ';
-
-    if (event && role === this.clientRole && (this.users[index].admin || this.users[index].indexer || this.users[index].user)) {
-      this.toast.warning('A user of the Bridgeport system cannot be added to the \'Client\' role.',null,{closeButton:true});
-      return this.undoRole(role, index, event);
-    }
-    if (this.users[index].client && event && [this.indexerRole, this.userRole, this.adminRole].indexOf(role) > -1) {
-      this.toast.warning('A member of the \'Client\' role cannot be an \'Admin\' or an \'Indexer\'.',null,{closeButton:true});
-      return this.undoRole(role, index, event);
-    }
-    if (this.users[index].admin && role === this.userRole && !event) {
-      msg = 'Warning, revoking ' + this.users[index].fullName + ' from the "User" role will also revoke them from the "Admin" role.';
+    const user = this.users.find(u => u.userName === userName);
+    if (user) {
+      if (user.deactivated) {
+        this.toast.warning('This user has been deactivated, and therefore cannot be assigned to any roles.');
+        return this.undoRole(role, userName, event);
+      }
+      if (event && role === this.clientRole && (user.admin || user.indexer || user.user)) {
+        this.toast.warning('A user of the Bridgeport system cannot be added to the \'Client\' role.', null, {closeButton: true});
+        return this.undoRole(role, userName, event);
+      }
+      if (user.client && event && [this.indexerRole, this.userRole, this.adminRole].indexOf(role) > -1) {
+        this.toast.warning('A member of the \'Client\' role cannot be an \'Admin\' or an \'Indexer\'.', null, {closeButton: true});
+        return this.undoRole(role, userName, event);
+      }
+      if (user.admin && role === this.userRole && !event) {
+        msg = 'Warning, revoking ' + user.fullName + ' from the "User" role will also revoke them from the "Admin" role.';
+      } else {
+        msg = '' + action + user.fullName + '?';
+      }
     } else {
-      msg = '' + action + this.users[index].fullName + '?';
+      this.toast.error('Error, could not find user.');
+      return;
     }
     this.dialogService.addDialog(ConfirmComponent, {
       title: title,
@@ -264,9 +274,9 @@ export class UsersComponent implements OnInit {
     }).subscribe((isConfirmed) => {
       // We get dialog result
       if (isConfirmed) {
-        this.processRoleChange(index, role, event);
+        this.processRoleChange(userName, role, event);
       } else {
-        this.undoRole(role, index, event);
+        this.undoRole(role, userName, event);
       }
     });
     // We can close dialog calling disposable.unsubscribe();
@@ -276,22 +286,22 @@ export class UsersComponent implements OnInit {
     // }, 10000);
   }
 
-  undoRole(role, index, event) {
+  undoRole(role: string, userName: string, event: any) {
 
     setTimeout(() => {
+      const user = this.users.find(u => u.userName === userName);
       if (role === this.adminRole) {
-        this.users[index].admin = !event;
+        user.admin = !event;
       }
       if (role === this.clientRole) {
-        this.users[index].client = !event;
+        user.client = !event;
       }
       if (role === this.userRole) {
-        this.users[index].user = !event;
+        user.user = !event;
       }
       if (role === this.indexerRole) {
-        this.users[index].indexer = !event;
+        user.indexer = !event;
       }
-
     }, 200);
   }
 
