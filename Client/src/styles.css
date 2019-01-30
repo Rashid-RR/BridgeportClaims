@@ -851,7 +851,7 @@ div.toast, #toast-container {
   stroke-width: 3px;
 }
 
-.node text { font: 12px sans-serif; }
+.node text { font: 12px sans-serif !important; }
 
 .node--internal text {
   text-shadow: 0 1px 0 #fff, 0 -1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff;
@@ -861,4 +861,8 @@ div.toast, #toast-container {
   fill: none;
   stroke: #ccc;
   stroke-width: 2px;
+}
+
+svg text tspan{
+  font-size:12px !important;
 }

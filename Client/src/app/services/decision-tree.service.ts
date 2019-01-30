@@ -258,7 +258,7 @@ export class DecisionTreeService {
             this.loading = false;
             try {
               const error = err.error;
-              if ([401, 406, 500,504].indexOf(err.status) == -1) {
+              if ([401, 406, 500, 504].indexOf(err.status) == -1) {
                 this.toast.warning(error.message);
               }
             } catch (e) { }
@@ -332,7 +332,7 @@ export class DecisionTreeService {
           items: this.treeNodeItems(n)
         });
         setTimeout(function () { $(`#tree_node${n.id}`).contextMenu(position); }, 10);
-      });
+      })
 
     // Add Circle for the nodes
     nodeEnter.append('circle')
@@ -351,14 +351,23 @@ export class DecisionTreeService {
       .attr("text-anchor", (d) => {
         return d.children || d._children ? "end" : "start";
       })
-      .text((d) => { return d.data.nodeName; });
+      .attr('id', (n: any) => {
+        let id = `text_node${n.id}`;
+        $(`#${id}`).tooltip();
+        return id;
+      })
+      .text((d) => { return d.data.nodeName; })
+      .call(this.addTextLinks);
+
     // UPDATE
     var nodeUpdate = nodeEnter.merge(node);
     // Transition to the proper position for the node
     nodeUpdate.transition()
       .duration(this.duration)
       .attr("transform", (d) => {
-        this.depth = (180 * d.data.treeLevel);
+        let textLength= this.getTextWidth(d.data.nodeName);
+        let width = (180 * d.data.treeLevel)+textLength;
+        this.depth = Math.max(width,(180 * d.data.treeLevel)+60)
         $("svg:last-child").css("width", this.width + "px");
         return "translate(" + d.y + "," + d.x + ")";
       });
@@ -395,14 +404,13 @@ export class DecisionTreeService {
     // Enter any new links at the parent's previous position.
     var linkEnter = link.enter().insert('path', "g")
       .attr("class", "link")
-      .attr('d', (d) => {
+      .attr('d', (_) => {
         var o = { x: source.x0, y: source.y0 }
         return this.diagonal(o, o)
       });
 
     // UPDATE
     var linkUpdate = linkEnter.merge(link);
-
     // Transition back to the parent element position
     linkUpdate.transition()
       .duration(this.duration)
@@ -411,7 +419,7 @@ export class DecisionTreeService {
     // Remove any exiting links
     link.exit().transition()
       .duration(this.duration)
-      .attr('d', (d) => {
+      .attr('d', (_) => {
         var o = { x: source.x, y: source.y }
         return this.diagonal(o, o)
       })
@@ -421,6 +429,36 @@ export class DecisionTreeService {
     nodes.forEach((d) => {
       d.x0 = d.x;
       d.y0 = d.y;
+    });
+  }
+  getTextWidth(text) {
+    // re-use canvas object for better performance
+    var canvas  = document.createElement("canvas");
+    var context = canvas.getContext("2d");
+    var metrics = context.measureText(text);
+    return metrics.width;
+}
+  addTextLinks(textNodes) {
+    textNodes.each(function () {
+      var text = d3.select(this),
+        words = text.text().split(/\s+/).reverse(),
+        lwords = words.filter(w => w != ''),
+        word,
+        line = [],
+        lineNumber = -1,
+        y = text.attr("y"),
+        x = parseFloat(text.attr("x"));
+      var tspan = text.text(null).append("tspan").attr("x", (x > 0 ? 1.1 : -1.1) + "em").attr("y", (words.length > 1 ? -1 : 0) + "em");
+      while (word = lwords.pop()) {
+        line.push(word);
+        tspan.text(line.join(" "));
+        if (tspan.node().getComputedTextLength() > 58) {
+          line.pop();
+          tspan.text(line.join(" "));
+          line = [word];
+          tspan = text.append("tspan").attr("x", (x > 0 ? 1.1 : -1.1) + "em").attr("y", y).attr("y", (++lineNumber + 0.2) + "em").text(word);
+        }
+      }
     });
   }
   toggleExpand(d) {
@@ -480,7 +518,7 @@ export class DecisionTreeService {
       } else {
         $('#treeNodeNameLabel').css({ 'color': '#000' });
         if (!n) {
-          this.saveRoot(name,newTree);
+          this.saveRoot(name, newTree);
         } else if (title) {
           n.data.nodeName = name;
         } else {
@@ -492,5 +530,5 @@ export class DecisionTreeService {
     $('button.cancel-tree-note').click(() => {
       swal.close();
     });
-  } 
+  }
 }

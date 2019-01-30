@@ -59,3 +59,6 @@
     padding-bottom: 2px;
     border-radius: 6px; 
 }
+svg text tspan{
+    font-size:12px;
+  }
