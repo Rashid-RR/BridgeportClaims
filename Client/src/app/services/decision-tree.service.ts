@@ -357,7 +357,7 @@ export class DecisionTreeService {
         return id;
       })
       .text((d) => { return d.data.nodeName; })
-      .call(this.addTextLinks);
+      .call((d) =>{return this.addTextLinks });
 
     // UPDATE
     var nodeUpdate = nodeEnter.merge(node);
