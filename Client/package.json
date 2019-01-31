@@ -5,6 +5,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --host 0.0.0.0 --proxy-config proxy.conf.json",
+    "start:port": "ng serve --host 0.0.0.0 --port 4100 --proxy-config proxy.conf.json",
     "local": "ng serve --host 0.0.0.0 --proxy-config proxy-conf-local.json",
     "start:prod": "ng serve  --host 0.0.0.0  --proxy-config prod-proxy.conf.json",
     "build": "ng build --prod",
@@ -61,6 +62,7 @@
     "rxjs-compat": "6.1.0",
     "signalr": "2.4.0",
     "sweetalert2": "7.0.0",
+    "tooltipster": "^4.2.6",
     "tslib": "1.9.0",
     "zone.js": "0.8.28"
   },

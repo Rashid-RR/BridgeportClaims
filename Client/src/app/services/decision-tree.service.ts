@@ -146,24 +146,14 @@ export class DecisionTreeService {
     };
     items.add = {
       name: "Add Node",
-      icon: "add",
+      icon: "fa-plus",
       callback: () => {
         this.createUpdateNode(n);
         return true;
       }
     };
-    /* 
-    No node editing 
-    items.edit = {
-       name: "Edit Node",
-       icon: "edit",
-       callback: () => {
-         this.createUpdateNode(n, n.data.nodeName);
-         return true;
-       }
-     }; */
     items.delete = {
-      icon: 'delete',
+      icon: 'fa-trash',
       name: "Delete Node",
       callback: () => {
         this.deleteNode(n);
@@ -305,14 +295,12 @@ export class DecisionTreeService {
     // Enter any new modes at the parent's previous position.
     var nodeEnter = node.enter().append('g')
       .attr('class', 'node')
-      .attr('data-toggle', "tooltip")
-      .attr('data-placement', 'left')
       .attr('title', (n: any) => {
-        return n.data.nodeDescription;
+        return `${n.data.nodeName}\n\n${n.data.nodeDescription||''}`;
       })
       .attr('id', (n: any) => {
         let id = `tree_node${n.id}`;
-        $(`#${id}`).tooltip();
+        setTimeout(()=>{$(`#${id}`).tooltipster({animation: 'fade',side:'top',theme:'tooltipster-borderless'});},100)
         return id;
       })
       .attr("transform", (d) => {
@@ -353,11 +341,11 @@ export class DecisionTreeService {
       })
       .attr('id', (n: any) => {
         let id = `text_node${n.id}`;
-        $(`#${id}`).tooltip();
+        $(`#${id}`).tooltipster({animation: 'fade',side:'top',theme:'tooltipster-borderless'});
         return id;
       })
-      .text((d) => { return d.data.nodeName; })
-      .call((d) =>{return this.addTextLinks });
+      .text((d) => {let txt = this.getTextWidth(d.data.nodeName); return (txt>60 ? (d.data.nodeName||'').substr(0,10)+'...':d.data.nodeName); })
+      //.call((d) =>{return this.addTextLinks });
 
     // UPDATE
     var nodeUpdate = nodeEnter.merge(node);
@@ -365,9 +353,9 @@ export class DecisionTreeService {
     nodeUpdate.transition()
       .duration(this.duration)
       .attr("transform", (d) => {
-        let textLength= this.getTextWidth(d.data.nodeName);
-        let width = (180 * d.data.treeLevel)+textLength;
-        this.depth = Math.max(width,(180 * d.data.treeLevel)+60)
+        //let textLength= this.getTextWidth(d.data.nodeName);
+        let width = (180 * d.data.treeLevel);//+textLength;
+        this.depth =width;// Math.max(width,(180 * d.data.treeLevel)+60)
         $("svg:last-child").css("width", this.width + "px");
         return "translate(" + d.y + "," + d.x + ")";
       });
@@ -448,6 +436,7 @@ export class DecisionTreeService {
         lineNumber = -1,
         y = text.attr("y"),
         x = parseFloat(text.attr("x"));
+        console.log(text,text.node().getComputedTextLength());
       var tspan = text.text(null).append("tspan").attr("x", (x > 0 ? 1.1 : -1.1) + "em").attr("y", (words.length > 1 ? -1 : 0) + "em");
       while (word = lwords.pop()) {
         line.push(word);

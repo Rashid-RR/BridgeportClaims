@@ -39,6 +39,8 @@
               "node_modules/ngx-toastr/toastr.css",
               "node_modules/highcharts/css/highcharts.css",
               "node_modules/ng-snotify/styles/material.css",
+              "node_modules/tooltipster/dist/css/tooltipster.bundle.min.css",
+              "node_modules/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-borderless.min.css",
               "node_modules/jquery-contextmenu/dist/jquery.contextMenu.css",
               "src/styles.css"
             ],
@@ -71,6 +73,7 @@
               "src/assets/js/vegas.js",
               "src/assets/js/jquery.countdownTimer.min.js",
               "node_modules/sweetalert2/dist/sweetalert2.min.js",
+              "node_modules/tooltipster/dist/js/tooltipster.bundle.min.js",
               "node_modules/admin-lte/dist/js/demo.js"
             ]
           },
@@ -167,6 +170,7 @@
               "src/assets/js/vegas.js",
               "src/assets/js/jquery.countdownTimer.min.js",
               "node_modules/sweetalert2/dist/sweetalert2.min.js",
+              "node_modules/tooltipster/dist/js/tooltipster.bundle.min.js",
               "node_modules/admin-lte/dist/js/demo.js"
             ],
             "styles": [
@@ -187,6 +191,8 @@
               "node_modules/ngx-toastr/toastr.min.css",
               "node_modules/highcharts/css/highcharts.css",
               "node_modules/ng-snotify/styles/material.css",
+              "node_modules/tooltipster/dist/css/tooltipster.bundle.min.css",
+              "node_modules/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-borderless.min.css",
               "node_modules/jquery-contextmenu/dist/jquery.contextMenu.css",
               "src/styles.css"
             ],

@@ -8,11 +8,12 @@ import { TreeListGridComponent } from './tree-list-grid/tree-list-grid.component
 import { DecisionTreeRoutes } from './decision-tree.routing';
 import { SharedModule } from '../shared';
 import { RouterModule } from '@angular/router';
+import { MaterialComponentsModule } from '../material/material-components.module';
 
 
 @NgModule({
   imports: [
-    CommonModule, SharedModule,
+    CommonModule, SharedModule,MaterialComponentsModule,
     RouterModule.forChild(DecisionTreeRoutes),
   ],
   declarations: [DecisionTreeComponent, TreeListGridComponent, TreeListFilterComponent, TreeListComponent, DesignTreeComponent]
