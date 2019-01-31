@@ -27,7 +27,8 @@ AS BEGIN
 	FROM    [dbo].[vwAspNetUserAndRole] AS [x]
 	WHERE   [x].[RoleName] = 'Admin'
 	ORDER BY [x].[RegisteredDate] DESC;
-	ALTER SEQUENCE [dbo].[seqDecisionTree] RESTART;
+	DECLARE @SQL NVARCHAR(400) = N'ALTER SEQUENCE [dbo].[seqDecisionTree] RESTART WITH 1;';
+	EXEC [sys].[sp_executesql] @SQL;
 	DECLARE @ParentTreeID INT = (NEXT VALUE FOR [dbo].[seqDecisionTree]);
     INSERT INTO [dbo].[DecisionTree] ([TreeNode],[TreeID],[NodeName],[NodeDescription],[ParentTreeID],[ModifiedByUserID],[CreatedOnUTC],[UpdatedOnUTC])
 	VALUES (hierarchyid::GetRoot(), @ParentTreeID, 'Root', 'The Root Node of the Tree', @ParentTreeID, @ModifiedByUserID, @UtcNow, @UtcNow);

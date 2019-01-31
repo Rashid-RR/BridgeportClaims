@@ -3,7 +3,7 @@ CREATE TABLE [dbo].[DecisionTree]
 [TreeNode] [sys].[hierarchyid] NOT NULL,
 [TreePath] AS ([TreeNode].[ToString]()),
 [TreeLevel] AS ([TreeNode].[GetLevel]()),
-[TreeID] [int] NOT NULL,
+[TreeID] [int] NOT NULL CONSTRAINT [dfDecisionTreeTreeIDSequence] DEFAULT (NEXT VALUE FOR [dbo].[seqDecisionTree]),
 [NodeName] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 [NodeDescription] [varchar] (4000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [ParentTreeID] [int] NOT NULL,
