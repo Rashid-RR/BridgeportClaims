@@ -1,7 +1,4 @@
-﻿using System;
-
-
-namespace BridgeportClaims.Web.Models
+﻿namespace BridgeportClaims.Web.Models
 {
     public sealed class AbstractSearchModel : PaginationModel
     {
