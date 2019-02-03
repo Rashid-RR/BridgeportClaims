@@ -296,11 +296,11 @@ export class DecisionTreeService {
     var nodeEnter = node.enter().append('g')
       .attr('class', 'node')
       .attr('title', (n: any) => {
-        return `${n.data.nodeName}\n\n${n.data.nodeDescription || ''}`;
+        return `${n.data.nodeName} ${(n.data.nodeDescription ? '<br><br>'+n.data.nodeDescription : '')}`;
       })
       .attr('id', (n: any) => {
         let id = `tree_node${n.id}`;
-        setTimeout(() => { $(`#${id}`).tooltipster({ 'maxWidth': 300, animation: 'fade', side: 'top', theme: 'tooltipster-borderless' }); }, 100)
+        setTimeout(() => { $(`#${id}`).tooltipster({ 'maxWidth': 300, animation: 'fade', side: 'top', theme: 'tooltipster-borderless',contentAsHTML:true }); }, 100)
         return id;
       })
       .attr("transform", (d) => {
@@ -332,20 +332,20 @@ export class DecisionTreeService {
 
     // Add labels for the nodes
     nodeEnter.append('text')
-      .attr("dy", "1em")
+      .attr("dy", "0.35em")
       .attr("x", (d) => {
         return d.children || d._children ? -13 : 13;
       })
       .attr("text-anchor", (d) => {
-        return d.children || d._children ? "end" : "start";
+        return "start" ;//d._children || d._children ? "end" : "start";
       })
       .attr('id', (n: any) => {
         let id = `text_node${n.id}`;
-        $(`#${id}`).tooltipster({ 'maxWidth': 300, animation: 'fade', side: 'top', theme: 'tooltipster-borderless' });
+        $(`#${id}`).tooltipster({ 'maxWidth': 300, animation: 'fade', side: 'top', theme: 'tooltipster-borderless' ,contentAsHTML:true});
         return id;
       })
-      .text((d) => d.data.nodeName)// {let txt = this.getTextWidth(d.data.nodeName); return (txt>60 ? (d.data.nodeName||'').substr(0,50)+'...':d.data.nodeName); })
-      .call((d) => { return this.addTextLinks });
+      .text((d) =>{return d.data.nodeName})// {let txt = this.getTextWidth(d.data.nodeName); return (txt>60 ? (d.data.nodeName||'').substr(0,50)+'...':d.data.nodeName); })
+      .call(this.addTextLinks );
 
     // UPDATE
     var nodeUpdate = nodeEnter.merge(node);
@@ -392,6 +392,7 @@ export class DecisionTreeService {
     // Enter any new links at the parent's previous position.
     var linkEnter = link.enter().insert('path', "g")
       .attr("class", "link")
+      .attr("id", (d) => { return `link${d.id}`; })
       .attr('d', (_) => {
         var o = { x: source.x0, y: source.y0 }
         return this.diagonal(o, o)
@@ -427,26 +428,29 @@ export class DecisionTreeService {
     return metrics.width;
   }
   addTextLinks(textNodes) {
-    console.log("Here");
     textNodes.each(function () {
       var text = d3.select(this),
         words = text.text().split(/\s+/).reverse(),
         lwords = words.filter(w => w != ''),
         word,
         line = [],
-        lineNumber = -1,
-        y = text.attr("y"),
-        x = parseFloat(text.attr("x"));
-      console.log(text, text.node().getComputedTextLength());
-      var tspan = text.text(null).append("tspan").attr("x", (x > 0 ? 1.1 : -1.1) + "em").attr("y", (words.length > 1 ? -1 : 0) + "em");
+        lineNumber = -0.9,
+        y = text.attr("y");
+        console.log(this);
+      var tspan = text.text(null).append("tspan").attr("x", /* (x > 0 ? 1.1 : -1.1) */ (1) + "em").attr("y",  (-0.9) + "em");
+      let count =2;
       while (word = lwords.pop()) {
+        if(count>3){
+          break;
+        }
         line.push(word);
         tspan.text(line.join(" "));
-        if (tspan.node().getComputedTextLength() > 58) {
+        if (tspan.node().getComputedTextLength() > 98) {
           line.pop();
           tspan.text(line.join(" "));
           line = [word];
-          tspan = text.append("tspan").attr("x", (x > 0 ? 1.1 : -1.1) + "em").attr("y", y).attr("y", (++lineNumber + 0.2) + "em").text(word);
+          tspan = text.append("tspan").attr("x", /* (x > 0 ? 1.1 : -1.1) */ (1) + "em").attr("y", y).attr("y", (lineNumber + (count*0.9)) + "em").text(word);
+          count++;
         }
       }
     });
