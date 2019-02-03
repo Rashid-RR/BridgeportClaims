@@ -296,7 +296,7 @@ export class DecisionTreeService {
     var nodeEnter = node.enter().append('g')
       .attr('class', 'node')
       .attr('title', (n: any) => {
-        return `${n.data.nodeName} ${(n.data.nodeDescription ? '<br><br>Desc: '+n.data.nodeDescription : '')}`;
+        return `${n.data.nodeName} ${(n.data.nodeDescription ? '<br><br><u>Description:</u><br> '+n.data.nodeDescription : '')}`;
       })
       .attr('id', (n: any) => {
         let id = `tree_node${n.id}`;
