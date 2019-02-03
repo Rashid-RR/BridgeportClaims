@@ -404,6 +404,7 @@
     <Compile Include="Controllers\ClientController.cs" />
     <Compile Include="Controllers\CollectionAssignmentController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
+    <Compile Include="Controllers\DecisionTreeController.cs" />
     <Compile Include="Controllers\DecisionTreesConfigurationController.cs" />
     <Compile Include="Controllers\DiariesController.cs" />
     <Compile Include="Controllers\DocumentIndexesController.cs" />

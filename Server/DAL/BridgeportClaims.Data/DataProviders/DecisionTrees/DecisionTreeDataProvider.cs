@@ -12,6 +12,25 @@ namespace BridgeportClaims.Data.DataProviders.DecisionTrees
 {
     public class DecisionTreeDataProvider : IDecisionTreeDataProvider
     {
+        public Guid DecisionTreeHeaderInsert(string userId, int treeRootId, int claimId)
+            => DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()),
+            conn =>
+            {
+                const string sp = "[dbo].[uspDecisionTreeUserPathHeaderInsert]";
+                const string sessionIdParam = "@SessionID";
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                }
+                var ps = new DynamicParameters();
+                ps.Add("@UserID", userId, DbType.String, size: 128);
+                ps.Add("@TreeRootID", treeRootId, DbType.Int32);
+                ps.Add("@ClaimID", claimId, DbType.Int32);
+                ps.Add(sessionIdParam, DbType.Guid, direction: ParameterDirection.Output);
+                conn.Execute(sp, ps, commandType: CommandType.StoredProcedure);
+                return ps.Get<Guid>(sessionIdParam);
+            });
+
         public DecisionTreeDto InsertDecisionTree(int parentTreeId, string nodeName,
             string modifiedByUserId) =>
             DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
