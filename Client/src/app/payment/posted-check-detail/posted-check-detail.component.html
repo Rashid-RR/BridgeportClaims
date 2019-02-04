@@ -55,7 +55,7 @@
             </div>
             <div class="col-md-1">
               <ng-container *ngIf="!editing  || editing!=pay.prescriptionPaymentId">
-                {{pay.amountPaid|currency:'USD':true:'1.2-2'}}
+                {{pay.amountPaid|currency:'USD'}}
               </ng-container>
               <ng-container *ngIf="editing && editing==pay.prescriptionPaymentId">
                 <input class="form-control" formControlName="amountPaid" type="text" id="amountPaid"  (change)="textChange('amountPaid')"/>

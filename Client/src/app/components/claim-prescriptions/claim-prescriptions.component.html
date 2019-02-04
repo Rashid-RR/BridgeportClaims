@@ -76,9 +76,9 @@
                             <td>{{prescription.billTo}}</td>
                             <td>{{prescription.rxNumber}}</td>
                             <td>{{prescription.rxDate | date:"shortDate"}}</td>
-                            <td class="text-right">{{prescription.invoiceAmount | currency:'USD':true:'1.2-2'}}</td>
-                            <td class="text-right">{{prescription.amountPaid | currency:'USD':true:'1.2-2'}}</td>
-                            <td class="text-right">{{prescription.outstanding | currency:'USD':true:'1.2-2'}}</td>
+                            <td class="text-right">{{prescription.invoiceAmount | currency:'USD'}}</td>
+                            <td class="text-right">{{prescription.amountPaid | currency:'USD'}}</td>
+                            <td class="text-right">{{prescription.outstanding | currency:'USD'}}</td>
                             <td>
                                 <div class="btn-group status">
                                     <button type="button" class="btn btn-box-tool dropdown-toggle status" data-toggle="dropdown">

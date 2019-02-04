@@ -76,9 +76,9 @@
               <td>{{prescription.billTo}}</td>
               <td>{{prescription.rxNumber}}</td>
               <td>{{prescription.rxDate | date:"shortDate"}}</td>
-              <td class="text-right">{{prescription.invAmt | currency:'USD':true:'1.2-2'}}</td>
-              <td class="text-right">{{prescription.amountPaid | currency:'USD':true:'1.2-2'}}</td>
-              <td class="text-right">{{prescription.outstanding | currency:'USD':true:'1.2-2'}}</td>
+              <td class="text-right">{{prescription.invAmt | currency:'USD'}}</td>
+              <td class="text-right">{{prescription.amountPaid | currency:'USD'}}</td>
+              <td class="text-right">{{prescription.outstanding | currency:'USD'}}</td>
               <td>
                 {{prescription.status}} 
               </td>

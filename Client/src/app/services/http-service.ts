@@ -9,7 +9,7 @@ import { UUID } from 'angular2-uuid';
 import { Router } from '@angular/router';
 import { EventsService } from './events-service';
 import { ToastrService } from 'ngx-toastr';
-import { catchError, tap } from 'rxjs/operators';
+import {  tap } from 'rxjs/operators';
 
 @Injectable()
 export class HttpService {
@@ -1362,6 +1362,29 @@ export class HttpService {
   }
   saveTreeNode(data: any): Observable<any> {
     const s = this.http.post(this.baseUrl + `/tree-config/insert-node`, data)
+      .pipe(
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
+        })
+      );
+    return s;
+  }
+  selectTree(treeId: string,claimId: string): Observable<any> {
+    const s = this.http.post(this.baseUrl + `/trees/select-tree?treeRootId=${treeId}&claimId=${claimId}`,{})
+      .pipe(
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
+        })
+      );
+    return s;
+  }
+  /**
+   * TO DO - update with the API call for node selection by the user
+   * @param treeId 
+   * @param claimId 
+   */
+  selectTreeNode(treeId: string,claimId: string): Observable<any> {
+    const s = this.http.post(this.baseUrl + `/trees/select-tree?treeRootId=${treeId}&claimId=${claimId}`,{})
       .pipe(
         tap(_ => { }, error => {
           this.handleResponseError(error);

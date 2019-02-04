@@ -21,6 +21,10 @@ import { PhonePipe } from '../pipes/phone-pipe';
 import { DisplayRolesPipe } from '../pipes/display-roles.pipe';
 import { ArraySortPipe } from '../pipes/sort.pipe';
 import { DeleteIndexConfirmationComponent } from '../payment/delete-index-confirmation.component';
+import { MaterialComponentsModule } from '../material/material-components.module';
+import { TreeListComponent } from '../decision-tree/tree-list/tree-list.component';
+import { TreeListFilterComponent } from '../decision-tree//tree-list-filter/tree-list-filter.component';
+import { TreeListGridComponent } from '../decision-tree/tree-list-grid/tree-list-grid.component';
 
 @Pipe({ name: 'safeStyle' })
 export class SafeStylePipe implements PipeTransform {
@@ -45,6 +49,7 @@ export class SafeUrlPipe implements PipeTransform {
     ReactiveFormsModule,
     AutoCompleteModule,
     ShContextMenuModule,
+    MaterialComponentsModule,
     SweetAlert2Module.forRoot(),
   ],
   declarations: [
@@ -52,7 +57,8 @@ export class SafeUrlPipe implements PipeTransform {
     TableSortDirective, ColumnSortDirective, TextSelectDirective, DeleteIndexConfirmationComponent,
     DisplayRolesPipe, ArraySortPipe, PhonePipe, EpisodesFilterPipe, SafeStylePipe, SafeUrlPipe, FilterUserPipe, DiariesFilterPipe,
     UnpaidScriptResultsComponent, UnpaidScriptSearchComponent, InvoiceSearchComponent,
-     EpisodeNoteModalComponent, UnindexedImageFilterComponent, UnindexedImageListComponent, ScriptNoteWindowComponent
+     EpisodeNoteModalComponent, UnindexedImageFilterComponent, UnindexedImageListComponent, ScriptNoteWindowComponent,
+     TreeListGridComponent, TreeListFilterComponent, TreeListComponent
   ],
   providers: [
     WindowsInjetor,
@@ -64,16 +70,18 @@ export class SafeUrlPipe implements PipeTransform {
     ReactiveFormsModule,
     AutoCompleteModule,
     ShContextMenuModule,
-    SweetAlert2Module,
+    SweetAlert2Module,    
     TableSortDirective, ColumnSortDirective, TextSelectDirective,
     DisplayRolesPipe, ArraySortPipe, PhonePipe, EpisodesFilterPipe, SafeUrlPipe, SafeStylePipe, FilterUserPipe, DiariesFilterPipe,
     UnpaidScriptResultsComponent, UnpaidScriptSearchComponent,
     EpisodeNoteModalComponent, InvoiceSearchComponent,
-    UnindexedImageFilterComponent, UnindexedImageListComponent, ScriptNoteWindowComponent
+    UnindexedImageFilterComponent, UnindexedImageListComponent, ScriptNoteWindowComponent,
+    TreeListGridComponent, TreeListFilterComponent, TreeListComponent
   ],
   entryComponents: [
     ConfirmComponent, BootstrapWindowContainer, WindowBackdrop, ScriptNoteWindowComponent,
-    EpisodeNoteModalComponent, DeleteIndexConfirmationComponent
-  ],
+    EpisodeNoteModalComponent, DeleteIndexConfirmationComponent,
+    TreeListGridComponent, TreeListFilterComponent, TreeListComponent
+  ]
 })
 export class SharedModule { }

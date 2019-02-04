@@ -1,10 +1,11 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import * as d3 from 'd3';
+import swal from 'sweetalert2';
 import { HttpService } from '../../services/http-service';
-import { ToastrService } from 'ngx-toastr';
-import { DialogService } from 'ng2-bootstrap-modal';
 import { DecisionTreeService } from '../../services/services.barrel';
+import { ProfileManager } from '../../services/profile-manager';
+import { ToastrService } from 'ngx-toastr';
 
 declare var $: any;
 
@@ -15,7 +16,8 @@ declare var $: any;
 })
 export class DesignTreeComponent implements OnInit, AfterViewInit {
   over: boolean[];
-  constructor(private route: ActivatedRoute, public ds: DecisionTreeService, private toast: ToastrService, private dialogService: DialogService, private http: HttpService) {
+  claimId: string;
+  constructor(private toast:ToastrService,private route: ActivatedRoute, public ds: DecisionTreeService, private profileManager: ProfileManager, private http: HttpService) {
     this.over = new Array(1);
     this.over.fill(false);
 
@@ -58,7 +60,26 @@ export class DesignTreeComponent implements OnInit, AfterViewInit {
       if (params.treeId) {
         this.ds.parentTreeId = params.treeId;
       }
+      if (params.claimId) {
+        this.ds.claimId = params.claimId;
+        this.claimId = params.claimId;
+        this.ds.loading = true;
+        this.http.selectTree(params.treeId,params.claimId)
+        .subscribe((resp: any) => {
+          this.toast.success(resp.message)
+          this.ds.sessionId = resp.sessionId;
+          this.ds.loading = false;
+        }, err => {
+          this.ds.loading = false
+            try {
+              const error = err.error;
+            } catch (e) { }
+          });
+      }
     });
+    try { swal.clickCancel() } catch (e) { };
   }
-
+  get allowed(): boolean {
+    return  (this.profileManager.profile.roles && (this.profileManager.profile.roles instanceof Array) && this.profileManager.profile.roles.indexOf('Admin') > -1);
+  }
 }

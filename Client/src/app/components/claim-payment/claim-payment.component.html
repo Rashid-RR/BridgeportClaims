@@ -88,7 +88,7 @@
                 <ng-container *ngIf="editingPaymentId!=pay.prescriptionPaymentId">
                   <td (click)="showDocument(pay)">{{pay.postedDate | date:"shortDate"}}</td>
                   <td [class.hasDocument]="pay.documentId" (click)="showDocument(pay)">{{pay.checkNumber}}</td>
-                  <td (click)="showDocument(pay)">{{pay.checkAmt | currency:'USD':true:'1.2-2'}}</td>
+                  <td (click)="showDocument(pay)">{{pay.checkAmt | currency:'USD'}}</td>
                   <td (click)="showDocument(pay)">{{pay.rxNumber}}</td>
                   <td (click)="showDocument(pay)">{{pay.rxDate | date:"shortDate"}}</td>
                   <td (click)="showDocument(pay)">{{pay.invoiceNumber}}</td>

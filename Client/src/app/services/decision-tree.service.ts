@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import * as Immutable from 'immutable';
 import { SortColumnInfo } from '../directives/table-sort.directive';
 import { ITreeNode } from '../decision-tree/tree-node';
+import { ProfileManager } from './profile-manager';
 import * as d3 from 'd3';
 import swal from 'sweetalert2';
 
@@ -12,7 +13,7 @@ declare var $: any;
 
 @Injectable()
 export class DecisionTreeService {
-
+  sessionId: any;
   loading: Boolean = false;
   treeList: Immutable.OrderedMap<Number, ITreeNode> = Immutable.OrderedMap<Number, ITreeNode>();
   data: any = {};
@@ -31,10 +32,11 @@ export class DecisionTreeService {
   tree = d3.tree().size([this.height, this.width]);
   root: any;
   parentTreeId: number;
+  claimId: string;
   depth: number = 930;
   totalRowCount: number;
   display: string = 'list';
-  constructor(private router: Router, private http: HttpService, private toast: ToastrService) {
+  constructor(private profileManager: ProfileManager, private router: Router, private http: HttpService, private toast: ToastrService) {
     this.data = {
       "searchText": null,
       "sort": "treeLevel",
@@ -130,20 +132,69 @@ export class DecisionTreeService {
               ${(s.y + d.y) / 2} ${d.x},
               ${d.y} ${d.x}`;
   }
+  selectNode(d): any {
+    let title = `Select ${d.data.nodeName}`,
+      msg = `Describe your action for - ${d.data.nodeName}`;
+    swal({
+      title: title,
+      text: msg,
+      input: 'textarea',
+      showCancelButton: true,
+      confirmButtonText: 'Set Descritpion',
+      cancelButtonText: 'Cancel'
+    }).then((result) => {
+      if (result.value) {
+        this.loading = true;
+        /* this.http.selectTreeNode(d.data.treeId,result.value)
+          .subscribe((_: any) => { */
+            d.data.nodeDescription = result.value;
+            if (d.children) {
+              d._children = d.children;
+              d.children = null;
+            } else {
+              d.children = d._children;
+              d._children = null;
+            }
+            this.update(d);
+            this.loading = false;
+            console.log("The description is ready to save",result.value);
+          /* }, err => {
+            this.loading = false;
+            try {
+              const error = err.error;
+
+            } catch (e) { }
+          }); */
+        }
+      }).catch(swal.noop);
+  }
   treeNodeItems(n): any {
     let items: any = {}
+    if (!this.allowed) {
+      return {
+        select: {
+          name: "Select Choice",
+          icon: "fa-plus",
+          callback: () => {
+            this.selectNode(n);
+            return true;
+          }
+        }
+      }
+    }
     let expandName = `${n._children ? 'Expand' : 'Collapse'} Node`;
     let expandIcon = n._children ? "fa-expand" : "fa-minus";
-    if (n.data.children && n.data.children.length > 0) items.expand = {
-      name: expandName,
-      icon: expandIcon,
-      callback: () => {
-        this.toggleExpand(n);
-        expandName = `${n._children ? 'Expand' : 'Collapse'} Node`;
-        expandIcon = n._children ? "fa-expand" : "fa-minus";
-        return true;
-      }
-    };
+    if (n.data.children && n.data.children.length > 0)
+      items.expand = {
+        name: expandName,
+        icon: expandIcon,
+        callback: () => {
+          this.toggleExpand(n);
+          expandName = `${n._children ? 'Expand' : 'Collapse'} Node`;
+          expandIcon = n._children ? "fa-expand" : "fa-minus";
+          return true;
+        }
+      };
     items.add = {
       name: "Add Node",
       icon: "fa-plus",
@@ -162,7 +213,10 @@ export class DecisionTreeService {
     };
     return items;
   }
-
+  get userIsAdmin(): Boolean {
+    return (this.profileManager.profile.roles && (this.profileManager.profile.roles instanceof Array)
+      && this.profileManager.profile.roles.indexOf('Admin') > -1);
+  }
   saveRoot(name: string, newTree?: boolean) {
     this.loading = true;
     this.http.saveTreeNode({ nodeName: name })
@@ -228,6 +282,7 @@ export class DecisionTreeService {
         } catch (e) { }
       });
   }
+
   deleteNode(n) {
     let title = `Delete this node - ${n.data.nodeName}`,
       msg = `Are you sure you want to delete this node - ${n.data.nodeName}. This will delete all the decendant trees/nodes`;
@@ -296,11 +351,11 @@ export class DecisionTreeService {
     var nodeEnter = node.enter().append('g')
       .attr('class', 'node')
       .attr('title', (n: any) => {
-        return `${n.data.nodeName} ${(n.data.nodeDescription ? '<br><br>Desc: '+n.data.nodeDescription : '')}`;
+        return `${n.data.nodeName} ${(n.data.nodeDescription ? '<br><br><u>Description:</u><br> ' + n.data.nodeDescription : '')}`;
       })
       .attr('id', (n: any) => {
         let id = `tree_node${n.id}`;
-        setTimeout(() => { $(`#${id}`).tooltipster({ 'maxWidth': 300, animation: 'fade', side: 'top', theme: 'tooltipster-borderless',contentAsHTML:true }); }, 100)
+        setTimeout(() => { $(`#${id}`).tooltipster({ 'maxWidth': 300, animation: 'fade', side: 'top', theme: 'tooltipster-borderless', contentAsHTML: true }); }, 100)
         return id;
       })
       .attr("transform", (d) => {
@@ -337,15 +392,15 @@ export class DecisionTreeService {
         return d.children || d._children ? -13 : 13;
       })
       .attr("text-anchor", (d) => {
-        return "start" ;//d._children || d._children ? "end" : "start";
+        return "start";//d._children || d._children ? "end" : "start";
       })
       .attr('id', (n: any) => {
         let id = `text_node${n.id}`;
-        $(`#${id}`).tooltipster({ 'maxWidth': 300, animation: 'fade', side: 'top', theme: 'tooltipster-borderless' ,contentAsHTML:true});
+        $(`#${id}`).tooltipster({ 'maxWidth': 300, animation: 'fade', side: 'top', theme: 'tooltipster-borderless', contentAsHTML: true });
         return id;
       })
-      .text((d) =>{return d.data.nodeName})// {let txt = this.getTextWidth(d.data.nodeName); return (txt>60 ? (d.data.nodeName||'').substr(0,50)+'...':d.data.nodeName); })
-      .call(this.addTextLinks );
+      .text((d) => { return d.data.nodeName })// {let txt = this.getTextWidth(d.data.nodeName); return (txt>60 ? (d.data.nodeName||'').substr(0,50)+'...':d.data.nodeName); })
+      .call(this.addTextLinks);
 
     // UPDATE
     var nodeUpdate = nodeEnter.merge(node);
@@ -436,11 +491,10 @@ export class DecisionTreeService {
         line = [],
         lineNumber = -0.9,
         y = text.attr("y");
-        console.log(this);
-      var tspan = text.text(null).append("tspan").attr("x", /* (x > 0 ? 1.1 : -1.1) */ (1) + "em").attr("y",  (-0.9) + "em");
-      let count =2;
+      var tspan = text.text(null).append("tspan").attr("x", /* (x > 0 ? 1.1 : -1.1) */(1) + "em").attr("y", (-0.9) + "em");
+      let count = 2;
       while (word = lwords.pop()) {
-        if(count>3){
+        if (count > 3) {
           break;
         }
         line.push(word);
@@ -449,7 +503,7 @@ export class DecisionTreeService {
           line.pop();
           tspan.text(line.join(" "));
           line = [word];
-          tspan = text.append("tspan").attr("x", /* (x > 0 ? 1.1 : -1.1) */ (1) + "em").attr("y", y).attr("y", (lineNumber + (count*0.9)) + "em").text(word);
+          tspan = text.append("tspan").attr("x", /* (x > 0 ? 1.1 : -1.1) */(1) + "em").attr("y", y).attr("y", (lineNumber + (count * 0.9)) + "em").text(word);
           count++;
         }
       }
@@ -525,4 +579,9 @@ export class DecisionTreeService {
       swal.close();
     });
   }
+
+  get allowed(): Boolean {
+    return (this.profileManager.profile.roles && (this.profileManager.profile.roles instanceof Array) && this.profileManager.profile.roles.indexOf('Admin') > -1);
+  }
+
 }

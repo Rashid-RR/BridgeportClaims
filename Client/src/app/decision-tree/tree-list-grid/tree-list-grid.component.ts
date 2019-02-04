@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { ToastrService, Toast } from 'ngx-toastr';
+import { Component, OnInit, Input } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 // Services
 import { IShContextMenuItem, BeforeMenuEvent } from 'ng2-right-click-menu/src/sh-context-menu.models';
 import { ITreeNode } from '../tree-node';
-import { DecisionTreeService } from 'app/services/decision-tree.service';
+import { DecisionTreeService } from '../../services/decision-tree.service';
+import { ProfileManager } from '../../services/profile-manager';
 
 @Component({
   selector: 'tree-list-grid',
@@ -16,7 +17,9 @@ export class TreeListGridComponent implements OnInit {
   goToPage: any = '';
   activeToast: number;
   items: IShContextMenuItem[];
+  @Input() claimId:string
   constructor(
+    private profileManager:ProfileManager,
     public ds: DecisionTreeService, 
     private toast: ToastrService,
     private router: Router) { }
@@ -30,6 +33,7 @@ export class TreeListGridComponent implements OnInit {
         }
       }
     ];
+    console.log(this.claimId);
   }
 
   onBefore(event: BeforeMenuEvent, id) {
@@ -48,7 +52,7 @@ export class TreeListGridComponent implements OnInit {
     this.goToPage = '';
   }
   viewTree(t: ITreeNode) {
-     this.router.navigate(['/main/decision-tree/construct',t.treeId])
+     this.router.navigate(['/main/decision-tree/construct',t.treeId,this.claimId||''])
   }
    
   goto() {
@@ -84,6 +88,9 @@ export class TreeListGridComponent implements OnInit {
   }
   isNumeric(n) {
     return !isNaN(parseFloat(n)) && isFinite(n);
+  }
+  get allowed(): Boolean {
+    return  (this.profileManager.profile.roles && (this.profileManager.profile.roles instanceof Array) && this.profileManager.profile.roles.indexOf('Admin') > -1);
   }
 
 }

@@ -44,12 +44,39 @@
 .white {
     color: #ffffff;
 }
+
+.row.claim-info{
+    display:flex;
+    flex-direction: row
+}
+
 .expanded{
     height: calc(100vh - 220px);
     height: -moz-calc(100vh - 220px);
     height: -webkit-calc(100vh - 220px);
     height: -o-calc(100vh - 220px);    
     overflow:auto !important;
+    flex:1
+}
+.legend{
+    width:250px;
+    border:2px solid #ccc;  
+    padding:8px; 
+    font-size:10px;
+    height:270px; 
+}
+.legend hr{
+    margin: 5px 0px;
+    height: 1px;
+    background: black;
+}
+.legend legend{
+    margin: 0;
+    padding: 5px 15px;
+    border: none;
+    text-align: center;
+    background: transparent;
+    width: 69px;
 }
 .transparent{ 
     border: 1px solid #fff;

@@ -16,6 +16,7 @@ import { DialogService } from 'ng2-bootstrap-modal';
 import { ConfirmComponent } from '../../components/confirm.component';
 import { isPlatformBrowser } from '@angular/common';
 import { Prescription } from '../../models/prescription';
+
 declare var $: any;
 
 @Component({
@@ -29,6 +30,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
   }
 
   @ViewChild('episodeSwal') private episodeSwal: SwalComponent;
+  @ViewChild('decisionTreeSwal') private decisionTreeSwal: SwalComponent;
   @ViewChild('prescriptionStatusSwal') private prescriptionStatusSwal: SwalComponent;
   expanded: Boolean = false;
   expandedBlade: Number = 0;
@@ -69,10 +71,14 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
     private dp: DatePipe,
     private events: EventsService,
     private toast: ToastrService,
-    private ar: AccountReceivableService,
+    private ar: AccountReceivableService
   ) {
-    this.over = new Array(7);
+    this.over = new Array(8);
     this.over.fill(false);
+  }
+
+  showDecisionTreeWindow(claimId:string) {
+    window.open('#/main/decision-tree/list/' + claimId, '_blank');
   }
 
   expand(expanded: Boolean, expandedBlade: Number, table: string) {
