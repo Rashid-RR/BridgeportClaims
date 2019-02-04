@@ -3,8 +3,17 @@
     <div class="table-responsive top-header" *ngIf="ds.display=='list'">
       <ul class="products-list product-list-in-box">
         <li class="item row">
-          <div class="col-xs-11 col-sm-11"  style="text-indent: 30px">
+          <div class="col-xs-3 col-sm-3"  style="text-indent: 30px">
             Name
+          </div>
+          <div class="col-xs-2 col-sm-2"  style="text-indent: 30px">
+            Created On
+          </div>
+          <div class="col-xs-2 col-sm-2"  style="text-indent: 30px">
+            Created By
+          </div>
+          <div class="col-xs-4 col-sm-4"  style="text-indent: 30px">
+            Description
           </div>
         </li>
       </ul>
@@ -12,8 +21,17 @@
     <div class="table-responsive table-body" *ngIf="ds.display=='list'">
       <ul class="products-list product-list-in-box">
         <li class="item row" *ngFor="let t of ds.treeArray" [class.deleted]="t.deleted">
-          <div class="col-xs-11 col-sm-11"  (click)="viewTree(t)">
+          <div class="col-xs-3 col-sm-3"  (click)="viewTree(t)">
             {{t.nodeName}}
+          </div>
+          <div class="col-xs-2 col-sm-2"  style="text-indent: 30px">
+            {{t.createdOn|date:'mediumDate'}} {{t.createdOn|date:'mediumTime'}}
+          </div>
+          <div class="col-xs-2 col-sm-2"  style="text-indent: 30px">
+            {{t.createdBy}}
+          </div>
+          <div class="col-xs-4 col-sm-4"  style="text-indent: 30px">
+            {{t.nodeDescription}}
           </div>
           <div class="col-xs-1 col-sm-1">
             <button type="button" class="btn btn-danger bg-darkRed btn-xs" (click)="viewTree(t)">
@@ -22,22 +40,6 @@
           </div>
         </li>
       </ul>
-    </div>
-
-    <div class="table-responsive table-body grid" *ngIf="ds.display=='grid'">
-      <div class="row">
-        <div class="col-md-12 flex-row">
-          <div class="file" *ngFor="let t of ds.treeArray" [title]="t.nodeName" (click)="openTree(t)" [class.edited]="t.edited"
-            [class.added]="t.added" [class.deleted]="t.deleted" (onBeforeMenuOpen)="onBefore($event,t)" [sh-context]="items" [sh-data-context]="dataCtxOne">
-            <div class="card-body">
-              <i class="fa fa-3x text-red fa-t-pdf-o"></i>
-            </div>
-            <div class="caption">
-              {{t.nodeName}}
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
     <div class="btn-group pagination-row">
       <button type="button" class="btn btn-default  btn-md" [disabled]="ds.data.page<=1" (click)="prev()">Prev</button>
