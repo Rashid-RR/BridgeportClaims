@@ -1,6 +1,6 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core'; 
-import { DecisionTreeService } from '../../services/decision-tree.service'; 
-
+import { Component, Input, OnInit, AfterViewInit } from '@angular/core';
+import { DecisionTreeService } from '../../services/decision-tree.service';
+import { ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: 'tree-list',
@@ -9,17 +9,20 @@ import { DecisionTreeService } from '../../services/decision-tree.service';
 })
 export class TreeListComponent implements OnInit, AfterViewInit {
 
-   
-  constructor(public ds: DecisionTreeService) {
-    this.ds.search();
+  @Input() claimId: string
+  constructor(public ds: DecisionTreeService, private route: ActivatedRoute) {
+    this.route.params.subscribe(s => {
+      this.claimId = s.claimId;
+      this.ds.search();
+    })
   }
   ngOnInit() {
-    
+
   }
   ngAfterViewInit() {
 
   }
-  
+
 
 }
 

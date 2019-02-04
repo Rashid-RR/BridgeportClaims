@@ -48,7 +48,7 @@
             {{file.numberOfPayments}}
           </div>
           <div class="col-md-1 text-center" (click)="openFile(file)">
-            {{file.totalAmountPaid|currency:'USD':true:'1.2-2'}}
+            {{file.totalAmountPaid|currency:'USD'}}
           </div>
           <div class="col-md-2" (click)="openFile(file)">
             {{file.indexedOn | date : 'mediumDate'}} {{file.indexedOn | date : 'mediumTime'}}

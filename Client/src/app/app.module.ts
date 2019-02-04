@@ -104,11 +104,9 @@ import { ReferenceManagerService } from './services/reference-manager.service';
   ],
   imports: [
     BrowserModule,
-
     BrowserAnimationsModule,
     SharedModule,
     HttpClientModule,
-
     RoutingModule,
     FileUploadModule,
     NgxWebstorageModule.forRoot(),

@@ -418,6 +418,16 @@ a.disabled, a.disabled:active, a.disabled:hover {
   overflow-y: auto;
 }
 
+.swal2-modal.payment-modal.tree-modal .swal2-content .table-body {
+  top: 36px;
+}
+.swal2-modal.payment-modal.tree-modal .swal2-content .table-body .item.row{
+  margin-right:15px;
+}
+.swal2-modal.payment-modal.tree-modal {
+  display: block;
+}
+
 .swal2-modal.payment-modal .swal2-content .close-button i {
   color: white;
 }

@@ -1,5 +1,5 @@
 <form role="form" autocomplete="off" autocapitalize="none" autocomplete="off" (keyup.enter)="search()">
-    <div class="row"> 
+    <div class="row">
         <div class="col-md-3">
             <div class="form-group">
                 <label>Search Text</label>
@@ -17,11 +17,13 @@
                 <br />
                 <span>
                     <button class="color-palette btn bg-DarkGreen btn-flat btn-small" type="button" (click)="search()">
-                        <i class="fa fa-search"></i> Search</button> 
-                    <button class="color-palette btn bg-darkblue btn-flat btn-small" type="button" (click)="clearFilters()">
-                        <i class="fa fa-eraser"></i> Clear Filters</button>
+                        <i class="fa fa-search"></i> Search</button>
+                    <ng-container *ngIf="!claimId && allowed">
+                        <button class="color-palette btn bg-darkblue btn-flat btn-small" type="button" (click)="clearFilters()">
+                            <i class="fa fa-eraser"></i> Clear Filters</button>
                         <button class="color-palette btn bg-darkRed btn-flat btn-small" type="button" (click)="ds.createUpdateNode(false,false,true)">
-                                <i class="fa fa-plus" aria-hidden="true"></i> Create a New Tree</button>
+                            <i class="fa fa-plus" aria-hidden="true"></i> Create a New Tree</button>
+                    </ng-container>
                 </span>
             </div>
         </div>

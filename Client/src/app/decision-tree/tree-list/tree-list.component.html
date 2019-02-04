@@ -18,7 +18,7 @@
                                 </span>
                             </div>
                             <div class="box-body" style="padding: 0px 15px;" id="collapseDecisionTree" class="panel-collapse collapse in">
-                                <tree-list-filter></tree-list-filter>
+                                <tree-list-filter [claimId]="claimId"></tree-list-filter>
                             </div>
                         </div>
                     </div>
@@ -106,7 +106,7 @@
                                 </div>
                             </div>
                             <div class="box-body documents">
-                                <tree-list-grid></tree-list-grid>
+                                <tree-list-grid [claimId]="claimId"></tree-list-grid>
                             </div>
                         </div>
                     </div>

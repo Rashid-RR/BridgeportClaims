@@ -39,8 +39,8 @@ export class EpisodeNoteModalComponent implements OnInit, AfterViewInit {
     private events: EventsService,
     private http: HttpService,
     private toast: ToastrService) {
-      this.hostRectangle = null;
-      this.selectedText = '';
+    this.hostRectangle = null;
+    this.selectedText = '';
   }
 
   ngOnInit() {
@@ -105,12 +105,12 @@ export class EpisodeNoteModalComponent implements OnInit, AfterViewInit {
   }
   getSelectedText() {
     if (window.getSelection) {
-        return window.getSelection().toString();
+      return window.getSelection().toString();
     } else if (document['selection']) {
-        return document['selection'].createRange().text;
+      return document['selection'].createRange().text;
     }
     return '';
-}
+  }
   isHighlighted(text) {
     if (window.getSelection) {
       $('#highlighter').html(text);
@@ -124,26 +124,21 @@ export class EpisodeNoteModalComponent implements OnInit, AfterViewInit {
   showNote(episode: Episode) {
     this.episode = episode;
   }
-  public renderRectangles( event: TextSelectEvent ): void {
+  public renderRectangles(event: TextSelectEvent): void {
     // If a new selection has been created, the viewport and host rectangles will
     // exist. Or, if a selection is being removed, the rectangles will be null.
-    if ( event.hostRectangle ) {
-
-        this.hostRectangle = event.hostRectangle;
-        this.selectedText = event.text;
-
+    if (event.hostRectangle) {
+      this.hostRectangle = event.hostRectangle;
+      this.selectedText = event.text;
     } else {
-
-        this.hostRectangle = null;
-        this.selectedText = '';
-
+      this.hostRectangle = null;
+      this.selectedText = '';
     }
+  }
 
-}
 
-
-// I share the selected text with friends :)
-public shareSelection(): void {
+  // I share the selected text with friends :)
+  public shareSelection(): void {
     // Now that we've shared the text, let's clear the current selection.
     document.getSelection().removeAllRanges();
     // CAUTION: In modern browsers, the above call triggers a "selectionchange"
@@ -152,6 +147,5 @@ public shareSelection(): void {
     // event. As such, we need to remove the host rectangle explicitly.
     this.hostRectangle = null;
     this.selectedText = '';
-
-}
+  }
 }

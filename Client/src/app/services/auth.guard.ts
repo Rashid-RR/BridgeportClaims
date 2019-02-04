@@ -3,13 +3,15 @@
  CanActivate method of this class is used in the app routing module to determine if user has access before letting in
  */
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, ActivatedRoute, RouterStateSnapshot,
-  CanActivate, CanActivateChild, Resolve, Router } from '@angular/router';
+import {
+  ActivatedRouteSnapshot, ActivatedRoute, RouterStateSnapshot,
+  CanActivate, CanActivateChild, Resolve, Router
+} from '@angular/router';
 import { UserProfile } from '../models/profile';
 import { ProfileManager } from './profile-manager';
 import { EventsService } from './events-service';
-import { Observable,of } from 'rxjs';
-import { catchError,map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 
 
 @Injectable()
@@ -24,21 +26,20 @@ export class AuthGuard implements CanActivate, CanActivateChild, Resolve<UserPro
     });
 
   }
-     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
     this.returnURL = state.url;
-
     return this.isLoggedIn.
-    pipe(map(e => {
-      if (e) {
-        return true;
-      } else {
+      pipe(map(e => {
+        if (e) {
+          return true;
+        } else {
+          this.router.navigate(['/login'], { queryParams: { 'returnURL': this.returnURL } });
+          return false;
+        }
+      }), catchError((e) => {
         this.router.navigate(['/login'], { queryParams: { 'returnURL': this.returnURL } });
-        return false;
-      }
-    }),catchError((e) => {
-      this.router.navigate(['/login'], { queryParams: { 'returnURL': this.returnURL } });
-      return of(false);
-    }));
+        return of(false);
+      }));
   }
   canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
 
@@ -59,7 +60,7 @@ export class AuthGuard implements CanActivate, CanActivateChild, Resolve<UserPro
         const allowed = (us.roles && (us.roles instanceof Array) && us.roles.indexOf('Admin') > -1);
         return of(allowed);
       } else if (state.url.indexOf('/main/reports') > -1 && (state.url.indexOf('/main/reports/skipped-payment')
-        === -1 &&  state.url.indexOf('/main/reports/shortpay')
+        === -1 && state.url.indexOf('/main/reports/shortpay')
         === -1 && state.url.indexOf('/main/reports/list') === -1)) {
         const allowed = state.url.indexOf('/main/reports/collection-bonus') > -1 ? (us.roles && us.roles instanceof Array
           && us.roles.indexOf('User') > -1) : (us.roles && us.roles instanceof Array && us.roles.indexOf('Admin') > -1);

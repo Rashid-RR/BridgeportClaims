@@ -3,16 +3,16 @@
     <div class="table-responsive top-header" *ngIf="ds.display=='list'">
       <ul class="products-list product-list-in-box">
         <li class="item row">
-          <div class="col-xs-3 col-sm-3"  style="text-indent: 30px">
+          <div class="col-xs-3 col-sm-3">
             Name
           </div>
-          <div class="col-xs-2 col-sm-2"  style="text-indent: 30px">
+          <div class="col-xs-2 col-sm-2">
             Created On
           </div>
-          <div class="col-xs-2 col-sm-2"  style="text-indent: 30px">
+          <div class="col-xs-2 col-sm-2">
             Created By
           </div>
-          <div class="col-xs-4 col-sm-4"  style="text-indent: 30px">
+          <div class="col-xs-4 col-sm-4">
             Description
           </div>
         </li>
@@ -24,17 +24,15 @@
           <div class="col-xs-3 col-sm-3"  (click)="viewTree(t)">
             {{t.nodeName}}
           </div>
-          <div class="col-xs-2 col-sm-2"  style="text-indent: 30px">
+          <div class="col-xs-2 col-sm-2">
             {{t.createdOn|date:'mediumDate'}} {{t.createdOn|date:'mediumTime'}}
           </div>
-          <div class="col-xs-2 col-sm-2"  style="text-indent: 30px">
+          <div class="col-xs-2 col-sm-2">
             {{t.createdBy}}
           </div>
-          <div class="col-xs-4 col-sm-4"  style="text-indent: 30px">
+          <div class="col-xs-5 col-sm-5">
             {{t.nodeDescription}}
-          </div>
-          <div class="col-xs-1 col-sm-1">
-            <button type="button" class="btn btn-danger bg-darkRed btn-xs" (click)="viewTree(t)">
+            <button type="button" class="btn btn-danger bg-darkRed btn-xs pull-right" (click)="viewTree(t)">
               <span class="fa fa-eye"></span> View
             </button>
           </div>
