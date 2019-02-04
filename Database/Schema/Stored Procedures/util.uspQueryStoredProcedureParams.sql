@@ -63,6 +63,8 @@ AS BEGIN
                                                     'DateTime'
 												WHEN 'char' THEN
 													'AnsiStringFixedLength'
+												WHEN 'UniqueIdentifier' THEN
+													'Guid'
                    END
                  + CASE WHEN is_output = 1 THEN ', ParameterDirection.Output' ELSE '' END
                  + CASE WHEN TYPE_NAME(user_type_id) IN ('varchar', 'nvarchar', 'char', 'nchar') THEN
@@ -79,4 +81,5 @@ AS BEGIN
     FROM    [sys].[parameters]
     WHERE   [object_id] = OBJECT_ID(@ProcName);
 END
+
 GO

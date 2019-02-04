@@ -4,7 +4,6 @@ using System.Web.Http;
 using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.DataProviders.AttorneyProviders;
 using BridgeportClaims.Data.DataProviders.Clients;
-using BridgeportClaims.Data.Dtos;
 using BridgeportClaims.Web.Models;
 using Microsoft.AspNet.Identity;
 using NLog;

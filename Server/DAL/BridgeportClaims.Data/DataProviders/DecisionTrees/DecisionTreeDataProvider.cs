@@ -12,6 +12,40 @@ namespace BridgeportClaims.Data.DataProviders.DecisionTrees
 {
     public class DecisionTreeDataProvider : IDecisionTreeDataProvider
     {
+        public Guid DecisionTreeHeaderInsert(string userId, int treeRootId, int claimId)
+            => DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()),
+            conn =>
+            {
+                const string sp = "[dbo].[uspDecisionTreeUserPathHeaderInsert]";
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                }
+                var guid = Guid.NewGuid();
+                var ps = new DynamicParameters();
+                ps.Add("@UserID", userId, DbType.String, size: 128);
+                ps.Add("@TreeRootID", treeRootId, DbType.Int32);
+                ps.Add("@ClaimID", claimId, DbType.Int32);
+                ps.Add("@SessionID", guid, DbType.Guid);
+                conn.Execute(sp, ps, commandType: CommandType.StoredProcedure);
+                return guid;
+            });
+
+        public void DecisionTreeUserPathInsert(Guid sessionId, int selectedTreeId, string userId)
+            => DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+            {
+                const string sp = "[dbo].[uspDecisionTreeUserPathInsert]";
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                }
+                var ps = new DynamicParameters();
+                ps.Add("@SessionID", sessionId, DbType.Guid);
+                ps.Add("@SelectedTreeID", selectedTreeId, DbType.Int32);
+                ps.Add("@UserID", userId, DbType.String, size: 128);
+                conn.Execute(sp, ps, commandType: CommandType.StoredProcedure);
+            });
+
         public DecisionTreeDto InsertDecisionTree(int parentTreeId, string nodeName,
             string modifiedByUserId) =>
             DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
