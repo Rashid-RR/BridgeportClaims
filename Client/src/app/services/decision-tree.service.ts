@@ -581,7 +581,7 @@ export class DecisionTreeService {
   }
 
   get allowed(): Boolean {
-    return false;// (this.profileManager.profile.roles && (this.profileManager.profile.roles instanceof Array) && this.profileManager.profile.roles.indexOf('Admin') > -1);
+    return (this.profileManager.profile.roles && (this.profileManager.profile.roles instanceof Array) && this.profileManager.profile.roles.indexOf('Admin') > -1);
   }
 
 }
