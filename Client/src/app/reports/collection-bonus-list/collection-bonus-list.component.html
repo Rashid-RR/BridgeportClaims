@@ -38,8 +38,8 @@
             <tr>
               <td *ngIf="i==0" [attr.rowspan]="bonusService.bonus.length">{{userName}}</td>
               <td (click)="showClaim(p.claimId)">{{p.patientName}}</td>
-              <td (click)="showClaim(p.claimId)">{{p.amountPaid | currency:'USD':true:'1.2-2'}}</td>
-              <td (click)="showClaim(p.claimId)">{{p.bonusAmount | currency:'USD':true:'1.2-2'}}</td>
+              <td (click)="showClaim(p.claimId)">{{p.amountPaid | currency:'USD'}}</td>
+              <td (click)="showClaim(p.claimId)">{{p.bonusAmount | currency:'USD'}}</td>
             </tr>
           </ng-container>
         </tbody>
@@ -52,8 +52,8 @@
           <tr>
             <td></td>
             <th>Total</th>
-            <th>{{bonusService.totalAmountPaid | currency:'USD':true:'1.2-2'}}</th>
-            <th>{{bonusService.totalBonusAmount | currency:'USD':true:'1.2-2'}}</th>
+            <th>{{bonusService.totalAmountPaid | currency:'USD'}}</th>
+            <th>{{bonusService.totalBonusAmount | currency:'USD'}}</th>
           </tr>
         </tbody>
       </table>

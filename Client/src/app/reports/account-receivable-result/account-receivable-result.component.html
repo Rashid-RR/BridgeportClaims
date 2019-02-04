@@ -21,7 +21,7 @@
                     <tr *ngFor="let r of ar.report;let i=index;"> 
                       <ng-container *ngFor="let column of ar.columns;">
                           <td *ngIf="column=='monthBilled' || column=='dateBilled'">{{r[column]}}</td>
-                          <td *ngIf="column!=='monthBilled' && column!=='dateBilled'">{{r[column] | currency:'USD':true:'1.2-2'}}</td>
+                          <td *ngIf="column!=='monthBilled' && column!=='dateBilled'">{{r[column] | currency:'USD'}}</td>
                       </ng-container>
                     </tr>
                 </tbody>
