@@ -107,7 +107,7 @@
                     <td>
                       <div class="demo text-center">
                         <input type="checkbox" class="faChkRnd" [(ngModel)]="!user.deactivated"
-                               (ngModelChange)="changeStatus(i,$event)">
+                               (ngModelChange)="changeStatus(user.userName    ,$event)">
                         <label></label>
                       </div>
                     </td>
@@ -136,7 +136,7 @@
                     <td class="center-in">
                       <label class="checkboxFive">
                         <input type="checkbox" id="checkboxFiveInput" [(ngModel)]="user.indexer"
-                               (ngModelChange)="showRoleConfirm(i,indexerRole,$event)"
+                               (ngModelChange)="showRoleConfirm(user.userName,indexerRole,$event)"
                                [disabled]="(user.admin)">
                         <div for="checkboxFiveInput"></div>
                       </label>
@@ -145,7 +145,7 @@
 
                       <label class="checkboxFive">
                         <input type="checkbox" id="checkboxFiveInput" [(ngModel)]="user.admin"
-                               (ngModelChange)="showRoleConfirm(i,adminRole,$event)">
+                               (ngModelChange)="showRoleConfirm(user.userName,adminRole,$event)">
                         <div for="checkboxFiveInput"></div>
                       </label>
 
