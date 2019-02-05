@@ -40,10 +40,13 @@ AS
              , [UpdatedOnUTC] = @UtcNow
              , [ModifiedByUserID] = @ModifiedByUserID
         WHERE  [PayorID] = @PayorID;
-        SELECT [p].[PayorID]
+        SELECT [p].[PayorID] PayorId
              , [p].[GroupName]
-             , [p].[BillToAddress1] + ' ' + [p].[BillToAddress2] + ', ' + [p].[BillToCity] + ', ' + [us].[StateName]
-               + '  ' + [p].[BillToPostalCode] AS [BillingAddress]
+             , [p].[BillToAddress1]
+			 , [p].[BillToAddress2]
+			 , [p].[BillToCity]
+			 , [us].[StateName]
+             , [p].[BillToPostalCode]
              , [p].[PhoneNumber]
              , [p].[AlternatePhoneNumber]
              , [p].[FaxNumber]

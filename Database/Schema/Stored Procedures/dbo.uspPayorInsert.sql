@@ -59,10 +59,14 @@ AS
              , @UtcNow
              , @ModifiedByUserID;
         SET @PayorID = SCOPE_IDENTITY();
-        SELECT [p].[PayorID]
+        SELECT [p].[PayorID] PayorId
              , [p].[GroupName]
-             , [p].[BillToAddress1] + ' ' + [p].[BillToAddress2] + ', ' + [p].[BillToCity] + ', ' + [us].[StateName]
-               + '  ' + [p].[BillToPostalCode] AS [BillingAddress]
+			 , [p].[BillToName]
+             , [p].[BillToAddress1]
+			 , [p].[BillToAddress2]
+			 , [p].[BillToCity]
+			 , (SELECT x.[StateName] FROM [dbo].[UsState] AS x WHERE x.[StateID] = @BillToStateID) AS [BillToStateName]
+             , [p].[BillToPostalCode]
              , [p].[PhoneNumber]
              , [p].[AlternatePhoneNumber]
              , [p].[FaxNumber]
@@ -71,8 +75,8 @@ AS
              , [p].[LetterName]
              , [x].[FirstName] + ' ' + [x].[LastName] AS [ModifiedBy]
         FROM   [dbo].[Payor] AS [p]
-               LEFT JOIN [dbo].[UsState] AS [us] ON [us].[StateID] = [p].[BillToStateID]
                LEFT JOIN [dbo].[AspNetUsers] AS [x] ON [x].[ID] = [p].[ModifiedByUserID]
         WHERE  [p].[PayorID] = @PayorID;
     END;
+
 GO
