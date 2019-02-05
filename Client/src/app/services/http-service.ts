@@ -1380,8 +1380,8 @@ export class HttpService {
   }
   /**
    * TO DO - update with the API call for node selection by the user
-   * @param treeId 
-   * @param claimId 
+   * @param treeId
+   * @param claimId
    */
   selectTreeNode(treeId: string,claimId: string): Observable<any> {
     const s = this.http.post(this.baseUrl + `/trees/select-tree?treeRootId=${treeId}&claimId=${claimId}`,{})
@@ -1453,6 +1453,26 @@ export class HttpService {
 
   updateAttorney(data: any): Observable<any> {
     const s = this.http.post(this.baseUrl + '/attorney/update-attorney', data)
+      .pipe(
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
+        })
+      );
+    return s;
+  }
+
+  updatePayor(data: any): Observable<any> {
+    const s = this.http.post(this.baseUrl + '/payors/references-payor-update', data)
+      .pipe(
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
+        })
+      );
+    return s;
+  }
+
+  insertPayor(data: any): Observable<any> {
+    const s = this.http.post(this.baseUrl + '/payors/references-payor-insert', data)
       .pipe(
         tap(_ => { }, error => {
           this.handleResponseError(error);

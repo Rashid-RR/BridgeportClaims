@@ -48,7 +48,7 @@
       <section class="modal-body">
         <!-- Adjustors -->
         <form role="form" *ngIf="rs.typeSelected==rs.types[0]" [formGroup]="rs.adjustorForm" autocomplete="off"
-          autocapitalize="none" autocomplete="off">
+          autocapitalize="none">
           <section class="row">
             <section class="form-group col-sm-12">
               <label>Adjustor Name <span class="text-danger">*</span>: </label>
@@ -132,7 +132,7 @@
         <!-- End Adjustors -->
         <!-- Attorneys -->
         <form role="form" *ngIf="rs.typeSelected==rs.types[1]" [formGroup]="rs.attorneyForm" autocomplete="off"
-          autocapitalize="none" autocomplete="off">
+          autocapitalize="none">
           <section class="row">
             <section class="form-group col-sm-12">
               <label>Attorney Name <span class="text-danger">*</span>: </label>
@@ -201,6 +201,110 @@
           </section>
         </form>
         <!-- End Attorneys -->
+        <!-- Payors -->
+        <form role="form" *ngIf="rs.typeSelected==rs.types[2]" [formGroup]="rs.payorForm" autocomplete="off"
+          autocapitalize="none">
+          <section class="row">
+            <section class="form-group col-sm-12">
+              <label>Group Name <span class="text-danger">*</span>: </label>
+              <input class="form-control" placeholder="Group Name" formControlName="groupName" tabindex="1">
+              <p class="text-danger form-control-static" *ngIf="rs.payorForm.get('groupName').errors && rs.payorForm.get('groupName').touched">Group
+                Name is required</p>
+            </section>
+          </section>
+          <section>
+            <label>Bill To Name <span class="text-danger">*</span>: </label>
+            <input class="form-control" placeholder="Bill to Name" formControlName="billToName" tabindex="2">
+            <p class="text-danger form-control-static" *ngIf="rs.payorForm.get('billToName').errors && rs.payorForm.get('billToName').touched">Bill
+              to Name is required</p>
+          </section>
+          <section class="row">
+            <section class="form-group col-sm-12">
+              <label>Address 1:</label>
+              <input class="form-control" placeholder="Address 1" id="address1" formControlName="billToAddress1"
+                tabindex="3">
+            </section>
+          </section>
+          <section class="row">
+            <section class="form-group col-sm-12">
+              <label>Address 2:</label>
+              <input class="form-control" placeholder="Address 2" id="address2" formControlName="billToAddress2"
+                tabindex="4">
+            </section>
+          </section>
+          <section class="row">
+            <section class="form-group col-sm-12">
+              <label>City:</label>
+              <input class="form-control" placeholder="City" id="city" formControlName="billToCity" tabindex="5">
+            </section>
+          </section>
+          <section class="row">
+            <section class="form-group col-sm-12">
+              <label>State Name:</label>
+              <!-- Using this:
+                    https://material.angular.io/components/autocomplete/overview#automatically-highlighting-the-first-option
+                  -->
+              <mat-form-field>
+                <input type="text" formControlName="state" placeholder="" aria-label="State:" matInput [formControl]="payorStateControl"
+                  tabindex="6" [matAutocomplete]="auto">
+                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                  <mat-option *ngFor="let state of payorFilteredStates | async" [value]="state.stateName"
+                    (onSelectionChange)="onPayorStateSelection(state.stateId)">
+                    {{state.stateName}}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+            </section>
+          </section>
+          <!-- End State Drop Down -->
+          <section class="row">
+            <section class="form-group col-sm-12">
+              <label>Zip:</label>
+              <input class="form-control" placeholder="Zip" id="billToPostalCode" formControlName="billToPostalCode"
+                tabindex="7">
+            </section>
+          </section>
+          <section class="row">
+            <section class="form-group col-sm-12">
+              <label>Phone Number:</label>
+              <input class="form-control" placeholder="Phone Number" id="payorPhoneNumber" formControlName="phoneNumber"
+                tabindex="8" data-inputmask='"mask": "(999) 999-9999"' data-mask>
+            </section>
+          </section>
+          <section class="row">
+            <section class="form-group col-sm-12">
+              <label>Alternate Phone Number:</label>
+              <input class="form-control" placeholder="Alt. Phone Number" id="alternatePhoneNumber" formControlName="alternatePhoneNumber"
+                tabindex="9">
+            </section>
+          </section>
+          <section class="row">
+            <section class="form-group col-sm-12">
+              <label>Fax:</label>
+              <input class="form-control" placeholder="Fax" formControlName="faxNumber" tabindex="10" id="payorFaxNumber"
+                data-inputmask='"mask": "(999) 999-9999"' data-mask>
+            </section>
+          </section>
+          <section class="row">
+            <section class="form-group col-sm-12">
+              <label>Notes:</label>
+              <input class="form-control" placeholder="Notes" formControlName="notes" tabindex="11" id="notes">
+            </section>
+          </section>
+          <section class="row">
+            <section class="form-group col-sm-12">
+              <label>Contact:</label>
+              <input class="form-control" placeholder="Contact" formControlName="contact" tabindex="12" id="contact">
+            </section>
+          </section>
+          <section class="row">
+            <section class="form-group col-sm-12">
+              <label>Letter Name <span class="text-danger">*</span>: </label>
+              <input class="form-control" placeholder="Letter Name" formControlName="letterName" tabindex="13">
+              <p class="text-danger form-control-static" *ngIf="rs.payorForm.get('letterName').errors && rs.payorForm.get('letterName').touched">Letter Name is required</p>
+            </section>
+          </section>
+        </form>
       </section>
       <section class="modal-footer">
         <button (click)="cancel()" class="color-palette btn bg-darkblue btn-flat btn-small" type="button" data-dismiss="modal">
@@ -212,6 +316,10 @@
         </button>
         <button *ngIf="rs.typeSelected==rs.types[1]" style="margin-left: 4px;" class="color-palette btn bg-darkRed btn-flat btn-small"
           (click)="addAdjustor()" [disabled]="!rs.attorneyForm.valid" type="button">
+          <i aria-hidden="true" class="fa fa-plus"></i> Save
+        </button>
+        <button *ngIf="rs.typeSelected==rs.types[2]" style="margin-left: 4px;" class="color-palette btn bg-darkRed btn-flat btn-small"
+          (click)="addAdjustor()" [disabled]="!rs.payorForm.valid" type="button">
           <i aria-hidden="true" class="fa fa-plus"></i> Save
         </button>
       </section>

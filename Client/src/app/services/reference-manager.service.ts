@@ -85,6 +85,7 @@ export class ReferenceManagerService {
       billToAddress1: [null],
       billToAddress2: [null],
       billToCity: [null],
+      state: [null],
       billToStateId: [null],
       billToPostalCode: [null],
       phoneNumber: [null],

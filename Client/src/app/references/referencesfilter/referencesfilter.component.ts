@@ -19,6 +19,7 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
   @ViewChild(MatAutocomplete) matAutocomplete: MatAutocomplete;
   adjustorStateControl = new FormControl();
   attorneyStateControl = new FormControl();
+  payorStateControl = new FormControl();
   date: string;
   public entitySearchName: string;
   adjustorModel: any = {};
@@ -26,6 +27,7 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
   public flag = 'File Name';
   adjustorFilteredStates: Observable<UsState[]>;
   attorneyFilteredStates: Observable<UsState[]>;
+  payorFilteredStates: Observable<UsState[]>;
 
   constructor(public rs: ReferenceManagerService,
     private http: HttpService,
@@ -53,6 +55,10 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
       startWith(''),
       map(val => this._filter(val))
     );
+    this.payorFilteredStates = this.payorStateControl.valueChanges.pipe(
+      startWith(''),
+      map(val => this._filter(val))
+    );
   }
 
   onAdjustorStateSelection(stateId: number) {
@@ -63,6 +69,11 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
   onAttorneyStateSelection(stateId: number) {
     const selected = this.rs.states.find(option => option.stateId === stateId);
     this.rs.attorneyForm.patchValue({state: selected.stateName, stateId: selected.stateId});
+  }
+
+  onPayorStateSelection(stateId: number) {
+    const selected = this.rs.states.find(option => option.stateId === stateId);
+    this.rs.payorForm.patchValue({state: selected.stateName, stateId: selected.stateId});
   }
 
   ngAfterViewInit() {
@@ -143,6 +154,21 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
             this.toast.error(error);
           });
         }
+      } else if (this.rs.typeSelected === this.rs.types[2]) {
+        if (!this.rs.payorForm.valid) {
+          this.toast.warning('Invalid field value(s). Please correct to proceed.');
+        } else {
+          this.rs.loading = true;
+          this.http.updatePayor(this.rs.payorForm.value).subscribe(data => {
+            this.toast.success('Record successfully updated.');
+            this.cancel();
+            this.rs.loading = false;
+            this.rs.getReferencesList();
+            $('#modalAddAdjustor').modal('hide');
+          }, (error: string) => {
+            this.toast.error(error);
+          });
+        }
       }
     } else {
       if (this.rs.typeSelected === this.rs.types[0]) {
@@ -171,6 +197,20 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
             this.rs.getReferencesList();
             $('#modalAddAdjustor').modal('hide');
           }, error => {
+          });
+        }
+      } else if (this.rs.typeSelected === this.rs.types[2]) {
+        if (!this.rs.payorForm.valid) {
+          this.toast.warning('Invalid field value(s). Please correct to proceed.');
+        } else {
+          this.rs.loading = true;
+          this.http.insertPayor(this.rs.payorForm.value).subscribe(data => {
+            this.toast.success('Added successfully.');
+            this.cancel();
+            this.rs.loading = false;
+            this.rs.getReferencesList();
+            $('#modalAddAdjustor').modal('hide');
+        }, error => {
           });
         }
       }
