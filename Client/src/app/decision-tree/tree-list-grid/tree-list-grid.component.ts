@@ -17,10 +17,10 @@ export class TreeListGridComponent implements OnInit {
   goToPage: any = '';
   activeToast: number;
   items: IShContextMenuItem[];
-  @Input() claimId:string
+  @Input() claimId: string;
   constructor(
-    private profileManager:ProfileManager,
-    public ds: DecisionTreeService, 
+    private profileManager: ProfileManager,
+    public ds: DecisionTreeService,
     private toast: ToastrService,
     private router: Router) { }
 
@@ -33,7 +33,6 @@ export class TreeListGridComponent implements OnInit {
         }
       }
     ];
-    console.log(this.claimId);
   }
 
   onBefore(event: BeforeMenuEvent, id) {
@@ -46,27 +45,27 @@ export class TreeListGridComponent implements OnInit {
         }
       }
     ]);
-  };
+  }
   next() {
     this.ds.search(true);
     this.goToPage = '';
   }
   viewTree(t: ITreeNode) {
-     this.router.navigate(['/main/decision-tree/construct',t.treeId,this.claimId||''])
+     this.router.navigate(['/main/decision-tree/construct', t.treeId, this.claimId || '']);
   }
-   
+
   goto() {
-    const page = Number.parseInt(this.goToPage);
+    const page = Number.parseInt(this.goToPage, 10);
     if (!this.goToPage) {
 
     } else if (page > 0 && page <= this.ds.totalPages) {
       this.ds.search(false, false, page);
     } else {
-      let toast = this.toast.toasts.find(t=>t.toastId ==this.activeToast)
+      const toast = this.toast.toasts.find(t => t.toastId == this.activeToast);
       if (toast) {
         toast.message = 'Page number entered is out of range. Enter a page number between 1 and ' + this.ds.totalPages;
       } else {
-        this.activeToast = this.toast.warning('Page number entered is out of range. Enter a page number between 1 and ' + this.ds.totalPages).toastId
+        this.activeToast = this.toast.warning('Page number entered is out of range. Enter a page number between 1 and ' + this.ds.totalPages).toastId;
       }
     }
   }

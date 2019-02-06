@@ -58,7 +58,7 @@ export class ReferenceManagerService {
       address1: [null],
       address2: [null],
       city: [null],
-      state: [null], // placeholder for drop-down.
+      state: [null],
       stateId: [null],
       postalCode: [null],
       phoneNumber: [null],
@@ -85,7 +85,7 @@ export class ReferenceManagerService {
       billToAddress1: [null],
       billToAddress2: [null],
       billToCity: [null],
-      state: [null],
+      billToStateName: [null],
       billToStateId: [null],
       billToPostalCode: [null],
       phoneNumber: [null],
@@ -260,7 +260,9 @@ export class ReferenceManagerService {
         this.payorForm.controls.billToAddress1.setValue(this.editedEntity.billToAddress1);
         this.payorForm.controls.billToAddress2.setValue(this.editedEntity.billToAddress2);
         this.payorForm.controls.billToCity.setValue(this.editedEntity.billToCity);
+        this.payorForm.controls.billToStateName.setValue(this.editedEntity.billToStateName);
         const payorState = this.states.find(st => st.stateName === this.editedEntity.billToStateName);
+        console.log(payorState.stateId);
         if (payorState) {
           this.payorForm.get('billToStateId').setValue(payorState.stateId);
         }

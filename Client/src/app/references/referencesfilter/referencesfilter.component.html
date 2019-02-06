@@ -1,5 +1,5 @@
 <form (keyup.enter)="search()" autocapitalize="none" autocomplete="off" autocomplete="off" role="form">
-  <section class="row">
+  <section class="row" style="margin-top: 0.5%">
     <section class="col-md-3">
       <section class="form-group">
         <label>{{rs.typeSelected}} Name</label>
@@ -150,7 +150,7 @@
           </section>
           <section class="row">
             <section class="form-group col-sm-12">
-              <label>Adress 2:</label>
+              <label>Address 2:</label>
               <input class="form-control" placeholder="Address 2" formControlName="address2" id="address2" tabindex="3">
             </section>
           </section>
@@ -245,11 +245,9 @@
                     https://material.angular.io/components/autocomplete/overview#automatically-highlighting-the-first-option
                   -->
               <mat-form-field>
-                <input type="text" formControlName="state" placeholder="" aria-label="State:" matInput [formControl]="payorStateControl"
-                  tabindex="6" [matAutocomplete]="auto">
-                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-                  <mat-option *ngFor="let state of payorFilteredStates | async" [value]="state.stateName"
-                    (onSelectionChange)="onPayorStateSelection(state.stateId)">
+                <input type="text" formControlName="billToStateName" placeholder="" aria-label="State:" matInput [formControl]="payorStateControl" tabindex="6" [matAutocomplete]="auto">
+                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="onSelectionChanged($event)">
+                  <mat-option *ngFor="let state of payorFilteredStates | async" [value]="state.stateName" (onSelectionChange)="onPayorStateSelection(state.stateId)">
                     {{state.stateName}}
                   </mat-option>
                 </mat-autocomplete>
@@ -311,15 +309,15 @@
           <i class="fa fa-eraser"></i> Cancel
         </button>
         <button *ngIf="rs.typeSelected==rs.types[0]" style="margin-left: 4px;" class="color-palette btn bg-darkRed btn-flat btn-small"
-          (click)="addAdjustor()" [disabled]="!rs.adjustorForm.valid" type="button">
+          (click)="openAdjustorModal()" [disabled]="!rs.adjustorForm.valid" type="button">
           <i aria-hidden="true" class="fa fa-plus"></i> Save
         </button>
         <button *ngIf="rs.typeSelected==rs.types[1]" style="margin-left: 4px;" class="color-palette btn bg-darkRed btn-flat btn-small"
-          (click)="addAdjustor()" [disabled]="!rs.attorneyForm.valid" type="button">
+          (click)="openAttorneyModal()" [disabled]="!rs.attorneyForm.valid" type="button">
           <i aria-hidden="true" class="fa fa-plus"></i> Save
         </button>
         <button *ngIf="rs.typeSelected==rs.types[2]" style="margin-left: 4px;" class="color-palette btn bg-darkRed btn-flat btn-small"
-          (click)="addAdjustor()" [disabled]="!rs.payorForm.valid" type="button">
+          (click)="openPayorModal()" [disabled]="!rs.payorForm.valid" type="button">
           <i aria-hidden="true" class="fa fa-plus"></i> Save
         </button>
       </section>

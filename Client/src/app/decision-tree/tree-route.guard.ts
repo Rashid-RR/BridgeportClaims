@@ -4,7 +4,7 @@
  */
 import { Injectable } from '@angular/core';
 import {
-  ActivatedRouteSnapshot, RouterStateSnapshot,CanActivate, Router
+  ActivatedRouteSnapshot, RouterStateSnapshot, CanActivate, Router
 } from '@angular/router';
 import { ProfileManager } from '../services/profile-manager';
 import { EventsService } from '../services/events-service';
@@ -13,7 +13,7 @@ import { catchError, map } from 'rxjs/operators';
 
 
 @Injectable()
-export class TreeAuthGuard implements CanActivate{
+export class TreeAuthGuard implements CanActivate {
   returnURL: String = '';
   constructor(private events: EventsService,
     private router: Router, private profileManager: ProfileManager) {
@@ -25,11 +25,12 @@ export class TreeAuthGuard implements CanActivate{
 
   }
   get userIsAdmin(): Boolean {
-    return  (this.profileManager.profile.roles && (this.profileManager.profile.roles instanceof Array) && this.profileManager.profile.roles.indexOf('Admin') > -1);
+    return  (this.profileManager.profile.roles && (this.profileManager.profile.roles instanceof Array)
+      && this.profileManager.profile.roles.indexOf('Admin') > -1);
   }
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
     this.returnURL = state.url;
-    console.log(route.url)
+    console.log(route.url);
     return of(this.userIsAdmin).
       pipe(map(e => {
         if (e) {
