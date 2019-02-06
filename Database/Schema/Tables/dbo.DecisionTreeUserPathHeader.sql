@@ -20,9 +20,9 @@ ALTER TABLE [dbo].[DecisionTreeUserPathHeader] ADD CONSTRAINT [pkDecisionTreeUse
 GO
 ALTER TABLE [dbo].[DecisionTreeUserPathHeader] ADD CONSTRAINT [idxUqDecisionTreeUserPathHeaderSessionID] UNIQUE NONCLUSTERED  ([SessionID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
-ALTER TABLE [dbo].[DecisionTreeUserPathHeader] ADD CONSTRAINT [FK__DecisionT__UserI__2101D846] FOREIGN KEY ([UserID]) REFERENCES [dbo].[AspNetUsers] ([ID])
-GO
-ALTER TABLE [dbo].[DecisionTreeUserPathHeader] ADD CONSTRAINT [FK__DecisionT__Claim__22EA20B8] FOREIGN KEY ([ClaimID]) REFERENCES [dbo].[Claim] ([ClaimID])
-GO
 ALTER TABLE [dbo].[DecisionTreeUserPathHeader] ADD CONSTRAINT [FK__DecisionT__TreeR__21F5FC7F] FOREIGN KEY ([TreeRootID]) REFERENCES [dbo].[DecisionTree] ([TreeID])
+GO
+ALTER TABLE [dbo].[DecisionTreeUserPathHeader] ADD CONSTRAINT [fkDecisionTreeUserPathHeaderClaimIDClaimClaimID] FOREIGN KEY ([ClaimID]) REFERENCES [dbo].[Claim] ([ClaimID])
+GO
+ALTER TABLE [dbo].[DecisionTreeUserPathHeader] ADD CONSTRAINT [fkDecisionTreeUserPathHeaderUserIDAspNetUsersID] FOREIGN KEY ([UserID]) REFERENCES [dbo].[AspNetUsers] ([ID])
 GO
