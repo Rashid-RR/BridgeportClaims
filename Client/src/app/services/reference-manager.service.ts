@@ -231,7 +231,8 @@ export class ReferenceManagerService {
         this.adjustorForm.controls.city.setValue(this.editedEntity.city);
         const adjustorState = this.states.find(st => st.stateName === this.editedEntity.stateName);
         if (adjustorState) {
-          this.adjustorForm.get('stateId').setValue(adjustorState.stateId);
+          // this.adjustorForm.get('stateId').setValue(adjustorState.stateId);
+          this.adjustorForm.controls.state.setValue(adjustorState.stateName);
         }
         this.adjustorForm.controls.postalCode.setValue(this.editedEntity.postalCode);
         this.adjustorForm.controls.phoneNumber.setValue(this.editedEntity.phoneNumber);
@@ -262,7 +263,6 @@ export class ReferenceManagerService {
         this.payorForm.controls.billToCity.setValue(this.editedEntity.billToCity);
         this.payorForm.controls.billToStateName.setValue(this.editedEntity.billToStateName);
         const payorState = this.states.find(st => st.stateName === this.editedEntity.billToStateName);
-        console.log(payorState.stateId);
         if (payorState) {
           this.payorForm.get('billToStateId').setValue(payorState.stateId);
         }
