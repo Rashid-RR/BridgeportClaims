@@ -98,17 +98,35 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
       const val = ev.target.value.replace(/[()-\s]/g, '');
       this.rs.adjustorForm.controls.faxNumber.setValue(val);
     });
-    $('#at_phoneNumber').inputmask().on('change', (ev) => {
+    $('#attorneyPhoneNumber').inputmask().on('change', (ev) => {
       const val = ev.target.value.replace(/[()-\s]/g, '');
       {
       }
       this.rs.attorneyForm.controls.phoneNumber.setValue(val);
     });
-    $('#at_faxNumber').inputmask().on('change', (ev) => {
+    $('#attorneyFaxNumber').inputmask().on('change', (ev) => {
       const val = ev.target.value.replace(/[()-\s]/g, '');
       {
       }
       this.rs.attorneyForm.controls.faxNumber.setValue(val);
+    });
+    $('#payorPhoneNumber').inputmask().on('change', (ev) => {
+      const val = ev.target.value.replace(/[()-\s]/g, '');
+      {
+      }
+      this.rs.payorForm.controls.phoneNumber.setValue(val);
+    });
+    $('#payorAlternatePhoneNumber').inputmask().on('change', (ev) => {
+      const val = ev.target.value.replace(/[()-\s]/g, '');
+      {
+      }
+      this.rs.payorForm.controls.alternatePhoneNumber.setValue(val);
+    });
+    $('#payorFaxNumber').inputmask().on('change', (ev) => {
+      const val = ev.target.value.replace(/[()-\s]/g, '');
+      {
+      }
+      this.rs.payorForm.controls.faxNumber.setValue(val);
     });
   }
 
@@ -140,7 +158,7 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
   }
 
   openAdjustorModal(): void {
-    if (this.checkEditMode) {
+    if (!this.checkEditMode) {
       this.addAdjustor();
       return;
     }
@@ -164,7 +182,7 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
   }
 
   openAttorneyModal(): void {
-    if (this.checkEditMode) {
+    if (!this.checkEditMode) {
       this.addAttorney();
       return;
     }
@@ -187,7 +205,7 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
   }
 
   openPayorModal(): void {
-    if (this.checkEditMode) {
+    if (!this.checkEditMode) {
       this.addPayor();
       return;
     }

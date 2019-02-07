@@ -100,7 +100,8 @@ namespace BridgeportClaims.Data.DataProviders.Payors
                 ps.Add("@Contact", contact, DbType.AnsiString, size: 255);
                 ps.Add("@LetterName", letterName, DbType.AnsiString, size: 255);
                 ps.Add("@ModifiedByUserID", modifiedByUserId, DbType.String, size: 128);
-                return conn.Query<PayorResultDto>(sp, ps, commandType: CommandType.StoredProcedure)?.SingleOrDefault();
+                var retVal = conn.Query<PayorResultDto>(sp, ps, commandType: CommandType.StoredProcedure)?.SingleOrDefault();
+                return retVal;
             });
 
         public PayorResultDto PayorUpdate(int payorId, string groupName, string billToName, string billToAddress1, string billToAddress2,

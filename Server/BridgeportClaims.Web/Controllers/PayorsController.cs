@@ -125,10 +125,10 @@ namespace BridgeportClaims.Web.Controllers
         {
             try
             {
-                var userId = User.Identity.GetUserId();
+                var modifiedByUserId = User.Identity.GetUserId();
                 var payor = _payorsDataProvider.Value.PayorInsert(model.GroupName, model.BillToName, model.BillToAddress1,
                     model.BillToAddress2, model.BillToCity, model.BillToStateId, model.BillToPostalCode, model.PhoneNumber,
-                    model.AlternatePhoneNumber, model.FaxNumber, model.Notes, model.Contact, model.LetterName, userId);
+                    model.AlternatePhoneNumber, model.FaxNumber, model.Notes, model.Contact, model.LetterName, modifiedByUserId);
                 return Ok(payor);
             }
             catch (Exception ex)
