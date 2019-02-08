@@ -118,7 +118,8 @@
           <section class="row">
             <section class="form-group col-sm-12">
               <label>Email:</label>
-              <input class="form-control" placeholder="Email" id="email" formControlName="emailAddress" tabindex="9">
+              <input class="form-control" #email="ngModel" type="email" placeholder="Email" id="email" formControlName="emailAddress" tabindex="9" isEmail>
+              <p *ngIf="email.errors.isEmail">* Email must be valid</p>
             </section>
           </section>
           <section class="row">

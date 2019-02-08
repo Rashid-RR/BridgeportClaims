@@ -63,7 +63,7 @@ export class ReferenceManagerService {
       postalCode: [null],
       phoneNumber: [null],
       faxNumber: [null],
-      emailAddress: [null],
+      emailAddress: [null, Validators.compose([Validators.email])],
       extension: [null]
     });
     this.attorneyForm = this.formBuilder.group({
