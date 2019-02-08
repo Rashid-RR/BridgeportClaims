@@ -13,7 +13,7 @@ export const DecisionTreeRoutes: Routes = [
             { path: 'list', component: TreeListComponent,canActivate: [TreeAuthGuard]},
             { path: 'list/:claimId', component: TreeListComponent },
             { path: 'construct/:treeId', component: DesignTreeComponent,canActivate: [TreeAuthGuard] },
-            { path: 'construct/:treeId/:claimId', component: DesignTreeComponent }
+            { path: 'experience/:treeId/:claimId', component: DesignTreeComponent }
 
         ]
     }

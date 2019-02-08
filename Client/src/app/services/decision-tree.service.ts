@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from './http-service';
 import { ToastrService } from 'ngx-toastr';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import * as Immutable from 'immutable';
 import { SortColumnInfo } from '../directives/table-sort.directive';
 import { ITreeNode } from '../decision-tree/tree-node';
@@ -36,7 +36,7 @@ export class DecisionTreeService {
   depth: number = 930;
   totalRowCount: number;
   display: string = 'list';
-  constructor(private profileManager: ProfileManager, private router: Router, private http: HttpService, private toast: ToastrService) {
+  constructor(private activatedRoute: ActivatedRoute, private profileManager: ProfileManager, private router: Router, private http: HttpService, private toast: ToastrService) {
     this.data = {
       "searchText": null,
       "sort": "treeLevel",
@@ -51,6 +51,9 @@ export class DecisionTreeService {
   }
   refresh() {
 
+  }
+  get claimRoute() {
+    return this.router.url.indexOf("/decision-tree/experience")>-1;
   }
   get totalPages() {
     return this.totalRowCount ? Math.ceil(this.totalRowCount / this.data.pageSize) : null;
@@ -147,30 +150,30 @@ export class DecisionTreeService {
         this.loading = true;
         /* this.http.selectTreeNode(d.data.treeId,result.value)
           .subscribe((_: any) => { */
-            d.data.nodeDescription = result.value;
-            if (d.children) {
-              d._children = d.children;
-              d.children = null;
-            } else {
-              d.children = d._children;
-              d._children = null;
-            }
-            this.update(d);
-            this.loading = false;
-            console.log("The description is ready to save",result.value);
-          /* }, err => {
-            this.loading = false;
-            try {
-              const error = err.error;
-
-            } catch (e) { }
-          }); */
+        d.data.nodeDescription = result.value;
+        if (d.children) {
+          d._children = d.children;
+          d.children = null;
+        } else {
+          d.children = d._children;
+          d._children = null;
         }
-      }).catch(swal.noop);
+        this.update(d);
+        this.loading = false;
+        console.log("The description is ready to save", result.value);
+        /* }, err => {
+          this.loading = false;
+          try {
+            const error = err.error;
+
+          } catch (e) { }
+        }); */
+      }
+    }).catch(swal.noop);
   }
   treeNodeItems(n): any {
-    let items: any = {}
-    if (!this.allowed) {
+    let items: any = {} 
+    if (this.claimRoute) {
       return {
         select: {
           name: "Select Choice",
