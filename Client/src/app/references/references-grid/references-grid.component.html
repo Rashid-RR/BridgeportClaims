@@ -113,6 +113,11 @@
                 </span>
               </th>
               <th>
+                <span [sort-table]="referencesTable" columnSort="EmailAddress">
+                  Email
+                </span>
+              </th>
+              <th>
                 <span [sort-table]="referencesTable" columnSort="ModifiedBy">
                   Modified By
                 </span>
@@ -243,6 +248,7 @@
               <td>{{attorney?.postalCode}}</td>
               <td>{{attorney?.phoneNumber}}</td>
               <td>{{attorney?.faxNumber}}</td>
+              <td>{{attorney?.emailAddress}}</td>
               <td>{{attorney?.modifiedBy}}</td>
               <td>
                 <button style="float: right;" (click)="edit(attorney)" class="btn btn-primary btn-xs" type="button">
