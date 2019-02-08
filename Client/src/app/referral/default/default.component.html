@@ -79,7 +79,7 @@
                   <p class="text-danger form-control-static" *ngIf="form.get('dateOfBirth').errors && form.get('dateOfBirth').touched">Date
                     of Birth is required</p>
                 </div>
-                <div class="form-group col-sm-2 example-container">
+                <div class="form-group col-sm-3 example-container">
                     <mat-form-field>
                         <mat-select formControlName="stateId" placeholder="Select State (required)" required tabindex="8">  
                             <mat-option>-- Select a State --</mat-option>  
@@ -93,7 +93,7 @@
                         </mat-error>      
               </mat-form-field>
                 </div>
-                <div class="form-group col-sm-5">
+                <div class="form-group col-sm-4">
                   <label>Zip <span class="text-danger">*</span>:</label>
                   <input class="form-control" placeholder="Zip" formControlName="postalCode" tabindex="9">
                   <p class="text-danger form-control-static" *ngIf="form.get('postalCode').errors && form.get('postalCode').touched">Zip

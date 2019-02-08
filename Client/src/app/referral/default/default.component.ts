@@ -97,6 +97,15 @@ export class ReferralDefaultComponent implements OnInit, AfterViewInit {
   submit() {
     if (this.form.valid) {
       this.submitted = true;
+      const gender =  this.form.get('genderId').value;
+      if (gender == 1) {
+        this.form.controls.genderName.setValue('Male');
+      } else if ( gender == 2) {
+        this.form.controls.genderName.setValue('Female');
+      } else {
+        this.form.controls.genderName.setValue('Not Specified');
+      }
+
       try {
         this.http.insertReferral(this.form.value).subscribe((res) => {
           this.toast.success(res.message || 'Referral successfully added', null,
