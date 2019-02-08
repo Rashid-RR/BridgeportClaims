@@ -53,7 +53,7 @@ export class DecisionTreeService {
 
   }
   get claimRoute() {
-    return this.router.url.indexOf("/decision-tree/experience")>-1;
+    return this.router.url.indexOf("/decision-tree/experience") > -1;
   }
   get totalPages() {
     return this.totalRowCount ? Math.ceil(this.totalRowCount / this.data.pageSize) : null;
@@ -135,7 +135,20 @@ export class DecisionTreeService {
               ${(s.y + d.y) / 2} ${d.x},
               ${d.y} ${d.x}`;
   }
-  selectNode(d): any {
+  deleteNonTraversedPath(d: any, treeId: any) {
+    var children = [];
+    d.children.forEach(function (child) {
+      if (child.id == treeId) {
+        children.push(child);
+      }
+    });
+    d.children = children;
+    this.update(d);
+    if (d.parent) {
+      this.deleteNonTraversedPath(d.parent, d.id)
+    }
+  }
+  setDescription(d) {
     let title = `Select ${d.data.nodeName}`,
       msg = `Describe your action for - ${d.data.nodeName}`;
     swal({
@@ -147,44 +160,42 @@ export class DecisionTreeService {
       cancelButtonText: 'Cancel'
     }).then((result) => {
       if (result.value) {
-        this.loading = true;
-        /* this.http.selectTreeNode(d.data.treeId,result.value)
-          .subscribe((_: any) => { */
+        this.toast.info("Ready to save the node descritption")
         d.data.nodeDescription = result.value;
-        if (d.children) {
-          d._children = d.children;
-          d.children = null;
-        } else {
+        let content = `${d.data.nodeName} ${(d.data.nodeDescription ? '<br><br><u>Description:</u><br> ' + d.data.nodeDescription : '')}`;
+        console.log(content);
+        $(`#tree_node${d.id}`).tooltipster('content',content)
+      }
+    }).catch(swal.noop);
+
+  }
+  selectNode(d): any {
+    this.loading = true;
+    this.http.chooseTreePath(this.sessionId, d.parent.data.treeId, d.data.treeId)
+      .subscribe((resp: any) => {
+        this.toast.success(resp.message)
+        if (!d.children && !d._children) {
+          this.setDescription(d);
+        }
+        if (!d.children) {
           d.children = d._children;
           d._children = null;
         }
         this.update(d);
+        if (d.parent) {
+          this.deleteNonTraversedPath(d.parent, d.id)
+        }
         this.loading = false;
-        console.log("The description is ready to save", result.value);
-        /* }, err => {
-          this.loading = false;
-          try {
-            const error = err.error;
+      }, err => {
+        this.loading = false;
+        try {
+          const error = err.error;
+        } catch (e) { }
+      });
 
-          } catch (e) { }
-        }); */
-      }
-    }).catch(swal.noop);
   }
   treeNodeItems(n): any {
-    let items: any = {} 
-    if (this.claimRoute) {
-      return {
-        select: {
-          name: "Select Choice",
-          icon: "fa-plus",
-          callback: () => {
-            this.selectNode(n);
-            return true;
-          }
-        }
-      }
-    }
+    let items: any = {}
     let expandName = `${n._children ? 'Expand' : 'Collapse'} Node`;
     let expandIcon = n._children ? "fa-expand" : "fa-minus";
     if (n.data.children && n.data.children.length > 0)
@@ -198,22 +209,33 @@ export class DecisionTreeService {
           return true;
         }
       };
-    items.add = {
-      name: "Add Node",
-      icon: "fa-plus",
-      callback: () => {
-        this.createUpdateNode(n);
-        return true;
+    if (this.claimRoute) {
+      items.select = {
+        name: "Select Choice",
+        icon: "fa-plus",
+        callback: () => {
+          this.selectNode(n);
+          return true;
+        }
       }
-    };
-    items.delete = {
-      icon: 'fa-trash',
-      name: "Delete Node",
-      callback: () => {
-        this.deleteNode(n);
-        return true;
-      }
-    };
+    } else {
+      items.add = {
+        name: "Add Node",
+        icon: "fa-plus",
+        callback: () => {
+          this.createUpdateNode(n);
+          return true;
+        }
+      };
+      items.delete = {
+        icon: 'fa-trash',
+        name: "Delete Node",
+        callback: () => {
+          this.deleteNode(n);
+          return true;
+        }
+      };
+    }
     return items;
   }
   get userIsAdmin(): Boolean {
