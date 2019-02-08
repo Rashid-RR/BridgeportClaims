@@ -344,7 +344,7 @@ export class HttpService {
   }
 
   confirmEmail(id: any, code: any): Observable<any> {
-    return this.http.get(this.baseUrl + '/Account/ConfirmEmail?userId=' + id + '&code=' + code, { responseType: 'text' })
+    return this.http.get(this.baseUrl + '/Account/ConfirmEmail?userId=' + id + '&code=' + code)
       .pipe(
         tap(_ => { }, error => {
           this.handleResponseError(error);
