@@ -12,6 +12,7 @@ CREATE PROC [claims].[uspAttorneyUpdate]
     @PostalCode varchar(255),
     @PhoneNumber varchar(30),
     @FaxNumber varchar(30),
+	@EmailAddress VARCHAR(155),
     @ModifiedByUserID nvarchar(128)
 AS BEGIN
 	SET NOCOUNT ON;
@@ -20,7 +21,8 @@ AS BEGIN
 
 	UPDATE [dbo].[Attorney]
 	SET    [AttorneyName] = @AttorneyName, [Address1] = @Address1, [Address2] = @Address2, [City] = @City, [StateID] = @StateID,
-		   [PostalCode] = @PostalCode, [PhoneNumber] = @PhoneNumber, [FaxNumber] = @FaxNumber, [ModifiedByUserID] = @ModifiedByUserID, [UpdatedOnUTC] = @UtcNow
+		   [PostalCode] = @PostalCode, [PhoneNumber] = @PhoneNumber, [FaxNumber] = @FaxNumber, [EmailAddress] = @EmailAddress,
+		   [ModifiedByUserID] = @ModifiedByUserID, [UpdatedOnUTC] = @UtcNow
 	WHERE  [AttorneyID] = @AttorneyID
 	
 	SELECT  [AttorneyId] = [a].[AttorneyID]
@@ -32,6 +34,7 @@ AS BEGIN
 		   ,[a].[PostalCode]
 		   ,[a].[PhoneNumber]
 		   ,[a].[FaxNumber]
+		   ,[a].[EmailAddress]
 		   ,[ModifiedBy] = [x].[FirstName] + ' ' + [x].[LastName]
 	FROM    [dbo].[Attorney] AS [a]
 			LEFT JOIN [dbo].[UsState] AS [us] ON [a].[StateID] = [us].[StateID]

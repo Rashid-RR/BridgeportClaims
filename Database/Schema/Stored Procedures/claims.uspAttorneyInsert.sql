@@ -11,6 +11,7 @@ CREATE PROC [claims].[uspAttorneyInsert]
     @PostalCode varchar(255),
     @PhoneNumber varchar(30),
     @FaxNumber varchar(30),
+	@EmailAddress VARCHAR(155),
     @ModifiedByUserID nvarchar(128)
 AS BEGIN
 	SET NOCOUNT ON;
@@ -18,8 +19,8 @@ AS BEGIN
 	DECLARE @UtcNow DATETIME2 = [dtme].[udfGetDate]();
 	DECLARE @AttorneyID INT;
 
-	INSERT INTO [dbo].[Attorney] ([AttorneyName], [Address1], [Address2], [City], [StateID], [PostalCode], [PhoneNumber], [FaxNumber], [ModifiedByUserID], [CreatedOnUTC], [UpdatedOnUTC])
-	SELECT @AttorneyName, @Address1, @Address2, @City, @StateID, @PostalCode, @PhoneNumber, @FaxNumber, @ModifiedByUserID, @UtcNow, @UtcNow;
+	INSERT INTO [dbo].[Attorney] ([AttorneyName], [Address1], [Address2], [City], [StateID], [PostalCode], [PhoneNumber], [FaxNumber], EmailAddress, [ModifiedByUserID], [CreatedOnUTC], [UpdatedOnUTC])
+	SELECT @AttorneyName, @Address1, @Address2, @City, @StateID, @PostalCode, @PhoneNumber, @FaxNumber, @EmailAddress, @ModifiedByUserID, @UtcNow, @UtcNow;
 
 	SET @AttorneyID = SCOPE_IDENTITY();
 
@@ -32,6 +33,7 @@ AS BEGIN
 		   ,[a].[PostalCode]
 		   ,[a].[PhoneNumber]
 		   ,[a].[FaxNumber]
+		   ,[a].[EmailAddress]
 		   ,[ModifiedBy] = [x].[FirstName] + ' ' + [x].[LastName]
 	FROM    [dbo].[Attorney] AS [a]
 			LEFT JOIN [dbo].[UsState] AS [us] ON [a].[StateID] = [us].[StateID]

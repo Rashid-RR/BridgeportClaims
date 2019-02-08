@@ -65,8 +65,7 @@ namespace BridgeportClaims.Web.Controllers
                 // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                 // Send an email with this link
                 var code = await UserManager.GeneratePasswordResetTokenAsync(user.Id).ConfigureAwait(false);
-                // var callbackUrl = new Uri(Url.Link(c.ResetPasswordRouteAction, new {userId = user.Id, code}));
-                var callbackUrl = GetCallbackUrlForEmail(EmailType.ResetPassword, user.Id, code);
+                var callbackUrl = GetCallbackUrlForEmail(EmailType.ResetPassword, user.Id, code.Base64ForUrlEncode());
                 await UserManager.SendEmailAsync(user.Id, $"{user.FirstName} {user.LastName}",
                     callbackUrl.AbsoluteUri).ConfigureAwait(false);
                 return Ok(new {message = "Please check your Email. An Email has been sent to Reset your Password"});
@@ -129,16 +128,25 @@ namespace BridgeportClaims.Web.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-
+                if (null == model)
+                {
+                    throw new ArgumentNullException(nameof(model));
+                }
                 var user = await UserManager.FindByIdAsync(model.UserId).ConfigureAwait(false);
                 if (null == user)
                 {
                     // Don't reveal that the user does not exist (security hole)
                     return Ok();
                 }
-                var result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password).ConfigureAwait(false);
+                if (model.Code != null && model.Code.IsNullOrWhiteSpace())
+                {
+                    throw new ArgumentNullException(nameof(model.Code));
+                }
+                var result = await UserManager.ResetPasswordAsync(user.Id, model.Code.Base64ForUrlDecode(), model.Password).ConfigureAwait(false);
                 if (result.Succeeded)
+                {
                     return Ok(new {message = "The Password was Reset Successfully"});
+                }
                 string error = null;
                 if (!result.Errors.Any())
                 {

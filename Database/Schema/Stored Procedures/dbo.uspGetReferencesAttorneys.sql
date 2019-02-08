@@ -38,11 +38,12 @@ AS BEGIN
 		[PostalCode] [varchar] (255) NULL,
 		[PhoneNumber] [varchar] (30) NULL,
 		[FaxNumber] [varchar] (30) NULL,
+		EmailAddress VARCHAR(155) NULL,
 		[ModifiedBy] [nvarchar] (202) NOT NULL
 	);
 
 
-	INSERT INTO [#Attorney] ([AttorneyId],[AttorneyName],[Address1],[Address2],[City],[StateName],[PostalCode],[PhoneNumber],[FaxNumber],[ModifiedBy])
+	INSERT INTO [#Attorney] ([AttorneyId],[AttorneyName],[Address1],[Address2],[City],[StateName],[PostalCode],[PhoneNumber],[FaxNumber],EmailAddress,[ModifiedBy])
     SELECT  [AttorneyId] = [a].[AttorneyID]
 		   ,[a].[AttorneyName]
 		   ,[a].[Address1]
@@ -52,6 +53,7 @@ AS BEGIN
 		   ,[a].[PostalCode]
 		   ,[a].[PhoneNumber]
 		   ,[a].[FaxNumber]
+		   ,a.[EmailAddress]
 		   ,[ModifiedBy] = [x].[FirstName] + ' ' + [x].[LastName]
 	FROM    [dbo].[Attorney] AS [a]
 			LEFT JOIN [dbo].[AspNetUsers] AS [x] ON [a].[ModifiedByUserID] = [x].[ID]
@@ -69,6 +71,7 @@ AS BEGIN
            ,[a].[PostalCode]
            ,[a].[PhoneNumber]
            ,[a].[FaxNumber]
+		   ,[a].[EmailAddress]
            ,[a].[ModifiedBy]
 	FROM    [#Attorney] AS [a]
 	ORDER BY CASE WHEN @SortColumn = 'AttorneyId' AND @SortDirection = 'ASC' THEN [a].[AttorneyId] END ASC,
@@ -89,11 +92,10 @@ AS BEGIN
 			 CASE WHEN @SortColumn = 'PhoneNumber' AND  @SortDirection = 'DESC' THEN [a].[PhoneNumber] END DESC,
 			 CASE WHEN @SortColumn = 'FaxNumber' AND @SortDirection = 'ASC' THEN [a].[FaxNumber] END ASC,
 			 CASE WHEN @SortColumn = 'FaxNumber' AND  @SortDirection = 'DESC' THEN [a].[FaxNumber] END DESC,
+			 CASE WHEN @SortColumn = 'EmailAddress' AND @SortDirection = 'ASC' THEN [a].[FaxNumber] END ASC,
+			 CASE WHEN @SortColumn = 'EmailAddress' AND  @SortDirection = 'DESC' THEN [a].[FaxNumber] END DESC,
 			 CASE WHEN @SortColumn = 'ModifiedBy' AND @SortDirection = 'ASC' THEN [a].[ModifiedBy] END ASC,
 			 CASE WHEN @SortColumn = 'ModifiedBy' AND  @SortDirection = 'DESC' THEN [a].[ModifiedBy] END DESC
 	 OFFSET @PageSize * (@PageNumber - 1) ROWS FETCH NEXT @PageSize ROWS ONLY;
 END
-
-
-
 GO

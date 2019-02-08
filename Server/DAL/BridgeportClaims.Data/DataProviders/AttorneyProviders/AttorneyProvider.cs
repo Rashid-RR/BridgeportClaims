@@ -36,7 +36,7 @@ namespace BridgeportClaims.Data.DataProviders.AttorneyProviders
             });
 
         public AttorneyResultDto InsertAttorney(string attorneyName, string address1, string address2, string city,
-            int? stateId, string postalCode, string phoneNumber, string faxNumber, string modifiedByUserId) =>
+            int? stateId, string postalCode, string phoneNumber, string faxNumber, string emailAddress, string modifiedByUserId) =>
             DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
                 const string sp = "[claims].[uspAttorneyInsert]";
@@ -53,6 +53,7 @@ namespace BridgeportClaims.Data.DataProviders.AttorneyProviders
                 ps.Add("@PostalCode", postalCode, DbType.AnsiString, size: 255);
                 ps.Add("@PhoneNumber", phoneNumber, DbType.AnsiString, size: 30);
                 ps.Add("@FaxNumber", faxNumber, DbType.AnsiString, size: 30);
+                ps.Add("@EmailAddress", emailAddress, DbType.AnsiString, size: 155);
                 ps.Add("@ModifiedByUserID", modifiedByUserId, DbType.String, size: 128);
                 var attorneyResult =
                     conn.Query<AttorneyResultDto>(sp, ps, commandType: CommandType.StoredProcedure)?.SingleOrDefault();
@@ -61,7 +62,7 @@ namespace BridgeportClaims.Data.DataProviders.AttorneyProviders
 
         public AttorneyResultDto UpdateAttorney(int attorneyId, string attorneyName, string address1,
             string address2, string city, int? stateId, string postalCode, string phoneNumber,
-            string faxNumber, string userId) => DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+            string faxNumber, string emailAddress, string userId) => DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
                 const string sp = "[claims].[uspAttorneyUpdate]";
                 if (conn.State != ConnectionState.Open)
@@ -78,6 +79,7 @@ namespace BridgeportClaims.Data.DataProviders.AttorneyProviders
                 ps.Add("@PostalCode", postalCode, DbType.AnsiString, size: 255);
                 ps.Add("@PhoneNumber", phoneNumber, DbType.AnsiString, size: 30);
                 ps.Add("@FaxNumber", faxNumber, DbType.AnsiString, size: 30);
+                ps.Add("@EmailAddress", emailAddress, DbType.AnsiString, size: 155);
                 ps.Add("@ModifiedByUserID", userId, DbType.String, size: 128);
                 var attorneyResult =
                     conn.Query<AttorneyResultDto>(sp, ps, commandType: CommandType.StoredProcedure)?.SingleOrDefault();
