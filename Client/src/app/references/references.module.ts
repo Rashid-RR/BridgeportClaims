@@ -8,6 +8,7 @@ import { ReferencesfilterComponent } from './referencesfilter/referencesfilter.c
 import { ReferencesGridComponent } from './references-grid/references-grid.component';
 import { MaterialComponentsModule } from '../material/material-components.module';
 import { ReferencesContainerComponent } from './references-container/references-container.component';
+import { EmailValidatorDirective } from '../directives/email-validator.directive';
 
 @NgModule({
   imports: [
@@ -20,8 +21,11 @@ import { ReferencesContainerComponent } from './references-container/references-
   declarations: [
     ReferencesContainerComponent,
     ReferencesfilterComponent,
-    ReferencesGridComponent
+    ReferencesGridComponent,
+    EmailValidatorDirective
   ],
-  providers: [CurrencyPipe, DecimalPipe]
+  providers: [CurrencyPipe, DecimalPipe],
+  exports: [EmailValidatorDirective]
 })
 export class ReferencesModule { }
+

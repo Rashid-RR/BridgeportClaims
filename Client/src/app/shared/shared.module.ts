@@ -70,7 +70,7 @@ export class SafeUrlPipe implements PipeTransform {
     ReactiveFormsModule,
     AutoCompleteModule,
     ShContextMenuModule,
-    SweetAlert2Module,    
+    SweetAlert2Module,
     TableSortDirective, ColumnSortDirective, TextSelectDirective,
     DisplayRolesPipe, ArraySortPipe, PhonePipe, EpisodesFilterPipe, SafeUrlPipe, SafeStylePipe, FilterUserPipe, DiariesFilterPipe,
     UnpaidScriptResultsComponent, UnpaidScriptSearchComponent,
