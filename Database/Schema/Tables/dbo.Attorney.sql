@@ -9,6 +9,7 @@ CREATE TABLE [dbo].[Attorney]
 [PostalCode] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [PhoneNumber] [varchar] (30) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [FaxNumber] [varchar] (30) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[EmailAddress] [varchar] (155) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [ModifiedByUserID] [nvarchar] (128) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 [CreatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfAttorneyCreatedOnUTC] DEFAULT (sysutcdatetime()),
 [UpdatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfAttorneyUpdatedOnUTC] DEFAULT (sysutcdatetime()),
