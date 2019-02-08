@@ -15,6 +15,7 @@ namespace BridgeportClaims.Data.Dtos
         public string PostalCode { get; set; }
         public string PhoneNumber { get; set; }
         public string FaxNumber { get; set; }
+        public string EmailAddress { get; set; }
         [Required]
         public string ModifiedBy { get; set; }
     }

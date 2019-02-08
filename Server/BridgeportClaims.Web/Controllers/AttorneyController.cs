@@ -71,9 +71,9 @@ namespace BridgeportClaims.Web.Controllers
                 {
                     stateId = null;
                 }
-                var userId = User.Identity.GetUserId();
+                var modifiedByUserId = User.Identity.GetUserId();
                 var attorney = _attorneyProvider.Value.InsertAttorney(model.AttorneyName, model.Address1,
-                    model.Address2, model.City, stateId, model.PostalCode, model.PhoneNumber, model.FaxNumber, userId);
+                    model.Address2, model.City, stateId, model.PostalCode, model.PhoneNumber, model.FaxNumber, model.EmailAddress, modifiedByUserId);
                 return Ok(attorney);
             }
             catch (Exception ex)
@@ -95,9 +95,9 @@ namespace BridgeportClaims.Web.Controllers
                 {
                     stateId = null;
                 }
-                var userId = User.Identity.GetUserId();
+                var modifiedByUserId = User.Identity.GetUserId();
                 var attorney = _attorneyProvider.Value.UpdateAttorney(model.AttorneyId, model.AttorneyName, model.Address1,
-                    model.Address2, model.City, stateId, model.PostalCode, model.PhoneNumber, model.FaxNumber, userId);
+                    model.Address2, model.City, stateId, model.PostalCode, model.PhoneNumber, model.FaxNumber, model.EmailAddress, modifiedByUserId);
                 return Ok(attorney);
             }
             catch (Exception ex)
