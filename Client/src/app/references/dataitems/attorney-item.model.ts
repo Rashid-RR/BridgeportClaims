@@ -8,5 +8,6 @@ export interface AttorneyItem {
     'postalCode': string;
     'phoneNumber': string;
     'faxNumber': string;
+    'emailAddress':string;
     'modifiedBy': string;
 }

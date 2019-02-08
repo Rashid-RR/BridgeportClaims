@@ -76,7 +76,8 @@ export class ReferenceManagerService {
       stateId: [null],
       postalCode: [null],
       phoneNumber: [null],
-      faxNumber: [null]
+      faxNumber: [null],
+      emailAddress: [null, Validators.compose([Validators.email])],
     });
     this.payorForm = this.formBuilder.group({
       payorId: [null],
@@ -266,6 +267,7 @@ export class ReferenceManagerService {
         this.attorneyForm.controls.postalCode.setValue(this.editedEntity.postalCode);
         this.attorneyForm.controls.phoneNumber.setValue(this.editedEntity.phoneNumber);
         this.attorneyForm.controls.faxNumber.setValue(this.editedEntity.faxNumber);
+        this.attorneyForm.controls.emailAddress.setValue(this.editedEntity.emailAddress);
         // Payors
       } else if (this.typeSelected === this.types[2]) {
         this.payorForm.controls.payorId.setValue(this.editedEntity.payorId);
