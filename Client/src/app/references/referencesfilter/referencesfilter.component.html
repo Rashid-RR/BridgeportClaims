@@ -118,8 +118,9 @@
           <section class="row">
             <section class="form-group col-sm-12">
               <label>Email:</label>
-              <input class="form-control" #email="ngModel" type="email" placeholder="Email" id="email" formControlName="emailAddress" tabindex="9" isEmail>
-              <p *ngIf="email.errors.isEmail">* Email must be valid</p>
+              <input class="form-control"  type="email" placeholder="Email" id="email" formControlName="emailAddress" tabindex="9">
+              <p class="text-danger form-control-static" *ngIf="rs.adjustorForm.get('emailAddress').errors && rs.adjustorForm.get('emailAddress').touched">
+                *Email must be valid</p>
             </section>
           </section>
           <section class="row">
