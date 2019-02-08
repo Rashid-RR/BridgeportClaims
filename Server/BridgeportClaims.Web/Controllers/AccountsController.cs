@@ -202,7 +202,9 @@ namespace BridgeportClaims.Web.Controllers
             try
             {
                 if (!ModelState.IsValid)
+                {
                     return GetBadRequestFormattedErrorMessages();
+                }
                 var user = new ApplicationUser
                 {
                     UserName = createUserModel.Username,
@@ -220,11 +222,12 @@ namespace BridgeportClaims.Web.Controllers
                 // Email
                 var code = await AppUserManager.GenerateEmailConfirmationTokenAsync(user.Id).ConfigureAwait(false);
                 // Generate link for the email.
-                var callbackUrl = GetCallbackUrlForEmail(EmailType.Registration, user.Id, code);
+                var callbackUrl = GetCallbackUrlForEmail(EmailType.Registration, user.Id, code.Base64ForUrlEncode());
                 // the line below can be uncommented, in place of the two lines above, to generate a link directly to the API.
                 // var callbackUrl = new Uri(Url.Link(c.ConfirmEmailRouteAction, new { userId = user.Id, code }));
                 // This is so wrong. We're using the Full Name for the Email Subject, and the Absolute Activation Uri for the Email body.
-                await AppUserManager.SendEmailAsync(user.Id, $"{user.FirstName} {user.LastName}",
+                var subject = $"{user.FirstName} {user.LastName}";
+                await AppUserManager.SendEmailAsync(user.Id, subject,
                     callbackUrl.AbsoluteUri).ConfigureAwait(false);
 
                 return Created(locationHeader, TheModelFactory.Create(user));
@@ -248,7 +251,8 @@ namespace BridgeportClaims.Web.Controllers
                     ModelState.AddModelError("", "User Id and Code are required");
                     return BadRequest(ModelState);
                 }
-                var result = await AppUserManager.ConfirmEmailAsync(userId, code).ConfigureAwait(false);
+                var token = code.Base64ForUrlDecode();
+                var result = await AppUserManager.ConfirmEmailAsync(userId, token).ConfigureAwait(false);
                 return result.Succeeded ? Ok() : GetErrorResult(result);
             }
             catch (Exception ex)
