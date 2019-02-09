@@ -51,7 +51,7 @@
               <th>
                   <span columnSort="noteCount" [sort-table]="myTable">Note Count</span>
               </th>
-              <th>&nbsp;</th>
+              <th style="width: 80px;">&nbsp;</th>
             </tr>
           </thead>
           <tbody>
@@ -102,10 +102,11 @@
                       </td>
                 <td>&nbsp;</td>
                 <td>
-                  <button type="button" class="btn btn-primary btn-xs" (click)="saveImage(image)" id="saveImageButton">
+
+                  <button type="button" class="btn btn-primary btn-xs min-width-75 height-30 mb-5" (click)="saveImage(image)" id="saveImageButton">
                     <span class="glyphicon glyphicon-edit"></span> Save
                   </button>
-                  <button type="button" class="btn btn-danger btn-xs" (click)="cancel()">
+                  <button type="button" class="btn btn-danger btn-xs min-width-75 height-30 mb-5" (click)="cancel()">
                     <span class="glyphicon glyphicon-trash"></span> Cancel
                   </button>
                 </td>
@@ -132,10 +133,10 @@
                     </span>
                 </td>
                 <td>
-                  <button type="button" class="btn btn-primary btn-xs" (click)="update(image)">
+                  <button type="button" class="btn btn-primary btn-xs min-width-75 height-30 mb-5" (click)="update(image)">
                     <span class="glyphicon glyphicon-edit"></span> Edit
                   </button>
-                  <button type="button" class="btn btn-danger bg-darkRed btn-xs" (click)="reindex(image)">
+                  <button type="button" class="btn btn-danger bg-darkRed btn-xs min-width-75 height-30 mb-5" (click)="reindex(image)">
                     <span class="glyphicon glyphicon-trash"></span> Reindex
                   </button>
                 </td>

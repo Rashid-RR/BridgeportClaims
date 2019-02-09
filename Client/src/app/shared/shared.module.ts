@@ -76,7 +76,7 @@ export class SafeUrlPipe implements PipeTransform {
     UnpaidScriptResultsComponent, UnpaidScriptSearchComponent,
     EpisodeNoteModalComponent, InvoiceSearchComponent,
     UnindexedImageFilterComponent, UnindexedImageListComponent, ScriptNoteWindowComponent,
-    TreeListGridComponent, TreeListFilterComponent, TreeListComponent
+    TreeListGridComponent, TreeListFilterComponent, TreeListComponent, MaterialComponentsModule
   ],
   entryComponents: [
     ConfirmComponent, BootstrapWindowContainer, WindowBackdrop, ScriptNoteWindowComponent,
