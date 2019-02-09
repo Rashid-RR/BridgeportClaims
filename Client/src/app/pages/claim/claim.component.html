@@ -477,13 +477,19 @@
 <swal #prescriptionStatusSwal [showCancelButton]="true" confirmButtonText="SAVE" cancelButtonText="CANCEL"
     [showConfirmButton]="true" customClass="claims-modal" [focusCancel]="false" title="Change Prescriptions status">
     <div *swalPartial>
-        <h3 style="font-size:24px">Change Prescriptions status</h3>
-        <div class="row search-container text-left" style="padding:15px">
-            <div class="col-sm-12 field">
-                <label> Prescriptions status</label>
-                <select class="form-control" aria-label="..." [(ngModel)]="statusId">
+        <h3 style="font-size:20px">Change Prescriptions status</h3>
+        <div class="row search-container text-left" style="padding:23px">
+            <div class="col-sm-12 field example-container">
+                <!-- <select class="form-control" aria-label="..." [(ngModel)]="statusId">
                     <option *ngFor="let status of claimManager.selectedClaim.prescriptionStatuses;" [ngValue]="status">{{status.statusName}}</option>
-                </select>
+                </select> -->
+                <mat-form-field>
+                        <mat-select placeholder="Select prescriptions status" [(ngModel)]="statusId">
+                          <mat-option *ngFor="let status of claimManager.selectedClaim.prescriptionStatuses" [value]="status">
+                            {{status.statusName}}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
             </div>
         </div>
     </div>

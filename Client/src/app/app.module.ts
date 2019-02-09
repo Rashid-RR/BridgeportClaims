@@ -25,6 +25,7 @@ import { Error404Component } from './pages/error404/error404.component';
 import { RoutingModule } from './app.routing';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { UnpaidScriptComponent } from './pages/unpaid-script/unpaid-script.component';
+import { MaterialComponentsModule } from './material/material-components.module';
 // services
 import {
   AccountReceivableService,
@@ -109,6 +110,7 @@ import { ReferenceManagerService } from './services/reference-manager.service';
     HttpClientModule,
     RoutingModule,
     FileUploadModule,
+    MaterialComponentsModule,
     NgxWebstorageModule.forRoot(),
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-center',

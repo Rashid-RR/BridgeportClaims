@@ -353,3 +353,12 @@ li button{
   padding: 0px 19px !important;
   background-color: white;
 }
+
+.example-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.example-container > * {
+  width: 100%;
+}
