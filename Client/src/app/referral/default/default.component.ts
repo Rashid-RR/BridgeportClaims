@@ -26,7 +26,6 @@ export class ReferralDefaultComponent implements OnInit, AfterViewInit {
     private dp: DatePipe,
     private formBuilder: FormBuilder,
     private http: HttpService,
-    private router: Router,
     private toast: ToastrService
   ) {
     this.form = this.formBuilder.group({
@@ -66,15 +65,15 @@ export class ReferralDefaultComponent implements OnInit, AfterViewInit {
         this.form.controls.eligibilityStart.setValue(ev.target.value);
       });
     $('#eligibilityEnd').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' })
-      .on('change', (ev) => {
+      .on('change', (ev: { target: { value: any; }; }) => {
         this.form.controls.eligibilityEnd.setValue(ev.target.value);
       });
     $('#dateOfBirth').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' })
-      .on('change', (ev) => {
+      .on('change', (ev: { target: { value: any; }; }) => {
         this.form.controls.dateOfBirth.setValue(ev.target.value);
       });
     $('#injuryDate').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' })
-      .on('change', (ev) => {
+      .on('change', (ev: { target: { value: any; }; }) => {
         this.form.controls.injuryDate.setValue(ev.target.value);
       });
     $('#patientPhone').inputmask().on('change', (ev) => {
@@ -126,7 +125,5 @@ export class ReferralDefaultComponent implements OnInit, AfterViewInit {
       this.submitted = false;
       this.toast.warning('Invalid field value(s). Please correct to proceed.');
     }
-
   }
-
 }

@@ -43,8 +43,7 @@ export class UsersComponent implements OnInit {
     private http: HttpService,
     private formBuilder: FormBuilder,
     private dialogService: DialogService,
-    private toast: ToastrService,
-    private zone: NgZone
+    private toast: ToastrService
   ) {
     this.form = this.formBuilder.group({
       userName: [null],
@@ -360,8 +359,7 @@ export class UsersComponent implements OnInit {
     }
   }
 
-  filterUsers(query) {
-
+  filterUsers(query: string) {
     if (query !== '') {
       this.allUsers = this.tempAllUsers.filter(x => x.carrier.toLocaleLowerCase().includes(query.toLocaleLowerCase()));
     } else {
