@@ -31,7 +31,7 @@ namespace BridgeportClaims.Data.DataProviders.DecisionTrees
                 return guid;
             });
 
-        public void DecisionTreeUserPathInsert(string sessionId, int parentTreeId, int selectedTreeId, string userId)
+        public void DecisionTreeUserPathInsert(Guid sessionId, int parentTreeId, int selectedTreeId, string userId)
             => DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
                 const string sp = "[dbo].[uspDecisionTreeUserPathInsert]";

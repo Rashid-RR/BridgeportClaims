@@ -55,7 +55,8 @@ namespace BridgeportClaims.Web.Controllers
                 {
                     _memoryCacher.Value.AddOrGetExisting(sessionId, () => new Tuple<int, int>(parentTreeId, selectedTreeId));
                 }
-                _decisionTreeDataProvider.Value.DecisionTreeUserPathInsert(sessionId, parentTreeId, selectedTreeId, userId);
+                var sessionGuid = new Guid(sessionId);
+                _decisionTreeDataProvider.Value.DecisionTreeUserPathInsert(sessionGuid, parentTreeId, selectedTreeId, userId);
                 return Ok(new { message = "Tree selection made successfully." });
             }
             catch (Exception ex)
