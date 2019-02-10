@@ -1,6 +1,5 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { HttpService } from '../../services/http-service';
 import { ToastrService } from 'ngx-toastr';
 import { DatePipe } from '@angular/common';
