@@ -876,3 +876,52 @@ div.toast, #toast-container {
 svg text tspan{
   font-size:12px !important;
 }
+
+.mr-10 {
+  margin-right: 10px  !important;
+}
+.min-width-75{
+  min-width: 75px;
+}
+.height-30 {
+  height: 30px;
+}
+.height-35 {
+  height: 35px;
+}
+.height-25 {
+  height: 25px;
+}
+.min-width-100 {
+  min-width: 100px;
+}
+.min-height-35 {
+  min-height: 35px;
+}
+.fsize-1em{
+  font-size: 1em;
+}
+.bg-transparent {
+  background: transparent  !important;
+}
+.bg-transparent:hover, .bg-transparent:active, .bg-transparent:focus{
+  background: rgba(0,0,0,0.1) !important;
+}
+.border-white, .border-white:hover,.border-white:focus, .border-white:active {
+  border: 1px solid white;
+}
+.b-radius-3 {
+  border-radius: 3px !important;
+}
+.fsize-15{
+  font-size: 15px;
+}
+.mb-5 {
+  margin-bottom: 5px !important;
+}
+button.mat-button.mat-primary {
+  border: 1px solid #3f51b5;
+}
+button.mat-button.mat-warn {
+  border: 1px solid #f44336;
+}

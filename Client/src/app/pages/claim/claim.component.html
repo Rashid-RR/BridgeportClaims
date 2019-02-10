@@ -188,17 +188,17 @@
                                     </span>
                                 </span>
                                 <div class="pull-right" style="display:flex;" *ngIf="claimManager.selectedClaim && !claimManager.selectedClaim.editing">
-                                    <button type="button" class="btn btn-flat bg-darkblue btn-sm no-padding" (click)="addNote()"
+                                    <button type="button" class="btn btn-primary btn-xs min-width-75 height-25 bg-transparent border-white b-radius-3 fsize-15 mr-10" (click)="addNote()"
                                         *ngIf="!claimManager.selectedClaim.claimNotes" title="Add Note">
-                                        <img src="assets/img/add.png" class="add-btn" style="cursor:pointer;" />
+                                        <span class="fa fa-plus fsize-1em"></span> Add
                                     </button>
-                                    <button type="button" class="btn btn-flat bg-darkblue btn-sm no-padding" (click)="addNote(claimManager.selectedClaim.claimNote.noteText,claimManager.selectedClaim.claimNote.noteType)"
+                                    <button type="button" class="btn btn-primary btn-xs min-width-75 height-25 bg-transparent border-white b-radius-3 fsize-15 mr-10" (click)="addNote(claimManager.selectedClaim.claimNote.noteText,claimManager.selectedClaim.claimNote.noteType)"
                                         *ngIf="claimManager.selectedClaim.claimNotes" title="Edit Note">
-                                        <img src="assets/img/edit.png" class="add-btn" />
+                                        <span class="fa fa-pencil fsize-1em"></span> Edit
                                     </button>
-                                    <button type="button" class="btn btn-flat delete-btn btn-sm no-padding" (click)="deleteNote()"
+                                    <button type="button" class="btn btn-primary btn-xs min-width-75 height-25 bg-transparent border-white b-radius-3 fsize-15" (click)="deleteNote()"
                                         *ngIf="claimManager.selectedClaim.claimNotes">
-                                        <i class="fa fa-trash"></i> Delete Note
+                                        <i class="fa fa-trash fsize-1em"></i> Delete Note
                                     </button>
                                     <button type="button" *ngIf="expanded" class="transparent btn btn-flat bg-grey btn-sm pull-right"
                                         (click)="minimize('notes')" title="Minimize">
@@ -229,12 +229,16 @@
                                     </span>
                                 </span>
                                 <div class="box-tools pull-right">
-                                    <div class="btn-group" data-toggle="btn-toggle">
+                                    <button type="button" class="btn btn-primary btn-xs min-width-75 height-25 bg-transparent border-white b-radius-3 fsize-15" (click)="deleteNote()"
+                                        *ngIf="claimManager.selectedClaim.claimNotes">
+                                        <i class="fa fa-plus fsize-1em"></i> Add Episode
+                                    </button>
+                                    <!-- <div class="btn-group" data-toggle="btn-toggle">
                                         <button type="button" class="btn btn-flat bg-darkblue btn-sm no-padding" title="New Episode"
                                             (click)="episode()">
                                             <img src="assets/Episode.png" class="add-btn" />
                                         </button>
-                                    </div>
+                                    </div> -->
                                     <button type="button" *ngIf="expanded" class="transparent btn btn-flat bg-grey btn-sm pull-right"
                                         (click)="minimize('episodes')" title="Minimize">
                                         <i class="fa fa-minus"></i>
@@ -287,17 +291,15 @@
                                 </span>
                                 <div class="box-tools pull-right">
                                     <div class="btn-group" data-toggle="btn-toggle">
-                                        <button class="btn btn-flat btn-sm bg-vdarkgrey grey1 no-padding" type="button"
-                                            (click)="updateStatus()">
+                                        <button type="button" class="btn btn-primary btn-xs min-width-75 height-25 bg-transparent border-white b-radius-3 fsize-15 mr-10" (click)="updateStatus()">
                                             Change Statuses
                                         </button>
-                                        <button class="btn btn-flat btn-sm bg-vdarkgrey no-padding" type="button"
-                                            (click)="addPrescriptionNote('prescriptions')">
-                                            <img src="assets/img/add.png" class="add-btn" />
+                                        <button type="button" class="btn btn-primary btn-xs min-width-75 height-25 bg-transparent border-white b-radius-3 fsize-15 mr-10" (click)="addPrescriptionNote('prescriptions')">
+                                            <i class="fa fa-plus fsize-1em"></i> Add Note
                                         </button>
-                                        <button style="display: none;" class="btn btn-flat btn-sm bg-vdarkgrey no-padding"
-                                            type="button" (click)="exportPDF()">
-                                            <img src="assets/B-2.png" class="add-btn" />
+                                        <button style="display: none;" class="btn btn-primary btn-xs min-width-75 height-25 bg-transparent border-white b-radius-3 fsize-15 mr-10"
+                                          type="button" (click)="exportPDF()">
+                                          <i class="fa fa-list-alt fsize-1em"></i> Report
                                         </button>
                                     </div>
                                     <button type="button" *ngIf="expanded" class="transparent btn btn-flat bg-grey btn-sm"
@@ -375,9 +377,9 @@
                                     </span>
                                 </span>
                                 <div class="box-tools pull-right">
-                                    <button class="btn btn-flat btn-sm bg-vdarkgrey no-padding outstanding" type="button"
-                                        (click)="addPrescriptionNote('outstanding')">
-                                        <img src="assets/img/add.png" class="add-btn" />
+
+                                    <button type="button" class="btn btn-primary btn-xs min-width-75 height-25 bg-transparent border-white b-radius-3 fsize-15 mr-10" (click)="addPrescriptionNote('outstanding')">
+                                        <i class="fa fa-plus fsize-1em"></i> Add Note
                                     </button>
                                     <button type="button" *ngIf="expanded" class="transparent btn btn-flat bg-grey btn-sm"
                                         (click)="minimize('outstanding')" title="Minimize">

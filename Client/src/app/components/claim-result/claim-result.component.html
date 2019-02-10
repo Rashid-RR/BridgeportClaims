@@ -212,13 +212,13 @@
                 </address>
             </div>
             <span class="buttons edit">
-                <button *ngIf="!editing" type="button" class="btn btn-primary btn-xs" (click)="edit()">
+                <button *ngIf="!editing" mat-button type="button" color="primary" class="btn btn-xs min-width-75 height-30" (click)="edit()">
                     <span class="glyphicon glyphicon-edit"></span> Edit
                 </button>
-                <button *ngIf="editing" type="button" class="btn btn-primary btn-xs" (click)="save()">
+                <button *ngIf="editing" mat-button type="button" color="primary" class="btn btn-xs mr-10 min-width-75 height-30" (click)="save()">
                     <span class="glyphicon glyphicon-edit"></span> Save
                 </button>
-                <button *ngIf="editing" type="button" class="btn bg-darkRed btn-xs" (click)="editing=false">
+                <button *ngIf="editing" mat-button type="button" color="warn" class="btn btn-xs min-width-75 height-30" (click)="editing=false">
                     <span class="glyphicon glyphicon-trash"></span> Cancel
                 </button>
             </span>

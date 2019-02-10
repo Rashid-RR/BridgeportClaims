@@ -75,5 +75,4 @@ export class ClaimSearchComponent implements OnInit {
       invoiceNumber: null
     });
   }
-
 }

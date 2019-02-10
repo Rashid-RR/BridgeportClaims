@@ -24,7 +24,7 @@
                 <span columnSort="invoiceNumber" [sort-table]="myTable"> Inv Num</span>
               </th>
               <th *ngIf="allowed">
-                &nbsp;                
+                &nbsp;
               </th>
             </tr>
           </thead>
@@ -93,10 +93,10 @@
                   <td (click)="showDocument(pay)">{{pay.rxDate | date:"shortDate"}}</td>
                   <td (click)="showDocument(pay)">{{pay.invoiceNumber}}</td>
                   <td *ngIf="allowed">
-                    <button type="button" class="btn btn-primary btn-xs" (click)="update(pay)">
+                    <button type="button" class="btn btn-primary btn-xs min-width-75 height-30 mb-5 mr-10" (click)="update(pay)">
                         <span class="glyphicon glyphicon-edit"></span> Edit
                     </button>
-                    <button type="button" class="btn btn-danger bg-darkRed btn-xs" (click)="del(pay)">
+                    <button type="button" class="btn btn-danger bg-darkRed btn-xs min-width-75 height-30 mb-5 mr-10" (click)="del(pay)">
                         <span class="glyphicon glyphicon-trash"></span> Delete
                     </button>
                   </td>
