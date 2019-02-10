@@ -53,7 +53,7 @@ export class PasswordResetComponent implements OnInit {
     if (this.form.valid) {
       try {
         this.http.forgotpassword(this.form.value).subscribe(res => {
-          this.toast.success('An email has been sent for you to reset your password.');
+          this.toast.success('An email was sent to the one that you provided allowing you to reset your password.');
           this.router.navigate(['/login']);
 
         }, (error) => {
