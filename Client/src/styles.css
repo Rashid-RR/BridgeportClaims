@@ -925,3 +925,21 @@ button.mat-button.mat-primary {
 button.mat-button.mat-warn {
   border: 1px solid #f44336;
 }
+.button-icon-fix {
+  position: relative;
+  top: -2px;
+}
+.mat-fab.mat-primary, .mat-flat-button.mat-primary, .mat-mini-fab.mat-primary, .mat-raised-button.mat-primary {
+  background-color: #367fa9;
+}
+.mat-fab.mat-warn, .mat-flat-button.mat-warn, .mat-mini-fab.mat-warn, .mat-raised-button.mat-warn {
+  background-color: #992727;
+}
+.button-icon2-fix {
+  position: relative;
+  top: 1px;
+}
+.button-icon3-fix {
+  position: relative;
+  top: 2px;
+}

@@ -190,15 +190,15 @@
                                 <div class="pull-right" style="display:flex;" *ngIf="claimManager.selectedClaim && !claimManager.selectedClaim.editing">
                                     <button type="button" class="btn btn-primary btn-xs min-width-75 height-25 bg-transparent border-white b-radius-3 fsize-15 mr-10" (click)="addNote()"
                                         *ngIf="!claimManager.selectedClaim.claimNotes" title="Add Note">
-                                        <span class="fa fa-plus fsize-1em"></span> Add
+                                        <span class="fa fa-plus fsize-1em button-icon2-fix"></span> Add
                                     </button>
                                     <button type="button" class="btn btn-primary btn-xs min-width-75 height-25 bg-transparent border-white b-radius-3 fsize-15 mr-10" (click)="addNote(claimManager.selectedClaim.claimNote.noteText,claimManager.selectedClaim.claimNote.noteType)"
                                         *ngIf="claimManager.selectedClaim.claimNotes" title="Edit Note">
-                                        <span class="fa fa-pencil fsize-1em"></span> Edit
+                                        <span class="fa fa-pencil fsize-1em button-icon2-fix"></span> Edit
                                     </button>
                                     <button type="button" class="btn btn-primary btn-xs min-width-75 height-25 bg-transparent border-white b-radius-3 fsize-15" (click)="deleteNote()"
                                         *ngIf="claimManager.selectedClaim.claimNotes">
-                                        <i class="fa fa-trash fsize-1em"></i> Delete Note
+                                        <i class="fa fa-trash fsize-1em button-icon2-fix"></i> Delete Note
                                     </button>
                                     <button type="button" *ngIf="expanded" class="transparent btn btn-flat bg-grey btn-sm pull-right"
                                         (click)="minimize('notes')" title="Minimize">
@@ -231,7 +231,7 @@
                                 <div class="box-tools pull-right">
                                     <button type="button" class="btn btn-primary btn-xs min-width-75 height-25 bg-transparent border-white b-radius-3 fsize-15" (click)="deleteNote()"
                                         *ngIf="claimManager.selectedClaim.claimNotes">
-                                        <i class="fa fa-plus fsize-1em"></i> Add Episode
+                                        <i class="fa fa-plus fsize-1em button-icon2-fix"></i> Add Episode
                                     </button>
                                     <!-- <div class="btn-group" data-toggle="btn-toggle">
                                         <button type="button" class="btn btn-flat bg-darkblue btn-sm no-padding" title="New Episode"
@@ -295,11 +295,11 @@
                                             Change Statuses
                                         </button>
                                         <button type="button" class="btn btn-primary btn-xs min-width-75 height-25 bg-transparent border-white b-radius-3 fsize-15 mr-10" (click)="addPrescriptionNote('prescriptions')">
-                                            <i class="fa fa-plus fsize-1em"></i> Add Note
+                                            <i class="fa fa-plus fsize-1em button-icon2-fix"></i> Add Note
                                         </button>
                                         <button style="display: none;" class="btn btn-primary btn-xs min-width-75 height-25 bg-transparent border-white b-radius-3 fsize-15 mr-10"
                                           type="button" (click)="exportPDF()">
-                                          <i class="fa fa-list-alt fsize-1em"></i> Report
+                                          <i class="fa fa-list-alt fsize-1em button-icon2-fix"></i> Report
                                         </button>
                                     </div>
                                     <button type="button" *ngIf="expanded" class="transparent btn btn-flat bg-grey btn-sm"
@@ -379,7 +379,7 @@
                                 <div class="box-tools pull-right">
 
                                     <button type="button" class="btn btn-primary btn-xs min-width-75 height-25 bg-transparent border-white b-radius-3 fsize-15 mr-10" (click)="addPrescriptionNote('outstanding')">
-                                        <i class="fa fa-plus fsize-1em"></i> Add Note
+                                        <i class="fa fa-plus fsize-1em button-icon2-fix"></i> Add Note
                                     </button>
                                     <button type="button" *ngIf="expanded" class="transparent btn btn-flat bg-grey btn-sm"
                                         (click)="minimize('outstanding')" title="Minimize">
