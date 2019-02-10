@@ -39,9 +39,6 @@ export class ClaimSearchComponent implements OnInit {
     this.events.on('refresh-claims', () => {
       this.refresh();
     });
-    // setTimeout(function() {
-    //   this.claimManager.search('0309094012');
-    // }, 2000);
   }
 
   textChange(controlName: string) {
@@ -78,5 +75,4 @@ export class ClaimSearchComponent implements OnInit {
       invoiceNumber: null
     });
   }
-
 }
