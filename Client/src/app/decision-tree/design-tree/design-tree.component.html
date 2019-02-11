@@ -38,7 +38,7 @@
                 <span class="blade-title panel-head">
                   <i class="fa fa-pencil" aria-hidden="true"></i> Design
                 </span>
-                <div class="box-tools pull-right" *ngIf="allowed">
+                <div class="box-tools pull-right"  [hidden]="claimId">
                   <img [src]="over[0] ? 'assets/img/decision-tree.png' : 'assets/img/decision-tree-hover.png'"
                     (mouseover)="over[0] = true" (mouseout)="over[0] = false" height="55px" class="pull-left" style="cursor: pointer;margin-top: -15px;"
                     title="Create a New Tree" (click)="ds.createUpdateNode()">
