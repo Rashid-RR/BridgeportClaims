@@ -62,7 +62,6 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
   }
 
   public valueMapper = (key) => {
-    console.log('When are we binding?', key);
     const selection = this.rs.states.find(x => x.stateName === key);
     if (selection) {
       return selection.stateName;

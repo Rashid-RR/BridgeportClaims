@@ -29,8 +29,7 @@ export class TreeAuthGuard implements CanActivate {
       && this.profileManager.profile.roles.indexOf('Admin') > -1);
   }
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-    this.returnURL = state.url;
-    console.log(route.url);
+    this.returnURL = state.url; 
     return of(this.userIsAdmin).
       pipe(map(e => {
         if (e) {
