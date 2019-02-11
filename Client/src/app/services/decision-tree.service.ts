@@ -143,10 +143,10 @@ export class DecisionTreeService {
       }
     });
     d.children = children;
-    this.update(d);
     if (d.parent) {
       this.deleteNonTraversedPath(d.parent, d.id)
     }
+    this.update(d);
   }
   setDescription(d) {
     let title = `Select ${d.data.nodeName}`,
@@ -162,8 +162,7 @@ export class DecisionTreeService {
       if (result.value) {
         this.toast.info("Ready to save the node descritption")
         d.data.nodeDescription = result.value;
-        let content = `${d.data.nodeName} ${(d.data.nodeDescription ? '<br><br><u>Description:</u><br> ' + d.data.nodeDescription : '')}`;
-        console.log(content);
+        let content = `${d.data.nodeName} ${(d.data.nodeDescription ? '<br><br><u>Description:</u><br> ' + d.data.nodeDescription : '')}`;        
         $(`#tree_node${d.id}`).tooltipster('content',content)
       }
     }).catch(swal.noop);
@@ -181,10 +180,12 @@ export class DecisionTreeService {
           d.children = d._children;
           d._children = null;
         }
+        d.data.picked = true
         this.update(d);
         if (d.parent) {
           this.deleteNonTraversedPath(d.parent, d.id)
         }
+        $(`#tree_node${d.id} circle`).addClass('tracked');
         this.loading = false;
       }, err => {
         this.loading = false;
@@ -404,7 +405,10 @@ export class DecisionTreeService {
 
     // Add Circle for the nodes
     nodeEnter.append('circle')
-      .attr('class', 'node')
+      .attr('class', (d) => {
+        let tracked = d.data.picked ? ' tracked':'';
+        return `node${tracked}`;
+      })
       .attr('r', 1e-6)
       .style("fill", (d) => {
         return d._children ? "lightsteelblue" : "#fff";

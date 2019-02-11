@@ -860,6 +860,11 @@ div.toast, #toast-container {
   stroke: steelblue;
   stroke-width: 3px;
 }
+.node circle.tracked {
+  fill: #fff;
+  stroke: #832121;
+  stroke-width: 3px;
+}
 
 .node text { font: 12px sans-serif !important; }
 
