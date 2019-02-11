@@ -1378,8 +1378,8 @@ export class HttpService {
       );
     return s;
   }
-  chooseTreePath(sessionId:string,parentTreeId: string,selectedTreeId: string): Observable<any> {
-    const s = this.http.post(this.baseUrl + `/trees/choose-tree-path/?sessionId=${sessionId}&parentTreeId=${parentTreeId}&selectedTreeId=${selectedTreeId}`,{})
+  chooseTreePath(sessionId:string,parentTreeId: string,selectedTreeId: string,nodeDescription?: string): Observable<any> {
+    const s = this.http.post(this.baseUrl + `/trees/choose-tree-path`,{sessionId:sessionId,parentTreeId:parentTreeId,selectedTreeId:selectedTreeId,nodeDescription :(nodeDescription||null)})
       .pipe(
         tap(_ => { }, error => {
           this.handleResponseError(error);

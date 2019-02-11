@@ -36,7 +36,8 @@ export class DecisionTreeService {
   depth: number = 930;
   totalRowCount: number;
   display: string = 'list';
-  constructor(private activatedRoute: ActivatedRoute, private profileManager: ProfileManager, private router: Router, private http: HttpService, private toast: ToastrService) {
+  activeToastId: number;
+  constructor(private profileManager: ProfileManager, private router: Router, private http: HttpService, private toast: ToastrService) {
     this.data = {
       "searchText": null,
       "sort": "treeLevel",
@@ -160,22 +161,41 @@ export class DecisionTreeService {
       cancelButtonText: 'Cancel'
     }).then((result) => {
       if (result.value) {
-        this.toast.info("Ready to save the node descritption")
         d.data.nodeDescription = result.value;
-        let content = `${d.data.nodeName} ${(d.data.nodeDescription ? '<br><br><u>Description:</u><br> ' + d.data.nodeDescription : '')}`;        
-        $(`#tree_node${d.id}`).tooltipster('content',content)
+        let content = `${d.data.nodeName} ${(d.data.nodeDescription ? '<br><br><u>Description:</u><br> ' + d.data.nodeDescription : '')}`;
+        $(`#tree_node${d.id}`).tooltipster('content', content);
+        this.callTreePathApi(d, result.value);
+      } else if (result.dismiss) {
+        const toast = this.toast.toasts.find(t => t.toastId === this.activeToastId);
+        if (toast) {
+          toast.toastRef.close();
+        }
+      } else if (!result.dismiss) {
+        const toast = this.toast.toasts.find(t => t.toastId === this.activeToastId);
+        if (toast) {
+          toast.message = 'Please provide some description';
+        } else {
+          this.activeToastId = this.toast.info('Please provide some description', null,
+            { timeOut: 10000 }).toastId;
+        }
+        this.setDescription(d);
       }
     }).catch(swal.noop);
 
   }
   selectNode(d): any {
+    if (!d.children && !d._children) {
+      this.setDescription(d);
+    } else {
+      this.callTreePathApi(d);
+    }
+
+  }
+  callTreePathApi(d, newNodeDescription?: string) {
     this.loading = true;
-    this.http.chooseTreePath(this.sessionId, d.parent.data.treeId, d.data.treeId)
+    this.http.chooseTreePath(this.sessionId, d.parent.data.treeId, d.data.treeId, newNodeDescription)
       .subscribe((resp: any) => {
         this.toast.success(resp.message)
-        if (!d.children && !d._children) {
-          this.setDescription(d);
-        }
         if (!d.children) {
           d.children = d._children;
           d._children = null;
@@ -193,7 +213,6 @@ export class DecisionTreeService {
           const error = err.error;
         } catch (e) { }
       });
-
   }
   treeNodeItems(n): any {
     let items: any = {}
@@ -406,7 +425,7 @@ export class DecisionTreeService {
     // Add Circle for the nodes
     nodeEnter.append('circle')
       .attr('class', (d) => {
-        let tracked = d.data.picked ? ' tracked':'';
+        let tracked = d.data.picked ? ' tracked' : '';
         return `node${tracked}`;
       })
       .attr('r', 1e-6)
