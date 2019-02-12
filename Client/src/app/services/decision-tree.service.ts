@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from './http-service';
 import { ToastrService } from 'ngx-toastr';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
+import {filter} from "rxjs/operators";
 import * as Immutable from 'immutable';
 import { SortColumnInfo } from '../directives/table-sort.directive';
 import { ITreeNode } from '../decision-tree/tree-node';
@@ -45,6 +46,15 @@ export class DecisionTreeService {
       "page": 1,
       "pageSize": 30
     };
+
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe((e:NavigationEnd)=>{
+      if(e.url.indexOf('/main/decision-tree')==-1){
+        $.contextMenu('destroy');
+        this.toast.clear();
+      }
+    })
 
   }
   get treeDepth() {
