@@ -1,0 +1,51 @@
+<mat-dialog-actions align="end">
+  <label style="font-size: 30px; cursor: pointer" (click)="onNoClick()"  mat-dialog-close>x</label>
+</mat-dialog-actions>
+
+<mat-dialog-content class="mat-typography" style="margin-top: 5vh">
+  <div class="row">
+    <div class="col-lg-6">
+      <div class="row">
+        <div class="col-lg-6">
+          <h5 class="font-bold">Group name: </h5>
+          <h5  class="font-bold">Bill to name: </h5>
+          <h5  class="font-bold">Bill address: </h5>
+          <h5  class="font-bold">Bill to city: </h5>
+          <h5  class="font-bold">State: </h5>
+          <h5  class="font-bold">Bill to postal code: </h5>
+
+        </div>
+        <div class="col-lg-6">
+          <p> {{claimManager.payorData?.groupName}}</p>
+          <p> {{claimManager.payorData?.billToName}}</p>
+          <p> {{claimManager.payorData?.billToAddress1}}</p>
+          <p> {{claimManager.payorData?.billToCity}}</p>
+          <p> {{claimManager.payorData?.state}}</p>
+          <p> {{claimManager.payorData?.billToPostalCode}}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6">
+      <div class="row">
+        <div class="col-lg-6">
+          <h5  class="font-bold">Phone number: </h5>
+          <h5  class="font-bold">Alternate phone number: </h5>
+          <h5  class="font-bold">Fax number: </h5>
+          <h5  class="font-bold">Notes: </h5>
+          <h5  class="font-bold">Contact: </h5>
+          <h5  class="font-bold">Letter name: </h5>
+
+        </div>
+        <div class="col-lg-6">
+          <p> {{claimManager.payorData?.phoneNumber}}</p>
+          <p> {{claimManager.payorData?.alternatePhoneNumber}}</p>
+          <p> {{claimManager.payorData?.faxNumber}}</p>
+          <p> {{claimManager.payorData?.notes}}</p>
+          <p> {{claimManager.payorData?.contact}}</p>
+          <p> {{claimManager.payorData?.letterName}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>
+

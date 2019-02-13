@@ -80,6 +80,7 @@ import { OutstandingResultComponent } from './components/outstanding-result/outs
 import { ClaimOutstandingComponent } from './components/claim-outstanding/claim-outstanding.component';
 import { StringService } from './services/string.service';
 import { ReferenceManagerService } from './services/reference-manager.service';
+import { CarrierModalComponent } from './components/carrier-modal/carrier-modal.component';
 
 
 @NgModule({
@@ -102,6 +103,7 @@ import { ReferenceManagerService } from './services/reference-manager.service';
     EpisodeResultsComponent, EpisodeFilterComponent, NewEpisodeComponent, FirewallSettingsComponent, FirewallFilterComponent,
     FirewallGridComponent, AcquireEpisodeComponent, TestComponent, OutstandingFilterComponent, OutstandingResultComponent,
     ClaimOutstandingComponent,
+    CarrierModalComponent,
   ],
   imports: [
     BrowserModule,
@@ -133,6 +135,7 @@ import { ReferenceManagerService } from './services/reference-manager.service';
   ],
   entryComponents: [
     UnindexedImageFileComponent,
+    CarrierModalComponent,
     /* ConfirmComponent, BootstrapWindowContainer, WindowBackdrop, ScriptNoteWindowComponent,EpisodeNoteModalComponent,*/ AppComponent
   ],
   bootstrap: [AppComponent]
