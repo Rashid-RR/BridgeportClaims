@@ -1,26 +1,26 @@
 <mat-dialog-actions align="end">
   <label (click)="onNoClick()" mat-dialog-close style="font-size: 30px; cursor: pointer">x</label>
 </mat-dialog-actions>
-
 <mat-dialog-content class="mat-typography" style="margin-top: 5vh">
+    <h1>Group Name - {{claimManager.payorData?.groupName}}</h1>
   <div class="row">
     <div class="col-lg-6">
       <div class="row">
         <div class="col-lg-6">
-          <h5 class="font-bold">Group name: </h5>
-          <h5 class="font-bold">Bill to name: </h5>
+          <h5 class="font-bold">Group Name: </h5>
+          <h5 class="font-bold">Bill To : </h5>
           <h5 class="font-bold">Address 1: </h5>
-          <h5 class="font-bold" *ngIf="claimManager.payorData?.billToAddress2">Address 2: </h5>
-          <h5 class="font-bold">Bill to city: </h5>
+          <h5 class="font-bold">Address 2: </h5>
+          <h5 class="font-bold">City: </h5>
           <h5 class="font-bold">State: </h5>
-          <h5 class="font-bold">Postal code: </h5>
+          <h5 class="font-bold">Zip: </h5>
 
         </div>
         <div class="col-lg-6">
           <p> {{claimManager.payorData?.groupName}}</p>
           <p> {{claimManager.payorData?.billToName}}</p>
           <p> {{claimManager.payorData?.billToAddress1}}</p>
-          <p *ngIf="claimManager.payorData?.billToAddress2"> {{claimManager.payorData?.billToAddress2}}</p>
+          <p> {{claimManager.payorData?.billToAddress2}}</p>
           <p> {{claimManager.payorData?.billToCity}}</p>
           <p> {{claimManager.payorData?.state}}</p>
           <p> {{claimManager.payorData?.billToPostalCode}}</p>
