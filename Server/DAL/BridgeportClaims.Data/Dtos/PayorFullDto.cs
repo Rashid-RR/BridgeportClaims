@@ -9,6 +9,9 @@ namespace BridgeportClaims.Data.Dtos
         public int PayorId { get; set; }
         [Required]
         [StringLength(255)]
+        public string GroupName { get; set; }
+        [StringLength(255)]
+        [Required]
         public string BillToName { get; set; }
         [StringLength(255)]
         public string BillToAddress1 { get; set; }
@@ -30,6 +33,8 @@ namespace BridgeportClaims.Data.Dtos
         public string Notes { get; set; }
         [StringLength(255)]
         public string Contact { get; set; }
+        [Required]
+        public string LetterName { get; set; }
         [Required]
         public DateTime CreatedOn { get; set; }
         [Required]

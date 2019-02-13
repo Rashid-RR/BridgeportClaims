@@ -119,5 +119,19 @@ namespace BridgeportClaims.Data.DataProviders.DecisionTrees
                 conn.Execute(sp, ps, commandType: CommandType.StoredProcedure);
                 return ps.Get<int>(rowCount);
             });
+
+        public void DecisionTreeHeaderDelete(string sessionId, int claimId) =>
+            DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+            {
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                }
+                const string sp = "[dbo].[uspDecisionTreeHeaderDelete]";
+                var ps = new DynamicParameters();
+                ps.Add("@SessionID", sessionId, DbType.Guid);
+                ps.Add("@ClaimID", claimId, DbType.Int32);
+                conn.Execute(sp, ps, commandType: CommandType.StoredProcedure);
+            });
     }
 }

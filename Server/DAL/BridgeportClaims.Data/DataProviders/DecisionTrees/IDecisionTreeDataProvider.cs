@@ -13,6 +13,7 @@ namespace BridgeportClaims.Data.DataProviders.DecisionTrees
         DecisionTreeListDto GetDecisionTreeList(string searchText, string sort, string sortDirection, int page,
             int pageSize);
         int DeleteDecisionTree(int treeId);
+        void DecisionTreeHeaderDelete(string modelSessionId, int modelClaimId);
     };
   
 }
