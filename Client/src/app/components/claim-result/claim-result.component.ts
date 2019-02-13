@@ -551,8 +551,6 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
     this.claimManager.loading = true;
     this.http.getPayorsbyId(this.claimManager.claimsData[0].payorId).subscribe(data => {
       this.claimManager.payorData = data;
-
-      console.log(data)
       this.claimManager.loading = false;
         this.dialog.open(CarrierModalComponent,{
           width: '950px',
