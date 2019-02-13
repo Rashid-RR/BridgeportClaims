@@ -13,15 +13,19 @@ GO
 					EXEC dbo.uspGetClaimUserHistory @UserID
 */
 CREATE PROCEDURE [dbo].[uspGetClaimUserHistory] @UserID NVARCHAR(128)
-AS BEGIN
-	SELECT          ClaimId = v.[ClaimID]
-				  , v.[ClaimNumber]
-				  , v.[FirstName] + ' ' + v.[LastName] [Name]
-				  , v.[InjuryDate]
-				  , v.[Carrier]
-				  , CreatedOnUtc = c.[CreatedOnUTC]
-	FROM            dbo.[vwClaimInfo]         AS v WITH (NOEXPAND)
-		INNER JOIN  [dbo].[ClaimsUserHistory] AS c ON [c].[ClaimID] = [v].[ClaimID]
-	WHERE	[c].[UserID] = @UserID
-END
+AS
+    BEGIN
+        SELECT  DISTINCT
+                [ClaimId] = [v].[ClaimId]
+               ,[v].[ClaimNumber]
+               ,[Name] = [v].[FirstName] + ' ' + [v].[LastName]
+               ,[v].[InjuryDate]
+               ,[v].[Carrier]
+               ,[CreatedOnUtc] = MAX([c].[CreatedOnUTC])
+        FROM    [dbo].[vwClaimInfo] AS [v] WITH (NOEXPAND)
+                INNER JOIN [dbo].[ClaimsUserHistory] AS [c] ON [c].[ClaimID] = [v].[ClaimId]
+        WHERE   [c].[UserID] = @UserID
+        GROUP BY [v].[ClaimId], [v].[ClaimNumber], [v].[FirstName], [v].[LastName], [v].[InjuryDate], [v].[Carrier]
+        ORDER BY MAX([c].[CreatedOnUTC]) DESC;
+    END
 GO
