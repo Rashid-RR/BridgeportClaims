@@ -24,5 +24,9 @@ ALTER TABLE [dbo].[DecisionTreeUserPathHeader] ADD CONSTRAINT [FK__DecisionT__Tr
 GO
 ALTER TABLE [dbo].[DecisionTreeUserPathHeader] ADD CONSTRAINT [fkDecisionTreeUserPathHeaderClaimIDClaimClaimID] FOREIGN KEY ([ClaimID]) REFERENCES [dbo].[Claim] ([ClaimID])
 GO
+ALTER TABLE [dbo].[DecisionTreeUserPathHeader] ADD CONSTRAINT [fkDecisionTreeUserPathHeaderUserID] FOREIGN KEY ([UserID]) REFERENCES [dbo].[AspNetUsers] ([ID])
+GO
 ALTER TABLE [dbo].[DecisionTreeUserPathHeader] ADD CONSTRAINT [fkDecisionTreeUserPathHeaderUserIDAspNetUsersID] FOREIGN KEY ([UserID]) REFERENCES [dbo].[AspNetUsers] ([ID])
+GO
+ALTER TABLE [dbo].[DecisionTreeUserPathHeader] ADD CONSTRAINT [fkDeddfdfdcisionTreeUserPathHeaderUserID] FOREIGN KEY ([TreeRootID]) REFERENCES [dbo].[DecisionTree] ([TreeID])
 GO

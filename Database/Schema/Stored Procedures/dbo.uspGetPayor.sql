@@ -7,9 +7,9 @@ GO
 	Create Date:	5/26/2017
 	Description:	Returns a pagination of Payors
 	Sample Execute:
-					EXEC dbo.uspGetPayors
+					EXEC dbo.uspGetPayor 34
 */
-CREATE PROC [dbo].[uspGetPayors]
+CREATE PROC [dbo].[uspGetPayor] @PayorID INT
 AS BEGIN
     SET NOCOUNT ON;
 	SET XACT_ABORT ON;
@@ -29,6 +29,7 @@ AS BEGIN
 		 , p.[LetterName]
          , CreatedOn = p.CreatedOnUTC
          , UpdatedOn = p.UpdatedOnUTC
-    FROM dbo.Payor p LEFT JOIN dbo.UsState us ON us.StateID = p.BillToStateID;
+    FROM dbo.Payor p LEFT JOIN dbo.UsState us ON us.StateID = p.BillToStateID
+	WHERE p.[PayorID] = @PayorID;
 END
 GO
