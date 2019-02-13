@@ -32,11 +32,9 @@ namespace BridgeportClaims.Data.DataProviders.Payors
                 {
                     conn.Open();
                 }
-                return conn.Query<PayorFullDto>(sp, commandType: CommandType.StoredProcedure);
+                return conn.Query<PayorFullDto>(sp, commandType: CommandType.StoredProcedure)
+                    ?.OrderBy(x => x.GroupName);
             });
-
-        public IList<PayorFullDto> GetPaginatedPayors(int pageNumber, int pageSize) =>
-            GetAllPayors()?.ToList();
 
         public IEnumerable<PayorDto> GetPayors(string userId) =>
             DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
@@ -132,6 +130,18 @@ namespace BridgeportClaims.Data.DataProviders.Payors
                 ps.Add("@ModifiedByUserID", modifiedByUserId, DbType.String, size: 128);
                 var query = conn.Query<PayorResultDto>(sp, ps, commandType: CommandType.StoredProcedure)?.SingleOrDefault();
                 return query;
+            });
+
+        public PayorFullDto GetPayor(int payorId) =>
+            DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+            {
+                const string sp = "[dbo].[uspGetPayor]";
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                }
+                return conn.Query<PayorFullDto>(sp, new {PayorID = payorId}, commandType: CommandType.StoredProcedure)
+                    ?.SingleOrDefault();
             });
     }
 }

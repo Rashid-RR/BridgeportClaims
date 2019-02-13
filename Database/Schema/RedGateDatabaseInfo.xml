@@ -58,32 +58,25 @@
     <DataWriteAllFilesInOneDirectory>True</DataWriteAllFilesInOneDirectory>
   </WriteToFileOptions>
   <DataFileSet>
-    <Count>26</Count>
-    <DataFile>dbo.AspNetRoles_Data.sql</DataFile>
-    <DataFile>dbo.Gender_Data.sql</DataFile>
-    <DataFile>dbo.UsState_Data.sql</DataFile>
-    <DataFile>dbo.ClaimImageType_Data.sql</DataFile>
-    <DataFile>dbo.ClaimNoteType_Data.sql</DataFile>
-    <DataFile>dbo.EpisodeLinkType_Data.sql</DataFile>
-    <DataFile>dbo.PrescriptionNoteType_Data.sql</DataFile>
-    <DataFile>dbo.AspNetUserRoles_Data.sql</DataFile>
-    <DataFile>dtme.Calendar_Data.sql</DataFile>
-    <DataFile>dtme.TimeZoneInfo_Data.sql</DataFile>
-    <DataFile>dbo.DiaryType_Data.sql</DataFile>
-    <DataFile>util.ExcelColumn_Data.sql</DataFile>
-    <DataFile>dbo.EpisodeType_Data.sql</DataFile>
-    <DataFile>util.ImportFileType_Data.sql</DataFile>
-    <DataFile>dtme.TimeZone_Data.sql</DataFile>
-    <DataFile>etl.LatestStagedLakerFileLoaded_Data.sql</DataFile>
-    <DataFile>dbo.ImportedEpisodes_Data.sql</DataFile>
-    <DataFile>dbo.ClaimFlex2_Data.sql</DataFile>
-    <DataFile>dbo.PrescriptionStatus_Data.sql</DataFile>
-    <DataFile>dbo.EpisodeCategory_Data.sql</DataFile>
-    <DataFile>dbo.DocumentType_Data.sql</DataFile>
-    <DataFile>dbo.DocumentTypeEpisodeTypeMapping_Data.sql</DataFile>
-    <DataFile>dbo.EpisodeTypeUsersMapping_Data.sql</DataFile>
-    <DataFile>dbo.FileType_Data.sql</DataFile>
-    <DataFile>dbo.NotificationType_Data.sql</DataFile>
+    <Count>19</Count>
     <DataFile>client.ReferralType_Data.sql</DataFile>
+    <DataFile>dbo.AspNetRoles_Data.sql</DataFile>
+    <DataFile>dbo.ClaimFlex2_Data.sql</DataFile>
+    <DataFile>dbo.ClaimNoteType_Data.sql</DataFile>
+    <DataFile>dbo.DocumentTypeEpisodeTypeMapping_Data.sql</DataFile>
+    <DataFile>dbo.DocumentType_Data.sql</DataFile>
+    <DataFile>dbo.EpisodeCategory_Data.sql</DataFile>
+    <DataFile>dbo.EpisodeLinkType_Data.sql</DataFile>
+    <DataFile>dbo.EpisodeType_Data.sql</DataFile>
+    <DataFile>dbo.FileType_Data.sql</DataFile>
+    <DataFile>dbo.Gender_Data.sql</DataFile>
+    <DataFile>dbo.NotificationType_Data.sql</DataFile>
+    <DataFile>dbo.PrescriptionNoteType_Data.sql</DataFile>
+    <DataFile>dbo.PrescriptionStatus_Data.sql</DataFile>
+    <DataFile>dbo.UsState_Data.sql</DataFile>
+    <DataFile>dtme.Calendar_Data.sql</DataFile>
+    <DataFile>dtme.TimeZone_Data.sql</DataFile>
+    <DataFile>util.ExcelColumn_Data.sql</DataFile>
+    <DataFile>util.ImportFileType_Data.sql</DataFile>
   </DataFileSet>
 </DatabaseInformation>

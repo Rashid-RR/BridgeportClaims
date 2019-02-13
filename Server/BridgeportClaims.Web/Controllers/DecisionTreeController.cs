@@ -42,6 +42,22 @@ namespace BridgeportClaims.Web.Controllers
         }
 
         [HttpPost]
+        [Route("cancel-select-tree")]
+        public IHttpActionResult GetDecisionTree(CancelTreeChoiceModel model)
+        {
+            try
+            {
+                _decisionTreeDataProvider.Value.DecisionTreeHeaderDelete(model.SessionId, model.ClaimId);
+                return Ok(new {message = "The tree selection was cancelled successfully."});
+            }
+            catch (Exception ex)
+            {
+                Logger.Value.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+            }
+        }
+
+        [HttpPost]
         [Route("choose-tree-path")]
         public IHttpActionResult ChooseTreePath(TreePathChoiceModel model)
         {
