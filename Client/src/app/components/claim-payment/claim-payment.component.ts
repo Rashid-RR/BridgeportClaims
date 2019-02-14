@@ -94,10 +94,10 @@ export class ClaimPaymentComponent implements OnInit {
   }
   savePayment(payment: Payment) {
     const d = $('#datePostedPicker').val();
-    const date = this.dp.transform(d, 'shortDate');
-    if (this.form.get('amountPaid').value && this.form.get('checkNumber').value && date) {
+    console.log(d); 
+    if (this.form.get('amountPaid').value && this.form.get('checkNumber').value && d) {
       this.claimManager.loading = true;
-      this.form.controls['datePosted'].setValue(this.dp.transform(date, 'shortDate'));
+      this.form.controls['datePosted'].setValue(d);
       this.http.updatePrescriptionPayment(this.form.value).subscribe((res:any) => {
         this.toast.success(res.message);
         // this.removePayment(payment);
