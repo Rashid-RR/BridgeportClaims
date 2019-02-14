@@ -38,10 +38,11 @@
                 <span class="blade-title panel-head">
                   <i class="fa fa-pencil" aria-hidden="true"></i> Design
                 </span>
-                <div class="box-tools pull-right"  [hidden]="claimId">
-                  <img [src]="over[0] ? 'assets/img/decision-tree.png' : 'assets/img/decision-tree-hover.png'"
+                <div class="box-tools pull-right">
+                  <img [src]="over[0] ? 'assets/img/decision-tree.png' : 'assets/img/decision-tree-hover.png'"  [hidden]="claimId"
                     (mouseover)="over[0] = true" (mouseout)="over[0] = false" height="55px" class="pull-left" style="cursor: pointer;margin-top: -15px;"
                     title="Create a New Tree" (click)="ds.createUpdateNode()">
+                    <button mat-raised-button style="margin-top: 0px;line-height: 30px;" [hidden]="!claimId" (click)="ds.cancelTree()">Cancel</button>
                 </div>
 
               </div>

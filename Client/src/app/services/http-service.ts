@@ -1518,6 +1518,16 @@ export class HttpService {
       );
     return s;
   }
+  cancelSelectTree(sessionId: string, parentTreeId: string, selectedTreeId: string): Observable<any> {
+    const s = this.http.post(this.baseUrl + `/trees/cancel-select-tree/?sessionId=${sessionId}&parentTreeId=${parentTreeId}&selectedTreeId=${selectedTreeId}`, {})
+      .pipe(
+        tap(_ => {
+        }, error => {
+          this.handleResponseError(error);
+        })
+      );
+    return s;
+  }
 
   chooseTreePath(sessionId: string, parentTreeId: string, selectedTreeId: string, nodeDescription?: string): Observable<any> {
     const s = this.http.post(this.baseUrl + `/trees/choose-tree-path`, {

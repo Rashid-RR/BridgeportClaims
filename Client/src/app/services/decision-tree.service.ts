@@ -159,6 +159,9 @@ export class DecisionTreeService {
     }
     this.update(d);
   }
+  cancelTree(){
+    
+  }
   setDescription(d) {
     let title = `Select ${d.data.nodeName}`,
       msg = `Describe your action for - ${d.data.nodeName}`;
@@ -186,7 +189,7 @@ export class DecisionTreeService {
           toast.message = 'Please provide some description';
         } else {
           this.activeToastId = this.toast.info('Please provide some description', null,
-            { timeOut: 10000 }).toastId;
+            { timeOut: 5000 }).toastId;
         }
         this.setDescription(d);
       }
@@ -209,6 +212,11 @@ export class DecisionTreeService {
         if (!d.children) {
           d.children = d._children;
           d._children = null;
+        }
+        if(newNodeDescription){
+          this.toast.info(`Thank you for completing the ${d.data.nodeName} Tree, you will now be redirected to the Episodes page were your work will be saved...`, null,
+            { timeOut: 15000 });
+            this.router.navigate(['/main/episode'])
         }
         d.data.picked = true
         this.update(d);
