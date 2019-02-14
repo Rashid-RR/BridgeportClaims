@@ -1,6 +1,50 @@
-<mat-dialog-actions align="end">
-  <label (click)="onNoClick()" mat-dialog-close style="font-size: 30px; cursor: pointer">x</label>
-</mat-dialog-actions>
+<div class="row">
+  <div class="col-lg-2">
+    <h2>Claim #:
+    </h2>
+  </div>
+  <div class="col-lg-3">
+    <h2>
+      <span class="header-hd"> {{claimManager.claimsData[0].claimNumber}}</span></h2>
+  </div>
+
+  <div class="col-lg-1">
+    <h2>Payor:
+    </h2>
+  </div>
+  <div class="col-lg-5" style="padding-left: 0">
+    <h2>
+      <span
+        class="header-hd"> {{claimManager.claimsData[0].firstName + ' ' + claimManager.claimsData[0].lastName }} </span>
+    </h2>
+  </div>
+  <div class="col-lg-1">
+    <label (click)="onNoClick()" class="close-btn" mat-dialog-close>
+      <i class="fa fa-close" style="color: #992727;"></i>
+    </label>
+  </div>
+  <div class="col-lg-2" style="width: 14% !important;">
+    <h2>Payor - Group:
+    </h2>
+  </div>
+  <div class="col-lg-3" style="width: 26% !important;">
+    <h2>
+      <span class="header-hd"> {{claimManager.claimsData[0].carrier}}</span></h2>
+  </div>
+  <div class="col-lg-1">
+    <h2>Address:</h2>
+  </div>
+  <div class="col-lg-6">
+    <h2>
+      <span class="header-hd">
+  {{claimManager.claimsData[0].address1 ? claimManager.claimsData[0].address1 : ""  }}  {{+' ' + claimManager.claimsData[0].address2 ? claimManager.claimsData[0].address2 : ""}} {{ claimManager.claimsData[0].city ? claimManager.claimsData[0].city + ', ' : ""}}  {{  claimManager.claimsData[0].stateAbbreviation ? claimManager.claimsData[0].stateAbbreviation + ' ' + ' ' : "" }}{{claimManager.claimsData[0].postalCode ? claimManager.claimsData[0].postalCode : ""}}
+      </span></h2>
+  </div>
+
+</div>
+
+
+<mat-divider></mat-divider>
 <mat-dialog-content class="mat-typography" style="margin-top: 5vh">
   <div class="row">
     <div class="col-lg-6">
@@ -19,7 +63,7 @@
           <p> {{claimManager.payorData?.groupName}}</p>
           <p> {{claimManager.payorData?.billToName}}</p>
           <p> {{claimManager.payorData?.billToAddress1}}</p>
-          <p> {{claimManager.payorData?.billToAddress2}}</p>
+          <p> {{claimManager.payorData?.billToAddress2?claimManager.payorData?.billToAddress2:'-'}}</p>
           <p> {{claimManager.payorData?.billToCity}}</p>
           <p> {{claimManager.payorData?.state}}</p>
           <p> {{claimManager.payorData?.billToPostalCode}}</p>
@@ -39,12 +83,12 @@
 
         </div>
         <div class="col-lg-6">
-          <p> {{claimManager.payorData?.phoneNumber}}</p>
-          <p> {{claimManager.payorData?.alternatePhoneNumber}}</p>
-          <p> {{claimManager.payorData?.faxNumber}}</p>
-          <p> {{claimManager.payorData?.notes}}</p>
-          <p> {{claimManager.payorData?.contact}}</p>
-          <p> {{claimManager.payorData?.letterName}}</p>
+          <p>  {{ convertPhoneNumber(claimManager.payorData?.phoneNumber) }}</p>
+          <p> {{claimManager.payorData?.alternatePhoneNumber? claimManager.payorData?.alternatePhoneNumber:'-'}}</p>
+          <p> {{claimManager.payorData?.faxNumber?claimManager.payorData?.faxNumber:'-'}}</p>
+          <p> {{claimManager.payorData?.notes? claimManager.payorData?.notes: '-'}}</p>
+          <p> {{claimManager.payorData?.contact? claimManager.payorData?.contact:'-'}}</p>
+          <p> {{claimManager.payorData?.letterName? claimManager.payorData?.letterName:'-'}}</p>
           <p> {{claimManager.payorData?.createdOn | date}}</p>
         </div>
       </div>
