@@ -15,7 +15,7 @@
   <div class="col-lg-5" >
     <h2>
       <span
-        class="header-hd"> {{claimManager.claimsData[0].firstName + ' ' + claimManager.claimsData[0].lastName }} </span>
+        class="header-hd"> {{claimManager.selectedClaim.name || claimManager.selectedClaim.firstName || ''}} {{claimManager.selectedClaim.lastName || ''}} </span>
     </h2>
   </div>
   <div class="col-lg-1">
@@ -37,13 +37,10 @@
   <div class="col-lg-6">
     <h2>
       <span class="header-hd">
-  {{claimManager.claimsData[0].address1 ? claimManager.claimsData[0].address1 : ""  }}  {{+' ' + claimManager.claimsData[0].address2 ? claimManager.claimsData[0].address2 : ""}} {{ claimManager.claimsData[0].city ? claimManager.claimsData[0].city + ', ' : ""}}  {{  claimManager.claimsData[0].stateAbbreviation ? claimManager.claimsData[0].stateAbbreviation + ' ' + ' ' : "" }}{{claimManager.claimsData[0].postalCode ? claimManager.claimsData[0].postalCode : ""}}
+      {{claimManager.payorData?.billToAddress1 || ''}}, {{claimManager.payorData?.billToAddress2 || ''}} {{claimManager.payorData?.billToCity || ''}}, {{claimManager.payorData?.state || ''}} &nbsp;{{claimManager.payorData?.billToPostalCode || ''}}
       </span></h2>
   </div>
-
 </div>
-
-
 <mat-divider></mat-divider>
 <mat-dialog-content class="mat-typography" style="margin-top: 5vh">
   <div class="row">
