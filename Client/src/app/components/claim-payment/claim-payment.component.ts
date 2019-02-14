@@ -93,8 +93,7 @@ export class ClaimPaymentComponent implements OnInit {
   datePosted($event) {
   }
   savePayment(payment: Payment) {
-    const d = $('#datePostedPicker').val();
-    console.log(d); 
+    const d = $('#datePostedPicker').val(); 
     if (this.form.get('amountPaid').value && this.form.get('checkNumber').value && d) {
       this.claimManager.loading = true;
       this.form.controls['datePosted'].setValue(d);

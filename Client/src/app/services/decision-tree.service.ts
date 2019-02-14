@@ -164,7 +164,7 @@ export class DecisionTreeService {
   }
   setDescription(d) {
     let title = `Select ${d.data.nodeName}`,
-      msg = `Describe your action for - ${d.data.nodeName}`;
+      msg = `Describe your action`;
     swal({
       title: title,
       text: msg,
@@ -199,16 +199,17 @@ export class DecisionTreeService {
   selectNode(d): any {
     if (!d.children && !d._children) {
       this.setDescription(d);
+    } else if ( d._children && d._children.length==1) {
+      this.callTreePathApi(d,undefined,true);
     } else {
       this.callTreePathApi(d);
     }
 
   }
-  callTreePathApi(d, newNodeDescription?: string) {
+  callTreePathApi(d, newNodeDescription?: string,next?:boolean) {
     this.loading = true;
     this.http.chooseTreePath(this.sessionId, d.parent.data.treeId, d.data.treeId, newNodeDescription)
       .subscribe((resp: any) => {
-        this.toast.success(resp.message)
         if (!d.children) {
           d.children = d._children;
           d._children = null;
@@ -223,7 +224,12 @@ export class DecisionTreeService {
         if (d.parent) {
           this.deleteNonTraversedPath(d.parent, d.id)
         }
-        $(`#tree_node${d.id} circle`).addClass('tracked');
+        $(`#tree_node${d.id} circle`).addClass('tracked');        
+        if(next){
+          this.selectNode(d.children[0]);
+        }else{
+          this.toast.success(resp.message);
+        }
         this.loading = false;
       }, err => {
         this.loading = false;
