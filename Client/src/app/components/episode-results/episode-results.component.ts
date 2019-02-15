@@ -101,7 +101,7 @@ export class EpisodeResultsComponent implements OnInit {
       this.toast.warning('This episode does not have a Claim associated to it, therefore you cannot navigate to the Claim for this Episode by double-clicking it', null,
         { tapToDismiss: true, closeButton: true });
     } else {
-      window.open('#/main/claims?claimNumber=' + episode.claimId, '_blank');
+      window.open('#/main/claims?claimId=' + episode.claimId, '_blank');
     }
   }
   next() {
