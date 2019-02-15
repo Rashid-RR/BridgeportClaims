@@ -371,8 +371,6 @@
     <Content Include="EmailTemplates\LakerImportStatus.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Compile Include="Controllers\CancelTreeChoiceModel.cs" />
-    <Compile Include="Models\TreePathChoiceModel.cs" />
     <None Include="NuGetReferenceHintPathRewrite.targets" />
     <None Include="packages.config" />
     <None Include="Properties\PublishProfiles\BridgeportClaims - FTP.pubxml" />
