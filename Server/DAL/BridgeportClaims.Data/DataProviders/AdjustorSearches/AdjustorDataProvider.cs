@@ -148,5 +148,19 @@ namespace BridgeportClaims.Data.DataProviders.AdjustorSearches
                 return conn.Query<AdjustorResultDto>(sp, ps, commandType: CommandType.StoredProcedure)
                     ?.SingleOrDefault();
             });
+
+        public AdjustorFullDto GetAdjustor(int adjustorId) => DisposableService.Using(() 
+            => new SqlConnection(cs.GetDbConnStr()), conn =>
+        {
+            const string sp = "[claims].[uspGetAdjustor]";
+            if (conn.State != ConnectionState.Open)
+            {
+                conn.Open();
+            }
+            var ps = new DynamicParameters();
+            ps.Add("@AdjustorID", adjustorId, DbType.Int32);
+            var adjustor = conn.Query<AdjustorFullDto>(sp, ps, commandType: CommandType.StoredProcedure)?.SingleOrDefault();
+            return adjustor;
+        });
     }
 }

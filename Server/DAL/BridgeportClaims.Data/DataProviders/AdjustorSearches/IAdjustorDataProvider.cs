@@ -14,5 +14,6 @@ namespace BridgeportClaims.Data.DataProviders.AdjustorSearches
         AdjustorResultDto UpdateAdjustor(int adjustorId, string adjustorName, string address1,
             string address2, string city, int? stateId, string postalCode, string phoneNumber,
             string faxNumber, string emailAddress, string extension, string modifiedByUserId);
+        AdjustorFullDto GetAdjustor(int adjustorId);
     }
 }
