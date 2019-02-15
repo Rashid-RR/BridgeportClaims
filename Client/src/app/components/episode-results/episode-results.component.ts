@@ -3,7 +3,7 @@ import { EpisodeService, HttpService } from '../../services/services.barrel';
 import { EpisodeNoteModalComponent } from '../components-barrel';
 import { WindowsInjetor, CustomPosition, Size, WindowConfig } from '../ng-window';
 import { Router } from '@angular/router';
-import { Toast, ToastrService } from 'ngx-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { DialogService } from 'ng2-bootstrap-modal';
 
 import { ConfirmComponent } from '../confirm.component';
@@ -97,7 +97,12 @@ export class EpisodeResultsComponent implements OnInit {
       });
   }
   openClaim(episode: Episode) {
-    window.open('#/main/claims?claimNumber=' + episode.claimNumber, '_blank');
+    if (!episode.claimId) {
+      this.toast.warning('This episode does not have a Claim associated to it, therefore you cannot navigate to the Claim for this Episode by double-clicking it', null,
+        { tapToDismiss: true, closeButton: true });
+    } else {
+      window.open('#/main/claims?claimNumber=' + episode.claimId, '_blank');
+    }
   }
   next() {
     this.episodeService.search(true);
@@ -126,7 +131,7 @@ export class EpisodeResultsComponent implements OnInit {
     } else if (page > 0 && ((this.episodeService.totalPages && page <= this.episodeService.totalPages) || this.episodeService.totalPages == null)) {
       this.episodeService.search(false, false, page);
     } else {
-      let toast = this.toast.toasts.find(t=>t.toastId ==this.activeToast)
+      let toast = this.toast.toasts.find(t => t.toastId == this.activeToast)
       if (toast) {
         toast.message = 'Page number entered is out of range. Enter a page number between 1 and ' + this.episodeService.totalPages;
       } else {

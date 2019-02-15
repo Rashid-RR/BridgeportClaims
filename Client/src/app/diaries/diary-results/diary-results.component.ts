@@ -1,11 +1,10 @@
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { DiaryService, HttpService } from '../../services/services.barrel';
 import { Diary } from '../../models/diary';
-import { Claim } from '../../models/claim';
 import { PrescriptionNote } from '../../models/prescription-note';
 import { WindowsInjetor, CustomPosition, Size, WindowConfig } from '../../components/ng-window';
 import { Router } from '@angular/router';
-import { Toast, ToastrService } from 'ngx-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { ScriptNoteWindowComponent } from '../../components/diary-script-note-window/diary-script-note-window.component';
 
 @Component({

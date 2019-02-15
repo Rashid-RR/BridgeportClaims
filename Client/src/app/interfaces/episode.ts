@@ -4,6 +4,7 @@ export interface Episode {
     category: string;
     created: string;
     patientName: string;
+    claimId: any;
     claimNumber: any;
     rxNumber: any;
     type: string;

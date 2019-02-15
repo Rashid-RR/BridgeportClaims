@@ -2,7 +2,7 @@ import { Component, ViewChild, OnInit } from '@angular/core';
 import { ClaimManager } from '../../services/claim-manager';
 import swal from 'sweetalert2';
 import { ToastrService } from 'ngx-toastr';
-import { DatePipe, DecimalPipe } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
 import { SwalComponent, SwalPartialTargets } from '@toverux/ngx-sweetalert2';
 import { HttpService } from '../../services/http-service';
@@ -36,7 +36,7 @@ export class ClaimScriptNoteComponent implements OnInit {
     this.router.routerState.root.queryParams.subscribe(params => {
       if (params['prescriptionNoteId']) {
         const prescriptionNoteId = params['prescriptionNoteId'];
-        const note: PrescriptionNote = this.claimManager.selectedClaim.prescriptionNotes.find((r: PrescriptionNote) => r.prescriptionNoteId === prescriptionNoteId);
+        const note: PrescriptionNote = this.claimManager.selectedClaim.prescriptionNotes.find((r: PrescriptionNote) => r.prescriptionNoteId == prescriptionNoteId);
         if (note) {
           this.showNoteWindow(note);
         }
@@ -73,7 +73,7 @@ export class ClaimScriptNoteComponent implements OnInit {
   }
   showNoteWindow(note: PrescriptionNote) {
     const win = $('body:not(.sidebar-collapse)');
-    let minusLeft = 50, x = 0, y = 0;
+    let minusLeft = 50, x = 0, y = 80;
     if (win.length > 0) {
       minusLeft = 230;
     }
