@@ -7,9 +7,9 @@ GO
 	Create Date:	5/26/2017
 	Description:	Returns a pagination of Payors
 	Sample Execute:
-					EXEC dbo.uspGetPayor 34
+					EXEC [claims].[uspGetPayor] 34
 */
-CREATE PROC [dbo].[uspGetPayor] @PayorID INT
+CREATE PROC [claims].[uspGetPayor] @PayorID INT
 AS BEGIN
     SET NOCOUNT ON;
 	SET XACT_ABORT ON;
