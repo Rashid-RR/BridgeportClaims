@@ -1,7 +1,7 @@
 ﻿namespace BridgeportClaims.Web.Models
 {
-    public class TreeExperienceModel
+    public sealed class TreeExperienceModel
     {
-        
+        public int RootTreeId { get; set; }
     }
 }
