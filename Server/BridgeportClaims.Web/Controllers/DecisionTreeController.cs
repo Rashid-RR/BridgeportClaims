@@ -25,14 +25,13 @@ namespace BridgeportClaims.Web.Controllers
         }
 
         [HttpPost]
-        [Route("select-tree")]
+        [Route("save-tree-experience")]
         public IHttpActionResult GetDecisionTree(TreeExperienceModel model)
         {
             try
             {
                 var userId = User.Identity.GetUserId();
-                var sessionId = _decisionTreeDataProvider.Value.DecisionTreeHeaderInsert(userId, treeRootId, claimId);
-                return Ok(new {message = "Tree selected successfully.", sessionId});
+                return Ok(new {message = "The episode and tree path were saved successfully."});
             }
             catch (Exception ex)
             {
