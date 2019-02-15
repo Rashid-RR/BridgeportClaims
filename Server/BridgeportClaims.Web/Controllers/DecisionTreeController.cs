@@ -2,7 +2,6 @@
 using System.Net;
 using System.Web.Http;
 using BridgeportClaims.Common.Caching;
-using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.DataProviders.DecisionTrees;
 using BridgeportClaims.Web.Models;
 using Microsoft.AspNet.Identity;
