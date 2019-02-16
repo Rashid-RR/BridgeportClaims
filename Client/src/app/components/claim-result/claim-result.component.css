@@ -97,3 +97,9 @@ address .form-group label{
 .form-horizontal .col-sm-6.invoice-col{
   padding-right:5px;
 }
+.bold-carrier{
+  font-weight: bold;
+  color: #0a25a8;
+  cursor: pointer;
+  text-decoration: underline;
+}

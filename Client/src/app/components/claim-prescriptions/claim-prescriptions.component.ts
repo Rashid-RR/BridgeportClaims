@@ -1,8 +1,7 @@
-import { Component, OnInit, Renderer2, AfterViewInit, NgZone, HostListener, AfterViewChecked, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, Renderer2, AfterViewInit, AfterViewChecked, ElementRef, ViewChild } from '@angular/core';
 import { ClaimManager } from '../../services/claim-manager';
 import { HttpService } from '../../services/http-service';
 import { EventsService } from '../../services/events-service';
-import { Prescription } from '../../models/prescription';
 import { PrescriptionNote } from '../../models/prescription-note';
 import swal from 'sweetalert2';
 import { DatePipe } from '@angular/common';
@@ -24,7 +23,7 @@ export class ClaimPrescriptionsComponent implements OnInit, AfterViewChecked, Af
   sortColumn: SortColumnInfo;
 
   constructor(
-    private rd: Renderer2, private ngZone: NgZone,
+    private rd: Renderer2,
     private dp: DatePipe,
     public claimManager: ClaimManager,
     private events: EventsService,

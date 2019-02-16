@@ -38,10 +38,11 @@
                 <span class="blade-title panel-head">
                   <i class="fa fa-pencil" aria-hidden="true"></i> Design
                 </span>
-                <div class="box-tools pull-right"  [hidden]="claimId">
-                  <img [src]="over[0] ? 'assets/img/decision-tree.png' : 'assets/img/decision-tree-hover.png'"
+                <div class="box-tools pull-right">
+                  <img [src]="over[0] ? 'assets/img/decision-tree.png' : 'assets/img/decision-tree-hover.png'"  [hidden]="claimId"
                     (mouseover)="over[0] = true" (mouseout)="over[0] = false" height="55px" class="pull-left" style="cursor: pointer;margin-top: -15px;"
                     title="Create a New Tree" (click)="ds.createUpdateNode()">
+                    <button mat-raised-button style="margin-top: 0px;line-height: 30px;" [hidden]="!claimId" (click)="ds.cancelTree()">Cancel</button>
                 </div>
 
               </div>
@@ -49,9 +50,12 @@
                 <div class="row claim-info">
                   <div class="col-sm-12 claim-col expanded">
                     <div class="content-area" style="height:auto;width:100%">
+                      <div class="relative_div">
+                        <input type="range" orient="vertical" name="zoomLevel" [(ngModel)]="zoomLevel" (change)="handleZoomLevel(zoomLevel)" step="0.1" min="0" max="2"/>
+                      </div>
                       <svg [attr.width]="ds.width" height="600" #decisionTree>
                       </svg>
-                    </div> 
+                    </div>
                   </div>
                   <fieldset class="legend" [hidden]="!claimId">
                     <legend>Legend</legend>
@@ -63,7 +67,7 @@
                     <hr>
                     <div>
                         This button makes a selection of the tree,
-                        opening up further selections below it: 
+                        opening up further selections below it:
                         <img src="assets/img/select-node.png"/>
                     </div>
                   </fieldset>

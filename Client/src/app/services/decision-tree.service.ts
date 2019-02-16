@@ -159,9 +159,12 @@ export class DecisionTreeService {
     }
     this.update(d);
   }
+  cancelTree(){
+    
+  }
   setDescription(d) {
     let title = `Select ${d.data.nodeName}`,
-      msg = `Describe your action for - ${d.data.nodeName}`;
+      msg = `Describe your action`;
     swal({
       title: title,
       text: msg,
@@ -186,7 +189,7 @@ export class DecisionTreeService {
           toast.message = 'Please provide some description';
         } else {
           this.activeToastId = this.toast.info('Please provide some description', null,
-            { timeOut: 10000 }).toastId;
+            { timeOut: 5000 }).toastId;
         }
         this.setDescription(d);
       }
@@ -196,26 +199,37 @@ export class DecisionTreeService {
   selectNode(d): any {
     if (!d.children && !d._children) {
       this.setDescription(d);
+    } else if ( d._children && d._children.length==1) {
+      this.callTreePathApi(d,undefined,true);
     } else {
       this.callTreePathApi(d);
     }
 
   }
-  callTreePathApi(d, newNodeDescription?: string) {
+  callTreePathApi(d, newNodeDescription?: string,next?:boolean) {
     this.loading = true;
     this.http.chooseTreePath(this.sessionId, d.parent.data.treeId, d.data.treeId, newNodeDescription)
       .subscribe((resp: any) => {
-        this.toast.success(resp.message)
         if (!d.children) {
           d.children = d._children;
           d._children = null;
+        }
+        if(newNodeDescription){
+          this.toast.info(`Thank you for completing the ${d.data.nodeName} Tree, you will now be redirected to the Episodes page were your work will be saved...`, null,
+            { timeOut: 15000 });
+            this.router.navigate(['/main/episode'])
         }
         d.data.picked = true
         this.update(d);
         if (d.parent) {
           this.deleteNonTraversedPath(d.parent, d.id)
         }
-        $(`#tree_node${d.id} circle`).addClass('tracked');
+        $(`#tree_node${d.id} circle`).addClass('tracked');        
+        if(next){
+          this.selectNode(d.children[0]);
+        }else{
+          this.toast.success(resp.message);
+        }
         this.loading = false;
       }, err => {
         this.loading = false;

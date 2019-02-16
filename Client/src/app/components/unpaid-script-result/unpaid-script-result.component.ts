@@ -58,6 +58,12 @@ export class UnpaidScriptResultsComponent implements OnInit {
   prev() {
     this.uss.search(false, true);
   }
+
+  openClaim(unpaidScript: any) {
+    if (unpaidScript.claimId) {
+      window.open('#/main/claims?claimId=' + unpaidScript.claimId, '_blank');
+    }
+  }
   keyPress(event: any) {
     const pattern = /[0-9\+\-\ ]/;
     const inputChar = String.fromCharCode(event.charCode);
