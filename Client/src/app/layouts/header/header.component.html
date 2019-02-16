@@ -46,11 +46,11 @@
                             <strong>20.15</strong>
                         </small>
                     </li>
-                    <!--  <li class="display-date" *ngIf="allowed" [class.disabled]="disableLinks">
+                    <li class="display-date" *ngIf="allowed" [class.disabled]="disableLinks">
                         <a style="cursor:pointer" (click)="!disableLinks ? clearCache() : ''" [class.disabled]="disableLinks">
                             <i class="fa fa-refresh" aria-hidden="true"></i>
                             Clear Cache</a>
-                    </li> -->
+                    </li>
                     <li routerLinkActive="/main/profile" [class.disabled]="disableLinks">
                         <!--[routerLink]="'/profile'"-->
                         <a class="navbar-link" [routerLink]="!disableLinks ?  '/main/profile' : []"
