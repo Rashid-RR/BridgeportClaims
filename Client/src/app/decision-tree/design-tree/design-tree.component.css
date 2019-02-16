@@ -54,16 +54,16 @@
     height: calc(100vh - 220px);
     height: -moz-calc(100vh - 220px);
     height: -webkit-calc(100vh - 220px);
-    height: -o-calc(100vh - 220px);    
+    height: -o-calc(100vh - 220px);
     overflow:auto !important;
     flex:1
 }
 .legend{
     width:250px;
-    border:2px solid #ccc;  
-    padding:8px; 
+    border:2px solid #ccc;
+    padding:8px;
     font-size:10px;
-    height:270px; 
+    height:270px;
 }
 .legend hr{
     margin: 5px 0px;
@@ -78,14 +78,36 @@
     background: transparent;
     width: 69px;
 }
-.transparent{ 
+.transparent{
     border: 1px solid #fff;
     color: #fff;
     background: transparent;
     padding-top: 7px;
     padding-bottom: 2px;
-    border-radius: 6px; 
+    border-radius: 6px;
 }
 svg text tspan{
     font-size:12px;
+  }
+  input[type=range][orient=vertical]
+  {
+      writing-mode: bt-lr; /* IE */
+      -webkit-appearance: slider-vertical; /* WebKit */
+      width: 8px;
+      height: 350px;
+      padding: 0 5px;
+      margin-left: 20px;
+  }
+  .relative_div {
+    top: 0px;
+    display: inline=block;
+    z-index: 100000;
+    position: absolute;
+    height: 100%;
+  }
+  .relative_div ~ svg {
+    margin-left: 20px;
+    z-index: 10000;
+    display: inline=block;
+    height: 100%;
   }

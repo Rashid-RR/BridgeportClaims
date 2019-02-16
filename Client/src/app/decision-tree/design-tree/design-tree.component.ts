@@ -9,12 +9,15 @@ import { ToastrService } from 'ngx-toastr';
 
 declare var $: any;
 
+var zoomX = 0, zoomY = 0, zoomZ = 1;
+
 @Component({
   selector: 'app-design-tree',
   templateUrl: './design-tree.component.html',
   styleUrls: ['./design-tree.component.css']
 })
 export class DesignTreeComponent implements OnInit, AfterViewInit {
+  zoomLevel = 1;
   over: boolean[];
   claimId: string;
   constructor(private toast:ToastrService,private route: ActivatedRoute, public ds: DecisionTreeService, private profileManager: ProfileManager, private http: HttpService) {
@@ -53,6 +56,9 @@ export class DesignTreeComponent implements OnInit, AfterViewInit {
             const error = err.error;
           } catch (e) { }
         });
+      setTimeout(() => {
+        this.startDragging();
+      }, 1000);
     }
   }
   ngOnInit() {
@@ -69,6 +75,7 @@ export class DesignTreeComponent implements OnInit, AfterViewInit {
           this.toast.success(resp.message)
           this.ds.sessionId = resp.sessionId;
           this.ds.loading = false;
+          d3.select('svg').attr('transform', `translate(${zoomX},${zoomY})scale(${zoomZ})`);
         }, err => {
           this.ds.loading = false
             try {
@@ -81,5 +88,26 @@ export class DesignTreeComponent implements OnInit, AfterViewInit {
   }
   get allowed(): boolean {
     return  (this.profileManager.profile.roles && (this.profileManager.profile.roles instanceof Array) && this.profileManager.profile.roles.indexOf('Admin') > -1);
+  }
+
+  startDragging() {
+    d3
+    .select('svg')
+    .call(
+      d3.zoom()
+      .extent([[this.ds.margin.left, this.ds.margin.top], [this.ds.width, this.ds.height]])
+      .scaleExtent([1, 1])
+      .on('zoom', () => {
+          zoomX = d3.event.transform.x + (this.ds.margin.left || 0);
+          zoomY = d3.event.transform.y + (this.ds.margin.top || 0);
+          d3.select('svg').attr('transform', `translate(${zoomX},${zoomY})scale(${zoomZ})`);
+      })
+    );
+    // d3.select('#slider8').call(d3.slider().value(50).orientation('vertical'));
+  }
+  handleZoomLevel(x) {
+    // alert(x);
+    zoomZ = x;
+    d3.select('svg').attr('transform', `translate(${zoomX},${zoomY})scale(${zoomZ})`);
   }
 }
