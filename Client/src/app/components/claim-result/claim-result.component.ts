@@ -1,14 +1,16 @@
-import { Component, ViewChild, AfterViewInit, OnInit, Input } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ClaimManager } from '../../services/claim-manager';
-import { EventsService } from '../../services/events-service';
-import { Claim } from '../../models/claim';
-import { HttpService, ComparisonClaim } from '../../services/services.barrel';
-import { ProfileManager } from '../../services/profile-manager';
-import { DatePipe } from '@angular/common';
-import { SwalComponent } from '@toverux/ngx-sweetalert2';
-import { Toast, ToastrService } from 'ngx-toastr';
+import {Component, ViewChild, AfterViewInit, OnInit, Input, Inject} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {ClaimManager} from '../../services/claim-manager';
+import {EventsService} from '../../services/events-service';
+import {Claim} from '../../models/claim';
+import {HttpService, ComparisonClaim} from '../../services/services.barrel';
+import {ProfileManager} from '../../services/profile-manager';
+import {DatePipe} from '@angular/common';
+import {SwalComponent} from '@toverux/ngx-sweetalert2';
+import {Toast, ToastrService} from 'ngx-toastr';
 import swal from 'sweetalert2';
+import {MatDialog, MAT_DIALOG_DATA} from '@angular/material';
+import {CarrierModalComponent} from '../carrier-modal/carrier-modal.component';
 
 declare var $: any;
 
@@ -41,6 +43,7 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
     private profileManager: ProfileManager,
     private toast: ToastrService,
     private dp: DatePipe,
+    public dialog: MatDialog,
     private http: HttpService,
     private events: EventsService
   ) {
@@ -61,6 +64,7 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
       stateId: [undefined], // NULL
     });
   }
+
   get auth() {
     const user = localStorage.getItem('user');
     try {
@@ -76,9 +80,11 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
     return (this.profileManager.profile.roles && (this.profileManager.profile.roles instanceof Array) &&
       this.profileManager.profile.roles.indexOf('Admin') > -1);
   }
+
   get payorAutoComplete(): string {
     return this.http.baseUrl + '/payors/search/?searchText=:keyword';
   }
+
   merge(value: any, $event, index: string) {
     if (value === this.mergedClaim[index] && !$event.checked) {
       this.mergedClaim[index] = undefined;
@@ -86,14 +92,20 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
       this.mergedClaim[index] = $event.checked ? value : this.mergedClaim[index];
     }
   }
+
   closeModal() {
     this.claimManager.deselectAll();
     this.mergedClaim = {};
-    try { swal.clickCancel(); } catch (e) { }
+    try {
+      swal.clickCancel();
+    } catch (e) {
+    }
   }
+
   checked(field: string, side: string) {
     return this.mergedClaim.hasOwnProperty(field) && this.mergedClaim[field] === this.comparisonClaims[`${side}${field}`];
   }
+
   saveMerge() {
     const duplicate = this.claimManager.selectedClaims.find(c => c.claimId !== this.mergedClaim.ClaimId);
     const form = JSON.parse(JSON.stringify(this.mergedClaim));
@@ -151,9 +163,10 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
       this.toast.warning('Please choose a value for every field for these claims in order to save the merge...');
     }
   }
+
   showModal() {
     this.claimManager.loading = true;
-    this.http.getComparisonClaims({ leftClaimId: this.claimManager.selectedClaims[0].claimId, rightClaimId: this.claimManager.selectedClaims[1].claimId })
+    this.http.getComparisonClaims({leftClaimId: this.claimManager.selectedClaims[0].claimId, rightClaimId: this.claimManager.selectedClaims[1].claimId})
       .subscribe(r => {
         this.claimManager.loading = false;
         this.comparisonClaims = Array.isArray(r) ? r[0] : r;
@@ -189,7 +202,8 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
             const claim = JSON.parse(c);
             const data = this.claimManager.selectedClaims.find(cl => cl.claimId === claim.claimId);
             data.selected = true;
-          } catch (e) { }
+          } catch (e) {
+          }
         }
       }
       this.lastSelectedIndex = index;
@@ -197,7 +211,7 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
 
       if (this.claimManager.selectedClaims.length === 1) {
         this.activeToast = this.toast.info('You have selected a Claim to compare. Please select another', '',
-          { timeOut: 15000, closeButton: true }).toastId;
+          {timeOut: 15000, closeButton: true}).toastId;
       } else if (this.claimManager.selectedClaims.length === 2) {
         this.activeToast = null;
         $('.toast.toast-info').hide();
@@ -208,18 +222,21 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
       $event.checked = true;
     }
   }
+
   get adjustorAutoComplete(): string {
     return this.http.baseUrl + '/adjustors/search/?searchText=:keyword';
   }
+
   payorSelected($event) {
     if (this.payorId && $event.payorId) {
-      this.form.patchValue({ payorId: $event.payorId });
+      this.form.patchValue({payorId: $event.payorId});
       this.payor = $event;
     }
   }
+
   adjustorSelected($event) {
     if (this.adjustorId && $event.adjustorId) {
-      this.form.patchValue({ adjustorId: $event.adjustorId });
+      this.form.patchValue({adjustorId: $event.adjustorId});
       this.adjustor = $event;
     }
   }
@@ -234,9 +251,11 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
       this.adjustor = undefined;
     });
   }
+
   cancel() {
     this.editing = false;
   }
+
   edit() {
     this.editing = true;
     this.payorId = '';
@@ -292,6 +311,7 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
       this.enableSelect2();
     }, 1000);
   }
+
   ngAfterViewInit() {
 
   }
@@ -299,10 +319,10 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
   enableSelect2() {
     $('#eadjustorSelection').select2({
       initSelection: (element, callback) => {
-        callback({ id: this.claimManager.selectedClaim.adjustorId || 'null', text: this.claimManager.selectedClaim.adjustor || '-- No Adjustor --' });
+        callback({id: this.claimManager.selectedClaim.adjustorId || 'null', text: this.claimManager.selectedClaim.adjustor || '-- No Adjustor --'});
       },
       ajax: {
-        headers: { 'Authorization': this.auth },
+        headers: {'Authorization': this.auth},
         url: function (params) {
           return '/api/adjustors/adjustor-names/?adjustorName=' + (params.term || '');
         },
@@ -330,10 +350,10 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
     });
     $('#eCarrierSelection').select2({
       initSelection: (element, callback) => {
-        callback({ id: this.claimManager.selectedClaim.payorId, text: this.claimManager.selectedClaim.carrier });
+        callback({id: this.claimManager.selectedClaim.payorId, text: this.claimManager.selectedClaim.carrier});
       },
       ajax: {
-        headers: { 'Authorization': this.auth },
+        headers: {'Authorization': this.auth},
         url: (params) => {
           return '/api/payors/search/?searchText=' + (params.term || this.claimManager.selectedClaim.carrier);
         },
@@ -525,4 +545,20 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
       }
     }
   }
+
+  openDialog() {
+    this.claimManager.loading = true;
+    this.http.getPayorsbyId(this.claimManager.claimsData[0].payorId).subscribe(data => {
+      this.claimManager.payorData = data;
+
+      this.claimManager.loading = false;
+        this.dialog.open(CarrierModalComponent,{
+          width: '900px',
+        });
+    }, error => {
+      this.claimManager.loading = false;
+    });
+  }
 }
+
+

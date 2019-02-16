@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from './http-service';
 import { ToastrService } from 'ngx-toastr';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
+import {filter} from "rxjs/operators";
 import * as Immutable from 'immutable';
 import { SortColumnInfo } from '../directives/table-sort.directive';
 import { ITreeNode } from '../decision-tree/tree-node';
@@ -36,7 +37,8 @@ export class DecisionTreeService {
   depth: number = 930;
   totalRowCount: number;
   display: string = 'list';
-  constructor(private activatedRoute: ActivatedRoute, private profileManager: ProfileManager, private router: Router, private http: HttpService, private toast: ToastrService) {
+  activeToastId: number;
+  constructor(private profileManager: ProfileManager, private router: Router, private http: HttpService, private toast: ToastrService) {
     this.data = {
       "searchText": null,
       "sort": "treeLevel",
@@ -44,6 +46,15 @@ export class DecisionTreeService {
       "page": 1,
       "pageSize": 30
     };
+
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe((e:NavigationEnd)=>{
+      if(e.url.indexOf('/main/decision-tree')==-1){
+        $.contextMenu('destroy');
+        this.toast.clear();
+      }
+    })
 
   }
   get treeDepth() {
@@ -143,14 +154,17 @@ export class DecisionTreeService {
       }
     });
     d.children = children;
-    this.update(d);
     if (d.parent) {
       this.deleteNonTraversedPath(d.parent, d.id)
     }
+    this.update(d);
+  }
+  cancelTree(){
+    
   }
   setDescription(d) {
     let title = `Select ${d.data.nodeName}`,
-      msg = `Describe your action for - ${d.data.nodeName}`;
+      msg = `Describe your action`;
     swal({
       title: title,
       text: msg,
@@ -160,30 +174,61 @@ export class DecisionTreeService {
       cancelButtonText: 'Cancel'
     }).then((result) => {
       if (result.value) {
-        this.toast.info("Ready to save the node descritption")
         d.data.nodeDescription = result.value;
         let content = `${d.data.nodeName} ${(d.data.nodeDescription ? '<br><br><u>Description:</u><br> ' + d.data.nodeDescription : '')}`;
-        console.log(content);
-        $(`#tree_node${d.id}`).tooltipster('content',content)
+        $(`#tree_node${d.id}`).tooltipster('content', content);
+        this.callTreePathApi(d, result.value);
+      } else if (result.dismiss) {
+        const toast = this.toast.toasts.find(t => t.toastId === this.activeToastId);
+        if (toast) {
+          toast.toastRef.close();
+        }
+      } else if (!result.dismiss) {
+        const toast = this.toast.toasts.find(t => t.toastId === this.activeToastId);
+        if (toast) {
+          toast.message = 'Please provide some description';
+        } else {
+          this.activeToastId = this.toast.info('Please provide some description', null,
+            { timeOut: 5000 }).toastId;
+        }
+        this.setDescription(d);
       }
     }).catch(swal.noop);
 
   }
   selectNode(d): any {
+    if (!d.children && !d._children) {
+      this.setDescription(d);
+    } else if ( d._children && d._children.length==1) {
+      this.callTreePathApi(d,undefined,true);
+    } else {
+      this.callTreePathApi(d);
+    }
+
+  }
+  callTreePathApi(d, newNodeDescription?: string,next?:boolean) {
     this.loading = true;
-    this.http.chooseTreePath(this.sessionId, d.parent.data.treeId, d.data.treeId)
+    this.http.chooseTreePath(this.sessionId, d.parent.data.treeId, d.data.treeId, newNodeDescription)
       .subscribe((resp: any) => {
-        this.toast.success(resp.message)
-        if (!d.children && !d._children) {
-          this.setDescription(d);
-        }
         if (!d.children) {
           d.children = d._children;
           d._children = null;
         }
+        if(newNodeDescription){
+          this.toast.info(`Thank you for completing the ${d.data.nodeName} Tree, you will now be redirected to the Episodes page were your work will be saved...`, null,
+            { timeOut: 15000 });
+            this.router.navigate(['/main/episode'])
+        }
+        d.data.picked = true
         this.update(d);
         if (d.parent) {
           this.deleteNonTraversedPath(d.parent, d.id)
+        }
+        $(`#tree_node${d.id} circle`).addClass('tracked');        
+        if(next){
+          this.selectNode(d.children[0]);
+        }else{
+          this.toast.success(resp.message);
         }
         this.loading = false;
       }, err => {
@@ -192,7 +237,6 @@ export class DecisionTreeService {
           const error = err.error;
         } catch (e) { }
       });
-
   }
   treeNodeItems(n): any {
     let items: any = {}
@@ -404,7 +448,10 @@ export class DecisionTreeService {
 
     // Add Circle for the nodes
     nodeEnter.append('circle')
-      .attr('class', 'node')
+      .attr('class', (d) => {
+        let tracked = d.data.picked ? ' tracked' : '';
+        return `node${tracked}`;
+      })
       .attr('r', 1e-6)
       .style("fill", (d) => {
         return d._children ? "lightsteelblue" : "#fff";

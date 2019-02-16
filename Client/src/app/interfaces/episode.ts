@@ -4,8 +4,9 @@ export interface Episode {
     category: string;
     created: string;
     patientName: string;
-    claimNumber: any;
-    rxNumber: any;
+    claimNumber: string;
+    claimId: number;
+    rxNumber: string;
     type: string;
     role: string;
     pharmacy: string;

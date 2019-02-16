@@ -202,6 +202,7 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 						var createdOrdinal = reader.GetOrdinal("Created");
 						var patientNameOrdinal = reader.GetOrdinal("PatientName");
 						var claimNumberOrdinal = reader.GetOrdinal("ClaimNumber");
+                        var claimIdOrdinal = reader.GetOrdinal("ClaimId");
 						var typeOrdinal = reader.GetOrdinal("Type");
 						var pharmacyOrdinal = reader.GetOrdinal("Pharmacy");
 						var carrierOrdinal = reader.GetOrdinal("Carrier");
@@ -216,6 +217,7 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 								Created = !reader.IsDBNull(createdOrdinal) ? reader.GetDateTime(createdOrdinal) : (DateTime?) null,
 								PatientName = !reader.IsDBNull(patientNameOrdinal) ? reader.GetString(patientNameOrdinal) : string.Empty,
 								ClaimNumber = !reader.IsDBNull(claimNumberOrdinal) ? reader.GetString(claimNumberOrdinal) : string.Empty,
+                                ClaimId = !reader.IsDBNull(claimIdOrdinal) ? reader.GetInt32(claimIdOrdinal) : default,
 								Type = !reader.IsDBNull(typeOrdinal) ? reader.GetString(typeOrdinal) : string.Empty,
 								Pharmacy = !reader.IsDBNull(pharmacyOrdinal) ? reader.GetString(pharmacyOrdinal) : string.Empty,
 								Carrier = !reader.IsDBNull(carrierOrdinal) ? reader.GetString(carrierOrdinal) : string.Empty,

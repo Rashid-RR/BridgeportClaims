@@ -3,6 +3,7 @@ import { HttpService } from './services/services.barrel';
 import { ProfileManager } from './services/profile-manager';
 import { UserProfile } from './models/profile';
 import { EventsService } from './services/events-service';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -12,6 +13,7 @@ import { EventsService } from './services/events-service';
 export class AppComponent implements OnInit, OnDestroy {
   t: any;
   constructor(
+    private toast: ToastrService,
     private http: HttpService,
     private events: EventsService,
     private profileManager: ProfileManager,

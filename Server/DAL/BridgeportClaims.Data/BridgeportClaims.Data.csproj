@@ -176,6 +176,7 @@
     <Compile Include="DataProviders\Utilities\UtilitiesProvider.cs" />
     <Compile Include="Dtos\AccountsReceivableDto.cs" />
     <Compile Include="Dtos\AdjustorDto.cs" />
+    <Compile Include="Dtos\AdjustorFullDto.cs" />
     <Compile Include="Dtos\AdjustorNameDto.cs" />
     <Compile Include="Dtos\AdjustorResultDto.cs" />
     <Compile Include="Dtos\AdjustorSearchResultsDto.cs" />
