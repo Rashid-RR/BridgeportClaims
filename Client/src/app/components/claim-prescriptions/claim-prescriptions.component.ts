@@ -18,6 +18,7 @@ export class ClaimPrescriptionsComponent implements OnInit, AfterViewChecked, Af
   checkAll: Boolean = false;
   selectMultiple: Boolean = false;
   lastSelectedIndex: number;
+  //
   @ViewChild('prescriptionTable') table: ElementRef;
   sortColumn: SortColumnInfo;
 

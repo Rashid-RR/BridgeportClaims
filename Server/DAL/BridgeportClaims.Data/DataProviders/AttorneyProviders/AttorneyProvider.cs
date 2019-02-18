@@ -1,15 +1,38 @@
-﻿using System.Data;
+﻿using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using cs = BridgeportClaims.Common.Config.ConfigService;
 using BridgeportClaims.Common.Disposable;
+using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.Dtos;
 using Dapper;
+using SQLinq;
+using SQLinq.Dapper;
 
 namespace BridgeportClaims.Data.DataProviders.AttorneyProviders
 {
     public class AttorneyProvider : IAttorneyProvider
     {
+        public IEnumerable<AttorneyNameDto> GetAttorneyNames(string attorneyName)
+            => DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+            {
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                }
+                if (attorneyName.IsNotNullOrWhiteSpace())
+                {
+                    return conn.Query(new SQLinq<AttorneyNameDto>()
+                        .Where(p => p.AttorneyName.Contains(attorneyName))
+                        .OrderBy(p => p.AttorneyName)
+                        .Select(p => new {p.AttorneyId, p.AttorneyName}));
+                }
+                return conn.Query(new SQLinq<AttorneyNameDto>()
+                    .OrderBy(p => p.AttorneyName)
+                    .Select(p => new { p.AttorneyId, p.AttorneyName }));
+            });
+
         public AttorneyDto GetAttorneys(string searchText, int page, int pageSize, string sort, string sortDirection)
             => DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {

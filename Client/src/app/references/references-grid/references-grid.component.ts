@@ -1,7 +1,10 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit, Renderer2, AfterViewInit, NgZone, HostListener, AfterViewChecked, ElementRef, ViewChild } from '@angular/core';
 import {ReferenceManagerService} from '../../services/reference-manager.service';
 import {ToastrService} from 'ngx-toastr';
-
+import { SortColumnInfo } from '../../directives/table-sort.directive';
+import { ClaimManager } from '../../services/claim-manager';
+import { AdjustorItem } from '../dataitems/adjustor-item.model';
+declare var jQuery: any;
 declare var $: any;
 
 @Component({
@@ -10,15 +13,20 @@ declare var $: any;
   styleUrls: ['./references-grid.component.css']
 })
 export class ReferencesGridComponent implements OnInit {
+
   goToPage: any = '';
   toastId: number;
   toastIsActive = false;
-  constructor(public rs: ReferenceManagerService,
-              private toast: ToastrService) {
+  selectedAdjustorIds: Array<string> = [];
+  constructor(public rs: ReferenceManagerService, private _rootElement: ElementRef,
+              private toast: ToastrService,) {
   }
 
   ngOnInit() {
   }
+
+ 
+
 
   goto() {
     const page = Number.parseInt(this.goToPage);
@@ -44,6 +52,16 @@ export class ReferencesGridComponent implements OnInit {
   prev() {
     this.rs.currentPage = this.rs.currentPage - 1;
     this.rs.getReferencesList();
+  }
+
+  setSelected(adjustor: AdjustorItem) {
+    if (this.selectedAdjustorIds.indexOf(adjustor.adjustorId) !== -1) {
+      this.selectedAdjustorIds.splice(this.selectedAdjustorIds.indexOf(adjustor.adjustorId), 1);
+      $(this._rootElement.nativeElement).find(`#${adjustor.adjustorId}`).removeClass('bgBlue');
+    } else {
+      this.selectedAdjustorIds[this.selectedAdjustorIds.length] = adjustor.adjustorId;
+      $(this._rootElement.nativeElement).find(`#${adjustor.adjustorId}`).addClass('bgBlue');
+    }
   }
 
   keyPress(event: any) {
