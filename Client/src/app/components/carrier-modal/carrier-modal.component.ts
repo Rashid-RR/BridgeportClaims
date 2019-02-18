@@ -24,7 +24,7 @@ export class CarrierModalComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.claimManager.claimsData[0]);
+    // console.log(this.claimManager.claimsData[0]);
   }
 
   onNoClick(): void {
@@ -32,7 +32,6 @@ export class CarrierModalComponent implements OnInit {
   }
 
   convertPhoneNumber(num: any) {
-    console.log(num);
     let convertedNumber;
     if (num.length === 10) {
       convertedNumber = '(' + num.substring(0, 3) + ') ' + num.substring(3, 6) + '-' + num.substring(6, 10);
