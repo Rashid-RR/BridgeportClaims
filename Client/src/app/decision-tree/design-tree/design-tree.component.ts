@@ -33,6 +33,7 @@ export class DesignTreeComponent implements OnInit, AfterViewInit {
     }
   }
   ngAfterViewInit() {
+    $('body, html, .wrapper').css('height', '100%');
     if (this.ds.parentTreeId) {
       this.ds.loading = true;
       this.http.getTree({ parentTreeId: this.ds.parentTreeId })
@@ -95,11 +96,13 @@ export class DesignTreeComponent implements OnInit, AfterViewInit {
     .select('svg')
     .call(
       d3.zoom()
-      .extent([[this.ds.margin.left, this.ds.margin.top], [this.ds.width, this.ds.height]])
-      .scaleExtent([1, 1])
+      // .extent([[this.ds.ma`rgin.left, this.ds.margin.top], [this.ds.width, this.ds.height]])
+      // .scaleExtent([1, 1])
       .on('zoom', () => {
           zoomX = d3.event.transform.x + (this.ds.margin.left || 0);
+          // console.log('zoomX', zoomX);
           zoomY = d3.event.transform.y + (this.ds.margin.top || 0);
+          // console.log('zoomY', zoomY);
           d3.select('svg').attr('transform', `translate(${zoomX},${zoomY})scale(${zoomZ})`);
       })
     );
