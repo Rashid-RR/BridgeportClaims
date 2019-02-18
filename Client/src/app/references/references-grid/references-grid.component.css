@@ -236,3 +236,7 @@ tr.bgBlue td.invoiceIsIndexed, tr.bgBlue td.invoiceIsIndexed, tr.bgBlue:hover td
 tr.bgBlue td.invoiceIsIndexed .btn-group button.dropdown-toggle.status{
     color:white !important;
 }
+.cliked-row{
+  background: #204d74 !important;
+  cursor: pointer;
+}

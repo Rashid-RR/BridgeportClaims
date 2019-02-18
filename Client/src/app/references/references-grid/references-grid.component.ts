@@ -1,9 +1,10 @@
-import { Component, OnInit, Renderer2, AfterViewInit, NgZone, HostListener, AfterViewChecked, ElementRef, ViewChild } from '@angular/core';
+import {Component, OnInit, Renderer2, AfterViewInit, NgZone, HostListener, AfterViewChecked, ElementRef, ViewChild} from '@angular/core';
 import {ReferenceManagerService} from '../../services/reference-manager.service';
 import {ToastrService} from 'ngx-toastr';
-import { SortColumnInfo } from '../../directives/table-sort.directive';
-import { ClaimManager } from '../../services/claim-manager';
-import { AdjustorItem } from '../dataitems/adjustor-item.model';
+import {SortColumnInfo} from '../../directives/table-sort.directive';
+import {ClaimManager} from '../../services/claim-manager';
+import {AdjustorItem} from '../dataitems/adjustor-item.model';
+
 declare var jQuery: any;
 declare var $: any;
 
@@ -14,18 +15,18 @@ declare var $: any;
 })
 export class ReferencesGridComponent implements OnInit {
 
+  selectedId: any;
   goToPage: any = '';
   toastId: number;
   toastIsActive = false;
   selectedAdjustorIds: Array<string> = [];
+
   constructor(public rs: ReferenceManagerService, private _rootElement: ElementRef,
               private toast: ToastrService,) {
   }
 
   ngOnInit() {
   }
-
- 
 
 
   goto() {
@@ -62,6 +63,10 @@ export class ReferencesGridComponent implements OnInit {
       this.selectedAdjustorIds[this.selectedAdjustorIds.length] = adjustor.adjustorId;
       $(this._rootElement.nativeElement).find(`#${adjustor.adjustorId}`).addClass('bgBlue');
     }
+  }
+
+  highlightRow(id: any) {
+    this.selectedId = id;
   }
 
   keyPress(event: any) {
