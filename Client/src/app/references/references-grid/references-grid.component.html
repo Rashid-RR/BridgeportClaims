@@ -295,7 +295,7 @@
         <!-- Payors -->
         <tbody class="overflowable" tabindex="0" *ngIf="rs.typeSelected==rs.types[2]">
           <ng-container *ngFor="let payor of rs.getPayors()">
-            <tr>
+            <tr [id]="payor.payorId">
               <td>{{payor?.groupName}}</td>
               <td>{{payor?.billToName}}</td>
               <td>{{payor?.billToAddress1}}</td>

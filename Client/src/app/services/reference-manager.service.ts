@@ -174,7 +174,14 @@ export class ReferenceManagerService {
         this.editFlag = true;
         this.editedEntity = result;
         this.openModal(true);
-        this.payorID = null;
+
+        setTimeout(() => {
+          const element = document.getElementById(this.payorID);
+          element.classList.add('bgBlue');
+          this.payorID = null;
+
+        }, 1200);
+
         this.totalEntityRows = 1;
         this.loading = false;
       }, error => {
@@ -293,7 +300,7 @@ export class ReferenceManagerService {
         this.attorneyForm.controls.emailAddress.setValue(this.editedEntity.emailAddress);
         // Payors
       } else if (this.typeSelected === this.types[2]) {
-        if(this.editedEntity.state){
+        if (this.editedEntity.state) {
           this.editedEntity.billToStateName = this.editedEntity.state;
         }
         this.payorForm.controls.payorId.setValue(this.editedEntity.payorId);
