@@ -182,6 +182,7 @@
     <Compile Include="Dtos\AdjustorSearchResultsDto.cs" />
     <Compile Include="Dtos\AspNetUsersDto.cs" />
     <Compile Include="Dtos\AttorneyDto.cs" />
+    <Compile Include="Dtos\AttorneyNameDto.cs" />
     <Compile Include="Dtos\AttorneyResultDto.cs" />
     <Compile Include="Dtos\BillingStatementDto.cs" />
     <Compile Include="Dtos\CarrierDto.cs" />

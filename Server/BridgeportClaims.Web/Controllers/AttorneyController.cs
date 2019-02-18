@@ -25,6 +25,22 @@ namespace BridgeportClaims.Web.Controllers
             _clientDataProvider = clientDataProvider;
         }
 
+        [HttpPost]
+        [Route("attorney-names")]
+        public IHttpActionResult GetAdjustorNames(string attorneyName)
+        {
+            try
+            {
+                var results = _attorneyProvider.Value.GetAttorneyNames(attorneyName ?? string.Empty);
+                return Ok(results);
+            }
+            catch (Exception ex)
+            {
+                Logger.Value.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+            }
+        }
+
         [HttpGet]
         [Route("get-states")]
         public IHttpActionResult GetStates()
