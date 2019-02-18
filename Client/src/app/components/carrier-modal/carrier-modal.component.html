@@ -1,18 +1,19 @@
 <div class="row">
+
   <div class="col-lg-2" style="width: 14% !important;">
-    <h2>Claim #:
+    <h2>Payor - Group:
     </h2>
   </div>
   <div class="col-lg-3" style="width: 26% !important;">
     <h2>
-      <span class="header-hd"> {{claimManager.claimsData[0].claimNumber}}</span></h2>
+      <span class="header-hd"
+            style="font-size: 19px !important; color: #204d74"> {{claimManager.claimsData[0].carrier}}</span></h2>
   </div>
-
   <div class="col-lg-1">
     <h2>Payor:
     </h2>
   </div>
-  <div class="col-lg-5" >
+  <div class="col-lg-5">
     <h2>
       <span
         class="header-hd"> {{claimManager.selectedClaim.name || claimManager.selectedClaim.firstName || ''}} {{claimManager.selectedClaim.lastName || ''}} </span>
@@ -23,27 +24,40 @@
       <i class="fa fa-close" style="color: #992727;"></i>
     </label>
   </div>
+
   <div class="col-lg-2" style="width: 14% !important;">
-    <h2>Payor - Group:
+    <h2>Claim #:
     </h2>
   </div>
   <div class="col-lg-3" style="width: 26% !important;">
     <h2>
-      <span class="header-hd"> {{claimManager.claimsData[0].carrier}}</span></h2>
+      <span class="header-hd"> {{claimManager.claimsData[0].claimNumber}}</span></h2>
   </div>
+
+
   <div class="col-lg-1">
     <h2>Address:</h2>
   </div>
   <div class="col-lg-6">
     <h2>
       <span class="header-hd">
-      {{claimManager.payorData?.billToAddress1 || ''}}, {{claimManager.payorData?.billToAddress2 || ''}} {{claimManager.payorData?.billToCity || ''}}, {{claimManager.payorData?.state || ''}} &nbsp;{{claimManager.payorData?.billToPostalCode || ''}}
+      {{claimManager.payorData?.billToAddress1 || ''}}
+        , {{claimManager.payorData?.billToAddress2 || ''}} {{claimManager.payorData?.billToCity || ''}}
+        , {{claimManager.payorData?.state || ''}} &nbsp;{{claimManager.payorData?.billToPostalCode || ''}}
       </span></h2>
   </div>
 </div>
 <mat-divider></mat-divider>
-<mat-dialog-content class="mat-typography" style="margin-top: 5vh">
+<mat-dialog-content class="mat-typography" style="margin-top: 2vh">
   <div class="row">
+    <div class="col-lg-12">
+      <button class="algin-btn-center" (click)="showRefrence(claimManager?.payorData?.payorId)" color="primary" mat-raised-button>
+        <span class="glyphicon glyphicon-edit button-icon-fix"></span> Edit
+      </button>
+    </div>
+  </div>
+
+  <div class="row" style="margin-top: 3vh">
     <div class="col-lg-6">
       <div class="row">
         <div class="col-lg-6">
@@ -60,7 +74,7 @@
           <p> {{claimManager.payorData?.groupName}}</p>
           <p> {{claimManager.payorData?.billToName}}</p>
           <p> {{claimManager.payorData?.billToAddress1}}</p>
-          <p> {{claimManager.payorData?.billToAddress2?claimManager.payorData?.billToAddress2:'-'}}</p>
+          <p> {{claimManager.payorData?.billToAddress2 ? claimManager.payorData?.billToAddress2 : '-'}}</p>
           <p> {{claimManager.payorData?.billToCity}}</p>
           <p> {{claimManager.payorData?.state}}</p>
           <p> {{claimManager.payorData?.billToPostalCode}}</p>
@@ -81,11 +95,11 @@
         </div>
         <div class="col-lg-6">
           <p>  {{ convertPhoneNumber(claimManager.payorData?.phoneNumber) }}</p>
-          <p> {{claimManager.payorData?.alternatePhoneNumber? claimManager.payorData?.alternatePhoneNumber:'-'}}</p>
-          <p> {{claimManager.payorData?.faxNumber?claimManager.payorData?.faxNumber:'-'}}</p>
-          <p> {{claimManager.payorData?.notes? claimManager.payorData?.notes: '-'}}</p>
-          <p> {{claimManager.payorData?.contact? claimManager.payorData?.contact:'-'}}</p>
-          <p> {{claimManager.payorData?.letterName? claimManager.payorData?.letterName:'-'}}</p>
+          <p> {{claimManager.payorData?.alternatePhoneNumber ? claimManager.payorData?.alternatePhoneNumber : '-'}}</p>
+          <p> {{claimManager.payorData?.faxNumber ? claimManager.payorData?.faxNumber : '-'}}</p>
+          <p> {{claimManager.payorData?.notes ? claimManager.payorData?.notes : '-'}}</p>
+          <p> {{claimManager.payorData?.contact ? claimManager.payorData?.contact : '-'}}</p>
+          <p> {{claimManager.payorData?.letterName ? claimManager.payorData?.letterName : '-'}}</p>
           <p> {{claimManager.payorData?.createdOn | date}}</p>
         </div>
       </div>

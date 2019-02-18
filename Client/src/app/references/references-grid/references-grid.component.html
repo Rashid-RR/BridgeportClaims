@@ -268,7 +268,7 @@
               <td>{{payor?.billToAddress1}}</td>
               <td>{{payor?.billToAddress2}}</td>
               <td>{{payor?.billToCity}}</td>
-              <td>{{payor?.billToStateName}}</td>
+              <td>{{payor.billToStateName?payor.billToStateName:payor.state}}</td>
               <td>{{payor?.billToPostalCode}}</td>
               <td>{{payor?.phoneNumber}}</td>
               <td>{{payor?.alternatePhoneNumber}}</td>
