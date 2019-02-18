@@ -19,6 +19,7 @@ CREATE TABLE [dbo].[ClaimAudit]
 [ClaimFlex2ID] [int] NULL,
 [IsMaxBalance] [bit] NOT NULL CONSTRAINT [dfClaimAuditIsMaxBalance] DEFAULT ((0)),
 [ModifiedByUserID] [nvarchar] (128) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[AttorneyID] [int] NULL,
 [CreatedOnUTC] [datetime2] NOT NULL,
 [UpdatedOnUTC] [datetime2] NOT NULL,
 [Operation] [varchar] (15) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
