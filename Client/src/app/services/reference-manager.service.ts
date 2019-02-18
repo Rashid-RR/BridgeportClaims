@@ -1,10 +1,10 @@
 import {Injectable} from '@angular/core';
 import {HttpService} from './http-service';
 import {AdjustorItem} from '../references/dataitems/adjustor-item.model';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { UsState } from '../models/us-state';
-import { PayorItem } from '../references/dataitems/payor-item.model';
-import { AttorneyItem } from '../references/dataitems/attorney-item.model';
+import {FormGroup, FormBuilder, Validators} from '@angular/forms';
+import {UsState} from '../models/us-state';
+import {PayorItem} from '../references/dataitems/payor-item.model';
+import {AttorneyItem} from '../references/dataitems/attorney-item.model';
 
 declare var $: any;
 
@@ -15,6 +15,7 @@ export class ReferenceManagerService {
   payorForm: FormGroup;
   states: UsState[];
   public editFlag = false;
+  public payorID;
   public loading = false;
   public adjustors: Array<AdjustorItem>;
   public payors: Array<PayorItem>;
@@ -113,7 +114,12 @@ export class ReferenceManagerService {
     } else if (this.typeSelected === 'Attorney') {
       this.fetchAttorneys(this.abstractSearchParams);
     } else if (this.typeSelected === 'Payor') {
-      this.fetchPayors(this.abstractSearchParams);
+      //checking either we are getting single payor or not
+      if (this.payorID) {
+        this.fetchSinglePayor(this.payorID);
+      } else {
+        this.fetchPayors(this.abstractSearchParams);
+      }
     }
   }
 
@@ -153,6 +159,23 @@ export class ReferenceManagerService {
       .subscribe((result: any) => {
         this.payors = result.results;
         this.totalEntityRows = result.totalRowCount;
+        this.loading = false;
+      }, error => {
+        this.loading = false;
+      });
+  }
+
+  fetchSinglePayor(id: any): void {
+    this.loading = true;
+    this.http.getPayorsbyId(this.payorID)
+      .subscribe((result: any) => {
+        this.payors = [];
+        this.payors.push(result);
+        this.editFlag = true;
+        this.editedEntity = result;
+        this.openModal(true);
+        this.payorID = null;
+        this.totalEntityRows = 1;
         this.loading = false;
       }, error => {
         this.loading = false;
@@ -270,6 +293,9 @@ export class ReferenceManagerService {
         this.attorneyForm.controls.emailAddress.setValue(this.editedEntity.emailAddress);
         // Payors
       } else if (this.typeSelected === this.types[2]) {
+        if(this.editedEntity.state){
+          this.editedEntity.billToStateName = this.editedEntity.state;
+        }
         this.payorForm.controls.payorId.setValue(this.editedEntity.payorId);
         this.payorForm.controls.groupName.setValue(this.editedEntity.groupName);
         this.payorForm.controls.billToName.setValue(this.editedEntity.billToName);

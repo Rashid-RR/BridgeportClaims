@@ -20,8 +20,6 @@ ALTER TABLE [dbo].[PrescriptionPayment] ADD CONSTRAINT [pkPrescriptionPaymentID]
 GO
 CREATE NONCLUSTERED INDEX [idxPrescriptionPaymentAmountPaid] ON [dbo].[PrescriptionPayment] ([AmountPaid]) INCLUDE ([DatePosted], [PrescriptionID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
-CREATE NONCLUSTERED INDEX [idxPrescriptionPaymentCheckNumber] ON [dbo].[PrescriptionPayment] ([CheckNumber]) INCLUDE ([AmountPaid], [PrescriptionID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
-GO
 CREATE NONCLUSTERED INDEX [idxPrescriptionPaymentDatePostedIncludeAll] ON [dbo].[PrescriptionPayment] ([DatePosted]) INCLUDE ([AmountPaid], [CheckNumber], [CreatedOnUTC], [DataVersion], [DocumentID], [ModifiedByUserID], [PrescriptionID], [PrescriptionPaymentID], [UpdatedOnUTC]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
 CREATE NONCLUSTERED INDEX [idxPrescriptionPaymentDocumentID] ON [dbo].[PrescriptionPayment] ([DocumentID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]

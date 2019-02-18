@@ -214,3 +214,25 @@ thead span {
 .expanded-custom{
   height: calc(100vh - 290px);
 }
+
+tbody>tr.bgBlue{
+  background: #56a1ff !important;
+  color: white;
+}
+tbody>tr.bgBlue td .btn-group.status button{
+  color:white;
+}
+tbody>tr.bgBlue td::selection,
+tbody>tr.bgBlue td a::selection {
+  background: #56a1ff !important;
+}
+
+
+tr:not(.bgBlue) td.invoiceIsIndexed,tr:not(.bgBlue):hover td.invoiceIsIndexed,
+tr:not(.bgBlue) td.invoiceIsIndexed .btn-group button.dropdown-toggle.status{
+    color:blue !important;
+}
+tr.bgBlue td.invoiceIsIndexed, tr.bgBlue td.invoiceIsIndexed, tr.bgBlue:hover td.invoiceIsIndexed,
+tr.bgBlue td.invoiceIsIndexed .btn-group button.dropdown-toggle.status{
+    color:white !important;
+}
