@@ -31,6 +31,6 @@ export class AttorneyModalComponent implements OnInit {
 
   showReference(attorneyId: number) {
     this.dialogRef.close();
-    this.router.navigate(['main/refrences'], { queryParams: { attorneyId: attorneyId } });
+    this.router.navigate(['main/references'], { queryParams: { attorneyId: attorneyId } });
   }
 }

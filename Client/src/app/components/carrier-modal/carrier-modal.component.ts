@@ -44,8 +44,8 @@ export class CarrierModalComponent implements OnInit {
     }
   }
 
-  showRefrence(payorId: any) {
+  showReference(payorId: any) {
     this.dialogRef.close();
-    this.router.navigate(['main/refrences'], {queryParams: {payorId: payorId}});
+    this.router.navigate(['main/references'], {queryParams: {payorId: payorId}});
   }
 }
