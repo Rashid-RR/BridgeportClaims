@@ -391,7 +391,7 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
         processResults: function (data) {
           data.forEach(d => {
             d.id = d.payorId,
-              d.text = d.groupName;
+            d.text = d.groupName;
           });
           return {
             results: (data || [])
@@ -464,7 +464,7 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
       form.adjustorId = this.form.value.adjustorId !== this.lastForm.adjustorId ?
         (this.form.value.adjustorId === null ? null : Number(this.form.value.adjustorId)) : undefined;
       form.attorneyId = this.form.value.attorneyId !== this.lastForm.attorneyId ?
-        (this.form.value.attorneyId === null ? null : Number(this.lastForm.attorneyId)) : undefined;
+        (this.form.value.attorneyId === null ? null : Number(this.form.value.attorneyId)) : undefined;
       form.city = this.form.value.city !== this.lastForm.city ? this.form.value.city : undefined;
         this.claimManager.loading = true;
         this.http.editClaim(form).subscribe(res => {
