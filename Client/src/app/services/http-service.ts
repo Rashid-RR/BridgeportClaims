@@ -1386,15 +1386,25 @@ export class HttpService {
       );
   }
 
-  getPayorsbyId(id: any): Observable<any> {
-    const s = this.http.get(this.baseUrl + '/payors/get-payor-by-id/?payorId='+id)
+  getPayorById(id: any): Observable<any> {
+    const s = this.http.get(this.baseUrl + '/payors/get-payor-by-id/?payorId=' + id)
       .pipe(
         tap(_ => {
         }, error => {
           this.handleResponseError(error);
         })
       );
+    return s;
+  }
 
+  getAdjustorById(id: number): Observable<any> {
+    const s = this.http.post(this.baseUrl + '/adjustors/get-adjustor/?adjustorId=' + id, {})
+      .pipe(
+        tap(_ => {
+        }, error => {
+          this.handleResponseError(error);
+        })
+      );
     return s;
   }
 

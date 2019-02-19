@@ -548,7 +548,7 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
 
   openDialog() {
     this.claimManager.loading = true;
-    this.http.getPayorsbyId(this.claimManager.claimsData[0].payorId).subscribe(data => {
+    this.http.getPayorById(this.claimManager.claimsData[0].payorId).subscribe(data => {
       this.claimManager.payorData = data;
 
       this.claimManager.loading = false;

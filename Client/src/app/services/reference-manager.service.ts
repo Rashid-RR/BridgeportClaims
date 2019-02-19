@@ -1,10 +1,10 @@
-import {Injectable} from '@angular/core';
-import {HttpService} from './http-service';
-import {AdjustorItem} from '../references/dataitems/adjustor-item.model';
-import {FormGroup, FormBuilder, Validators} from '@angular/forms';
-import {UsState} from '../models/us-state';
-import {PayorItem} from '../references/dataitems/payor-item.model';
-import {AttorneyItem} from '../references/dataitems/attorney-item.model';
+import { Injectable } from '@angular/core';
+import { HttpService } from './http-service';
+import { AdjustorItem } from '../references/dataitems/adjustor-item.model';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { UsState } from '../models/us-state';
+import { PayorItem } from '../references/dataitems/payor-item.model';
+import { AttorneyItem } from '../references/dataitems/attorney-item.model';
 
 declare var $: any;
 
@@ -15,7 +15,8 @@ export class ReferenceManagerService {
   payorForm: FormGroup;
   states: UsState[];
   public editFlag = false;
-  public payorID;
+  public payorId: number;
+  public adjustorId: number;
   public loading = false;
   public adjustors: Array<AdjustorItem>;
   public payors: Array<PayorItem>;
@@ -110,13 +111,18 @@ export class ReferenceManagerService {
     this.abstractSearchParams.sortDirection = this.sortType;
     this.abstractSearchParams.sort = this.sortColumn;
     if (this.typeSelected === 'Adjustor') {
-      this.fetchAdjustors(this.abstractSearchParams);
+      // checking if we are getting a single adjustor or not....
+      if (this.adjustorId) {
+        this.fetchSingleAdjustor(this.adjustorId);
+      } else {
+        this.fetchAdjustors(this.abstractSearchParams);
+      }
     } else if (this.typeSelected === 'Attorney') {
       this.fetchAttorneys(this.abstractSearchParams);
     } else if (this.typeSelected === 'Payor') {
-      //checking either we are getting single payor or not
-      if (this.payorID) {
-        this.fetchSinglePayor(this.payorID);
+      // checking if we are getting a single payor or not...
+      if (this.payorId) {
+        this.fetchSinglePayor(this.payorId);
       } else {
         this.fetchPayors(this.abstractSearchParams);
       }
@@ -144,12 +150,12 @@ export class ReferenceManagerService {
     this.loading = true;
     this.http.getReferencesAdjustorsList(data)
       .subscribe((result: any) => {
-          this.adjustors = result.results;
-          this.totalEntityRows = result.totalRows;
-          this.loading = false;
-        }, error => {
-          this.loading = false;
-        }
+        this.adjustors = result.results;
+        this.totalEntityRows = result.totalRows;
+        this.loading = false;
+      }, error => {
+        this.loading = false;
+      }
       );
   }
 
@@ -165,9 +171,30 @@ export class ReferenceManagerService {
       });
   }
 
-  fetchSinglePayor(id: any): void {
+  fetchSingleAdjustor(id: number): void {
     this.loading = true;
-    this.http.getPayorsbyId(this.payorID)
+    this.http.getAdjustorById(this.adjustorId)
+      .subscribe((result: any) => {
+        this.adjustors = [];
+        this.adjustors.push(result);
+        this.editFlag = true;
+        this.editedEntity = result;
+        this.openModal(true);
+        setTimeout(() => {
+          const element = document.getElementById(this.adjustorId.toString());
+          element.classList.add('bgBlue');
+          this.adjustorId = null;
+        }, 1200);
+        this.totalEntityRows = 1;
+        this.loading = false;
+      }, error => {
+        this.loading = false;
+      });
+  }
+
+  fetchSinglePayor(id: number): void {
+    this.loading = true;
+    this.http.getPayorById(this.payorId)
       .subscribe((result: any) => {
         this.payors = [];
         this.payors.push(result);
@@ -176,12 +203,10 @@ export class ReferenceManagerService {
         this.openModal(true);
 
         setTimeout(() => {
-          const element = document.getElementById(this.payorID);
+          const element = document.getElementById(this.payorId.toString());
           element.classList.add('bgBlue');
-          this.payorID = null;
-
+          this.payorId = null;
         }, 1200);
-
         this.totalEntityRows = 1;
         this.loading = false;
       }, error => {
@@ -193,12 +218,12 @@ export class ReferenceManagerService {
     this.loading = true;
     this.http.getReferencesAttorneysList(data)
       .subscribe((result: any) => {
-          this.attorneys = result.results;
-          this.totalEntityRows = result.totalRows;
-          this.loading = false;
-        }, error => {
-          this.loading = false;
-        }
+        this.attorneys = result.results;
+        this.totalEntityRows = result.totalRows;
+        this.loading = false;
+      }, error => {
+        this.loading = false;
+      }
       );
   }
 
@@ -231,6 +256,18 @@ export class ReferenceManagerService {
   getCurrentStartPage() {
     this.currentStartedPage = ((this.currentPage - 1) * this.pageSize) + 1;
     return Math.floor(this.currentStartedPage);
+  }
+
+  convertPhoneNumber(num: any) {
+    let convertedNumber: string;
+    if (num.length === 10) {
+      convertedNumber = '(' + num.substring(0, 3) + ') ' + num.substring(3, 6) + '-' + num.substring(6, 10);
+      return convertedNumber;
+
+    } else if (num.length === 11) {
+      convertedNumber = num.substring(0, 1) + '-(' + num.substring(1, 4) + ') ' + num.substring(4, 7) + '-' + num.substring(7, 11);
+      return convertedNumber;
+    }
   }
 
   openModal(isModalEdit: boolean): void {

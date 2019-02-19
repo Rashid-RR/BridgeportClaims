@@ -51,9 +51,14 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.route.queryParams.subscribe(queryOptions => {
       if (queryOptions['payorId']) {
-        this.rs.payorID = queryOptions['payorId'];
-        this.rs.typeSelected = 'Payor';
+        this.rs.payorId = Number(queryOptions['payorId']);
+        this.rs.typeSelected = this.rs.types[2];
         this.rs.sortColumn = ('Payor'.toLowerCase() === 'payor' ? 'group' : 'Payor'.toLowerCase()) + 'Name';
+        this.rs.getReferencesList();
+      } else if (queryOptions['adjustorId']) {
+        this.rs.adjustorId = Number(queryOptions['adjustorId']);
+        this.rs.typeSelected = this.rs.types[0];
+        this.rs.sortColumn = 'adjustorName';
         this.rs.getReferencesList();
       }
     });
