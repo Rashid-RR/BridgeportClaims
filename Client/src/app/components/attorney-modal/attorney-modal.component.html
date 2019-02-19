@@ -14,11 +14,7 @@
   </div>
   <div class="col-lg-5">
     <h2>
-        <span class="header-hd"> 
-          {{claimManager.claimsData[0]?.address1 || ''}}
-          , {{claimManager.claimsData[0]?.address2 || ''}} {{claimManager.claimsData[0]?.city || ''}}
-          , {{claimManager.claimsData[0]?.stateAbbreviation || ''}} &nbsp;{{claimManager.claimsData[0].postalCode || ''}}
-        </span>
+        <span class="header-hd"> {{claimManager.selectedClaim.name || claimManager.selectedClaim.firstName || ''}} {{claimManager.selectedClaim.lastName || ''}} </span>
     </h2>
   </div>
   <div class="col-lg-1">
@@ -40,9 +36,9 @@
   <div class="col-lg-6">
     <h2>
         <span class="header-hd">
-        {{claimManager.attorneyData?.address1 || ''}}
-          , {{claimManager.attorneyData?.address2 || ''}} {{claimManager.attorneyData?.city || ''}}
-          , {{claimManager.attorneyData?.stateName || ''}} &nbsp;{{claimManager.attorneyData?.postalCode || ''}}
+            {{claimManager.claimsData[0]?.address1 || ''}}
+            , {{claimManager.claimsData[0]?.address2 || ''}} {{claimManager.claimsData[0]?.city || ''}}
+            , {{claimManager.claimsData[0]?.stateAbbreviation || ''}} &nbsp;{{claimManager.claimsData[0].postalCode || ''}}
         </span></h2>
   </div>
 </div>

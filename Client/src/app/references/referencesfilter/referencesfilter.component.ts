@@ -86,7 +86,7 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
     if (selection) {
       return selection.stateName;
     }
-  };
+  }
 
   // This doesn't seem to work.
   onSelectionChanged(event: MatAutocompleteSelectedEvent) {

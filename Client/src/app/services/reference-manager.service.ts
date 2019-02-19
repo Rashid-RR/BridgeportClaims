@@ -5,6 +5,7 @@ import {FormGroup, FormBuilder, Validators} from '@angular/forms';
 import {UsState} from '../models/us-state';
 import {PayorItem} from '../references/dataitems/payor-item.model';
 import {AttorneyItem} from '../references/dataitems/attorney-item.model';
+import { throwError } from 'rxjs';
 
 declare var $: any;
 
@@ -111,20 +112,20 @@ export class ReferenceManagerService {
     this.abstractSearchParams.page = this.currentPage;
     this.abstractSearchParams.sortDirection = this.sortType;
     this.abstractSearchParams.sort = this.sortColumn;
-    if (this.typeSelected === 'Adjustor') {
+    if (this.typeSelected === this.types[0]) {
       // checking if we are getting a single adjustor or not....
       if (this.adjustorId) {
         this.fetchSingleAdjustor(this.adjustorId);
       } else {
         this.fetchAdjustors(this.abstractSearchParams);
       }
-    } else if (this.typeSelected === 'Attorney') {
+    } else if (this.typeSelected === this.types[1]) {
       if (this.attorneyId) {
         this.fetchSingleAttorney(this.attorneyId);
       } else {
         this.fetchAttorneys(this.abstractSearchParams);
       }
-    } else if (this.typeSelected === 'Payor') {
+    } else if (this.typeSelected === this.types[2]) {
       // checking if we are getting a single payor or not...
       if (this.payorId) {
         this.fetchSinglePayor(this.payorId);
@@ -177,6 +178,10 @@ export class ReferenceManagerService {
   }
 
   fetchSingleAdjustor(id: number): void {
+    if (id !== this.adjustorId) {
+      throwError('Somethine went wrong, the id passed in does not match the adjustor Id.');
+      return;
+    }
     this.loading = true;
     this.http.getAdjustorById(this.adjustorId)
       .subscribe((result: any) => {
@@ -198,8 +203,12 @@ export class ReferenceManagerService {
   }
 
   fetchSingleAttorney(id: number): void {
+    if (id !== this.attorneyId) {
+      throwError('Somethine went wrong, the id passed in does not match the attorney Id.');
+      return;
+    }
     this.loading = true;
-    this.http.getAdjustorById(this.adjustorId)
+    this.http.getAttorneyById(this.attorneyId)
       .subscribe((result: any) => {
         this.attorneys = [];
         this.attorneys.push(result);
@@ -207,9 +216,9 @@ export class ReferenceManagerService {
         this.editedEntity = result;
         this.openModal(true);
         setTimeout(() => {
-          const element = document.getElementById(this.adjustorId.toString());
+          const element = document.getElementById(this.attorneyId.toString());
           element.classList.add('bgBlue');
-          this.adjustorId = null;
+          this.attorneyId = null;
         }, 1200);
         this.totalEntityRows = 1;
         this.loading = false;
@@ -219,6 +228,10 @@ export class ReferenceManagerService {
   }
 
   fetchSinglePayor(id: number): void {
+    if (id !== this.payorId) {
+      throwError('Somethine went wrong, the id passed in does not match the payor Id.');
+      return;
+    }
     this.loading = true;
     this.http.getPayorById(this.payorId)
       .subscribe((result: any) => {
@@ -227,7 +240,6 @@ export class ReferenceManagerService {
         this.editFlag = true;
         this.editedEntity = result;
         this.openModal(true);
-
         setTimeout(() => {
           const element = document.getElementById(this.payorId.toString());
           element.classList.add('bgBlue');

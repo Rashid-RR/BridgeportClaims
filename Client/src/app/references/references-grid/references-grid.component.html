@@ -272,7 +272,7 @@
         <!-- Attorneys -->
         <tbody class="overflowable" tabindex="0" *ngIf="rs.typeSelected==rs.types[1]">
           <ng-container *ngFor="let attorney of rs.getAttorneys()">
-            <tr>
+            <tr [id]="attorney.attorneyId">
               <td>{{attorney?.attorneyName}}</td>
               <td>{{attorney?.address1}}</td>
               <td>{{attorney?.address2}}</td>
