@@ -108,5 +108,17 @@ namespace BridgeportClaims.Data.DataProviders.AttorneyProviders
                     conn.Query<AttorneyResultDto>(sp, ps, commandType: CommandType.StoredProcedure)?.SingleOrDefault();
                 return attorneyResult;
             });
+
+        public AttorneyResultDto GetAttorney(int attorneyId) =>
+            DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+            {
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                }
+                const string sp = "[claims].[uspGetAttorney]";
+                return conn.Query<AttorneyResultDto>(sp, new {AttorneyID = attorneyId},
+                    commandType: CommandType.StoredProcedure)?.SingleOrDefault();
+            });
     }
 }
