@@ -81,6 +81,7 @@ import { ClaimOutstandingComponent } from './components/claim-outstanding/claim-
 import { StringService } from './services/string.service';
 import { ReferenceManagerService } from './services/reference-manager.service';
 import { CarrierModalComponent } from './components/carrier-modal/carrier-modal.component';
+import { AdjustorModalComponent } from './components/adjustor-modal/adjustor-modal.component';
 
 
 @NgModule({
@@ -103,7 +104,7 @@ import { CarrierModalComponent } from './components/carrier-modal/carrier-modal.
     EpisodeResultsComponent, EpisodeFilterComponent, NewEpisodeComponent, FirewallSettingsComponent, FirewallFilterComponent,
     FirewallGridComponent, AcquireEpisodeComponent, TestComponent, OutstandingFilterComponent, OutstandingResultComponent,
     ClaimOutstandingComponent,
-    CarrierModalComponent,
+    CarrierModalComponent, AdjustorModalComponent
   ],
   imports: [
     BrowserModule,
@@ -116,9 +117,9 @@ import { CarrierModalComponent } from './components/carrier-modal/carrier-modal.
     NgxWebstorageModule.forRoot(),
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-center',
-      timeOut:15000
+      timeOut: 15000
     }),
-    BootstrapModalModule//.forRoot({container:document.body}),
+    BootstrapModalModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
@@ -135,8 +136,7 @@ import { CarrierModalComponent } from './components/carrier-modal/carrier-modal.
   ],
   entryComponents: [
     UnindexedImageFileComponent,
-    CarrierModalComponent,
-    /* ConfirmComponent, BootstrapWindowContainer, WindowBackdrop, ScriptNoteWindowComponent,EpisodeNoteModalComponent,*/ AppComponent
+    CarrierModalComponent, AdjustorModalComponent, AppComponent
   ],
   bootstrap: [AppComponent]
 })
