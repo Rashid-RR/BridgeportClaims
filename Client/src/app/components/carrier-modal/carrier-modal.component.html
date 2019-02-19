@@ -33,19 +33,17 @@
     <h2>
       <span class="header-hd"> {{claimManager.claimsData[0].claimNumber}}</span></h2>
   </div>
-
-
   <div class="col-lg-1">
     <h2>Address:</h2>
   </div>
   <div class="col-lg-6">
     <h2>
       <span class="header-hd">
-      {{claimManager.payorData?.billToAddress1 || ''}}
-        , {{claimManager.payorData?.billToAddress2 || ''}} {{claimManager.payorData?.billToCity || ''}}
-        , {{claimManager.payorData?.state || ''}} &nbsp;{{claimManager.payorData?.billToPostalCode || ''}}
+      {{claimManager.claimsData[0]?.address1 || ''}}
+        , {{claimManager.claimsData[0]?.address2 || ''}} {{claimManager.claimsData[0]?.city || ''}}
+        , {{claimManager.claimsData[0]?.stateAbbreviation || ''}} &nbsp;{{claimManager.claimsData[0].postalCode || ''}}
       </span></h2>
-  </div>
+  </div>  
 </div>
 <mat-divider></mat-divider>
 <mat-dialog-content class="mat-typography" style="margin-top: 2vh">

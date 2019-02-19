@@ -137,7 +137,7 @@ import { AttorneyModalComponent } from './components/attorney-modal/attorney-mod
   ],
   entryComponents: [
     UnindexedImageFileComponent,
-    CarrierModalComponent, AdjustorModalComponent, AppComponent
+    CarrierModalComponent, AdjustorModalComponent, AttorneyModalComponent, AppComponent
   ],
   bootstrap: [AppComponent]
 })

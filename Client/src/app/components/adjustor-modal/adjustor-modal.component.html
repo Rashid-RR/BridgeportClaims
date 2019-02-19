@@ -37,9 +37,9 @@
   <div class="col-lg-6">
     <h2>
         <span class="header-hd">
-        {{claimManager.adjustorData?.address1 || ''}}
-          , {{claimManager.adjustorData?.address2 || ''}} {{claimManager.adjustorData?.city || ''}}
-          , {{claimManager.adjustorData?.stateName || ''}} &nbsp;{{claimManager.adjustorData?.postalCode || ''}}
+            {{claimManager.claimsData[0]?.address1 || ''}}
+            , {{claimManager.claimsData[0]?.address2 || ''}} {{claimManager.claimsData[0]?.city || ''}}
+            , {{claimManager.claimsData[0]?.stateAbbreviation || ''}} &nbsp;{{claimManager.claimsData[0].postalCode || ''}}
         </span></h2>
   </div>
 </div>
