@@ -1,4 +1,4 @@
-import {Component, ViewChild, AfterViewInit, OnInit, Input, Inject} from '@angular/core';
+import {Component, ViewChild, AfterViewInit, OnInit, Input} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ClaimManager} from '../../services/claim-manager';
 import {EventsService} from '../../services/events-service';
@@ -7,9 +7,9 @@ import {HttpService, ComparisonClaim} from '../../services/services.barrel';
 import {ProfileManager} from '../../services/profile-manager';
 import {DatePipe} from '@angular/common';
 import {SwalComponent} from '@toverux/ngx-sweetalert2';
-import {Toast, ToastrService} from 'ngx-toastr';
+import {ToastrService} from 'ngx-toastr';
 import swal from 'sweetalert2';
-import {MatDialog, MAT_DIALOG_DATA} from '@angular/material';
+import {MatDialog} from '@angular/material';
 import {CarrierModalComponent} from '../carrier-modal/carrier-modal.component';
 
 declare var $: any;
@@ -27,6 +27,8 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
   form: FormGroup;
   payorId = '';
   adjustorId = '';
+  attorneyId = '';
+  attorney: any;
   payor: any;
   adjustor: any;
   lastForm: any;
@@ -54,10 +56,8 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
       claimFlex2Id: [undefined],
       payorId: [undefined],
       adjustorId: [undefined],
-      adjustorPhone: [undefined],
-      adjustorExtension: [undefined, Validators.maxLength(10)],
+      attorneyId: [undefined],
       dateOfInjury: [undefined],
-      adjustorFax: [undefined], // NULL
       address1: [undefined], // NULL
       address2: [undefined], // NULL
       city: [undefined], // NULL
@@ -71,7 +71,6 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
       const us = JSON.parse(user);
       return `Bearer ${us.access_token}`;
     } catch (error) {
-
     }
     return null;
   }
@@ -199,8 +198,8 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
         for (let i = this.lastSelectedIndex; i < index; i++) {
           try {
             const c = $('#row' + i).attr('claim');
-            const claim = JSON.parse(c);
-            const data = this.claimManager.selectedClaims.find(cl => cl.claimId === claim.claimId);
+            const claimParsed = JSON.parse(c);
+            const data = this.claimManager.selectedClaims.find(cl => cl.claimId === claimParsed.claimId);
             data.selected = true;
           } catch (e) {
           }
@@ -260,6 +259,8 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
     this.editing = true;
     this.payorId = '';
     this.adjustorId = '';
+    this.attorneyId = '';
+    this.attorney = undefined;
     this.payor = undefined;
     this.adjustor = undefined;
     const dateOfBirth = this.formatDate(this.claimManager.selectedClaim.dateOfBirth as any);
@@ -270,11 +271,9 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
       genderId: this.claimManager.selectedClaim.genderId,
       payorId: this.claimManager.selectedClaim.payorId,
       adjustorId: this.claimManager.selectedClaim.adjustorId,
-      adjustorPhone: this.claimManager.selectedClaim.adjustorPhoneNumber,
-      adjustorExtension: this.claimManager.selectedClaim.adjustorExtension,
+      attorneyId: this.claimManager.selectedClaim.attorneyId,
       dateOfInjury: injuryDate,
       claimFlex2Id: this.claimManager.selectedClaim.claimFlex2Id,
-      adjustorFax: this.claimManager.selectedClaim.adjustorFaxNumber, // NULL
       address1: this.claimManager.selectedClaim.address1, // NULL
       address2: this.claimManager.selectedClaim.address2, // NULL
       city: this.claimManager.selectedClaim.city, // NULL
@@ -287,11 +286,10 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
       payorId: this.claimManager.selectedClaim.payorId,
       adjustorId: this.claimManager.selectedClaim.adjustorId,
       adjustor: this.claimManager.selectedClaim.adjustor,
-      adjustorExtension: this.claimManager.selectedClaim.adjustorExtension,
-      adjustorPhone: this.claimManager.selectedClaim.adjustorPhoneNumber,
+      attorneyId: this.claimManager.selectedClaim.attorneyId,
+      attorney: this.claimManager.selectedClaim.attorney,
       dateOfInjury: injuryDate,
       claimFlex2Id: this.claimManager.selectedClaim.claimFlex2Id,
-      adjustorFax: this.claimManager.selectedClaim.adjustorFaxNumber, // NULL
       address1: this.claimManager.selectedClaim.address1, // NULL
       address2: this.claimManager.selectedClaim.address2, // NULL
       city: this.claimManager.selectedClaim.city, // NULL
@@ -317,7 +315,7 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
   }
 
   enableSelect2() {
-    $('#eadjustorSelection').select2({
+    $('#editAdjustorSelection').select2({
       initSelection: (element, callback) => {
         callback({id: this.claimManager.selectedClaim.adjustorId || 'null', text: this.claimManager.selectedClaim.adjustor || '-- No Adjustor --'});
       },
@@ -343,8 +341,8 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
         }
       }
     }).on('change', () => {
-      const data = $('#eadjustorSelection option:selected').val();
-      this.adjustorId = $('#eadjustorSelection option:selected').text();
+      const data = $('#editAdjustorSelection option:selected').val();
+      this.adjustorId = $('#editAdjustorSelection option:selected').text();
       const val = data === 'null' ? null : data;
       this.form.controls['adjustorId'].setValue(val);
     });
@@ -546,7 +544,7 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
     }
   }
 
-  openDialog() {
+  openPayorDialog() {
     this.claimManager.loading = true;
     this.http.getPayorById(this.claimManager.claimsData[0].payorId).subscribe(data => {
       this.claimManager.payorData = data;

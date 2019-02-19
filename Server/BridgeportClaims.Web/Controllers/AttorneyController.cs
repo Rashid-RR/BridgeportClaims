@@ -27,7 +27,7 @@ namespace BridgeportClaims.Web.Controllers
 
         [HttpPost]
         [Route("attorney-names")]
-        public IHttpActionResult GetAdjustorNames(string attorneyName)
+        public IHttpActionResult GetAttorneyNames(string attorneyName)
         {
             try
             {
