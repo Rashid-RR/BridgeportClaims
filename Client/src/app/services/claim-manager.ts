@@ -1,26 +1,25 @@
 import * as Immutable from 'immutable';
-import {Subject} from 'rxjs';
-import {Claim} from '../models/claim';
-import {Prescription} from '../models/prescription';
-import {ClaimNote} from '../models/claim-note';
-import {PrescriptionNoteType} from '../models/prescription-note-type';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {EpisodeNoteType} from '../models/episode-note-type';
-import {Injectable} from '@angular/core';
-import {HttpService} from './http-service';
-import {AuthGuard} from './auth.guard';
-import {EventsService} from './events-service';
-import {Router} from '@angular/router';
-import {ToastrService, Toast} from 'ngx-toastr';
-import {DialogService} from 'ng2-bootstrap-modal';
-import {ConfirmComponent} from '../components/confirm.component';
-import {Episode} from '../interfaces/episode';
-import {PhonePipe} from '../pipes/phone-pipe';
+import { Subject } from 'rxjs';
+import { Claim } from '../models/claim';
+import { Prescription } from '../models/prescription';
+import { ClaimNote } from '../models/claim-note';
+import { PrescriptionNoteType } from '../models/prescription-note-type';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { EpisodeNoteType } from '../models/episode-note-type';
+import { Injectable } from '@angular/core';
+import { HttpService } from './http-service';
+import { AuthGuard } from './auth.guard';
+import { EventsService } from './events-service';
+import { Router } from '@angular/router';
+import { ToastrService, Toast } from 'ngx-toastr';
+import { DialogService } from 'ng2-bootstrap-modal';
+import { ConfirmComponent } from '../components/confirm.component';
+import { Episode } from '../interfaces/episode';
+import { PhonePipe } from '../pipes/phone-pipe';
 import swal from 'sweetalert2';
-import {ProfileManager} from './profile-manager';
-import {PayorDataItem} from '../components/dataItem/payor-data';
-import {CarrierModalComponent} from '../components/carrier-modal/carrier-modal.component';
-import {MatDialog} from '@angular/material';
+import { ProfileManager } from './profile-manager';
+import { PayorDataItem } from '../components/dataItem/payor-data';
+import { AdjustorDataItem } from '../components/dataItem/adjustor-data.model';
 
 declare var $: any;
 
@@ -28,6 +27,7 @@ declare var $: any;
 export class ClaimManager {
   onClaimIdChanged = new Subject<Number>();
   payorData: PayorDataItem;
+  adjustorData: AdjustorDataItem;
   dialogListener: Subject<any> = new Subject<any>();
   private claims: Immutable.OrderedMap<Number, Claim> = Immutable.OrderedMap<Number, Claim>();
   public comparisonClaims: Immutable.OrderedMap<Number, Claim> = Immutable.OrderedMap<Number, Claim>();
@@ -82,9 +82,9 @@ export class ClaimManager {
   }
 
   constructor(private pp: PhonePipe, private auth: AuthGuard, private http: HttpService,
-              private events: EventsService,
-              private router: Router, private toast: ToastrService, private formBuilder: FormBuilder, private profileManager: ProfileManager,
-              private dialogService: DialogService) {
+    private events: EventsService,
+    private router: Router, private toast: ToastrService, private formBuilder: FormBuilder, private profileManager: ProfileManager,
+    private dialogService: DialogService) {
     this.episodeForm = this.formBuilder.group({
       // episodeId: [undefined], // only send on episode edit
       claimId: [null, Validators.required],
@@ -117,7 +117,7 @@ export class ClaimManager {
     if (this.episodeForm.controls['pharmacyNabp'].value == null && this.pharmacyName) {
       this.toast.warning('Incorrect Pharmacy name, Correct it to a valid value, or delete the value and leave it blank');
     } else if (this.episodeForm.valid) {
-      swal({title: '', html: 'Saving Episode... <br/> <img src=\'assets/1.gif\'>', showConfirmButton: false}).catch(swal.noop);
+      swal({ title: '', html: 'Saving Episode... <br/> <img src=\'assets/1.gif\'>', showConfirmButton: false }).catch(swal.noop);
       // this.episodeForm.value.episodeId = this.episodeForm.value.episodeId ? Number(this.episodeForm.value.episodeId) : null;
       this.episodeForm.value.episodeTypeId = this.episodeForm.value.episodeTypeId ? Number(this.episodeForm.value.episodeTypeId) : null;
       const form = this.episodeForm.value;
@@ -177,7 +177,7 @@ export class ClaimManager {
       '<br> AWP: ' + prescription.awp +
       '<br> Payable Amount: ' + prescription.payableAmount,
       null,
-      {timeOut: 1210000, closeButton: true, enableHtml: true, positionClass: 'toast-top-center'});
+      { timeOut: 1210000, closeButton: true, enableHtml: true, positionClass: 'toast-top-center' });
   }
 
   get claimHistory(): Array<Claim> {
@@ -389,7 +389,7 @@ export class ClaimManager {
     if (id !== undefined) {
       this.loading = true;
       this.history.unshift(claim);
-      this.http.getClaimsData({claimId: id})
+      this.http.getClaimsData({ claimId: id })
         .subscribe((result: any) => {
           if (Object.keys(result).length === 0) {
             this.toast.warning('Claim not found');
@@ -462,7 +462,7 @@ export class ClaimManager {
       .subscribe((isConfirmed) => {
         if (isConfirmed) {
           this.loading = true;
-          this.http.saveFlex2({claimId: claim.claimId, claimFlex2Id: flex.claimFlex2Id}).subscribe(result => {
+          this.http.saveFlex2({ claimId: claim.claimId, claimFlex2Id: flex.claimFlex2Id }).subscribe(result => {
             if (result.message) {
               this.toast.success(result.message);
               claim.flex2 = flex.flex2;

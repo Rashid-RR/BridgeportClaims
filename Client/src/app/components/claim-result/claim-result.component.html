@@ -143,7 +143,7 @@
           <div [class.editing]="editing" class="form-group">
             <label class="col-sm-4"> Adjustor : </label>
             <div *ngIf="!editing" class="col-sm-8">
-              {{claim.adjustor}}
+              <a class="bold-carrier" (click)="openAdjustorDialog()"> {{claim.adjustor}}</a>
             </div>
             <div *ngIf="editing" class="col-sm-8">
               <select class="form-control select2" data-placeholder="Start typing to search Adjustor..."

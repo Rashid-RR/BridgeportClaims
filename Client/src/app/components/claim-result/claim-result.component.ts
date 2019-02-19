@@ -11,6 +11,7 @@ import {ToastrService} from 'ngx-toastr';
 import swal from 'sweetalert2';
 import {MatDialog} from '@angular/material';
 import {CarrierModalComponent} from '../carrier-modal/carrier-modal.component';
+import { AdjustorModalComponent } from '../adjustor-modal/adjustor-modal.component';
 
 declare var $: any;
 
@@ -535,13 +536,25 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
     }
   }
 
-  openPayorDialog() {
+  openPayorDialog(): void {
     this.claimManager.loading = true;
     this.http.getPayorById(this.claimManager.claimsData[0].payorId).subscribe(data => {
       this.claimManager.payorData = data;
-
       this.claimManager.loading = false;
-        this.dialog.open(CarrierModalComponent,{
+        this.dialog.open(CarrierModalComponent, {
+          width: '900px',
+        });
+    }, error => {
+      this.claimManager.loading = false;
+    });
+  }
+
+  openAdjustorDialog(): void {
+    this.claimManager.loading = true;
+    this.http.getPayorById(this.claimManager.claimsData[0].adjustorId).subscribe(data => {
+      this.claimManager.adjustorData = data;
+      this.claimManager.loading = false;
+        this.dialog.open(AdjustorModalComponent, {
           width: '900px',
         });
     }, error => {
