@@ -360,7 +360,7 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
 
           data.forEach(d => {
             d.id = d.adjustorId,
-              d.text = d.adjustorName;
+            d.text = d.adjustorName;
           });
           data.unshift({
             id: 'null',
@@ -385,7 +385,7 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
       ajax: {
         headers: {'Authorization': this.auth},
         url: (params) => {
-          return '/api/payors/search/?searchText=' + (params.term || this.claimManager.selectedClaim.carrier);
+          return '/api/payors/search/?searchText=' + (params.term || '');
         },
         type: 'POST',
         processResults: function (data) {
@@ -439,19 +439,15 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
     }
     if (this.form.value.claimId === this.lastForm.claimId && this.form.value.dateOfBirth === this.lastForm.dateOfBirth &&
       this.form.value.genderId === this.lastForm.genderId && this.form.value.payorId === this.lastForm.payorId &&
-      this.form.value.adjustorId === this.lastForm.adjustorId && this.form.value.adjustorExtension === this.lastForm.adjustorExtension
-      && this.form.value.adjustorPhone === this.lastForm.adjustorPhone && this.form.value.dateOfInjury === this.lastForm.dateOfInjury &&
-      this.form.value.claimFlex2Id === this.lastForm.claimFlex2Id && this.form.value.adjustorFax === this.lastForm.adjustorFax &&
-      this.form.value.address1 === this.lastForm.address1 && this.form.value.address2 === this.lastForm.address2 &&
-      this.form.value.city === this.lastForm.city && this.form.value.stateId === this.lastForm.stateId) {
+      this.form.value.adjustorId === this.lastForm.adjustorId && this.form.value.dateOfInjury === this.lastForm.dateOfInjury &&
+      this.form.value.claimFlex2Id === this.lastForm.claimFlex2Id && this.form.value.address1 === this.lastForm.address1 &&
+      this.form.value.address2 === this.lastForm.address2 && this.form.value.city === this.lastForm.city &&
+      this.form.value.stateId === this.lastForm.stateId && this.form.value.attorneyId === this.lastForm.attorneyId) {
       this.toast.warning('No changes were made.', 'Not saved');
     } else if (!this.form.controls['payorId'].value) { // Check for the required payorId
       this.toast.warning('Please link a Carrier');
     } else if (!this.form.controls['genderId'].value) { // Check for the required payorId
       this.toast.warning('Please select a Gender');
-    } else if (this.form.controls['adjustorExtension'].errors &&
-      this.form.controls['adjustorExtension'].errors.maxlength) {// Check for the required payorId
-      this.toast.warning('Adjustor Extension cannot have more than 10 characters');
     } else {
       const form: any = {};
       form.claimId = this.form.value.claimId;
@@ -467,11 +463,9 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
       form.address2 = this.form.value.address2 !== this.lastForm.address2 ? this.form.value.address2 : undefined;
       form.adjustorId = this.form.value.adjustorId !== this.lastForm.adjustorId ?
         (this.form.value.adjustorId === null ? null : Number(this.form.value.adjustorId)) : undefined;
+      form.attorneyId = this.form.value.attorneyId !== this.lastForm.attorneyId ?
+        (this.form.value.attorneyId === null ? null : Number(this.lastForm.attorneyId)) : undefined;
       form.city = this.form.value.city !== this.lastForm.city ? this.form.value.city : undefined;
-      if ((!this.form.value.adjustorId || this.form.value.adjustorId == null) && (form.adjustorPhone || form.adjustorFax || form.adjustorExtension)) {
-        this.toast.warning('You cannot save a new Adjustor phone, fax or extension when there is no Adjustor tied to this Claim.');
-        return;
-      } else {
         this.claimManager.loading = true;
         this.http.editClaim(form).subscribe(res => {
           this.claimManager.loading = false;
@@ -481,6 +475,10 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
           if (form.payorId) {
             this.claimManager.selectedClaim.carrier = this.payorId;
             this.claimManager.selectedClaim.payorId = form.payorId;
+          }
+          if (form.attorneyId || form.attorneyId === null) {
+            this.claimManager.selectedClaim.attorneyId = form.attorneyId;
+            this.claimManager.selectedClaim.attorney = form.attorneyId === null ? null : this.attorneyId;
           }
           if (form.adjustorId || form.adjustorId === null) {
             this.claimManager.selectedClaim.adjustorId = form.adjustorId;
@@ -534,7 +532,6 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
         }, () => {
           this.claimManager.loading = false;
         });
-      }
     }
   }
 
