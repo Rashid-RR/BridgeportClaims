@@ -230,8 +230,9 @@ export class ClaimManager {
           this.claims = Immutable.OrderedMap<Number, Claim>();
           result.forEach((claim) => {
             const c = new Claim(claim.claimId, claim.claimNumber, claim.dateOfBirth, claim.injuryDate || claim.dateOfInjury, claim.gender,
-              claim.carrier, claim.adjustor, claim.adjustorPhoneNumber, claim.dateEntered, claim.adjustorFaxNumber
-              , claim.name, claim.firstName, claim.lastName, claim.flex2, claim.eligibilityTermDate, claim.address1, claim.address2, claim.city, claim.stateAbbreviation, claim.postalCode, claim.genders, claim.adjustorExtension);
+              claim.carrier, claim.adjustor, claim.attorney, claim.dateEntered,
+              claim.name, claim.firstName, claim.lastName, claim.flex2, claim.eligibilityTermDate, claim.address1,
+              claim.address2, claim.city, claim.stateAbbreviation, claim.postalCode, claim.genders);
             c.genders = claim.genders;
             c.states = claim.states;
             c.adjustorId = claim.adjustorId;
@@ -250,18 +251,18 @@ export class ClaimManager {
             this.claims = this.claims.set(claim.claimId, c);
           });
         } else {
-          if (Object.keys(result).length == 0) {
+          if (Object.keys(result).length === 0) {
             this.toast.warning('Claim not found');
             return;
           }
           this.claims = Immutable.OrderedMap<Number, Claim>();
           const c = new Claim(result.claimId, result.claimNumber, result.date, result.injuryDate || result.dateOfInjury, result.gender,
-            result.carrier, result.adjustor, result.adjustorPhoneNumber, result.dateEntered, result.adjustorFaxNumber
-            , result.name, result.firstName, result.lastName, result.flex2, result.eligibilityTermDate, result.address1, result.address2, result.city, result.stateAbbreviation, result.postalCode, result.genders, result.adjustorExtension);
+            result.carrier, result.adjustor, result.attorney, result.dateEntered, result.name, result.firstName,
+            result.lastName, result.flex2, result.eligibilityTermDate, result.address1, result.address2, result.city,
+            result.stateAbbreviation, result.postalCode, result.genders);
           c.dateOfBirth = result.dateOfBirth;
           c.adjustor = result.adjustor;
-          c.adjustorPhoneNumber = result.adjustorPhoneNumber;
-          c.adjustorFaxNumber = result.adjustorFaxNumber;
+          c.attorney = result.attorney;
           c.eligibilityTermDate = result.eligibilityTermDate;
           c.dateEntered = result.dateEntered;
           c.injuryDate = result.injuryDate || result.dateOfInjury;
@@ -271,6 +272,7 @@ export class ClaimManager {
           c.isVip = result.isVip;
           c.isMaxBalance = result.isMaxBalance;
           c.adjustorId = result.adjustorId;
+          c.attorneyId = result.attorneyId;
           c.payorId = result.payorId;
           c.genderId = result.patientGenderId;
           c.stateId = result.stateId;
@@ -389,16 +391,14 @@ export class ClaimManager {
       this.history.unshift(claim);
       this.http.getClaimsData({claimId: id})
         .subscribe((result: any) => {
-          if (Object.keys(result).length == 0) {
+          if (Object.keys(result).length === 0) {
             this.toast.warning('Claim not found');
             return;
           }
           this.loading = false;
           claim.dateOfBirth = result.dateOfBirth;
           claim.adjustor = result.adjustor;
-          claim.adjustorExtension = result.adjustorExtension;
-          claim.adjustorPhoneNumber = result.adjustorPhoneNumber;
-          claim.adjustorFaxNumber = result.adjustorFaxNumber;
+          claim.attorney = result.attorney;
           claim.eligibilityTermDate = result.eligibilityTermDate;
           claim.dateEntered = result.dateEntered;
           claim.gender = result.gender;
@@ -410,6 +410,7 @@ export class ClaimManager {
           claim.stateAbbreviation = result.stateAbbreviation;
           claim.postalCode = result.postalCode;
           claim.adjustorId = result.adjustorId;
+          claim.attorneyId = result.attorneyId;
           claim.payorId = result.payorId;
           claim.genderId = result.patientGenderId;
           claim.stateId = result.stateId;

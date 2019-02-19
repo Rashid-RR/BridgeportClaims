@@ -315,6 +315,37 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
   }
 
   enableSelect2() {
+    $('#editAttorneySelection').select2({
+      initSelection: (element, callback) => {
+        callback({id: this.claimManager.selectedClaim.attorneyId || 'null', text: this.claimManager.selectedClaim.attorney || '-- No Attorney --'});
+      },
+      ajax: {
+        headers: {'Authorization': this.auth},
+        url: function (params) {
+          return '/api/attorney/attorney-names/?attorneyName=' + (params.term || '');
+        },
+        type: 'POST',
+        processResults: function (data) {
+          data.forEach(d => {
+            d.id = d.attorneyId,
+            d.text = d.attorneyName;
+          });
+          data.unshift({
+            id: 'null',
+            text: '-- No Attorney --'
+          });
+          return {
+            results: (data || [])
+          };
+        }
+      }
+    }).on('change', () => {
+      const data = $('#editAttorneySelection option:selected').val();
+      this.attorneyId = $('#editAttorneySelection option:selected').text();
+      const val = data === 'null' ? null : data;
+      this.form.controls['attorneyId'].setValue(val);
+    });
+
     $('#editAdjustorSelection').select2({
       initSelection: (element, callback) => {
         callback({id: this.claimManager.selectedClaim.adjustorId || 'null', text: this.claimManager.selectedClaim.adjustor || '-- No Adjustor --'});
@@ -346,6 +377,7 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
       const val = data === 'null' ? null : data;
       this.form.controls['adjustorId'].setValue(val);
     });
+
     $('#eCarrierSelection').select2({
       initSelection: (element, callback) => {
         callback({id: this.claimManager.selectedClaim.payorId, text: this.claimManager.selectedClaim.carrier});
@@ -394,16 +426,7 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
   }
 
   save() {
-    // tslint:disable-next-line:prefer-const
     let key: any;
-    this.form.value.adjustorPhone = $('#adjustorPhone').val() || '';
-    this.form.value.adjustorFax = $('#adjustorFax').val() || '';
-    const adjustorPhone = this.form.value.adjustorPhone.replace(/[\D]/g, '');
-    const adjustorFax = this.form.value.adjustorFax.replace(/[\D]/g, '');
-    const lastAdjustorPhone = this.lastForm.adjustorPhone ? this.lastForm.adjustorPhone.replace(/[\D]/g, '') : this.lastForm.adjustorPhone;
-    const lastAdjustorFax = this.lastForm.adjustorFax ? this.lastForm.adjustorFax.replace(/[\D]/g, '') : this.lastForm.adjustorFax;
-    this.form.value.adjustorPhone = adjustorPhone;
-    this.form.value.adjustorFax = adjustorFax;
     const dob = $('#dateOfBirth').val() + '';
     const doi = $('#dateOfInjury').val() + '';
     this.form.value.dateOfBirth = dob;
@@ -432,19 +455,18 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
     } else {
       const form: any = {};
       form.claimId = this.form.value.claimId;
-      // check nullable values.
-      form.claimFlex2Id = this.form.value.claimFlex2Id !== this.lastForm.claimFlex2Id ? (this.form.value.claimFlex2Id === null ? null : Number(this.form.value.claimFlex2Id)) : undefined;
+      form.claimFlex2Id = this.form.value.claimFlex2Id !== this.lastForm.claimFlex2Id ?
+        (this.form.value.claimFlex2Id === null ? null : Number(this.form.value.claimFlex2Id)) : undefined;
       form.payorId = this.form.value.payorId !== this.lastForm.payorId ? (this.form.value.payorId == null ? null : Number(this.form.value.payorId)) : undefined;
       form.genderId = this.form.value.genderId !== this.lastForm.genderId ? Number(this.form.value.genderId) : undefined;
-      form.stateId = this.form.value.stateId !== this.lastForm.stateId ? (this.form.value.stateId === null ? null : Number(this.form.value.stateId)) : undefined;
+      form.stateId = this.form.value.stateId !== this.lastForm.stateId ?
+        (this.form.value.stateId === null ? null : Number(this.form.value.stateId)) : undefined;
       form.dateOfBirth = dob !== this.lastForm.dateOfBirth ? this.form.value.dateOfBirth : undefined, // NULL
         form.dateOfInjury = this.lastForm.dateOfInjury !== this.form.value.dateOfInjury ? this.form.value.dateOfInjury : undefined, // NULL
         form.address1 = this.form.value.address1 !== this.lastForm.address1 ? this.form.value.address1 : undefined;
       form.address2 = this.form.value.address2 !== this.lastForm.address2 ? this.form.value.address2 : undefined;
-      form.adjustorId = this.form.value.adjustorId !== this.lastForm.adjustorId ? (this.form.value.adjustorId === null ? null : Number(this.form.value.adjustorId)) : undefined;
-      form.adjustorExtension = this.form.value.adjustorExtension !== this.lastForm.adjustorExtension ? this.form.value.adjustorExtension : undefined;
-      form.adjustorPhone = this.form.value.adjustorPhone !== lastAdjustorPhone ? this.form.value.adjustorPhone : undefined;
-      form.adjustorFax = this.form.value.adjustorFax !== lastAdjustorFax ? this.form.value.adjustorFax : undefined;
+      form.adjustorId = this.form.value.adjustorId !== this.lastForm.adjustorId ?
+        (this.form.value.adjustorId === null ? null : Number(this.form.value.adjustorId)) : undefined;
       form.city = this.form.value.city !== this.lastForm.city ? this.form.value.city : undefined;
       if ((!this.form.value.adjustorId || this.form.value.adjustorId == null) && (form.adjustorPhone || form.adjustorFax || form.adjustorExtension)) {
         this.toast.warning('You cannot save a new Adjustor phone, fax or extension when there is no Adjustor tied to this Claim.');
@@ -463,34 +485,6 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
           if (form.adjustorId || form.adjustorId === null) {
             this.claimManager.selectedClaim.adjustorId = form.adjustorId;
             this.claimManager.selectedClaim.adjustor = form.adjustorId === null ? null : this.adjustorId;
-            if (form.adjustorId === null) {
-              this.claimManager.selectedClaim.adjustorExtension = null;
-              this.claimManager.selectedClaim.adjustorFaxNumber = null;
-              this.claimManager.selectedClaim.adjustorPhoneNumber = null;
-            }
-          }
-          // show new extension
-          if (form.adjustorExtension) {
-            this.claimManager.selectedClaim.adjustorExtension = form.adjustorExtension;
-          }
-          // If the user nulls out the extension, remove it from the screen after saving.
-          if (this.form.value.adjustorExtension == null) {
-            this.claimManager.selectedClaim.adjustorExtension = null;
-          }
-          // show new fax
-          if (form.adjustorFax) {
-            this.claimManager.selectedClaim.adjustorFaxNumber = form.adjustorFax;
-          }
-          // is the user nulls out the fax, remove it from the screen after saving.
-          if (this.form.value.adjustorFax == null) {
-            this.claimManager.selectedClaim.adjustorFaxNumber = null;
-          }
-          if (form.adjustorPhone) {
-            this.claimManager.selectedClaim.adjustorPhoneNumber = form.adjustorPhone;
-          }
-          // is the user nulls out the phone, remove it from the screen after saving.
-          if (this.form.value.adjustorPhone == null) {
-            this.claimManager.selectedClaim.adjustorPhoneNumber = null;
           }
           if (form.dateOfInjury) {
             this.claimManager.selectedClaim.injuryDate = form.dateOfInjury;
