@@ -82,6 +82,7 @@ import { StringService } from './services/string.service';
 import { ReferenceManagerService } from './services/reference-manager.service';
 import { CarrierModalComponent } from './components/carrier-modal/carrier-modal.component';
 import { AdjustorModalComponent } from './components/adjustor-modal/adjustor-modal.component';
+import { AttorneyModalComponent } from './components/attorney-modal/attorney-modal.component';
 
 
 @NgModule({
@@ -104,7 +105,7 @@ import { AdjustorModalComponent } from './components/adjustor-modal/adjustor-mod
     EpisodeResultsComponent, EpisodeFilterComponent, NewEpisodeComponent, FirewallSettingsComponent, FirewallFilterComponent,
     FirewallGridComponent, AcquireEpisodeComponent, TestComponent, OutstandingFilterComponent, OutstandingResultComponent,
     ClaimOutstandingComponent,
-    CarrierModalComponent, AdjustorModalComponent
+    CarrierModalComponent, AdjustorModalComponent, AttorneyModalComponent
   ],
   imports: [
     BrowserModule,

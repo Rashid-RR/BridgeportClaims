@@ -60,6 +60,11 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
         this.rs.typeSelected = this.rs.types[0];
         this.rs.sortColumn = 'adjustorName';
         this.rs.getReferencesList();
+      } else if (queryOptions['attorneyId']) {
+        this.rs.attorneyId = Number(queryOptions['attorneyId']);
+        this.rs.typeSelected = this.rs.types[1];
+        this.rs.sortColumn = 'attorneyName';
+        this.rs.getReferencesList();
       }
     });
     this.adjustorFilteredStates = this.adjustorStateControl.valueChanges.pipe(
@@ -81,7 +86,7 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
     if (selection) {
       return selection.stateName;
     }
-  }
+  };
 
   // This doesn't seem to work.
   onSelectionChanged(event: MatAutocompleteSelectedEvent) {

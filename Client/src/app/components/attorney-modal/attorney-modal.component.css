@@ -1,0 +1,32 @@
+.border-right {
+  border-right: 1px solid #cccccc;
+}
+
+.font-bold {
+  font-weight: bold;
+}
+
+.close-btn {
+  font-size: 41px !important;
+  margin: -15px 0;
+  cursor: pointer;
+  float: right
+}
+
+.header-hd {
+  text-align: center;
+  /*font-size: 20px !important;*/
+  font-weight: bold;
+  color: #992727;
+  margin: auto
+}
+h2{
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+.algin-btn-center{
+  display: block;
+  margin: auto;
+}
+

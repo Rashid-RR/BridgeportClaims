@@ -31,6 +31,6 @@ export class AdjustorModalComponent implements OnInit {
 
     showReference(adjustorId: number) {
         this.dialogRef.close();
-        this.router.navigate(['main/references'], { queryParams: { adjustorId: adjustorId } });
+        this.router.navigate(['main/refrences'], { queryParams: { adjustorId: adjustorId } });
     }
 }

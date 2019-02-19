@@ -1,10 +1,10 @@
-import { Injectable } from '@angular/core';
-import { HttpService } from './http-service';
-import { AdjustorItem } from '../references/dataitems/adjustor-item.model';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { UsState } from '../models/us-state';
-import { PayorItem } from '../references/dataitems/payor-item.model';
-import { AttorneyItem } from '../references/dataitems/attorney-item.model';
+import {Injectable} from '@angular/core';
+import {HttpService} from './http-service';
+import {AdjustorItem} from '../references/dataitems/adjustor-item.model';
+import {FormGroup, FormBuilder, Validators} from '@angular/forms';
+import {UsState} from '../models/us-state';
+import {PayorItem} from '../references/dataitems/payor-item.model';
+import {AttorneyItem} from '../references/dataitems/attorney-item.model';
 
 declare var $: any;
 
@@ -17,6 +17,7 @@ export class ReferenceManagerService {
   public editFlag = false;
   public payorId: number;
   public adjustorId: number;
+  public attorneyId: number;
   public loading = false;
   public adjustors: Array<AdjustorItem>;
   public payors: Array<PayorItem>;
@@ -118,7 +119,11 @@ export class ReferenceManagerService {
         this.fetchAdjustors(this.abstractSearchParams);
       }
     } else if (this.typeSelected === 'Attorney') {
-      this.fetchAttorneys(this.abstractSearchParams);
+      if (this.attorneyId) {
+        this.fetchSingleAttorney(this.attorneyId);
+      } else {
+        this.fetchAttorneys(this.abstractSearchParams);
+      }
     } else if (this.typeSelected === 'Payor') {
       // checking if we are getting a single payor or not...
       if (this.payorId) {
@@ -150,12 +155,12 @@ export class ReferenceManagerService {
     this.loading = true;
     this.http.getReferencesAdjustorsList(data)
       .subscribe((result: any) => {
-        this.adjustors = result.results;
-        this.totalEntityRows = result.totalRows;
-        this.loading = false;
-      }, error => {
-        this.loading = false;
-      }
+          this.adjustors = result.results;
+          this.totalEntityRows = result.totalRows;
+          this.loading = false;
+        }, error => {
+          this.loading = false;
+        }
       );
   }
 
@@ -177,6 +182,27 @@ export class ReferenceManagerService {
       .subscribe((result: any) => {
         this.adjustors = [];
         this.adjustors.push(result);
+        this.editFlag = true;
+        this.editedEntity = result;
+        this.openModal(true);
+        setTimeout(() => {
+          const element = document.getElementById(this.adjustorId.toString());
+          element.classList.add('bgBlue');
+          this.adjustorId = null;
+        }, 1200);
+        this.totalEntityRows = 1;
+        this.loading = false;
+      }, error => {
+        this.loading = false;
+      });
+  }
+
+  fetchSingleAttorney(id: number): void {
+    this.loading = true;
+    this.http.getAdjustorById(this.adjustorId)
+      .subscribe((result: any) => {
+        this.attorneys = [];
+        this.attorneys.push(result);
         this.editFlag = true;
         this.editedEntity = result;
         this.openModal(true);
@@ -218,12 +244,12 @@ export class ReferenceManagerService {
     this.loading = true;
     this.http.getReferencesAttorneysList(data)
       .subscribe((result: any) => {
-        this.attorneys = result.results;
-        this.totalEntityRows = result.totalRows;
-        this.loading = false;
-      }, error => {
-        this.loading = false;
-      }
+          this.attorneys = result.results;
+          this.totalEntityRows = result.totalRows;
+          this.loading = false;
+        }, error => {
+          this.loading = false;
+        }
       );
   }
 
