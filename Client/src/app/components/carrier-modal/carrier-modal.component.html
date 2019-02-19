@@ -1,5 +1,4 @@
 <div class="row">
-
   <div class="col-lg-2" style="width: 14% !important;">
     <h2>Carrier:
     </h2>
@@ -23,7 +22,6 @@
       <i class="fa fa-close" style="color: #992727;"></i>
     </label>
   </div>
-
   <div class="col-lg-2" style="width: 14% !important;">
     <h2>Claim #:
     </h2>
@@ -53,7 +51,6 @@
       </button>
     </div>
   </div>
-
   <div class="row" style="margin-top: 3vh">
     <div class="col-lg-6">
       <div class="row">
@@ -65,7 +62,6 @@
           <h5 class="font-bold">City: </h5>
           <h5 class="font-bold">State: </h5>
           <h5 class="font-bold">Zip: </h5>
-
         </div>
         <div class="col-lg-6">
           <p> {{claimManager.payorData?.groupName}}</p>
@@ -88,12 +84,11 @@
           <h5 class="font-bold">Contact: </h5>
           <h5 class="font-bold">Letter name: </h5>
           <h5 class="font-bold">Created On: </h5>
-
         </div>
         <div class="col-lg-6">
-          <p>  {{ convertPhoneNumber(claimManager.payorData?.phoneNumber) }}</p>
-          <p> {{claimManager.payorData?.alternatePhoneNumber ? claimManager.payorData?.alternatePhoneNumber : '-'}}</p>
-          <p> {{claimManager.payorData?.faxNumber ? claimManager.payorData?.faxNumber : '-'}}</p>
+          <p> {{claimManager.payorData?.phoneNumber ? rs.convertPhoneNumber(claimManager.payorData.phoneNumber) : '-'}}</p>
+          <p> {{claimManager.payorData?.alternatePhoneNumber ? rs.convertPhoneNumber(claimManager.payorData.alternatePhoneNumber) : '-'}}</p>
+          <p> {{claimManager.payorData?.faxNumber ? rs.convertPhoneNumber(claimManager.payorData.faxNumber) : '-'}}</p>
           <p> {{claimManager.payorData?.notes ? claimManager.payorData?.notes : '-'}}</p>
           <p> {{claimManager.payorData?.contact ? claimManager.payorData?.contact : '-'}}</p>
           <p> {{claimManager.payorData?.letterName ? claimManager.payorData?.letterName : '-'}}</p>
@@ -103,4 +98,3 @@
     </div>
   </div>
 </mat-dialog-content>
-
