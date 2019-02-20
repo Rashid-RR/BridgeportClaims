@@ -214,39 +214,6 @@
       <table class="table no-margin table-striped" id="maintable">
         <!-- Adjustors -->
         <tbody class="overflowable" tabindex="0" *ngIf="rs.typeSelected==rs.types[0]">
-            <!-- <ng-container *ngIf="claimManager.selectedClaim.prescriptions">
-                <tr *ngFor="let prescription of claimManager.selectedClaim.prescriptions;let i=index;" [id]="'row'+i" [attr.prescription]="prescription | json" (click)="setSelected(prescription,prescription.selected)" (dblclick)="claimManager.showDetails(prescription)" [class.isReversed]="prescription.isReversed" [class.bgBlue]="prescription.selected">
-                    <td>
-                        <div class="commonCheckBox">
-                            <input type="checkbox" name="check" value="None" class="pescriptionCheck" [id]="prescription.prescriptionId" [attr.labelName]="prescription.labelName"
-                                [checked]="(prescription.selected || checkAll)" (change)="select(prescription,$event,i)"
-                                #inv>
-                            <label [for]="prescription.prescriptionId" (click)="inv.click()"></label>
-                        </div>
-                    </td>
-                    <td>{{prescription.invoiceDate | date:"shortDate"}}</td>
-                    <td  [class.invoiceIsIndexed]="prescription.invoiceIsIndexed">{{prescription.invoiceNumber}}</td>
-                    <td>{{prescription.labelName}}</td>
-                    <td>{{prescription.billTo}}</td>
-                    <td>{{prescription.rxNumber}}</td>
-                    <td>{{prescription.rxDate | date:"shortDate"}}</td>
-                    <td class="text-right">{{prescription.invoiceAmount | currency:'USD'}}</td>
-                    <td class="text-right">{{prescription.amountPaid | currency:'USD'}}</td>
-                    <td class="text-right">{{prescription.outstanding | currency:'USD'}}</td>
-                    <td>
-                        <div class="btn-group status">
-                            <button type="button" class="btn btn-box-tool dropdown-toggle status" data-toggle="dropdown">
-                                {{prescription.status}} <i class="fa fa-sort pull-right"></i>
-                            </button>
-                            <ul class="dropdown-menu" role="menu">
-                                <li *ngFor="let status of claimManager.selectedClaim.prescriptionStatuses;" [class.active]="status.statusName==claimManager.selectedClaim.status" (click)="claimManager.changePrescriptionStatus(prescription,status)"><a  style="cursor:pointer;">{{status.statusName}}</a></li>
-                            </ul>
-                        </div>
-                    </td>
-                    <td *ngIf="prescription.noteCount"><a class="label label-info bg-vdarkgrey" (click)="showNotes(prescription.prescriptionId)">{{prescription.noteCount}}</a></td>
-                    <td *ngIf="!prescription.noteCount">{{prescription.noteCount}}</td>
-                </tr>
-            </ng-container> -->
           <ng-container *ngFor="let adjustor of rs.getAdjustors(); let i = index;">
             <tr id="{{adjustor.adjustorId}}" (click)="setSelected(adjustor)">
               <td>{{adjustor?.adjustorName}}</td>
@@ -255,8 +222,8 @@
               <td>{{adjustor?.city}}</td>
               <td>{{adjustor?.stateName}}</td>
               <td>{{adjustor?.postalCode}}</td>
-              <td>{{adjustor?.phoneNumber}}</td>
-              <td>{{adjustor?.faxNumber}}</td>
+              <td>{{adjustor?.phoneNumber ? rs.convertPhoneNumber(adjustor.phoneNumber) : ''}}</td>
+              <td>{{adjustor?.faxNumber ? rs.convertPhoneNumber(adjustor.faxNumber) : ''}}</td>
               <td>{{adjustor?.emailAddress}}</td>
               <td>{{adjustor?.extension}}</td>
               <td>{{adjustor?.modifiedBy}}</td>
@@ -279,8 +246,8 @@
               <td>{{attorney?.city}}</td>
               <td>{{attorney?.stateName}}</td>
               <td>{{attorney?.postalCode}}</td>
-              <td>{{attorney?.phoneNumber}}</td>
-              <td>{{attorney?.faxNumber}}</td>
+              <td>{{attorney?.phoneNumber ? rs.convertPhoneNumber(attorney.phoneNumber) : ''}}</td>
+              <td>{{attorney?.faxNumber ? rs.convertPhoneNumber(attorney.faxNumber) : ''}}</td>
               <td>{{attorney?.emailAddress}}</td>
               <td>{{attorney?.modifiedBy}}</td>
               <td>
@@ -301,11 +268,11 @@
               <td>{{payor?.billToAddress1}}</td>
               <td>{{payor?.billToAddress2}}</td>
               <td>{{payor?.billToCity}}</td>
-              <td>{{payor.billToStateName?payor.billToStateName:payor.state}}</td>
+              <td>{{payor?.billToStateName ? payor.billToStateName : payor.state}}</td>
               <td>{{payor?.billToPostalCode}}</td>
-              <td>{{payor?.phoneNumber}}</td>
-              <td>{{payor?.alternatePhoneNumber}}</td>
-              <td>{{payor?.faxNumber}}</td>
+              <td>{{payor?.phoneNumber ? rs.convertPhoneNumber(payor.phoneNumber) : ''}}</td>
+              <td>{{payor?.alternatePhoneNumber ? rs.convertPhoneNumber(payor.alternatePhoneNumber) : ''}}</td>
+              <td>{{payor?.faxNumber ? rs.convertPhoneNumber(payor.faxNumber) : ''}}</td>
               <td>{{payor?.notes}}</td>
               <td>{{payor?.contact}}</td>
               <td>{{payor?.letterName}}</td>
