@@ -1,9 +1,9 @@
 <div class="row">
-  <div class="col-lg-2" style="width: 14% !important;">
+  <div class="col-lg-2" style="width: 10% !important;">
     <h2>Carrier:
     </h2>
   </div>
-  <div class="col-lg-3" style="width: 26% !important;">
+  <div class="col-lg-3" style="width: 30% !important;">
     <h2>
       <span class="header-hd"
             style="font-size: 19px !important; color: #204d74"> {{claimManager.claimsData[0].carrier}}</span></h2>
@@ -22,11 +22,11 @@
       <i class="fa fa-close" style="color: #992727;"></i>
     </label>
   </div>
-  <div class="col-lg-2" style="width: 14% !important;">
+  <div class="col-lg-2" style="width: 10% !important;">
     <h2>Claim #:
     </h2>
   </div>
-  <div class="col-lg-3" style="width: 26% !important;">
+  <div class="col-lg-3" style="width: 30% !important;">
     <h2>
       <span class="header-hd"> {{claimManager.claimsData[0].claimNumber}}</span></h2>
   </div>
@@ -37,10 +37,10 @@
     <h2>
       <span class="header-hd">
       {{claimManager.claimsData[0]?.address1 || ''}}
-        , {{claimManager.claimsData[0]?.address2 || ''}} {{claimManager.claimsData[0]?.city || ''}}
-        , {{claimManager.claimsData[0]?.stateAbbreviation || ''}} &nbsp;{{claimManager.claimsData[0].postalCode || ''}}
+      {{claimManager.claimsData[0]?.address1 ? ',' : ''}} {{claimManager.claimsData[0]?.address2 || ''}} {{claimManager.claimsData[0]?.city || ''}}
+      {{claimManager.claimsData[0]?.city && claimManager.claimsData[0]?.stateAbbreviation ? ',' : ''}} {{claimManager.claimsData[0]?.stateAbbreviation || ''}} &nbsp;{{claimManager.claimsData[0].postalCode || ''}}
       </span></h2>
-  </div>  
+  </div>
 </div>
 <mat-divider></mat-divider>
 <mat-dialog-content class="mat-typography" style="margin-top: 2vh">
