@@ -9,6 +9,82 @@ td {
   font-size: 9pt;
   font-family: 'Cambay', sans-serif !important;
 }
+.adjustor{
+
+}
+.adjustor tr>th:first-child,
+.adjustor tr>td:first-child {
+  width: 9.333%;
+}
+.adjustor tr>th:nth-child(2),
+.adjustor  tr>td:nth-child(2){
+  width: 14.333%;
+}
+.adjustor tr>th:nth-child(3),
+.adjustor tr>td:nth-child(3){
+  width: 14.333%;
+}
+.adjustor tr>th:nth-child(4),
+.adjustor tr>td:nth-child(4){
+  width: 6.333%;
+}
+.adjustor tr>th:nth-child(5),
+.adjustor tr>td:nth-child(5){
+  width: 8.333%;
+}
+
+.adjustor tr>th:nth-child(6),
+.adjustor tr>td:nth-child(6){
+  width: 5.333%;
+}
+.adjustor tr>th:nth-child(7),
+.adjustor tr>td:nth-child(7){
+  width: 6.333%;
+}
+.adjustor tr>th:nth-child(8),
+.adjustor tr>td:nth-child(8){
+  width: 6.333%;
+}
+.adjustor tr>th:nth-child(9),
+.adjustor tr>td:nth-child(9){
+  width: 8.333%;
+}
+.adjustor tr>th:nth-child(10),
+.adjustor tr>td:nth-child(10){
+  width: 10.333%;
+}
+.adjustor tr>th:nth-child(11),
+.adjustor tr>td:nth-child(11){
+  width: 8.333%;
+}
+.adjustor tr>th:nth-child(12),
+.adjustor tr>td:nth-child(12)
+{
+  text-align: center;
+  width:8.3333%;
+}
+.adjustor col:nth-of-type(odd) {
+  background: #fbeede !important;
+}
+
+.adjustor col:nth-of-type(even) {
+  background: #fff8ef !important;
+}
+.light-clr{
+  background: #fff8ef !important;
+}
+.dark-clr{
+  background: #fbeede !important;
+
+}
+tr>th:nth-child(13),
+tr>td:nth-child(13),
+tr>th:nth-child(14),
+tr>td:nth-child(14)
+{
+  text-align: center;
+  width:9%;
+}
 tr>th:first-child,
 tr>td:first-child
 {
@@ -213,9 +289,77 @@ thead span {
 }
 .expanded-custom{
   height: calc(100vh - 290px);
-}
 
+
+}
+.padding-adjustor{
+  /*padding-right: 0;*/
+  /*padding-left: 0;*/
+}
+.col-custom{
+  padding-left: 0;
+  padding-right: 0;
+}
+.width-10{
+  width: 10.333%;
+}.width-11{
+  width: 11.333%;
+}
+.width-12{
+  width: 12.333%;
+}
+.width-13{
+  width: 13.333%;
+}
+.width-14{
+  width: 14.333%;
+}.width-16{
+  width: 16.333%;
+}
+.width-9{
+  width: 9.333%;
+}
+.width-4{
+  width: 4.333%;
+}.width-7{
+  width: 7.333%;
+}.width-8{
+  width: 8.333%;
+}.width-6{
+  width: 6.333%;
+}
+.row-with-no-margin{
+  margin-right: 0; margin-left: 0;
+}
+.col-lg-1{
+  text-align: center;
+}
+.attorney{
+  padding: 9px 0;
+}
+.attorney:hover{
+  background: #b6f1ff;
+  cursor: pointer;
+color: black;
+}
+.adjstor{
+  padding: 9px 0;
+}
+.adjstor:hover{
+  background: #b6f1ff;
+  cursor: pointer;
+color: black;
+}
+/*.adjustor:hover{*/
+  /*background: #b6f1ff !important;*/
+  /*cursor: pointer;*/
+/*color: black;*/
+/*}*/
 tbody>tr.bgBlue{
+  background: #56a1ff !important;
+  color: white;
+}
+.bgBlue{
   background: #56a1ff !important;
   color: white;
 }

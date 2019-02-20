@@ -1,68 +1,137 @@
 <div class="row claim-info">
-  <div class="col-sm-12 claim-col expanded-custom" style="overflow:hidden;">
+  <div class="col-sm-12 claim-col expanded-custom" style="overflow:hidden; padding-right: 0px;  padding-left: 0px;">
     <div class="table-responsive top-header">
       <!-- Adjustors -->
       <ng-container *ngIf="rs.typeSelected==rs.types[0]">
-        <table class="table no-margin table-striped" id="adjustorTable">
+        <table class="table no-margin table-striped adjustor" id="adjustorTable">
           <thead class="overflowable" id="fixed-thead">
-          <tr #referencesTable='table-sort' (tableSort)="rs.onSortColumn($event)">
-            <th>
-                <span [sort-table]="referencesTable" columnSort="AdjustorName">
-                  Adjustor Name
-                </span>
-            </th>
-            <th>
-                <span [sort-table]="referencesTable" columnSort="Address1">
-                  Address 1
-                </span>
-            </th>
-            <th>
-                <span [sort-table]="referencesTable" columnSort="Address2">
-                  Address 2
-                </span>
-            </th>
-            <th>
-                <span [sort-table]="referencesTable" columnSort="City">
-                  City
-                </span>
-            </th>
-            <th>
-                <span [sort-table]="referencesTable" columnSort="StateName">
-                  State
-                </span>
-            </th>
-            <th>
-                <span [sort-table]="referencesTable" columnSort="PostalCode">
-                  Zip
-                </span>
-            </th>
-            <th>
-                <span [sort-table]="referencesTable" columnSort="PhoneNumber">
-                  Phone
-                </span>
-            </th>
-            <th>
-                <span [sort-table]="referencesTable" columnSort="FaxNumber">
-                  Fax
-                </span>
-            </th>
-            <th>
-                <span [sort-table]="referencesTable" columnSort="EmailAddress">
-                  Email
-                </span>
-            </th>
-            <th>
-                <span [sort-table]="referencesTable" columnSort="Extension">
-                  Extension
-                </span>
-            </th>
-            <th>
-                <span [sort-table]="referencesTable" columnSort="ModifiedBy">
-                  Modified By
-                </span>
-            </th>
-            <th></th><!-- Edit Button Empty Header -->
-          </tr>
+          <!--<tr #referencesTable='table-sort' (tableSort)="rs.onSortColumn($event)">-->
+          <!--<th>-->
+          <!--<span [sort-table]="referencesTable" columnSort="AdjustorName">-->
+          <!--Adjustor Name-->
+          <!--</span>-->
+          <!--</th>-->
+          <!--<th>-->
+          <!--<span [sort-table]="referencesTable" columnSort="Address1">-->
+          <!--Address 1-->
+          <!--</span>-->
+          <!--</th>-->
+          <!--<th>-->
+          <!--<span [sort-table]="referencesTable" columnSort="Address2">-->
+          <!--Address 2-->
+          <!--</span>-->
+          <!--</th>-->
+          <!--<th>-->
+          <!--<span [sort-table]="referencesTable" columnSort="City">-->
+          <!--City-->
+          <!--</span>-->
+          <!--</th>-->
+          <!--<th>-->
+          <!--<span [sort-table]="referencesTable" columnSort="StateName">-->
+          <!--State-->
+          <!--</span>-->
+          <!--</th>-->
+          <!--<th>-->
+          <!--<span [sort-table]="referencesTable" columnSort="PostalCode">-->
+          <!--Zip-->
+          <!--</span>-->
+          <!--</th>-->
+          <!--<th>-->
+          <!--<span [sort-table]="referencesTable" columnSort="PhoneNumber">-->
+          <!--Phone-->
+          <!--</span>-->
+          <!--</th>-->
+          <!--<th>-->
+          <!--<span [sort-table]="referencesTable" columnSort="FaxNumber">-->
+          <!--Fax-->
+          <!--</span>-->
+          <!--</th>-->
+          <!--<th>-->
+          <!--<span [sort-table]="referencesTable" columnSort="EmailAddress">-->
+          <!--Email-->
+          <!--</span>-->
+          <!--</th>-->
+          <!--<th>-->
+          <!--<span [sort-table]="referencesTable" columnSort="Extension">-->
+          <!--Extension-->
+          <!--</span>-->
+          <!--</th>-->
+          <!--<th>-->
+          <!--<span [sort-table]="referencesTable" columnSort="ModifiedBy">-->
+          <!--Modified By-->
+          <!--</span>-->
+          <!--</th>-->
+          <!--<th></th>-->
+          <!--&lt;!&ndash; Edit Button Empty Header &ndash;&gt;-->
+          <!--</tr>-->
+          <div #referencesTable='table-sort' (tableSort)="rs.onSortColumn($event)" class="row row-with-no-margin">
+            <div class="col-lg-1" style="width: 10.333%;">
+              <span [sort-table]="referencesTable" columnSort="AdjustorName">
+              Adjustor Name
+              </span>
+            </div>
+            <div class="col-lg-1" style="width: 16.333%;">
+
+            <span [sort-table]="referencesTable" columnSort="Address1">
+            Address 1
+            </span>
+            </div>
+            <div class="col-lg-1" style="width: 12.333%;">
+
+            <span [sort-table]="referencesTable" columnSort="Address2">
+            Address 2
+            </span>
+            </div>
+            <div class="col-lg-1" style="width: 6.333%;">
+
+            <span [sort-table]="referencesTable" columnSort="City">
+            City
+            </span>
+            </div>
+            <div class="col-lg-1" style="width: 6.333%;">
+
+            <span [sort-table]="referencesTable" columnSort="StateName">
+            State
+            </span>
+            </div>
+            <div class="col-lg-1" style="width: 5.333%;">
+
+            <span [sort-table]="referencesTable" columnSort="PostalCode">
+            Zip
+            </span>
+            </div>
+            <div class="col-lg-1" style="width: 6.333%;">
+
+            <span [sort-table]="referencesTable" columnSort="PhoneNumber">
+            Phone
+            </span>
+            </div>
+            <div class="col-lg-1" style="width: 6.333%;">
+
+            <span [sort-table]="referencesTable" columnSort="FaxNumber">
+            Fax
+            </span>
+            </div>
+            <div class="col-lg-1" style="width: 11.333%;">
+
+            <span [sort-table]="referencesTable" columnSort="EmailAddress">
+            Email
+            </span>
+            </div>
+            <div class="col-lg-1" style="width: 7.333%;">
+
+            <span [sort-table]="referencesTable" columnSort="Extension">
+            Extension
+            </span>
+            </div>
+            <div class="col-lg-1">
+
+            <span [sort-table]="referencesTable" columnSort="ModifiedBy">
+            Modified By
+            </span>
+            </div>
+
+          </div>
           </thead>
         </table>
       </ng-container>
@@ -71,59 +140,66 @@
       <ng-container *ngIf="rs.typeSelected==rs.types[1]">
         <table class="table no-margin table-striped" id="attorneyTable">
           <thead class="overflowable" id="fixed-thead">
-          <tr #referencesTable='table-sort' (tableSort)="rs.onSortColumn($event)">
-            <th>
+          <div #referencesTable='table-sort' (tableSort)="rs.onSortColumn($event)" class="row row-with-no-margin">
+            <div class="col-lg-1 width-12">
                 <span [sort-table]="referencesTable" columnSort="AttorneyName">
-                  Attorney Name
-                </span>
-            </th>
-            <th>
+            Attorney Name
+            </span>
+            </div>
+            <div class="col-lg-1 width-14">
                 <span [sort-table]="referencesTable" columnSort="Address1">
                   Address 1
                 </span>
-            </th>
-            <th>
+            </div>
+            <div class="col-lg-1 width-12">
                 <span [sort-table]="referencesTable" columnSort="Address2">
                   Address 2
                 </span>
-            </th>
-            <th>
+            </div>
+            <div class="col-lg-1 width-6">
+
                 <span [sort-table]="referencesTable" columnSort="City">
                   City
                 </span>
-            </th>
-            <th>
+            </div>
+            <div class="col-lg-1 ">
+
                 <span [sort-table]="referencesTable" columnSort="StateName">
                   State
                 </span>
-            </th>
-            <th>
+            </div>
+            <div class="col-lg-1 width-6">
+
                 <span [sort-table]="referencesTable" columnSort="PostalCode">
                   Zip
                 </span>
-            </th>
-            <th>
+            </div>
+            <div class="col-lg-1 ">
+
                 <span [sort-table]="referencesTable" columnSort="PhoneNumber">
                   Phone
                 </span>
-            </th>
-            <th>
+            </div>
+            <div class="col-lg-1 ">
+
                 <span [sort-table]="referencesTable" columnSort="FaxNumber">
                   Fax
                 </span>
-            </th>
-            <th>
+            </div>
+            <div class="col-lg-1 width-10">
+
                 <span [sort-table]="referencesTable" columnSort="EmailAddress">
                   Email
                 </span>
-            </th>
-            <th>
+            </div>
+            <div class="col-lg-1">
+
                 <span [sort-table]="referencesTable" columnSort="ModifiedBy">
                   Modified By
                 </span>
-            </th>
-            <th></th><!-- Edit Button Empty Header -->
-          </tr>
+            </div>
+
+          </div>
           </thead>
         </table>
       </ng-container>
@@ -211,51 +287,56 @@
       <!-- End Payors -->
     </div>
     <div class="table-responsive table-body">
-      <table class="table no-margin table-striped" id="maintable">
+      <table class="table no-margin table-striped adjustor" id="maintable">
         <!-- Adjustors -->
         <tbody *ngIf="rs.typeSelected==rs.types[0]" class="overflowable" tabindex="0">
         <ng-container *ngFor="let adjustor of rs.getAdjustors(); let i = index;">
-          <tr (click)="setSelected(adjustor)" id="{{adjustor.adjustorId}}">
-            <td>{{adjustor?.adjustorName}}</td>
-            <td>{{adjustor?.address1}}</td>
-            <td>{{adjustor?.address2}}</td>
-            <td>{{adjustor?.city}}</td>
-            <td>{{adjustor?.stateName}}</td>
-            <td>{{adjustor?.postalCode}}</td>
-            <td>{{adjustor?.phoneNumber ? rs.convertPhoneNumber(adjustor.phoneNumber) : ''}}</td>
-            <td>{{adjustor?.faxNumber ? rs.convertPhoneNumber(adjustor.faxNumber) : ''}}</td>
-            <td>{{adjustor?.emailAddress}}</td>
-            <td>{{adjustor?.extension}}</td>
-            <td>{{adjustor?.modifiedBy}}</td>
-            <td>
+          <div (click)="setSelected(adjustor)" [ngClass]="{'light-clr': i%2==0}" class="row row-with-no-margin adjstor"
+               id="{{adjustor.adjustorId}}"
+               style="    margin-bottom: 9px;">
+            <div class="col-lg-1" style="width: 10.333%;">{{adjustor?.adjustorName}}</div>
+            <div class="col-lg-1 col-custom" style="width: 16.333%;">{{adjustor?.address1}}</div>
+            <div class="col-lg-1 col-custom" style="width: 12.333%;">{{adjustor?.address2}}</div>
+            <div class="col-lg-1 col-custom" style="width: 6.333%;">{{adjustor?.city}}</div>
+            <div class="col-lg-1 col-custom" style="width: 6.333%;">{{adjustor?.stateName}}</div>
+            <div class="col-lg-1 col-custom" style="width: 5.333%;">{{adjustor?.postalCode}}</div>
+            <div class="col-lg-1 col-custom"
+                 style="width: 6.333%;">{{adjustor?.phoneNumber ? rs.convertPhoneNumber(adjustor.phoneNumber) : ''}}</div>
+            <div class="col-lg-1 col-custom"
+                 style="width: 6.333%;">{{adjustor?.faxNumber ? rs.convertPhoneNumber(adjustor.faxNumber) : ''}}</div>
+            <div class="col-lg-1 col-custom" style="width: 11.333%;">{{adjustor?.emailAddress}}</div>
+            <div class="col-lg-1" style="width: 7.333%;">{{adjustor?.extension}}</div>
+            <div class="col-lg-1">{{adjustor?.modifiedBy}}</div>
+            <div class="col-lg-1" style="width: 3.333%;">
               <button (click)="edit(adjustor)" class="btn btn-primary btn-xs" style="float: right;" type="button">
                 Edit
               </button>
-            </td>
-          </tr>
+            </div>
+          </div>
         </ng-container>
         </tbody>
         <!-- End Adjustors -->
         <!-- Attorneys -->
         <tbody *ngIf="rs.typeSelected==rs.types[1]" class="overflowable" tabindex="0">
-        <ng-container *ngFor="let attorney of rs.getAttorneys()">
-          <tr (click)="setSelectedAttorney(attorney)" id="{{attorney.attorneyId}}">
-            <td>{{attorney?.attorneyName}}</td>
-            <td>{{attorney?.address1}}</td>
-            <td>{{attorney?.address2}}</td>
-            <td>{{attorney?.city}}</td>
-            <td>{{attorney?.stateName}}</td>
-            <td>{{attorney?.postalCode}}</td>
-            <td>{{attorney?.phoneNumber ? rs.convertPhoneNumber(attorney.phoneNumber) : ''}}</td>
-            <td>{{attorney?.faxNumber ? rs.convertPhoneNumber(attorney.faxNumber) : ''}}</td>
-            <td>{{attorney?.emailAddress}}</td>
-            <td>{{attorney?.modifiedBy}}</td>
-            <td>
+        <ng-container *ngFor="let attorney of rs.getAttorneys(); let i=index">
+          <div (click)="setSelectedAttorney(attorney)" [ngClass]="{'light-clr': i%2==0}" class="row row-with-no-margin attorney"
+               id="{{attorney.attorneyId}}" style="margin-bottom: 10px;">
+            <div class="col-lg-1 width-12">{{attorney?.attorneyName}}</div>
+            <div class="col-lg-1 width-14">{{attorney?.address1}}</div>
+            <div class="col-lg-1 width-12">{{attorney?.address2}}</div>
+            <div class="col-lg-1 width-6">{{attorney?.city}}</div>
+            <div class="col-lg-1">{{attorney?.stateName}}</div>
+            <div class="col-lg-1 width-6">{{attorney?.postalCode}}</div>
+            <div class="col-lg-1 ">{{attorney?.phoneNumber ? rs.convertPhoneNumber(attorney.phoneNumber) : ''}}</div>
+            <div class="col-lg-1 ">{{attorney?.faxNumber ? rs.convertPhoneNumber(attorney.faxNumber) : ''}}</div>
+            <div class="col-lg-1 width-10">{{attorney?.emailAddress}}</div>
+            <div class="col-lg-1">{{attorney?.modifiedBy}}</div>
+            <div class="col-lg-1 width-4">
               <button (click)="edit(attorney)" class="btn btn-primary btn-xs" style="float: right;" type="button">
                 Edit
               </button>
-            </td>
-          </tr>
+            </div>
+          </div>
         </ng-container>
         </tbody>
         <!-- End Attorneys -->
