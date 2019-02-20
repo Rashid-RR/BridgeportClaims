@@ -28,7 +28,7 @@ export class ClaimEpisodeComponent implements OnInit {
   ngOnInit() {
     this.events.on('episode-note-updated', (episode: Episode) => {
       this.claimManager.selectedClaim.episodes.forEach(ep => {
-        if (episode.episodeId === ep.episodeId) {
+        if (episode.episodeId == ep.episodeId) {
           ep.episodeNoteCount = episode.episodeNoteCount;
           ep.noteCount = episode.episodeNoteCount;
         }

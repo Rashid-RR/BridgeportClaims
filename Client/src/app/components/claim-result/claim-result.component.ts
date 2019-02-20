@@ -328,7 +328,6 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
         },
         type: 'POST',
         processResults: function (data) {
-
           data.forEach(d => {
             d.id = d.adjustorId,
               d.text = d.adjustorName;
@@ -342,7 +341,8 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
           };
         }
       }
-    }).on('change', () => {
+    }).on('change', (e) => {
+      console.log(e);
       const data = $('#eadjustorSelection option:selected').val();
       this.adjustorId = $('#eadjustorSelection option:selected').text();
       const val = data === 'null' ? null : data;
