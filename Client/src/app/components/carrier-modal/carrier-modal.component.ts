@@ -1,9 +1,8 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
-import {ClaimManager} from '../../services/claim-manager';
-import {Router} from '@angular/router';
-import {HttpService} from '../../services/http-service';
-import {ReferenceManagerService} from '../../services/reference-manager.service';
+import { Component, OnInit } from '@angular/core';
+import { MatDialogRef } from '@angular/material';
+import { ClaimManager } from '../../services/claim-manager';
+import { HttpService } from '../../services/http-service';
+import { ReferenceManagerService } from '../../services/reference-manager.service';
 
 @Component({
   selector: 'app-carrier-modal',
@@ -13,10 +12,9 @@ import {ReferenceManagerService} from '../../services/reference-manager.service'
 export class CarrierModalComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<CarrierModalComponent>,
-              private router: Router,
-              private http: HttpService,
-              public rs: ReferenceManagerService,
-              public claimManager: ClaimManager) {
+    private http: HttpService,
+    public rs: ReferenceManagerService,
+    public claimManager: ClaimManager) {
     this.http.getStates({}).subscribe(data => {
       this.rs.states = data;
     }, error => {
@@ -33,6 +31,6 @@ export class CarrierModalComponent implements OnInit {
 
   showReference(payorId: any) {
     this.dialogRef.close();
-    this.router.navigate(['main/references'], {queryParams: {payorId: payorId}});
+    window.open('#/main/references/?payorId=' + payorId, '_blank');
   }
 }
