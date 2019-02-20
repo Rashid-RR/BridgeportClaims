@@ -379,6 +379,7 @@
     <None Include="Properties\PublishProfiles\BridgeportClaims-staging - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\BridgeportClaims-testing - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\BridgeportClaims-testing - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
