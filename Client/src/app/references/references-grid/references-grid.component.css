@@ -330,6 +330,10 @@ thead span {
 }
 .row-with-no-margin{
   margin-right: 0; margin-left: 0;
+
+}
+.padding-custom{
+  padding-top: 6px;
 }
 .col-lg-1{
   text-align: center;

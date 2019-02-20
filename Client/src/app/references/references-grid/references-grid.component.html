@@ -64,7 +64,7 @@
           <!--<th></th>-->
           <!--&lt;!&ndash; Edit Button Empty Header &ndash;&gt;-->
           <!--</tr>-->
-          <div #referencesTable='table-sort' (tableSort)="rs.onSortColumn($event)" class="row row-with-no-margin">
+          <div #referencesTable='table-sort' (tableSort)="rs.onSortColumn($event)" class="row row-with-no-margin padding-custom">
             <div class="col-lg-1" style="width: 10.333%;">
               <span [sort-table]="referencesTable" columnSort="AdjustorName">
               Adjustor Name
@@ -140,7 +140,7 @@
       <ng-container *ngIf="rs.typeSelected==rs.types[1]">
         <table class="table no-margin table-striped" id="attorneyTable">
           <thead class="overflowable" id="fixed-thead">
-          <div #referencesTable='table-sort' (tableSort)="rs.onSortColumn($event)" class="row row-with-no-margin">
+          <div #referencesTable='table-sort' (tableSort)="rs.onSortColumn($event)" class="row row-with-no-margin padding-custom">
             <div class="col-lg-1 width-12">
                 <span [sort-table]="referencesTable" columnSort="AttorneyName">
             Attorney Name
