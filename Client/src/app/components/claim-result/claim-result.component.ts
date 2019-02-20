@@ -317,54 +317,68 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
   }
 
   enableSelect2() {
-    $('#eadjustorSelection').select2({
-      initSelection: (element, callback) => {
-        callback({id: this.claimManager.selectedClaim.adjustorId || 'null', text: this.claimManager.selectedClaim.adjustor || '-- No Adjustor --'});
-      },
+    let eadjustorSelection = $('#eadjustorSelection').select2({
       ajax: {
         headers: {'Authorization': this.auth},
         url: function (params) {
           return '/api/adjustors/adjustor-names/?adjustorName=' + (params.term || '');
         },
         type: 'POST',
-        processResults: function (data) {
-          data.forEach(d => {
+        processResults:  (data)=> {
+          let content = data.filter(d=>d.adjustorId!==(this.claimManager.selectedClaim.adjustorId || 'null'))
+          content.forEach(d => {
             d.id = d.adjustorId,
               d.text = d.adjustorName;
           });
-          data.unshift({
+          content.unshift({
             id: 'null',
             text: '-- No Adjustor --'
           });
+          if(this.claimManager.selectedClaim.adjustorId){
+            content.unshift({
+              id: this.claimManager.selectedClaim.adjustorId,
+              text: this.claimManager.selectedClaim.adjustor
+            });
+          }
           return {
-            results: (data || [])
+            results: (content || [])
           };
         }
       }
     }).on('change', (e) => {
-      console.log(e);
       const data = $('#eadjustorSelection option:selected').val();
       this.adjustorId = $('#eadjustorSelection option:selected').text();
       const val = data === 'null' ? null : data;
       this.form.controls['adjustorId'].setValue(val);
     });
-    $('#eCarrierSelection').select2({
-      initSelection: (element, callback) => {
-        callback({id: this.claimManager.selectedClaim.payorId, text: this.claimManager.selectedClaim.carrier});
-      },
+    var option = new Option(this.claimManager.selectedClaim.adjustor as string, this.claimManager.selectedClaim.adjustorId as any, true, true);
+    eadjustorSelection.append(option).trigger('change');
+    let eCarrierSelection = $('#eCarrierSelection').select2({
       ajax: {
         headers: {'Authorization': this.auth},
         url: (params) => {
-          return '/api/payors/search/?searchText=' + (params.term || this.claimManager.selectedClaim.carrier);
+          return '/api/payors/search/?searchText=' + (params.term || '');
         },
         type: 'POST',
-        processResults: function (data) {
-          data.forEach(d => {
+        processResults: (data) =>{
+          let content = data.filter(d=>d.adjustorId!==(this.claimManager.selectedClaim.adjustorId || 'null'))
+          content.forEach(d => {
             d.id = d.payorId,
               d.text = d.groupName;
           });
+
+          content.unshift({
+            id: 'null',
+            text: '-- No Carrier --'
+          });
+          if(this.claimManager.selectedClaim.payorId){
+            content.unshift({
+              id: this.claimManager.selectedClaim.payorId,
+              text: this.claimManager.selectedClaim.carrier
+            });
+          }
           return {
-            results: (data || [])
+            results: (content || [])
           };
         }
       }
@@ -374,6 +388,10 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
       const val = data === 'null' ? null : data;
       this.form.controls['payorId'].setValue(val);
     });
+    if(this.claimManager.selectedClaim.carrier){
+    var option = new Option(this.claimManager.selectedClaim.carrier as string, this.claimManager.selectedClaim.payorId as any, true, true);
+    eCarrierSelection.append(option).trigger('change');
+    }
   }
 
   view(claimID: Number) {
