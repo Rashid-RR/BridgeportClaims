@@ -21,14 +21,9 @@
         <div class="box">
             <div class="box-header with-border" style="height:40px;line-height:40px;padding-top:0px;padding-bottom:0px;">
                 <h3 class="box-title">Claims</h3>
-
                 <div class="box-tools pull-right" style="top:0px" *ngIf="claimManager.selectedClaim">
                     <div class="btn-group" data-toggle="btn-toggle">
-
                         <div class="btn-group">
-                            <!-- <img [src]="over[7] ? 'assets/img/decision-tree-hover.png' : 'assets/img/decision-tree.png'"
-                                (mouseover)="over[7] = true" (mouseout)="over[7] = false" height="55px" class="pull-left"
-                                style="cursor: pointer;margin-top: 0px;" title="Decision Trees" (click)="showDecisionTreeWindow(claimManager.selectedClaim.claimId)"> -->
                             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">
                                 --- Export Documents ----
@@ -88,23 +83,6 @@
                                 </li>
                             </ul>
                         </div>
-
-                        <!-- <button class="btn btn-flat btn-sm  be" type="button" (click)="viewFile()" style="background:transparent;border:none;margin-top:-5px">
-                          <img [src]="over[3] ? 'assets/img/Hover.png' : 'assets/img/Normal.png'" (mouseover)="over[3] = true"
-                              (mouseout)="over[3] = false" height="50px" class="pull-left" style="cursor: pointer;">
-                      </button>
-                      <button class="btn btn-flat btn-sm  be" type="button" (click)="exportLetter('be')">
-                          <img [src]="over[0] ? 'assets/img/be/Hover.png' : 'assets/img/be/Normal.png'" (mouseover)="over[0] = true"
-                              (mouseout)="over[0] = false" height="35px">
-                      </button>
-                      <button class="btn btn-flat btn-sm ime" type="button" (click)="exportLetter('ime')">
-                          <img [src]="over[1] ? 'assets/img/ime/Hover.png' : 'assets/img/ime/Normal.png'" (mouseover)="over[1] = true"
-                              (mouseout)="over[1] = false" height="35px">
-                      </button>
-                      <button class="btn btn-flat btn-sm pip" type="button" (click)="exportLetter('pip')">
-                          <img [src]="over[2] ? 'assets/img/pip/Hover.png' : 'assets/img/pip/Normal.png'" (mouseover)="over[2] = true"
-                              (mouseout)="over[2] = false" height="35px">
-                      </button> -->
                     </div>
                 </div>
             </div>
@@ -232,12 +210,6 @@
                                     <button type="button" class="btn btn-primary btn-xs min-width-75 height-25 bg-transparent border-white b-radius-3 fsize-15" (click)="episode()">
                                         <i class="fa fa-plus fsize-1em button-icon2-fix"></i> Add Episode
                                     </button>
-                                    <!-- <div class="btn-group" data-toggle="btn-toggle">
-                                        <button type="button" class="btn btn-flat bg-darkblue btn-sm no-padding" title="New Episode"
-                                            (click)="episode()">
-                                            <img src="assets/Episode.png" class="add-btn" />
-                                        </button>
-                                    </div> -->
                                     <button type="button" *ngIf="expanded" class="transparent btn btn-flat bg-grey btn-sm pull-right"
                                         (click)="minimize('episodes')" title="Minimize">
                                         <i class="fa fa-minus"></i>
@@ -481,9 +453,6 @@
         <h3 style="font-size:20px">Change Prescriptions status</h3>
         <div class="row search-container text-left" style="padding:23px">
             <div class="col-sm-12 field example-container">
-                <!-- <select class="form-control" aria-label="..." [(ngModel)]="statusId">
-                    <option *ngFor="let status of claimManager.selectedClaim.prescriptionStatuses;" [ngValue]="status">{{status.statusName}}</option>
-                </select> -->
                 <mat-form-field>
                         <mat-select placeholder="Select prescriptions status" [(ngModel)]="statusId">
                           <mat-option *ngFor="let status of claimManager.selectedClaim.prescriptionStatuses" [value]="status">
