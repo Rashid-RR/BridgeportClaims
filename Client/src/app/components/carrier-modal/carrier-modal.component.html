@@ -20,9 +20,11 @@
     </h2>
   </div>
   <div class="col-lg-1">
-    <label (click)="onNoClick()" class="close-btn" mat-dialog-close>
+
+    <button mat-raised-button color="warn" class="btn close" mat-dialog-close (click)="onNoClick()"><span style="font-size:41px">&times;</span></button>
+    <!-- <label (click)="onNoClick()" class="close-btn" color="warn" mat-raised-button mat-dialog-close>
       <i class="fa fa-close" style="color: #992727;"></i>
-    </label>
+    </label> -->
   </div>
 
   <div class="col-lg-2" style="width: 14% !important;">

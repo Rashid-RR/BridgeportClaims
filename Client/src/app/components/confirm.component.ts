@@ -1,5 +1,6 @@
 import { Component, ElementRef, Renderer2, AfterViewInit } from '@angular/core';
 import { DialogComponent, DialogService } from 'ng2-bootstrap-modal';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Subject } from 'rxjs';
 export interface ConfirmModel {
   title: string;
@@ -13,20 +14,21 @@ export interface ConfirmModel {
 @Component({
   selector: 'confirm',
   template: `<div class="modal-dialog">
-                <div class="modal-content">
-                   <div class="modal-header">
-                     <button type="button" class="close" (click)="close()" >&times;</button>
-                     <h4 class="modal-title">{{title || 'Confirm'}}</h4>
-                   </div>
-                   <div class="modal-body">
-                     <p [innerHTML]="msg || 'Are you sure?'"></p>
-                   </div>
-                   <div class="modal-footer">
-                     <button type="button" class="btn btn-primary" (click)="confirm()" [disabled]="buttonDisabled">{{buttonText ||'OK'}}</button>
-                     <button type="button" class="btn btn-default" (click)="close()" >Cancel</button>
-                   </div>
-                 </div>
-              </div>`
+  <div class="modal-content">
+     <div class="modal-header">
+       
+       <button mat-raised-button color="warn" class="btn close" (click)="close()"><span style="font-size:41px">&times;</span></button>
+       <h4 class="modal-title">{{title || 'Confirm'}}</h4>
+     </div>
+     <div class="modal-body">
+       <p [innerHTML]="msg || 'Are you sure?'"></p>
+     </div>
+     <div class="modal-footer">
+       <button type="button" class="btn" style="height:49px" (click)="confirm()" [disabled]="buttonDisabled" cdkFocusInitial>{{buttonText ||'OK'}}</button>
+       <button type="button" mat-button class="btn btn-default" (click)="close()" >Cancel</button>
+     </div>
+   </div>
+</div>`
 })
 export class ConfirmComponent extends DialogComponent<ConfirmModel, boolean> implements ConfirmModel, AfterViewInit {
   title: string;

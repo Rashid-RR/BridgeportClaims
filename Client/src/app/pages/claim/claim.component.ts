@@ -16,7 +16,8 @@ import { DialogService } from 'ng2-bootstrap-modal';
 import { ConfirmComponent } from '../../components/confirm.component';
 import { isPlatformBrowser } from '@angular/common';
 import { Prescription } from '../../models/prescription';
-
+import { MatDialog } from '@angular/material';
+import { MatSelectModule } from '@angular/material';
 declare var $: any;
 
 @Component({
@@ -71,7 +72,8 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
     private dp: DatePipe,
     private events: EventsService,
     private toast: ToastrService,
-    private ar: AccountReceivableService
+    private ar: AccountReceivableService,
+    public dialog:MatDialog
   ) {
     this.over = new Array(8);
     this.over.fill(false);
@@ -99,6 +101,12 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
   }
   deleteNote() {
     if (this.claimManager.selectedClaim && this.claimManager.selectedClaim.claimId) {
+      // const dialogRef = this.dialog.open(ConfirmComponent, {
+      //   data:{
+      //     title: 'Delete Claim Note',
+      //    message: 'Are you sure you wish to remove this note?'
+      //   }  
+      // })
       this.dialogService.addDialog(ConfirmComponent, {
         title: 'Delete Claim Note',
         message: 'Are you sure you wish to remove this note?'
@@ -626,6 +634,16 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
       html:
         `<div class="form-group" style="text-align:center">
               <label id="claimNoteTypeLabel">Note type</label>
+              <mat-form-field>
+                <mat-select placeholder="Favorite food">
+                  <mat-option [value]="1">
+                    data 1
+                  </mat-option>
+                  <mat-option [value]="2">
+                    data 2
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
               <select class="form-control" id="noteTypeId" style="font-size:12pt;min-width:200px;width:350px;margin-left: calc(50% - 150px);">
                 ` + claimNoteTypeIds + `
               </select>
