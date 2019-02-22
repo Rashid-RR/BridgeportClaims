@@ -16,8 +16,7 @@ import { DialogService } from 'ng2-bootstrap-modal';
 import { ConfirmComponent } from '../../components/confirm.component';
 import { isPlatformBrowser } from '@angular/common';
 import { Prescription } from '../../models/prescription';
-import { MatDialog } from '@angular/material';
-import { MatSelectModule } from '@angular/material';
+import { MatDialog ,MatSelect} from '@angular/material';
 declare var $: any;
 
 @Component({
