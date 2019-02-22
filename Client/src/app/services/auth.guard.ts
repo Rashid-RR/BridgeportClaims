@@ -19,14 +19,14 @@ export class AuthGuard implements CanActivate, CanActivateChild, Resolve<UserPro
   returnURL: String = '';
   constructor(private activeRoute: ActivatedRoute, private events: EventsService,
     private router: Router, private profileManager: ProfileManager) {
-    this.events.on('logout', immediately => {
+    this.events.on('logout', _immediately => {
       this.profileManager.profile = undefined;
       localStorage.removeItem('user');
       this.router.navigate(['/login']);
     });
 
   }
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
+  canActivate(_route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
     this.returnURL = state.url;
     return this.isLoggedIn.
       pipe(map(e => {
@@ -36,13 +36,13 @@ export class AuthGuard implements CanActivate, CanActivateChild, Resolve<UserPro
           this.router.navigate(['/login'], { queryParams: { 'returnURL': this.returnURL } });
           return false;
         }
-      }), catchError((e) => {
+      }), catchError((_e) => {
         this.router.navigate(['/login'], { queryParams: { 'returnURL': this.returnURL } });
         return of(false);
       }));
   }
-  canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
 
+  canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
     this.returnURL = state.url;
     const route = childRoute.url[0] || childRoute.parent.url[0];
     const user = localStorage.getItem('user');
@@ -110,16 +110,16 @@ export class AuthGuard implements CanActivate, CanActivateChild, Resolve<UserPro
       return true;
     }
   }
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<UserProfile> {
+  resolve(_route: ActivatedRouteSnapshot, _state: RouterStateSnapshot): Observable<UserProfile> {
     const user = this.profileManager.User;
-    user.subscribe(profile => {
-    }, error => {
+    user.subscribe(_profile => {
+    }, _error => {
 
     });
     // return user.map(profile=>{return profile});
     return this.profileManager.User;
   }
 
-  hasRights(module) {
+  hasRights(_module: any) {
   }
 }
