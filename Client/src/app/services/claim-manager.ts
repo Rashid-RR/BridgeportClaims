@@ -20,6 +20,7 @@ import swal from 'sweetalert2';
 import { ProfileManager } from './profile-manager';
 import { PayorDataItem } from '../components/dataItem/payor-data';
 import { AdjustorDataItem } from '../components/dataItem/adjustor-data.model';
+import {AttorneyDataItem} from '../components/dataItem/attorney-data';
 
 declare var $: any;
 
@@ -28,6 +29,7 @@ export class ClaimManager {
   onClaimIdChanged = new Subject<Number>();
   payorData: PayorDataItem;
   adjustorData: AdjustorDataItem;
+  attorneyData: AttorneyDataItem;
   dialogListener: Subject<any> = new Subject<any>();
   private claims: Immutable.OrderedMap<Number, Claim> = Immutable.OrderedMap<Number, Claim>();
   public comparisonClaims: Immutable.OrderedMap<Number, Claim> = Immutable.OrderedMap<Number, Claim>();

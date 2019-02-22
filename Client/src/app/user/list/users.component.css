@@ -32,10 +32,10 @@
 
 .demo label{
  top:3px; left:15px;
- margin-right:30px;     
- position:relative;     
-}  
-  
+ margin-right:30px;
+ position:relative;
+}
+
 
 input.faChkRnd, input.faChkSqr {
   visibility: hidden;
@@ -79,9 +79,9 @@ tr:nth-of-type(odd) {
 tr:nth-of-type(even) {
   background: #fff8ef !important;
 }
- 
+
 table#dataTables-example tbody tr td.center-in {
-  text-align: center;  
+  text-align: center;
 }
 
 /**
@@ -218,7 +218,7 @@ td .btn-group .dropdown-toggle {
 	text-align: right;
 }
 td .btn-group.open .dropdown-toggle {
-	box-shadow: none; 
+	box-shadow: none;
 }
 
 
@@ -254,4 +254,46 @@ td .btn-group.open .dropdown-toggle {
   margin: 4px;
 }
 
+.user-management tr>th,
+.user-management tr>td {
+  width: 15%;
+}
+.user-management tr>th:nth-child(2),
+.user-management tr>td:nth-child(2),
+.user-management tr>th:nth-child(3),
+.user-management tr>td:nth-child(3) {
+  width: 12%;
+}
+.user-management tr>th:nth-child(4), /* Active */
+.user-management tr>td:nth-child(4) {
+  width: 5%;
+}
+.user-management tr>th:nth-child(5), /* Email Confirmed */
+.user-management tr>td:nth-child(5),
+.user-management tr>th:nth-child(6), /* Registered Date */
+.user-management tr>td:nth-child(6) {
+  width: 10%;
+}
+.user-management tr>th:nth-child(7), /* Extension */
+.user-management tr>td:nth-child(7) {
+  width: 7%;
+}
+.user-management tr>th:nth-child(7), /* Extension */
+.user-management tr>td:nth-child(7) {
+  width: 7%;
+}
+.user-management tr>th:nth-child(8), /* Referral Type */
+.user-management tr>td:nth-child(8) {
+  width: 10%;
+}
+.user-management tr>th:nth-child(9), /* Client */
+.user-management tr>td:nth-child(9),
+.user-management tr>th:nth-child(10), /* User */
+.user-management tr>td:nth-child(10),
+.user-management tr>th:nth-child(11), /* Indexer */
+.user-management tr>td:nth-child(11),
+.user-management tr>th:nth-child(12), /* Admin */
+.user-management tr>td:nth-child(12) {
+  width: 4%;
+}
 

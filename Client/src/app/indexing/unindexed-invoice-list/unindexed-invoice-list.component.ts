@@ -50,17 +50,20 @@ export class UnindexedInvoiceListComponent implements OnInit {
         }
       }
     ]);
-  };
+  }
+
   next() {
     this.ds.searchInvoices(true);
     this.goToPage = '';
   }
+
   openFile(file: DocumentItem) {
     this.ds.loading = true;
     this.ds.invoiceFile = file;
     this.ds.newInvoice = true;
     this.ds.loading = false;
   }
+
   archive(file: DocumentItem) {
     this.dialogService.addDialog(ConfirmComponent, {
       title: 'Archive Invoice',
@@ -79,7 +82,7 @@ export class UnindexedInvoiceListComponent implements OnInit {
     } else if (page > 0 && page <= this.ds.invTotalPages) {
       this.ds.searchInvoices(false, false, page);
     } else {
-      let toast = this.toast.toasts.find(t=>t.toastId ==this.activeToast)
+      const toast = this.toast.toasts.find(t => t.toastId == this.activeToast);
       if (toast) {
         toast.message = 'Page number entered is out of range. Enter a page number between 1 and ' + this.ds.invTotalPages;
       } else {

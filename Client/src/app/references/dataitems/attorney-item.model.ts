@@ -1,5 +1,5 @@
 export interface AttorneyItem {
-    'attorneyId': number;
+    'attorneyId': string;
     'attorneyName': string;
     'address1': string;
     'address2': string;

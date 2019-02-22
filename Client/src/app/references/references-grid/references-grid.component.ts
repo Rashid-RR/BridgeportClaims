@@ -4,6 +4,8 @@ import {ToastrService} from 'ngx-toastr';
 import {SortColumnInfo} from '../../directives/table-sort.directive';
 import {ClaimManager} from '../../services/claim-manager';
 import {AdjustorItem} from '../dataitems/adjustor-item.model';
+import {AttorneyItem} from '../dataitems/attorney-item.model';
+import {PayorItem} from '../dataitems/payor-item.model';
 
 declare var jQuery: any;
 declare var $: any;
@@ -20,6 +22,8 @@ export class ReferencesGridComponent implements OnInit {
   toastId: number;
   toastIsActive = false;
   selectedAdjustorIds: Array<string> = [];
+  selectedAttorneyIds: Array<string> = [];
+  selectedPayorIds: Array<string> = [];
 
   constructor(public rs: ReferenceManagerService, private _rootElement: ElementRef,
               private toast: ToastrService,) {
@@ -62,6 +66,26 @@ export class ReferencesGridComponent implements OnInit {
     } else {
       this.selectedAdjustorIds[this.selectedAdjustorIds.length] = adjustor.adjustorId;
       $(this._rootElement.nativeElement).find(`#${adjustor.adjustorId}`).addClass('bgBlue');
+    }
+  }
+
+  setSelectedAttorney(attorney: AttorneyItem) {
+    if (this.selectedAttorneyIds.indexOf(attorney.attorneyId) !== -1) {
+      this.selectedAttorneyIds.splice(this.selectedAttorneyIds.indexOf(attorney.attorneyId), 1);
+      $(this._rootElement.nativeElement).find(`#${attorney.attorneyId}`).removeClass('bgBlue');
+    } else {
+      this.selectedAttorneyIds[this.selectedAttorneyIds.length] = attorney.attorneyId;
+      $(this._rootElement.nativeElement).find(`#${attorney.attorneyId}`).addClass('bgBlue');
+    }
+  }
+
+  setSelectedPayor(payor: PayorItem) {
+    if (this.selectedPayorIds.indexOf(payor.payorId) !== -1) {
+      this.selectedPayorIds.splice(this.selectedPayorIds.indexOf(payor.payorId), 1);
+      $(this._rootElement.nativeElement).find(`#${payor.payorId}`).removeClass('bgBlue');
+    } else {
+      this.selectedPayorIds[this.selectedPayorIds.length] = payor.payorId;
+      $(this._rootElement.nativeElement).find(`#${payor.payorId}`).addClass('bgBlue');
     }
   }
 

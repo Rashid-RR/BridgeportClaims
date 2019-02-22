@@ -1,10 +1,11 @@
-import { Injectable } from '@angular/core';
-import { HttpService } from './http-service';
-import { AdjustorItem } from '../references/dataitems/adjustor-item.model';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { UsState } from '../models/us-state';
-import { PayorItem } from '../references/dataitems/payor-item.model';
-import { AttorneyItem } from '../references/dataitems/attorney-item.model';
+import {Injectable} from '@angular/core';
+import {HttpService} from './http-service';
+import {AdjustorItem} from '../references/dataitems/adjustor-item.model';
+import {FormGroup, FormBuilder, Validators} from '@angular/forms';
+import {UsState} from '../models/us-state';
+import {PayorItem} from '../references/dataitems/payor-item.model';
+import {AttorneyItem} from '../references/dataitems/attorney-item.model';
+import { throwError } from 'rxjs';
 
 declare var $: any;
 
@@ -17,6 +18,7 @@ export class ReferenceManagerService {
   public editFlag = false;
   public payorId: number;
   public adjustorId: number;
+  public attorneyId: number;
   public loading = false;
   public adjustors: Array<AdjustorItem>;
   public payors: Array<PayorItem>;
@@ -110,16 +112,20 @@ export class ReferenceManagerService {
     this.abstractSearchParams.page = this.currentPage;
     this.abstractSearchParams.sortDirection = this.sortType;
     this.abstractSearchParams.sort = this.sortColumn;
-    if (this.typeSelected === 'Adjustor') {
+    if (this.typeSelected === this.types[0]) {
       // checking if we are getting a single adjustor or not....
       if (this.adjustorId) {
         this.fetchSingleAdjustor(this.adjustorId);
       } else {
         this.fetchAdjustors(this.abstractSearchParams);
       }
-    } else if (this.typeSelected === 'Attorney') {
-      this.fetchAttorneys(this.abstractSearchParams);
-    } else if (this.typeSelected === 'Payor') {
+    } else if (this.typeSelected === this.types[1]) {
+      if (this.attorneyId) {
+        this.fetchSingleAttorney(this.attorneyId);
+      } else {
+        this.fetchAttorneys(this.abstractSearchParams);
+      }
+    } else if (this.typeSelected === this.types[2]) {
       // checking if we are getting a single payor or not...
       if (this.payorId) {
         this.fetchSinglePayor(this.payorId);
@@ -150,12 +156,12 @@ export class ReferenceManagerService {
     this.loading = true;
     this.http.getReferencesAdjustorsList(data)
       .subscribe((result: any) => {
-        this.adjustors = result.results;
-        this.totalEntityRows = result.totalRows;
-        this.loading = false;
-      }, error => {
-        this.loading = false;
-      }
+          this.adjustors = result.results;
+          this.totalEntityRows = result.totalRows;
+          this.loading = false;
+        }, error => {
+          this.loading = false;
+        }
       );
   }
 
@@ -172,6 +178,10 @@ export class ReferenceManagerService {
   }
 
   fetchSingleAdjustor(id: number): void {
+    if (id !== this.adjustorId) {
+      throwError('Somethine went wrong, the id passed in does not match the adjustor Id.');
+      return;
+    }
     this.loading = true;
     this.http.getAdjustorById(this.adjustorId)
       .subscribe((result: any) => {
@@ -192,7 +202,36 @@ export class ReferenceManagerService {
       });
   }
 
+  fetchSingleAttorney(id: number): void {
+    if (id !== this.attorneyId) {
+      throwError('Somethine went wrong, the id passed in does not match the attorney Id.');
+      return;
+    }
+    this.loading = true;
+    this.http.getAttorneyById(this.attorneyId)
+      .subscribe((result: any) => {
+        this.attorneys = [];
+        this.attorneys.push(result);
+        this.editFlag = true;
+        this.editedEntity = result;
+        this.openModal(true);
+        setTimeout(() => {
+          const element = document.getElementById(this.attorneyId.toString());
+          element.classList.add('bgBlue');
+          this.attorneyId = null;
+        }, 1200);
+        this.totalEntityRows = 1;
+        this.loading = false;
+      }, error => {
+        this.loading = false;
+      });
+  }
+
   fetchSinglePayor(id: number): void {
+    if (id !== this.payorId) {
+      throwError('Somethine went wrong, the id passed in does not match the payor Id.');
+      return;
+    }
     this.loading = true;
     this.http.getPayorById(this.payorId)
       .subscribe((result: any) => {
@@ -201,7 +240,6 @@ export class ReferenceManagerService {
         this.editFlag = true;
         this.editedEntity = result;
         this.openModal(true);
-
         setTimeout(() => {
           const element = document.getElementById(this.payorId.toString());
           element.classList.add('bgBlue');
@@ -218,12 +256,12 @@ export class ReferenceManagerService {
     this.loading = true;
     this.http.getReferencesAttorneysList(data)
       .subscribe((result: any) => {
-        this.attorneys = result.results;
-        this.totalEntityRows = result.totalRows;
-        this.loading = false;
-      }, error => {
-        this.loading = false;
-      }
+          this.attorneys = result.results;
+          this.totalEntityRows = result.totalRows;
+          this.loading = false;
+        }, error => {
+          this.loading = false;
+        }
       );
   }
 

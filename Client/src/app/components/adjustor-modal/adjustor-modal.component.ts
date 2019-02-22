@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 import { ClaimManager } from '../../services/claim-manager';
-import { Router } from '@angular/router';
 import { HttpService } from '../../services/http-service';
 import { ReferenceManagerService } from '../../services/reference-manager.service';
 
@@ -13,7 +12,6 @@ import { ReferenceManagerService } from '../../services/reference-manager.servic
 export class AdjustorModalComponent implements OnInit {
 
     constructor(public dialogRef: MatDialogRef<AdjustorModalComponent>,
-        private router: Router,
         private http: HttpService,
         public rs: ReferenceManagerService,
         public claimManager: ClaimManager) {
@@ -31,6 +29,6 @@ export class AdjustorModalComponent implements OnInit {
 
     showReference(adjustorId: number) {
         this.dialogRef.close();
-        this.router.navigate(['main/references'], { queryParams: { adjustorId: adjustorId } });
+        window.open('#/main/references/?adjustorId=' + adjustorId, '_blank');
     }
 }

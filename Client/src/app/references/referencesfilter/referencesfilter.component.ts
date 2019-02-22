@@ -1,13 +1,13 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
-import {ReferenceManagerService} from '../../services/reference-manager.service';
-import {ToastrService} from 'ngx-toastr';
-import {HttpService} from '../../services/http-service';
-import {UsState} from '../../models/us-state';
-import {Observable} from 'rxjs';
-import {map, startWith} from 'rxjs/operators';
-import {MatAutocomplete, MatAutocompleteSelectedEvent} from '@angular/material';
-import {FormControl} from '@angular/forms';
-import {ActivatedRoute} from '@angular/router';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { ReferenceManagerService } from '../../services/reference-manager.service';
+import { ToastrService } from 'ngx-toastr';
+import { HttpService } from '../../services/http-service';
+import { UsState } from '../../models/us-state';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
+import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material';
+import { FormControl } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 
 declare var $: any;
 
@@ -31,9 +31,9 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
   payorFilteredStates: Observable<UsState[]>;
 
   constructor(public rs: ReferenceManagerService,
-              private http: HttpService,
-              private route: ActivatedRoute,
-              private toast: ToastrService) {
+    private http: HttpService,
+    private route: ActivatedRoute,
+    private toast: ToastrService) {
     this.http.getStates({}).subscribe(data => {
       this.rs.states = data;
     }, error => {
@@ -59,6 +59,11 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
         this.rs.adjustorId = Number(queryOptions['adjustorId']);
         this.rs.typeSelected = this.rs.types[0];
         this.rs.sortColumn = 'adjustorName';
+        this.rs.getReferencesList();
+      } else if (queryOptions['attorneyId']) {
+        this.rs.attorneyId = Number(queryOptions['attorneyId']);
+        this.rs.typeSelected = this.rs.types[1];
+        this.rs.sortColumn = 'attorneyName';
         this.rs.getReferencesList();
       }
     });
@@ -90,17 +95,17 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
 
   onAdjustorStateSelection(stateId: number) {
     const selected = this.rs.states.find(st => st.stateId === stateId);
-    this.rs.adjustorForm.patchValue({state: selected.stateName, stateId: selected.stateId});
+    this.rs.adjustorForm.patchValue({ state: selected.stateName, stateId: selected.stateId });
   }
 
   onAttorneyStateSelection(stateId: number) {
     const selected = this.rs.states.find(option => option.stateId === stateId);
-    this.rs.attorneyForm.patchValue({state: selected.stateName, stateId: selected.stateId});
+    this.rs.attorneyForm.patchValue({ state: selected.stateName, stateId: selected.stateId });
   }
 
   onPayorStateSelection(stateId: number) {
     const selected = this.rs.states.find(option => option.stateId === stateId);
-    this.rs.payorForm.patchValue({billToStateName: selected.stateName, billToStateId: selected.stateId});
+    this.rs.payorForm.patchValue({ billToStateName: selected.stateName, billToStateId: selected.stateId });
   }
 
   ngAfterViewInit() {

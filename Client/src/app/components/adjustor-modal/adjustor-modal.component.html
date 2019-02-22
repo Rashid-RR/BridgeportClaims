@@ -1,96 +1,100 @@
 <div class="row">
-    <div class="col-lg-2" style="width: 14% !important;">
-      <h2>Adjustor:
-      </h2>
-    </div>
-    <div class="col-lg-3" style="width: 26% !important;">
-      <h2>
-        <span class="header-hd"
-              style="font-size: 19px !important; color: #204d74"> {{claimManager.claimsData[0].adjustor}}</span></h2>
-    </div>
-    <div class="col-lg-1">
-      <h2>Patient:
-      </h2>
-    </div>
-    <div class="col-lg-5">
-      <h2>
-        <span
-          class="header-hd"> {{claimManager.selectedClaim.name || claimManager.selectedClaim.firstName || ''}} {{claimManager.selectedClaim.lastName || ''}} </span>
-      </h2>
-    </div>
-    <div class="col-lg-1">
-      <label (click)="onNoClick()" class="close-btn" mat-dialog-close>
-        <i class="fa fa-close" style="color: #992727;"></i>
-      </label>
-    </div>
-    <div class="col-lg-2" style="width: 14% !important;">
-      <h2>Claim #:
-      </h2>
-    </div>
-    <div class="col-lg-3" style="width: 26% !important;">
-      <h2>
-        <span class="header-hd"> {{claimManager.claimsData[0].claimNumber}}</span></h2>
-    </div>
-    <div class="col-lg-1">
-      <h2>Address:</h2>
-    </div>
-    <div class="col-lg-6">
-      <h2>
-        <span class="header-hd">
-        {{claimManager.adjustorData?.address1 || ''}}
-          , {{claimManager.adjustorData?.address2 || ''}} {{claimManager.adjustorData?.city || ''}}
-          , {{claimManager.adjustorData?.stateName || ''}} &nbsp;{{claimManager.adjustorData?.postalCode || ''}}
-        </span></h2>
+  <div class="col-lg-2" style="width: 14% !important;">
+    <h2>Adjustor:
+    </h2>
+  </div>
+  <div class="col-lg-3" style="width: 26% !important;">
+    <h2>
+      <span class="header-hd" style="font-size: 19px !important; color: #204d74">
+        {{claimManager.claimsData[0].adjustor}}</span></h2>
+  </div>
+  <div class="col-lg-1">
+    <h2>Patient:
+    </h2>
+  </div>
+  <div class="col-lg-5">
+    <h2>
+      <span class="header-hd"> {{claimManager.selectedClaim.name || claimManager.selectedClaim.firstName || ''}}
+        {{claimManager.selectedClaim.lastName || ''}} </span>
+    </h2>
+  </div>
+  <div class="col-lg-1">
+    <label (click)="onNoClick()" class="close-btn" mat-dialog-close>
+      <i class="fa fa-close" style="color: #992727;"></i>
+    </label>
+  </div>
+  <div class="col-lg-2" style="width: 14% !important;">
+    <h2>Claim #:
+    </h2>
+  </div>
+  <div class="col-lg-3" style="width: 26% !important;">
+    <h2>
+      <span class="header-hd"> {{claimManager.claimsData[0].claimNumber}}</span></h2>
+  </div>
+  <div class="col-lg-1">
+    <h2>Address:</h2>
+  </div>
+  <div class="col-lg-6">
+    <h2>
+      <span class="header-hd">
+        {{claimManager.claimsData[0]?.address1 || ''}}
+        , {{claimManager.claimsData[0]?.address2 || ''}} {{claimManager.claimsData[0]?.city || ''}}
+        , {{claimManager.claimsData[0]?.stateAbbreviation || ''}} &nbsp;{{claimManager.claimsData[0].postalCode || ''}}
+      </span></h2>
+  </div>
+</div>
+<mat-divider></mat-divider>
+<mat-dialog-content class="mat-typography" style="margin-top: 2vh">
+  <div class="row">
+    <div class="col-lg-12">
+      <button class="algin-btn-center" (click)="showReference(claimManager?.adjustorData?.adjustorId)" color="primary"
+        mat-raised-button>
+        <span class="glyphicon glyphicon-edit button-icon-fix"></span> Edit
+      </button>
     </div>
   </div>
-  <mat-divider></mat-divider>
-  <mat-dialog-content class="mat-typography" style="margin-top: 2vh">
-    <div class="row">
-      <div class="col-lg-12">
-        <button class="algin-btn-center" (click)="showReference(claimManager?.payorData?.payorId)" color="primary" mat-raised-button>
-          <span class="glyphicon glyphicon-edit button-icon-fix"></span> Edit
-        </button>
-      </div>
-    </div>
-    <div class="row" style="margin-top: 3vh">
-      <div class="col-lg-6">
-        <div class="row">
-          <div class="col-lg-6">
-            <h5 class="font-bold">Adjustor Name: </h5>
-            <h5 class="font-bold">Address 1: </h5>
-            <h5 class="font-bold">Address 2: </h5>
-            <h5 class="font-bold">City: </h5>
-            <h5 class="font-bold">State: </h5>
-            <h5 class="font-bold">Zip: </h5>
-          </div>
-          <div class="col-lg-6">
-            <p> {{claimManager.adjustorData?.adjustorName}}</p>
-            <p> {{claimManager.adjustorData?.address1}}</p>
-            <p> {{claimManager.adjustorData?.address2 ? claimManager.adjustorData?.address2 : '-'}}</p>
-            <p> {{claimManager.adjustorData?.city}}</p>
-            <p> {{claimManager.adjustorData?.stateName}}</p>
-            <p> {{claimManager.adjustorData?.postalCode}}</p>
-          </div>
+  <div class="row" style="margin-top: 3vh">
+    <div class="col-lg-6">
+      <div class="row">
+        <div class="col-lg-6">
+          <h5 class="font-bold">Adjustor Name: </h5>
+          <h5 class="font-bold">Address 1: </h5>
+          <h5 class="font-bold">Address 2: </h5>
+          <h5 class="font-bold">City: </h5>
+          <h5 class="font-bold">State: </h5>
+          <h5 class="font-bold">Zip: </h5>
         </div>
-      </div>
-      <div class="col-lg-6">
-        <div class="row">
-          <div class="col-lg-6">
-            <h5 class="font-bold">Phone number: </h5>
-            <h5 class="font-bold">Fax number: </h5>
-            <h5 class="font-bold">Email address: </h5>
-            <h5 class="font-bold">Extension: </h5>
-            <h5 class="font-bold">Modified by: </h5>
-          </div>
-          <div class="col-lg-6">
-            <p> {{claimManager.adjustorData?.phoneNumber ? rs.convertPhoneNumber(claimManager.adjustorData?.phoneNumber) : '-' }}</p>
-            <p> {{claimManager.adjustorData?.faxNumber ? rs.convertPhoneNumber(claimManager.adjustorData?.faxNumber) : '-'}}</p>
-            <p> {{claimManager.adjustorData?.emailAddress ? claimManager.adjustorData?.emailAddress : '-'}}</p>
-            <p> {{claimManager.adjustorData?.extension ? claimManager.adjustorData?.extension : '-'}}</p>
-            <p> {{claimManager.adjustorData?.modifiedBy ? claimManager.adjustorData?.modifiedBy : '-'}}</p>
-          </div>
+        <div class="col-lg-6">
+          <p> {{claimManager.adjustorData?.adjustorName}}</p>
+          <p> {{claimManager.adjustorData?.address1 ? claimManager.adjustorData?.address1 : '-'}}</p>
+          <p> {{claimManager.adjustorData?.address2 ? claimManager.adjustorData?.address2 : '-'}}</p>
+          <p> {{claimManager.adjustorData?.city ? claimManager.adjustorData?.city : '-'}}</p>
+          <p> {{claimManager.adjustorData?.stateName ? claimManager.adjustorData?.stateName : '-'}}</p>
+          <p> {{claimManager.adjustorData?.postalCode ? claimManager.adjustorData?.postalCode : '-'}}</p>
         </div>
       </div>
     </div>
-  </mat-dialog-content>
-  
+    <div class="col-lg-6">
+      <div class="row">
+        <div class="col-lg-6">
+          <h5 class="font-bold">Phone number: </h5>
+          <h5 class="font-bold">Fax number: </h5>
+          <h5 class="font-bold">Email address: </h5>
+          <h5 class="font-bold">Extension: </h5>
+          <h5 class="font-bold">Modified by: </h5>
+        </div>
+        <div class="col-lg-6">
+          <p>
+            {{claimManager.adjustorData?.phoneNumber ? rs.convertPhoneNumber(claimManager.adjustorData?.phoneNumber) : '-' }}
+          </p>
+          <p>
+            {{claimManager.adjustorData?.faxNumber ? rs.convertPhoneNumber(claimManager.adjustorData?.faxNumber) : '-'}}
+          </p>
+          <p> {{claimManager.adjustorData?.emailAddress ? claimManager.adjustorData?.emailAddress : '-'}}</p>
+          <p> {{claimManager.adjustorData?.extension ? claimManager.adjustorData?.extension : '-'}}</p>
+          <p> {{claimManager.adjustorData?.modifiedBy ? claimManager.adjustorData?.modifiedBy : '-'}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>
