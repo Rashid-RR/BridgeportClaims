@@ -1,14 +1,14 @@
-import {Injectable, NgZone} from '@angular/core';
-import {HttpService} from './http-service';
-import {EventsService} from './events-service';
-import {ToastrService} from 'ngx-toastr';
-import {FormBuilder} from '@angular/forms';
+import { Injectable, NgZone } from '@angular/core';
+import { HttpService } from './http-service';
+import { EventsService } from './events-service';
+import { ToastrService } from 'ngx-toastr';
+import { FormBuilder } from '@angular/forms';
 import * as Immutable from 'immutable';
 import swal from 'sweetalert2';
-import {SortColumnInfo} from '../directives/table-sort.directive';
-import {DocumentItem} from '../models/document';
-import {DocumentType} from '../models/document-type';
-import {ProfileManager} from './profile-manager';
+import { SortColumnInfo } from '../directives/table-sort.directive';
+import { DocumentItem } from '../models/document';
+import { DocumentType } from '../models/document-type';
+import { ProfileManager } from './profile-manager';
 
 declare var $: any;
 
@@ -50,7 +50,7 @@ export class DocumentManagerService {
   exactMatch = false;
 
   constructor(private profileManager: ProfileManager, private http: HttpService, private formBuilder: FormBuilder, private _ngZone: NgZone,
-              private events: EventsService, private toast: ToastrService) {
+    private events: EventsService, private toast: ToastrService) {
     this.data = {
       date: null,
       isIndexed: false,
@@ -103,7 +103,7 @@ export class DocumentManagerService {
         }
         doc.added = true;
         this.documents = this.documents.set(doc.documentId, doc);
-        if (this.adminOrAsociate) {
+        if (this.adminOrIndexer) {
           this.toast.info(doc.fileName + ' was added...');
         }
       }, 50);
@@ -121,7 +121,7 @@ export class DocumentManagerService {
           doc.edited = true;
         }
         this.documents = this.documents.set(doc.documentId, doc);
-        if (this.adminOrAsociate) {
+        if (this.adminOrIndexer) {
           this.toast.info(doc.fileName + ' was modified...');
         }
       }, 50);
@@ -137,7 +137,7 @@ export class DocumentManagerService {
         document.deleted = true;
         this.documents = this.documents.set(id, document);
         setTimeout(() => {
-          if (this.adminOrAsociate) {
+          if (this.adminOrIndexer) {
             this.toast.info(this.documents.get(id).fileName + ' was deleted...');
           }
           this.documents = this.documents.delete(id);
@@ -151,7 +151,7 @@ export class DocumentManagerService {
         document.deleted = true;
         this.documents = this.documents.set(id, document);
         setTimeout(() => {
-          if (this.adminOrAsociate) {
+          if (this.adminOrIndexer) {
             this.toast.success(this.documents.get(id).fileName + ' image was just archived...');
           }
           this.documents = this.documents.delete(id);
@@ -166,7 +166,7 @@ export class DocumentManagerService {
         document.edited = true;
         this.documents = this.documents.set(id, document);
         setTimeout(() => {
-          if (this.adminOrAsociate) {
+          if (this.adminOrIndexer) {
             this.toast.success(doc.fileName + ' has been indexed...');
           }
           this.documents = this.documents.delete(id);
@@ -205,7 +205,8 @@ export class DocumentManagerService {
   }
 
   get pageEnd() {
-    return this.documentList.length > 1 ? (this.data.pageSize > this.documentList.length ? ((this.data.page - 1) * this.data.pageSize) + this.documentList.length : (this.data.page) * this.data.pageSize) : null;
+    return this.documentList.length > 1 ? (this.data.pageSize > this.documentList.length ? ((this.data.page - 1)
+      * this.data.pageSize) + this.documentList.length : (this.data.page) * this.data.pageSize) : null;
   }
 
   get totalPages() {
@@ -221,11 +222,13 @@ export class DocumentManagerService {
   }
 
   get allowed(): Boolean {
-    return (this.profileManager.profile.roles && (this.profileManager.profile.roles instanceof Array) && this.profileManager.profile.roles.indexOf('Admin') > -1);
+    return (this.profileManager.profile.roles && (this.profileManager.profile.roles instanceof Array) &&
+      this.profileManager.profile.roles.indexOf('Admin') > -1);
   }
 
-  get adminOrAsociate(): Boolean {
-    return (this.profileManager.profile.roles && (this.profileManager.profile.roles instanceof Array) && (this.profileManager.profile.roles.indexOf('Admin') > -1 || this.profileManager.profile.roles.indexOf('Indexer') > -1));
+  get adminOrIndexer(): Boolean {
+    return (this.profileManager.profile.roles && (this.profileManager.profile.roles instanceof Array) &&
+      (this.profileManager.profile.roles.indexOf('Admin') > -1 || this.profileManager.profile.roles.indexOf('Indexer') > -1));
   }
 
   get invPages(): Array<any> {
@@ -241,7 +244,8 @@ export class DocumentManagerService {
   }
 
   get invPageEnd() {
-    return this.invoiceList.length > 1 ? (this.invoiceData.pageSize > this.invoiceList.length ? ((this.invoiceData.page - 1) * this.invoiceData.pageSize) + this.invoiceList.length : (this.invoiceData.page) * this.invoiceData.pageSize) : null;
+    return this.invoiceList.length > 1 ? (this.invoiceData.pageSize > this.invoiceList.length ? ((this.invoiceData.page - 1)
+      * this.invoiceData.pageSize) + this.invoiceList.length : (this.invoiceData.page) * this.invoiceData.pageSize) : null;
   }
 
   get invTotalPages() {
@@ -369,7 +373,7 @@ export class DocumentManagerService {
   deleteAndKeep(id: number, skipPayments: boolean = false, prescriptionPaymentId?: any) {
 
     this.loading = true;
-    this.http.reIndexedCheck({documentId: id, skipPayments: skipPayments, prescriptionPaymentId: prescriptionPaymentId}).subscribe(r => {
+    this.http.reIndexedCheck({ documentId: id, skipPayments: skipPayments, prescriptionPaymentId: prescriptionPaymentId }).subscribe(r => {
       this.loading = false;
       this.toast.success(r.message);
       this.totalCheckRowCount = this.totalCheckRowCount - 1;
@@ -411,126 +415,118 @@ export class DocumentManagerService {
   }
 
   search(next: Boolean = false, prev: Boolean = false, page: number = undefined) {
-    // if user is in admin role
-    if (this.isAdmin) {
-      if (!this.data) {
-        if (this.adminOrAsociate) {
-          this.toast.warning('Please populate at least one search field.');
-        }
-      } else {
-        this.loading = true;
-        const data = JSON.parse(JSON.stringify(this.data)); // copy data instead of memory referencing
+    if (!this.data) {
+      if (this.adminOrIndexer) {
+        this.toast.warning('Please populate at least one search field.');
+      }
+    } else {
+      this.loading = true;
+      const data = JSON.parse(JSON.stringify(this.data)); // copy data instead of memory referencing
 
-        if (next) {
-          data.page++;
-        }
-        if (prev && data.page > 1) {
-          data.page--;
-        }
-        if (page) {
-          data.page = page;
-        }
-        this.http.getDocuments(data)
-          .subscribe((result: any) => {
-
-            this.loading = false;
-            this.totalRowCount = result.totalRowCount;
-            this.documents = Immutable.OrderedMap<any, DocumentItem>();
-            result.documentResults.forEach((doc: DocumentItem) => {
-              try {
-                this.documents = this.documents.set(doc.documentId, doc);
-              } catch (e) {
-              }
-            });
-            (result.documentTypes || []).forEach((type: DocumentType) => {
-              try {
-                this.documentTypes = this.documentTypes.set(type.documentTypeId, type);
-              } catch (e) {
-              }
-            });
-            if (next) {
-              this.data.page++;
-            }
-            if (prev && this.data.page !== data.page) {
-              this.data.page--;
-            }
-            if (page) {
-              this.data.page = page;
-            }
-            this.imagesArchived = this.data.archived;
-          }, err => {
-            this.loading = false;
+      if (next) {
+        data.page++;
+      }
+      if (prev && data.page > 1) {
+        data.page--;
+      }
+      if (page) {
+        data.page = page;
+      }
+      this.http.getDocuments(data)
+        .subscribe((result: any) => {
+          this.loading = false;
+          this.totalRowCount = result.totalRowCount;
+          this.documents = Immutable.OrderedMap<any, DocumentItem>();
+          result.documentResults.forEach((doc: DocumentItem) => {
             try {
-              const error = err.error;
+              this.documents = this.documents.set(doc.documentId, doc);
             } catch (e) {
             }
-          }, () => {
-            this.events.broadcast('document-list-updated');
           });
-      }
+          (result.documentTypes || []).forEach((type: DocumentType) => {
+            try {
+              this.documentTypes = this.documentTypes.set(type.documentTypeId, type);
+            } catch (e) {
+            }
+          });
+          if (next) {
+            this.data.page++;
+          }
+          if (prev && this.data.page !== data.page) {
+            this.data.page--;
+          }
+          if (page) {
+            this.data.page = page;
+          }
+          this.imagesArchived = this.data.archived;
+        }, err => {
+          this.loading = false;
+          try {
+            const error = err.error;
+          } catch (e) {
+          }
+        }, () => {
+          this.events.broadcast('document-list-updated');
+        });
     }
   }
 
   searchInvoices(next: Boolean = false, prev: Boolean = false, page: number = undefined) {
-    // if user is in admin role
-    if (this.isAdmin) {
-
-      if (!this.invoiceData) {
-        if (this.adminOrAsociate) {
-          this.toast.warning('Please populate at least one search field.');
-        }
-      } else {
-        this.loading = true;
-        const invoiceData = JSON.parse(JSON.stringify(this.invoiceData)); // copy invoiceData instead of memory referencing
-        if (next) {
-          invoiceData.page++;
-        }
-        if (prev && invoiceData.page > 1) {
-          invoiceData.page--;
-        }
-        if (page) {
-          invoiceData.page = page;
-        }
-        this.http.getDocuments(invoiceData)
-          .subscribe((result: any) => {
-
-            this.loading = false;
-            this.totalInvoiceRowCount = result.totalRowCount;
-            this.invoices = Immutable.OrderedMap<any, DocumentItem>();
-            result.documentResults.forEach((doc: DocumentItem) => {
-              try {
-                this.invoices = this.invoices.set(doc.documentId, doc);
-              } catch (e) {
-              }
-            });
-            (result.documentTypes || []).forEach((type: DocumentType) => {
-              try {
-                this.documentTypes = this.documentTypes.set(type.documentTypeId, type);
-              } catch (e) {
-              }
-            });
-            if (next) {
-              this.invoiceData.page++;
-            }
-            if (prev && this.invoiceData.page !== invoiceData.page) {
-              this.invoiceData.page--;
-            }
-            if (page) {
-              this.invoiceData.page = page;
-            }
-            this.invoiceArchived = this.invoiceData.archived;
-          }, () => {
-            this.loading = false;
-          }, () => {
-            this.events.broadcast('document-list-updated');
-          });
+    if (!this.invoiceData) {
+      if (this.adminOrIndexer) {
+        this.toast.warning('Please populate at least one search field.');
       }
+    } else {
+      this.loading = true;
+      const invoiceData = JSON.parse(JSON.stringify(this.invoiceData)); // copy invoiceData instead of memory referencing
+      if (next) {
+        invoiceData.page++;
+      }
+      if (prev && invoiceData.page > 1) {
+        invoiceData.page--;
+      }
+      if (page) {
+        invoiceData.page = page;
+      }
+      this.http.getDocuments(invoiceData)
+        .subscribe((result: any) => {
+
+          this.loading = false;
+          this.totalInvoiceRowCount = result.totalRowCount;
+          this.invoices = Immutable.OrderedMap<any, DocumentItem>();
+          result.documentResults.forEach((doc: DocumentItem) => {
+            try {
+              this.invoices = this.invoices.set(doc.documentId, doc);
+            } catch (e) {
+            }
+          });
+          (result.documentTypes || []).forEach((type: DocumentType) => {
+            try {
+              this.documentTypes = this.documentTypes.set(type.documentTypeId, type);
+            } catch (e) {
+            }
+          });
+          if (next) {
+            this.invoiceData.page++;
+          }
+          if (prev && this.invoiceData.page !== invoiceData.page) {
+            this.invoiceData.page--;
+          }
+          if (page) {
+            this.invoiceData.page = page;
+          }
+          this.invoiceArchived = this.invoiceData.archived;
+        }, () => {
+          this.loading = false;
+        }, () => {
+          this.events.broadcast('document-list-updated');
+        });
     }
   }
 
   searchCheckes(next: Boolean = false, prev: Boolean = false, page: number = undefined) {
     if (!this.checksData) {
-      if (this.adminOrAsociate) {
+      if (this.adminOrIndexer) {
         this.toast.warning('Please populate at least one search field.');
       }
     } else {
@@ -587,62 +583,59 @@ export class DocumentManagerService {
   }
 
   searchInvalidCheckes(next: Boolean = false, prev: Boolean = false, page: number = undefined) {
-    if (this.isAdmin) {
+    if (!this.invalidChecksData) {
+      if (this.adminOrIndexer) {
+        this.toast.warning('Please populate at least one search field.');
+      }
+    } else {
+      this.loading = true;
+      const invalidChecksData = JSON.parse(JSON.stringify(this.invalidChecksData)); // copy invalidChecksData instead of memory referencing
+      if (next) {
+        invalidChecksData.page++;
+      }
+      if (prev && invalidChecksData.page > 1) {
+        invalidChecksData.page--;
+      }
+      if (page) {
+        invalidChecksData.page = page;
+      }
+      this.http.getInvalidChecks(invalidChecksData)
+        .subscribe((result: any) => {
 
-      if (!this.invalidChecksData) {
-        if (this.adminOrAsociate) {
-          this.toast.warning('Please populate at least one search field.');
-        }
-      } else {
-        this.loading = true;
-        const invalidChecksData = JSON.parse(JSON.stringify(this.invalidChecksData)); // copy invalidChecksData instead of memory referencing
-        if (next) {
-          invalidChecksData.page++;
-        }
-        if (prev && invalidChecksData.page > 1) {
-          invalidChecksData.page--;
-        }
-        if (page) {
-          invalidChecksData.page = page;
-        }
-        this.http.getInvalidChecks(invalidChecksData)
-          .subscribe((result: any) => {
-
-            this.loading = false;
-            this.totalInvalidCheckRowCount = result.totalRowCount || (result.documentResults && result.documentResults.length) || 0;
-            this.invalidChecks = Immutable.OrderedMap<any, DocumentItem>();
-            result.documentResults.forEach((doc: DocumentItem) => {
-              try {
-                this.invalidChecks = this.invalidChecks.set(doc.documentId, doc);
-              } catch (e) {
-              }
-            });
-            (result.documentTypes || []).forEach((type: DocumentType) => {
-              try {
-                this.documentTypes = this.documentTypes.set(type.documentTypeId, type);
-              } catch (e) {
-              }
-            });
-            if (next) {
-              this.invalidChecksData.page++;
-            }
-            if (prev && this.invalidChecksData.page !== invalidChecksData.page) {
-              this.invalidChecksData.page--;
-            }
-            if (page) {
-              this.invalidChecksData.page = page;
-            }
-            this.invalidChecksArchived = this.invalidChecksData.archived;
-          }, err => {
-            this.loading = false;
+          this.loading = false;
+          this.totalInvalidCheckRowCount = result.totalRowCount || (result.documentResults && result.documentResults.length) || 0;
+          this.invalidChecks = Immutable.OrderedMap<any, DocumentItem>();
+          result.documentResults.forEach((doc: DocumentItem) => {
             try {
-              const error = err.error;
+              this.invalidChecks = this.invalidChecks.set(doc.documentId, doc);
             } catch (e) {
             }
-          }, () => {
-            this.events.broadcast('document-list-updated');
           });
-      }
+          (result.documentTypes || []).forEach((type: DocumentType) => {
+            try {
+              this.documentTypes = this.documentTypes.set(type.documentTypeId, type);
+            } catch (e) {
+            }
+          });
+          if (next) {
+            this.invalidChecksData.page++;
+          }
+          if (prev && this.invalidChecksData.page !== invalidChecksData.page) {
+            this.invalidChecksData.page--;
+          }
+          if (page) {
+            this.invalidChecksData.page = page;
+          }
+          this.invalidChecksArchived = this.invalidChecksData.archived;
+        }, err => {
+          this.loading = false;
+          try {
+            const error = err.error;
+          } catch (e) {
+          }
+        }, () => {
+          this.events.broadcast('document-list-updated');
+        });
     }
   }
   closeModal() {
