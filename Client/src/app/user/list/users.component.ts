@@ -10,6 +10,11 @@ import {ConfirmComponent} from '../../components/confirm.component';
 import {DialogService} from 'ng2-bootstrap-modal';
 declare var $: any;
 
+class Payor {
+  payorId: number;
+  carrier: string;
+}
+
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
@@ -31,9 +36,9 @@ export class UsersComponent implements OnInit {
   roles: Array<Role> = [];
   form: FormGroup;
   submitted = false;
-  allUsers: any = [];
-  tempAllUsers: any = [];
-  selectedUsers: any = [];
+  allUsers: Array<Payor> = [];
+  tempAllUsers: Array<Payor> = [];
+  selectedUsers: Array<Payor> = [];
   userSearchQuery = '';
   selectedUserId = '';
   activeUsers: any = [];
@@ -328,7 +333,7 @@ export class UsersComponent implements OnInit {
     this.allUsers = this.tempAllUsers;
     if (id === -1) {
       for (const user of this.allUsers) {
-        this.selectedUsers.push(this.allUsers[user]);
+        this.selectedUsers.push(user);
       }
       this.allUsers = [];
     } else {
@@ -346,7 +351,7 @@ export class UsersComponent implements OnInit {
   remoevUser(id: number) {
     if (id === -1) {
       for (const user of this.selectedUsers) {
-        this.allUsers.push(this.selectedUsers[user]);
+        this.allUsers.push(user);
       }
       this.selectedUsers = [];
     } else {
@@ -384,7 +389,12 @@ export class UsersComponent implements OnInit {
   saveAssignment() {
     const payorId = [];
     for (const payor of this.selectedUsers) {
-      payorId.push(this.selectedUsers[payor].payorId);
+      if (payor.payorId) {
+        const payorToPush = payor.payorId;
+        if (payorToPush) {
+          payorId.push(payorToPush);
+        }
+      }
     }
     this.loading = true;
     this.http.assignUsertoPayors(this.selectedUserId, payorId)
