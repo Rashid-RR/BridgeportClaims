@@ -83,6 +83,7 @@ import { ReferenceManagerService } from './services/reference-manager.service';
 import { CarrierModalComponent } from './components/carrier-modal/carrier-modal.component';
 import { AdjustorModalComponent } from './components/adjustor-modal/adjustor-modal.component';
 import { AttorneyModalComponent } from './components/attorney-modal/attorney-modal.component';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -111,6 +112,7 @@ import { AttorneyModalComponent } from './components/attorney-modal/attorney-mod
     BrowserModule,
     BrowserAnimationsModule,
     SharedModule,
+    FormsModule,
     HttpClientModule,
     RoutingModule,
     FileUploadModule,

@@ -16,7 +16,7 @@ import { DialogService } from 'ng2-bootstrap-modal';
 import { ConfirmComponent } from '../../components/confirm.component';
 import { isPlatformBrowser } from '@angular/common';
 import { Prescription } from '../../models/prescription';
-import { MatDialog ,MatSelect} from '@angular/material';
+import { MatDialog } from '@angular/material';
 declare var $: any;
 
 @Component({
@@ -72,13 +72,13 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
     private events: EventsService,
     private toast: ToastrService,
     private ar: AccountReceivableService,
-    public dialog:MatDialog
+    public dialog: MatDialog
   ) {
     this.over = new Array(8);
     this.over.fill(false);
   }
 
-  showDecisionTreeWindow(claimId:string) {
+  showDecisionTreeWindow(claimId: string) {
     window.open('#/main/decision-tree/list/' + claimId, '_blank');
   }
 
@@ -230,7 +230,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
     }
 
   }
-  addPrescriptionNote(type: string= 'prescriptions', text: String = '', TypeId?: String, prescriptionNoteId: any = null) {
+  addPrescriptionNote(type: string = 'prescriptions', text: String = '', TypeId?: String, prescriptionNoteId: any = null) {
     const selectedNotes = [];
     let prescriptionNoteTypeIds = '<option value="" style="color:purple">Select type</option>';
     this.claimManager.PrescriptionNoteTypes.forEach((note: PrescriptionNoteType) => {
@@ -309,12 +309,12 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
       $('[data-mask]').inputmask();
       $('#prescriptionNoteTypeId').change(() => {
         if ($('#prescriptionNoteTypeId').val()) {
-          setTimeout(() => {$('#claimNoteTypeLabel').css({ 'color': '#545454' }); }, 150);
+          setTimeout(() => { $('#claimNoteTypeLabel').css({ 'color': '#545454' }); }, 150);
         }
       });
       $('#noteText').change(e => {
         if ($('#noteText').val()) {
-          setTimeout(() => {$('#noteTextLabel').css({ 'color': '#545454' }); }, 150);
+          setTimeout(() => { $('#noteTextLabel').css({ 'color': '#545454' }); }, 150);
         }
       });
       $('.add-to-diary').click(() => {
@@ -442,31 +442,33 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
       buttonText: 'Submit',
       message: `Select one or more prescriptions to use for the Label Name(s) and Rx Date(s):`
     }).subscribe((isConfirmed) => {
-        if (isConfirmed) {
-            const prescriptions = this.claimManager.selectedClaim.prescriptions.filter(c => c.selected);
-            const prescriptionIds = prescriptions.map(pre => pre.prescriptionId);
-            this.claimManager.loading = true;
-              this.http.downloadDrLetter({ claimId: this.claimManager.selectedClaim.claimId,
-                prescriptionIds: prescriptionIds, firstPrescriptionId: p.prescriptionId })
-                .subscribe((result) => {
-                  this.claimManager.loading = false;
-                  this.ar.downloadFile(result);
-                  this.claimManager.selectedClaim.prescriptions.forEach(c => {
-                    c.selected = false;
-                  });
-                  $('input#selectAllCheckBox').attr({ 'checked': false });
-                }, err => {
-                  this.toast.error(err.statusText);
-                  this.claimManager.loading = false;
-                  try {
-                    const error = err.error;
-                  } catch (e) { }
-                });
-        } else {
-          this.deselectPrescriptions();
-          $('input#selectAllCheckBox').attr({ 'checked': false });
-        }
-      });
+      if (isConfirmed) {
+        const prescriptions = this.claimManager.selectedClaim.prescriptions.filter(c => c.selected);
+        const prescriptionIds = prescriptions.map(pre => pre.prescriptionId);
+        this.claimManager.loading = true;
+        this.http.downloadDrLetter({
+          claimId: this.claimManager.selectedClaim.claimId,
+          prescriptionIds: prescriptionIds, firstPrescriptionId: p.prescriptionId
+        })
+          .subscribe((result) => {
+            this.claimManager.loading = false;
+            this.ar.downloadFile(result);
+            this.claimManager.selectedClaim.prescriptions.forEach(c => {
+              c.selected = false;
+            });
+            $('input#selectAllCheckBox').attr({ 'checked': false });
+          }, err => {
+            this.toast.error(err.statusText);
+            this.claimManager.loading = false;
+            try {
+              const error = err.error;
+            } catch (e) { }
+          });
+      } else {
+        this.deselectPrescriptions();
+        $('input#selectAllCheckBox').attr({ 'checked': false });
+      }
+    });
   }
 
   exportDrNote(p: Prescription) {
@@ -474,14 +476,14 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
       title: `Prescriber`,
       message: `Use prescriber ${p.prescriber} for this letter?`
     }).subscribe((isConfirmed) => {
-        if (isConfirmed) {
-          this.deselectPrescriptions();
-          this.selectDrNotePrescriptions(p);
-        } else {
-          this.deselectPrescriptions();
-          $('input#selectAllCheckBox').attr({ 'checked': false });
-        }
-      });
+      if (isConfirmed) {
+        this.deselectPrescriptions();
+        this.selectDrNotePrescriptions(p);
+      } else {
+        this.deselectPrescriptions();
+        $('input#selectAllCheckBox').attr({ 'checked': false });
+      }
+    });
   }
 
   private deselectPrescriptions() {
@@ -508,8 +510,10 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
           { timeOut: 10000, closeButton: true })
       } else {
         this.claimManager.loading = true;
-        this.http.exportLetter({ claimId: this.claimManager.selectedClaim.claimId,
-          type: type, prescriptionId: prescriptions[0].prescriptionId })
+        this.http.exportLetter({
+          claimId: this.claimManager.selectedClaim.claimId,
+          type: type, prescriptionId: prescriptions[0].prescriptionId
+        })
           .subscribe((result) => {
             this.claimManager.loading = false;
             this.ar.downloadFile(result);
@@ -532,18 +536,18 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
     } else {
       const prescriptions = this.claimManager.selectedClaim.prescriptions.filter(p => p.selected === true);
 
-        this.claimManager.loading = true;
-        this.http.exportLetter({ claimId: this.claimManager.selectedClaim.claimId, type: type, prescriptionId: null })
-          .subscribe((result) => {
-            this.claimManager.loading = false;
-            this.ar.downloadFile(result);
-          }, err => {
-            this.toast.error(err.statusText);
-            this.claimManager.loading = false;
-            try {
-              const error = err.error;
-            } catch (e) { }
-          });
+      this.claimManager.loading = true;
+      this.http.exportLetter({ claimId: this.claimManager.selectedClaim.claimId, type: type, prescriptionId: null })
+        .subscribe((result) => {
+          this.claimManager.loading = false;
+          this.ar.downloadFile(result);
+        }, err => {
+          this.toast.error(err.statusText);
+          this.claimManager.loading = false;
+          try {
+            const error = err.error;
+          } catch (e) { }
+        });
 
     }
   }
@@ -633,16 +637,6 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
       html:
         `<div class="form-group" style="text-align:center">
               <label id="claimNoteTypeLabel">Note type</label>
-              <mat-form-field>
-                <mat-select placeholder="Favorite food">
-                  <mat-option [value]="1">
-                    data 1
-                  </mat-option>
-                  <mat-option [value]="2">
-                    data 2
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
               <select class="form-control" id="noteTypeId" style="font-size:12pt;min-width:200px;width:350px;margin-left: calc(50% - 150px);">
                 ` + claimNoteTypeIds + `
               </select>
