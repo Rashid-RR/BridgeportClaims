@@ -68,7 +68,9 @@ namespace BridgeportClaims.Data.DataProviders.Clients
                 {
                     conn.Open();
                 }
-                return conn.Query<UsStateDto>(StatesQuery, commandType: CommandType.Text)?.OrderBy(x => x.StateName);
+                return conn.Query<UsStateDto>(StatesQuery, commandType: CommandType.Text)
+                    ?.Select(s => new UsStateDto {StateId = s.StateId, StateName = s.StateName.ToUpper()})
+                    .OrderBy(x => x.StateName);
             });
 
         public string SetUserType(string userId, int referralTypeId, string modifiedByUserId) =>
