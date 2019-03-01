@@ -1,13 +1,10 @@
-import {Component, OnInit, Renderer2, AfterViewInit, NgZone, HostListener, AfterViewChecked, ElementRef, ViewChild} from '@angular/core';
+import {Component, OnInit, ElementRef} from '@angular/core';
 import {ReferenceManagerService} from '../../services/reference-manager.service';
 import {ToastrService} from 'ngx-toastr';
-import {SortColumnInfo} from '../../directives/table-sort.directive';
-import {ClaimManager} from '../../services/claim-manager';
 import {AdjustorItem} from '../dataitems/adjustor-item.model';
 import {AttorneyItem} from '../dataitems/attorney-item.model';
 import {PayorItem} from '../dataitems/payor-item.model';
 
-declare var jQuery: any;
 declare var $: any;
 
 @Component({

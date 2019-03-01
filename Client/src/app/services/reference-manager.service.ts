@@ -347,10 +347,12 @@ export class ReferenceManagerService {
         this.adjustorForm.controls.address1.setValue(this.editedEntity.address1);
         this.adjustorForm.controls.address2.setValue(this.editedEntity.address2);
         this.adjustorForm.controls.city.setValue(this.editedEntity.city);
-        const adjustorState = this.states.find(st => st.stateName === this.editedEntity.stateName);
-        if (adjustorState) {
-          this.adjustorForm.controls.state.setValue(adjustorState.stateName);
-          this.adjustorForm.controls.stateId.setValue(adjustorState.stateId);
+        if (this.editedEntity.stateName) {
+          const adjustorState = this.states.find(x => x.stateName === this.editedEntity.stateName.toUpperCase());
+          if (adjustorState) {
+            this.adjustorForm.controls.state.setValue(adjustorState.stateName);
+            this.adjustorForm.controls.stateId.setValue(adjustorState.stateId);
+          }
         }
         this.adjustorForm.controls.postalCode.setValue(this.editedEntity.postalCode);
         this.adjustorForm.controls.phoneNumber.setValue(this.editedEntity.phoneNumber);
@@ -364,10 +366,12 @@ export class ReferenceManagerService {
         this.attorneyForm.controls.address1.setValue(this.editedEntity.address1);
         this.attorneyForm.controls.address2.setValue(this.editedEntity.address2);
         this.attorneyForm.controls.city.setValue(this.editedEntity.city);
-        const attorneyState = this.states.find(st => st.stateName === this.editedEntity.stateName);
-        if (attorneyState) {
-          this.attorneyForm.controls.state.setValue(attorneyState.stateName);
-          this.attorneyForm.controls.stateId.setValue(attorneyState.stateId);
+        if (this.editedEntity.stateName) {
+          const attorneyState = this.states.find(x => x.stateName === this.editedEntity.stateName.toUpperCase());
+          if (attorneyState) {
+            this.attorneyForm.controls.state.setValue(attorneyState.stateName);
+            this.attorneyForm.controls.stateId.setValue(attorneyState.stateId);
+          }
         }
         this.attorneyForm.controls.postalCode.setValue(this.editedEntity.postalCode);
         this.attorneyForm.controls.phoneNumber.setValue(this.editedEntity.phoneNumber);
@@ -384,11 +388,12 @@ export class ReferenceManagerService {
         this.payorForm.controls.billToAddress1.setValue(this.editedEntity.billToAddress1);
         this.payorForm.controls.billToAddress2.setValue(this.editedEntity.billToAddress2);
         this.payorForm.controls.billToCity.setValue(this.editedEntity.billToCity);
-        this.payorForm.controls.billToStateName.setValue(this.editedEntity.billToStateName);
-        const payorState = this.states.find(st => st.stateName === this.editedEntity.billToStateName);
-        if (payorState) {
-          this.payorForm.controls.billToStateName.setValue(payorState.stateName);
-          this.payorForm.controls.billToStateId.setValue(payorState.stateId);
+        if (this.editedEntity.billToStateName) {
+          const payorState = this.states.find(x => x.stateName === this.editedEntity.billToStateName.toUpperCase());
+          if (payorState) {
+            this.payorForm.controls.billToStateName.setValue(payorState.stateName);
+            this.payorForm.controls.billToStateId.setValue(payorState.stateId);
+          }
         }
         this.payorForm.controls.billToPostalCode.setValue(this.editedEntity.billToPostalCode);
         this.payorForm.controls.phoneNumber.setValue(this.editedEntity.phoneNumber);

@@ -44,8 +44,8 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
     if (!isNaN(Number(value))) {
       return this.rs.states;
     }
-    const filterValue = (value || '').toLowerCase(); // handle undefined that comes from the edit
-    return this.rs.states.filter(option => option.stateName.toLowerCase().indexOf(filterValue) === 0);
+    const filterValue = (value || '').toUpperCase(); // handle undefined that comes from the edit
+    return this.rs.states.filter(option => option.stateName.toUpperCase().indexOf(filterValue) === 0);
   }
 
   ngOnInit() {
@@ -90,22 +90,31 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
 
   // This doesn't seem to work.
   onSelectionChanged(event: MatAutocompleteSelectedEvent) {
-    this.rs.payorForm.get('billToStateName').setValue(event.option.value);
+    const state = event.option.value;
+    if (state) {
+      this.rs.payorForm.get('billToStateName').setValue(state.toUpperCase());
+    }
   }
 
   onAdjustorStateSelection(stateId: number) {
     const selected = this.rs.states.find(st => st.stateId === stateId);
-    this.rs.adjustorForm.patchValue({ state: selected.stateName, stateId: selected.stateId });
+    if (selected) {
+      this.rs.adjustorForm.patchValue({ state: selected.stateName.toUpperCase(), stateId: selected.stateId });
+    }
   }
 
   onAttorneyStateSelection(stateId: number) {
     const selected = this.rs.states.find(option => option.stateId === stateId);
-    this.rs.attorneyForm.patchValue({ state: selected.stateName, stateId: selected.stateId });
+    if (selected) {
+      this.rs.attorneyForm.patchValue({ state: selected.stateName.toUpperCase(), stateId: selected.stateId });
+    }
   }
 
   onPayorStateSelection(stateId: number) {
     const selected = this.rs.states.find(option => option.stateId === stateId);
-    this.rs.payorForm.patchValue({ billToStateName: selected.stateName, billToStateId: selected.stateId });
+    if (selected) {
+      this.rs.payorForm.patchValue({ billToStateName: selected.stateName.toUpperCase(), billToStateId: selected.stateId });
+    }
   }
 
   ngAfterViewInit() {

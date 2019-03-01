@@ -217,22 +217,22 @@
         <ng-container *ngFor="let adjustor of rs.getAdjustors(); let i = index;">
           <tr (click)="setSelected(adjustor)" class=""
               id="{{adjustor.adjustorId}}">
-            <th>{{adjustor?.adjustorName}}</th>
-            <th>{{adjustor?.address1}}</th>
-            <th>{{adjustor?.address2}}</th>
-            <th>{{adjustor?.city}}</th>
-            <th>{{adjustor?.stateName}}</th>
-            <th>{{adjustor?.postalCode}}</th>
-            <th>{{adjustor?.phoneNumber ? rs.convertPhoneNumber(adjustor.phoneNumber) : ''}}</th>
-            <th>{{adjustor?.faxNumber ? rs.convertPhoneNumber(adjustor.faxNumber) : ''}}</th>
-            <th>{{adjustor?.emailAddress}}</th>
-            <th>{{adjustor?.extension}}</th>
-            <th>{{adjustor?.modifiedBy}}</th>
-            <th>
+            <td>{{adjustor?.adjustorName}}</td>
+            <td>{{adjustor?.address1}}</td>
+            <td>{{adjustor?.address2}}</td>
+            <td>{{adjustor?.city}}</td>
+            <td>{{adjustor?.stateName | uppercase}}</td>
+            <td>{{adjustor?.postalCode}}</td>
+            <td>{{adjustor?.phoneNumber ? rs.convertPhoneNumber(adjustor.phoneNumber) : ''}}</td>
+            <td>{{adjustor?.faxNumber ? rs.convertPhoneNumber(adjustor.faxNumber) : ''}}</td>
+            <td>{{adjustor?.emailAddress}}</td>
+            <td>{{adjustor?.extension}}</td>
+            <td>{{adjustor?.modifiedBy}}</td>
+            <td>
               <button (click)="edit(adjustor)" class="btn btn-primary btn-xs" style="float: right;" type="button">
                 Edit
               </button>
-            </th>
+            </td>
           </tr>
         </ng-container>
         </tbody>
@@ -240,23 +240,22 @@
         <!-- Attorneys -->
         <tbody *ngIf="rs.typeSelected==rs.types[1]" class="overflowable atorny" tabindex="0">
         <ng-container *ngFor="let attorney of rs.getAttorneys(); let i=index">
-          <tr (click)="setSelectedAttorney(attorney)"
-              id="{{attorney.attorneyId}}">
-            <th>{{attorney?.attorneyName}}</th>
-            <th>{{attorney?.address1}}</th>
-            <th>{{attorney?.address2}}</th>
-            <th>{{attorney?.city}}</th>
-            <th>{{attorney?.stateName}}</th>
-            <th>{{attorney?.postalCode}}</th>
-            <th>{{attorney?.phoneNumber ? rs.convertPhoneNumber(attorney.phoneNumber) : ''}}</th>
-            <th>{{attorney?.faxNumber ? rs.convertPhoneNumber(attorney.faxNumber) : ''}}</th>
-            <th>{{attorney?.emailAddress}}</th>
-            <th>{{attorney?.modifiedBy}}</th>
-            <th>
+          <tr (click)="setSelectedAttorney(attorney)" id="{{attorney.attorneyId}}">
+            <td>{{attorney?.attorneyName}}</td>
+            <td>{{attorney?.address1}}</td>
+            <td>{{attorney?.address2}}</td>
+            <td>{{attorney?.city}}</td>
+            <td>{{attorney?.stateName | uppercase}}</td>
+            <td>{{attorney?.postalCode}}</td>
+            <td>{{attorney?.phoneNumber ? rs.convertPhoneNumber(attorney.phoneNumber) : ''}}</td>
+            <td>{{attorney?.faxNumber ? rs.convertPhoneNumber(attorney.faxNumber) : ''}}</td>
+            <td>{{attorney?.emailAddress}}</td>
+            <td>{{attorney?.modifiedBy}}</td>
+            <td>
               <button (click)="edit(attorney)" class="btn btn-primary btn-xs" style="float: right;" type="button">
                 Edit
               </button>
-            </th>
+            </td>
           </tr>
         </ng-container>
         </tbody>
@@ -270,7 +269,7 @@
             <td>{{payor?.billToAddress1}}</td>
             <td>{{payor?.billToAddress2}}</td>
             <td>{{payor?.billToCity}}</td>
-            <td>{{payor?.billToStateName ? payor.billToStateName : payor.state}}</td>
+            <td>{{(payor?.billToStateName ? payor.billToStateName : '') | uppercase}}</td>
             <td>{{payor?.billToPostalCode}}</td>
             <td>{{payor?.phoneNumber ? rs.convertPhoneNumber(payor.phoneNumber) : ''}}</td>
             <td>{{payor?.alternatePhoneNumber ? rs.convertPhoneNumber(payor.alternatePhoneNumber) : ''}}</td>
