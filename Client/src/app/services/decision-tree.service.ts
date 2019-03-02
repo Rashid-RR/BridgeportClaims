@@ -160,7 +160,7 @@ export class DecisionTreeService {
     this.update(d);
   }
   cancelTree(){
-    
+
   }
   setDescription(d) {
     let title = `Select ${d.data.nodeName}`,
@@ -224,7 +224,7 @@ export class DecisionTreeService {
         if (d.parent) {
           this.deleteNonTraversedPath(d.parent, d.id)
         }
-        $(`#tree_node${d.id} circle`).addClass('tracked');        
+        $(`#tree_node${d.id} circle`).addClass('tracked');
         if(next){
           this.selectNode(d.children[0]);
         }else{
@@ -305,7 +305,7 @@ export class DecisionTreeService {
             .style("height", this.height)
             .attr("transform", "translate("
               + this.margin.left + "," + this.margin.top + ")");
-          this.update(this.root);
+              this.update(this.root);
         }
       }, err => {
         this.loading = false;
@@ -389,10 +389,10 @@ export class DecisionTreeService {
       this.toast.success("You deleted the whole tree, you can create a new tree on go to the list")
       this.router.navigate(['/main/decision-tree/construct']);
     } else {
-      //iterate through the children 
+      //iterate through the children
       d.parent.children.forEach(function (child) {
         if (child.id != d.id) {
-          //add to the child list if target id is not same 
+          //add to the child list if target id is not same
           //so that the node target is removed.
           children.push(child);
         }
@@ -431,6 +431,7 @@ export class DecisionTreeService {
         return "translate(" + source.y0 + "," + source.x0 + ")";
       })
       .on('click', (n) => {
+        // if (d3.event.defaultPrevented) return;
         var _offset = $(`#tree_node${n.id}`).offset(),
           position = {
             x: _offset.left + 10,
@@ -597,7 +598,7 @@ export class DecisionTreeService {
       html: `<div class="form-group">
                 <label id="treeNodeNameLabel">Name</label>
                 <input class="form-control"  type="text" id="treeNodeName" value="${title || ''}">
-            </div> 
+            </div>
             <div class="row">
                 <div class="col-sm-6 text-right">
                     <button class="btn btn-flat btn-primary save-tree-node" type="button" style="color:white;background-color: rgb(48, 133, 214);">Save</button>

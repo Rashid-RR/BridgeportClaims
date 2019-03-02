@@ -52,6 +52,7 @@
 
 .expanded{
     height: calc(100vh - 220px);
+    /* height: 100%; */
     height: -moz-calc(100vh - 220px);
     height: -webkit-calc(100vh - 220px);
     height: -o-calc(100vh - 220px);
