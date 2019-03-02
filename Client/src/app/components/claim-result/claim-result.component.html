@@ -1,34 +1,32 @@
 <ng-container *ngIf="claimManager.dataSize==1 || claimManager.selected!==undefined">
   <div *ngFor="let claim of claimManager.claimsData" class="row invoice-info">
     <form [formGroup]="form" autocapitalize="none" autocomplete="off" autocomplete="off" class="form-horizontal"
-          novalidate style="display:  flex;flex-direction:  row;flex-wrap:  wrap;">
+      novalidate style="display:  flex;flex-direction:  row;flex-wrap:  wrap;">
       <ng-container
         *ngIf="adminOnly && (claimManager.dataSize==1 || claim.claimId==claimManager.selectedClaim.claimId)">
         <div class="col-sm-6 invoice-col">
-                    <span (click)="claimManager.deselectAll();mergedClaim={};"
-                          *ngIf="claimManager.selectedClaims.length>0"
-                          style="text-align:left;height:25px;cursor:pointer;">
-                        <div class="commonCheckBox" style="width: 20px;height: 20px;float:left">
-                            <input #deSelect name="check" type="checkbox" value="None">
-                            <label></label>
-                        </div> Deselect all Claims for merging
-                    </span>
+          <span (click)="claimManager.deselectAll();mergedClaim={};" *ngIf="claimManager.selectedClaims.length>0"
+            style="text-align:left;height:25px;cursor:pointer;">
+            <div class="commonCheckBox" style="width: 20px;height: 20px;float:left">
+              <input #deSelect name="check" type="checkbox" value="None">
+              <label></label>
+            </div> Deselect all Claims for merging
+          </span>
         </div>
         <div class="col-sm-6 invoice-col">
-                    <span (click)="tdSingleRow.checked=!tdSingleRow.checked; select(claim, tdSingleRow, i)"
-                          style="text-align:left;height:25px;cursor:pointer;">
-                        <div class="commonCheckBox">
-                            <input #tdSingleRow [checked]="claim.selected" [id]="claim.claimId" class="claimCheckBox"
-                                   name="check" style="display:none;" type="checkbox"
-                                   value="None">
-                            <label></label>
-                        </div>
-                        <span style="margin-left:40px;font-weight: 600;">Select for merge</span>
-                    </span>
+          <span (click)="tdSingleRow.checked=!tdSingleRow.checked; select(claim, tdSingleRow, i)"
+            style="text-align:left;height:25px;cursor:pointer;">
+            <div class="commonCheckBox">
+              <input #tdSingleRow [checked]="claim.selected" [id]="claim.claimId" class="claimCheckBox" name="check"
+                style="display:none;" type="checkbox" value="None">
+              <label></label>
+            </div>
+            <span style="margin-left:40px;font-weight: 600;">Select for merge</span>
+          </span>
         </div>
       </ng-container>
       <div *ngIf="claimManager.dataSize==1 || claim.claimId==claimManager.selectedClaim.claimId"
-           class="col-sm-6 invoice-col">
+        class="col-sm-6 invoice-col">
         <address class="border-style">
           <div class="form-group">
             <label class="col-sm-4"> Name: </label>
@@ -43,7 +41,7 @@
                 {{claim.address1}}
               </ng-container>
               <ng-container *ngIf="editing">
-                <input class="form-control" formControlName="address1" id="address1" type="text"/>
+                <input class="form-control" formControlName="address1" id="address1" type="text" />
               </ng-container>
             </div>
           </div>
@@ -58,7 +56,7 @@
           <div *ngIf="editing" [class.editing]="editing" class="form-group">
             <label class="col-sm-4">Address 2: </label>
             <div class="col-sm-8">
-              <input class="form-control" formControlName="address2" id="address2" type="text"/>
+              <input class="form-control" formControlName="address2" id="address2" type="text" />
             </div>
           </div>
           <div *ngIf="!editing" class="form-group">
@@ -69,7 +67,7 @@
             <div [class.editing]="editing" class="form-group">
               <label class="col-sm-4">City: </label>
               <div class="col-sm-8">
-                <input class="form-control" formControlName="city" id="city" type="text"/>
+                <input class="form-control" formControlName="city" id="city" type="text" />
               </div>
             </div>
             <div [class.editing]="editing" class="form-group">
@@ -77,8 +75,8 @@
               <div class="col-sm-8">
                 <select class="form-control" formControlName="stateId">
                   <option [ngValue]="null">-- No State --</option>
-                  <option *ngFor="let g of claimManager.selectedClaim.states"
-                          [ngValue]="g.stateId">{{g.stateName}}</option>
+                  <option *ngFor="let g of claimManager.selectedClaim.states" [ngValue]="g.stateId">{{g.stateName}}
+                  </option>
                 </select>
               </div>
             </div>
@@ -90,7 +88,7 @@
                 {{formatDate(claim.dateOfBirth)}}
               </ng-container>
               <ng-container *ngIf="editing">
-                <input class="form-control" formControlName="dateOfBirth" id="dateOfBirth" type="text"/>
+                <input class="form-control" formControlName="dateOfBirth" id="dateOfBirth" type="text" />
               </ng-container>
             </div>
           </div>
@@ -100,8 +98,8 @@
               <ng-container *ngIf="!editing"> {{claim.gender}}</ng-container>
               <ng-container *ngIf="editing">
                 <select class="form-control" formControlName="genderId">
-                  <option *ngFor="let g of claimManager.selectedClaim.genders"
-                          [value]="g.genderId">{{g.genderName}}</option>
+                  <option *ngFor="let g of claimManager.selectedClaim.genders" [value]="g.genderId">{{g.genderName}}
+                  </option>
                 </select>
               </ng-container>
             </div>
@@ -111,11 +109,15 @@
         </address>
       </div>
       <!-- /.col -->
-      <div *ngIf="claimManager.dataSize==1 || claim.claimId==claimManager.selectedClaim.claimId" [class.editing]="editing"
-           class="col-sm-6 invoice-col mbt">
-
+      <div *ngIf="claimManager.dataSize==1 || claim.claimId==claimManager.selectedClaim.claimId"
+        [class.editing]="editing" class="col-sm-6 invoice-col mbt">
         <address class="border-style">
-          Claim #: {{claim.claimNumber}}
+          <div class="form-group">
+            <label class="col-sm-4"> Claim #: </label>
+            <div class="col-sm-8">
+              {{claim.claimNumber}}
+            </div>
+          </div>
           <div [class.editing]="editing" class="form-group">
             <label class="col-sm-4"> Injury Date: </label>
             <div class="col-sm-8">
@@ -123,77 +125,51 @@
                 {{formatDate(claim.injuryDate)}}
               </ng-container>
               <ng-container *ngIf="editing">
-                <input class="form-control" formControlName="dateOfInjury" id="dateOfInjury" type="text"/>
-              </ng-container>
-            </div>
-          </div>
-          <div [class.editing]="editing" class="form-group">
-            <label class="col-sm-4"> Adjustor Fax : </label>
-            <div class="col-sm-8">
-              <ng-container *ngIf="!editing">{{claim.adjustorFaxNumber | phone:[]}}
-              </ng-container>
-              <ng-container *ngIf="editing">
-                <input class="form-control" data-inputmask='"mask": "(999) 999-9999"' data-mask formControlName="adjustorFax"
-                       id="adjustorFax" type="text"/>
+                <input class="form-control" formControlName="dateOfInjury" id="dateOfInjury" type="text" />
               </ng-container>
             </div>
           </div>
           <div [class.editing]="editing" class="form-group">
             <label class="col-sm-4"> Carrier:</label>
             <div *ngIf="!editing" class="col-sm-8">
-              <a class="bold-carrier" (click)="openDialog()">   {{claim.carrier}}</a>
+              <a class="bold-carrier" (click)="openPayorDialog()"> {{claim.carrier}}</a>
             </div>
             <div *ngIf="editing" class="col-sm-8">
               <select class="form-control select2" data-placeholder="Start typing to search Carrier..."
-                      id="eCarrierSelection" size="1"
-                      style="width: 100%;">
+                id="eCarrierSelection" size="1" style="width: 100%;">
               </select>
             </div>
           </div>
           <div [class.editing]="editing" class="form-group">
             <label class="col-sm-4"> Adjustor : </label>
             <div *ngIf="!editing" class="col-sm-8">
-              {{claim.adjustor}}
+              <a class="bold-carrier" (click)="openAdjustorDialog()"> {{claim.adjustor}}</a>
             </div>
             <div *ngIf="editing" class="col-sm-8">
               <select class="form-control select2" data-placeholder="Start typing to search Adjustor..."
-                      id="eadjustorSelection" size="1"
-                      style="width: 100%;">
+                id="editAdjustorSelection" size="1" style="width: 100%;">
               </select>
-              <!--  <input class="form-control" type="text" id="adjustorId" [(ngModel)]="adjustorId" [ngModelOptions]="{standalone: true}" [z-index]="'99999999'"
-                      auto-complete name="adjustorId" [source]="adjustorAutoComplete" [service]="1" [method]="1"
-                      min-chars="2" list-formatter="adjustorName" [http-method]="'post'" [autocomplete-dropdown-event-emitter]="showDropDown"
-                      [no-match-found-text]="'No Adjustor Found'" (valueChanged)="adjustorSelected($event)" /> -->
             </div>
           </div>
           <div [class.editing]="editing" class="form-group">
-            <label class="col-sm-4"> Adjustor Ph : </label>
-            <div class="col-sm-8">
-              <ng-container *ngIf="!editing">{{claim.adjustorPhoneNumber | phone:[]}}</ng-container>
-              <ng-container *ngIf="editing">
-                <input class="form-control" data-inputmask='"mask": "(999) 999-9999"' data-mask formControlName="adjustorPhone"
-                       id="adjustorPhone"
-                       type="text"/>
-              </ng-container>
+            <label class="col-sm-4"> Attorney : </label>
+            <div *ngIf="!editing" class="col-sm-8">
+              <a class="bold-carrier" (click)="openAttorneyDialog()">   {{claim.attorney}}</a>
             </div>
-          </div>
-          <div [class.editing]="editing" class="form-group">
-            <label class="col-sm-4"> Adjustor Ext : </label>
-            <div class="col-sm-8">
-              <ng-container *ngIf="!editing">{{claim.adjustorExtension}}</ng-container>
-              <ng-container *ngIf="editing">
-                <input class="form-control" formControlName="adjustorExtension" id="adjustorExtension" type="text"/>
-              </ng-container>
+            <div *ngIf="editing" class="col-sm-8">
+              <select class="form-control select2" data-placeholder="Start typing to search Attorney..."
+                id="editAttorneySelection" size="1" style="width: 100%;">
+              </select>
             </div>
           </div>
         </address>
-        <br *ngIf="!editing"/>
-        <br *ngIf="!editing"/>
-        <br *ngIf="!editing"/>
+        <br *ngIf="!editing" />
+        <br *ngIf="!editing" />
+        <br *ngIf="!editing" />
       </div>
       <div class="col-sm-6 invoice-col"></div>
       <div *ngIf="claimManager.dataSize==1 || claim.claimId==claimManager.selectedClaim.claimId"
-           class="col-sm-6 invoice-col" style="float:right;">
+        class="col-sm-6 invoice-col" style="float:right;">
         <address class="border-style">
           Eligibility Entered: {{claim.dateEntered | date:'shortDate'}}
           <br> Eligibility Term: {{claim.dateEntered | date:'shortDate'}}
@@ -204,42 +180,30 @@
               <ng-container *ngIf="editing">
                 <select class="form-control" formControlName="claimFlex2Id">
                   <option value="">--No Flex--</option>
-                  <option *ngFor="let g of claimManager.selectedClaim.getFlex2"
-                          [ngValue]="g.claimFlex2Id">{{g.flex2}}</option>
+                  <option *ngFor="let g of claimManager.selectedClaim.getFlex2" [ngValue]="g.claimFlex2Id">{{g.flex2}}
+                  </option>
                 </select>
               </ng-container>
             </div>
           </div>
-          <!-- <div class="btn-group flex2">
-              <button type="button" class="btn btn-box-tool dropdown-toggle" data-toggle="dropdown">
-                  {{claim.flex2}}
-                  <i class="fa fa-sort"></i>
-              </button>
-              <ul class="dropdown-menu" role="menu">
-                  <li *ngFor="let flex of claim.getFlex2;" [class.active]="flex.flex2==claim.flex2" (click)="claimManager.changeFlex2(claim,flex)">
-                      <a style="cursor:pointer;">{{flex.flex2}}</a>
-                  </li>
-              </ul>
-          </div> -->
           <br>
-          <button (click)="claimManager.selected=undefined" *ngIf="claimManager.dataSize>1" class="btn btn-flat bg-vdarkgrey btn-sm"
-                  style="font-size:10pt"
-                  type="button">
+          <button (click)="claimManager.selected=undefined" *ngIf="claimManager.dataSize>1"
+            class="btn btn-flat bg-vdarkgrey btn-sm" style="font-size:10pt" type="button">
             <i class="fa fa-chevron-left"></i> Back to Claim Results
           </button>
         </address>
       </div>
       <span class="buttons edit">
-                <button (click)="edit()" *ngIf="!editing" class="height-30" color="primary" mat-raised-button>
-                    <span class="glyphicon glyphicon-edit button-icon-fix"></span> Edit
-                </button>
-                <button (click)="save()" *ngIf="editing" class="height-30 mr-10" color="primary" mat-raised-button>
-                    <span class="glyphicon glyphicon-edit button-icon-fix"></span> Save
-                </button>
-                <button (click)="editing=false" *ngIf="editing" class="height-30 mr-10" color="warn" mat-raised-button>
-                    <span class="glyphicon glyphicon-trash button-icon-fix"></span> Cancel
-                </button>
-            </span>
+        <button (click)="edit()" *ngIf="!editing" class="height-30" color="primary" mat-raised-button>
+          <span class="glyphicon glyphicon-edit button-icon-fix"></span> Edit
+        </button>
+        <button (click)="save()" *ngIf="editing" class="height-30 mr-10" color="primary" mat-raised-button>
+          <span class="glyphicon glyphicon-edit button-icon-fix"></span> Save
+        </button>
+        <button (click)="editing=false" *ngIf="editing" class="height-30 mr-10" color="warn" mat-raised-button>
+          <span class="glyphicon glyphicon-trash button-icon-fix"></span> Cancel
+        </button>
+      </span>
     </form>
   </div>
 </ng-container>
@@ -249,55 +213,54 @@
       <div class="table-responsive">
         <table class="table no-margin table-striped table-hover">
           <thead>
-          <ng-container *ngIf="adminOnly">
-            <tr *ngIf="claimManager.selectedClaims.length>0" (click)="claimManager.deselectAll();mergedClaim={};">
-              <td colspan="6" style="text-align:left">
-                <div class="commonCheckBox" style="width: 20px;height: 20px;float:left">
-                  <input type="checkbox" name="check" value="None" #deSelect>
-                  <label></label>
-                </div>
-                Deselect all Claims for merging
-              </td>
-            </tr>
-          </ng-container>
-          <tr>
             <ng-container *ngIf="adminOnly">
-              <th>Select 2 to merge</th>
-            </ng-container>
-            <th>Claim #</th>
-            <th>Name</th>
-            <th>Carrier</th>
-            <th>Injury Date</th>
-            <th>&nbsp;</th>
-          </tr>
-          </thead>
-          <tbody>
-          <ng-container *ngFor="let claim of claimManager.claimsData">
-            <tr
-              [class.active]="claimManager.selected !== undefined && claim.claimId == claimManager.selectedClaim.claimId">
-              <ng-container *ngIf="adminOnly">
-                <td (click)="tdRow.checked=!tdRow.checked; select(claim, tdRow, i)">
-                  <div class="commonCheckBox">
-                    <input type="checkbox" name="check" value="None" [id]="claim.claimId" [checked]="claim.selected"
-                           class="claimCheckBox" #tdRow
-                           style="display:none;">
+              <tr *ngIf="claimManager.selectedClaims.length>0" (click)="claimManager.deselectAll();mergedClaim={};">
+                <td colspan="6" style="text-align:left">
+                  <div class="commonCheckBox" style="width: 20px;height: 20px;float:left">
+                    <input type="checkbox" name="check" value="None" #deSelect>
                     <label></label>
                   </div>
+                  Deselect all Claims for merging
                 </td>
+              </tr>
+            </ng-container>
+            <tr>
+              <ng-container *ngIf="adminOnly">
+                <th>Select 2 to merge</th>
               </ng-container>
-              <td>{{claim.claimNumber}}</td>
-              <td *ngIf="claim.name">{{claim.name}}</td>
-              <td *ngIf="!claim.name">{{claim.firstName}} {{claim.lastName}}</td>
-              <td>{{claim.carrier}}</td>
-              <td>{{formatDate(claim.injuryDate)}}</td>
-              <td>
-                <button class="btn btn-flat btn-sm bg-vdarkgrey view-btn" style="font-size:9pt"
-                        (click)="view(claim.claimId)">
-                  View
-                </button>
-              </td>
+              <th>Claim #</th>
+              <th>Name</th>
+              <th>Carrier</th>
+              <th>Injury Date</th>
+              <th>&nbsp;</th>
             </tr>
-          </ng-container>
+          </thead>
+          <tbody>
+            <ng-container *ngFor="let claim of claimManager.claimsData">
+              <tr
+                [class.active]="claimManager.selected !== undefined && claim.claimId == claimManager.selectedClaim.claimId">
+                <ng-container *ngIf="adminOnly">
+                  <td (click)="tdRow.checked=!tdRow.checked; select(claim, tdRow, i)">
+                    <div class="commonCheckBox">
+                      <input type="checkbox" name="check" value="None" [id]="claim.claimId" [checked]="claim.selected"
+                        class="claimCheckBox" #tdRow style="display:none;">
+                      <label></label>
+                    </div>
+                  </td>
+                </ng-container>
+                <td>{{claim.claimNumber}}</td>
+                <td *ngIf="claim.name">{{claim.name}}</td>
+                <td *ngIf="!claim.name">{{claim.firstName}} {{claim.lastName}}</td>
+                <td>{{claim.carrier}}</td>
+                <td>{{formatDate(claim.injuryDate)}}</td>
+                <td>
+                  <button class="btn btn-flat btn-sm bg-vdarkgrey view-btn" style="font-size:9pt"
+                    (click)="view(claim.claimId)">
+                    View
+                  </button>
+                </td>
+              </tr>
+            </ng-container>
           </tbody>
         </table>
       </div>
@@ -306,16 +269,15 @@
 </ng-container>
 
 <swal #claimActionSwal [showCancelButton]="false" [showConfirmButton]="false" customClass="custom-modal duplicate-merge"
-      [focusCancel]="false"
-      title="Duplicate Claim Merge">
+  [focusCancel]="false" title="Duplicate Claim Merge">
   <div class="container-fluid merge" *swalPartial>
     <form role="form" class="row" style="padding-bottom: 15px" autocomplete="off" autocapitalize="none"
-          autocomplete="off">
+      autocomplete="off">
       <div class="col-md-5"></div>
       <div class="col-md-7">
         <div class="form-group">
           <button class="color-palette btn bg-darkRed btn-flat btn-small pull-right" type="button" (click)="saveMerge()"
-                  [disabled]="claimManager.loading">
+            [disabled]="claimManager.loading">
             <ng-container *ngIf="!claimManager.loading">
               <i class="fa fa-save" aria-hidden="true"></i> Save Merge
             </ng-container>
@@ -324,7 +286,7 @@
             </ng-container>
           </button>
           <button style="margin-right: 10px" class="color-palette btn bg-darkblue btn-flat btn-small pull-right"
-                  type="button" (click)="closeModal()">
+            type="button" (click)="closeModal()">
             <i class="fa fa-eraser" aria-hidden="true"></i> Cancel
           </button>
         </div>
@@ -337,162 +299,119 @@
           <div class="table-responsive">
             <table class="table no-margin table-striped to-merge" id="maintable">
               <tbody class="overflowable" tabindex="0">
-              <tr [class.not-allowed]="comparisonClaims.leftClaimNumber==comparisonClaims.rightClaimNumber"
+                <tr [class.not-allowed]="comparisonClaims.leftClaimNumber==comparisonClaims.rightClaimNumber"
                   (click)="comparisonClaims.leftClaimNumber!=comparisonClaims.rightClaimNumber?leftClaimNumber.checked=!leftClaimNumber.checked:[];comparisonClaims.leftClaimNumber!=comparisonClaims.rightClaimNumber?merge(comparisonClaims.leftClaimNumber,leftClaimNumber,'ClaimNumber'):[]">
-                <td style="padding-left: 0px; padding-right: 0px; width: 25px;">
-                  <div class="commonCheckBox">
-                    <input type="checkbox" name="check" value="None" [id]="'left'+comparisonClaims.leftClaimNumber"
-                           [checked]="checked('ClaimNumber','left')"
-                           class="claimCheckBox" #leftClaimNumber
-                           [disabled]="comparisonClaims.leftClaimNumber==comparisonClaims.rightClaimNumber">
-                    <label></label>
-                  </div>
-                </td>
-                <td>Claim Number</td>
-                <td>{{comparisonClaims.leftClaimNumber}}
-                </td>
-              </tr>
-              <tr [class.not-allowed]="comparisonClaims.leftClaimId==comparisonClaims.rightClaimId"
+                  <td style="padding-left: 0px; padding-right: 0px; width: 25px;">
+                    <div class="commonCheckBox">
+                      <input type="checkbox" name="check" value="None" [id]="'left'+comparisonClaims.leftClaimNumber"
+                        [checked]="checked('ClaimNumber','left')" class="claimCheckBox" #leftClaimNumber
+                        [disabled]="comparisonClaims.leftClaimNumber==comparisonClaims.rightClaimNumber">
+                      <label></label>
+                    </div>
+                  </td>
+                  <td>Claim Number</td>
+                  <td>{{comparisonClaims.leftClaimNumber}}
+                  </td>
+                </tr>
+                <tr [class.not-allowed]="comparisonClaims.leftClaimId==comparisonClaims.rightClaimId"
                   (click)="comparisonClaims.leftClaimId!=comparisonClaims.rightClaimId?leftClaimId.checked=!leftClaimId.checked:[];comparisonClaims.leftClaimId!=comparisonClaims.rightClaimId?merge(comparisonClaims.leftClaimId,leftClaimId,'ClaimId'):[];">
-                <td style="padding-left: 0px; padding-right: 0px; width: 25px;">
-                  <div class="commonCheckBox">
-                    <input type="checkbox" name="check" value="None" [id]="'left'+comparisonClaims.leftClaimId"
-                           [checked]="checked('ClaimId','left')"
-                           class="claimCheckBox" #leftClaimId
-                           [disabled]="comparisonClaims.leftClaimId==comparisonClaims.rightClaimId">
-                    <label></label>
-                  </div>
-                </td>
-                <td>Claim ID</td>
-                <td>{{comparisonClaims.leftClaimId}}
-                </td>
-              </tr>
-              <tr [class.not-allowed]="comparisonClaims.leftCarrier==comparisonClaims.rightCarrier"
+                  <td style="padding-left: 0px; padding-right: 0px; width: 25px;">
+                    <div class="commonCheckBox">
+                      <input type="checkbox" name="check" value="None" [id]="'left'+comparisonClaims.leftClaimId"
+                        [checked]="checked('ClaimId','left')" class="claimCheckBox" #leftClaimId
+                        [disabled]="comparisonClaims.leftClaimId==comparisonClaims.rightClaimId">
+                      <label></label>
+                    </div>
+                  </td>
+                  <td>Claim ID</td>
+                  <td>{{comparisonClaims.leftClaimId}}
+                  </td>
+                </tr>
+                <tr [class.not-allowed]="comparisonClaims.leftCarrier==comparisonClaims.rightCarrier"
                   (click)="comparisonClaims.leftCarrier!=comparisonClaims.rightCarrier?leftCarrier.checked=!leftCarrier.checked:[];comparisonClaims.leftCarrier!=comparisonClaims.rightCarrier?merge(comparisonClaims.leftCarrier,leftCarrier,'Carrier'):[]">
-                <td style="padding-left: 0px; padding-right: 0px; width: 25px;">
-                  <div class="commonCheckBox">
-                    <input type="checkbox" name="check" value="None" [id]="'left'+comparisonClaims.leftCarrier"
-                           [checked]="checked('Carrier','left')"
-                           class="claimCheckBox" #leftCarrier
-                           [disabled]="comparisonClaims.leftCarrier==comparisonClaims.rightCarrier">
-                    <label></label>
-                  </div>
-                </td>
-                <td>Carrier</td>
-                <td>{{comparisonClaims.leftCarrier}}
-                </td>
-              </tr>
-              <tr [class.not-allowed]="comparisonClaims.leftDateOfBirth==comparisonClaims.rightDateOfBirth"
+                  <td style="padding-left: 0px; padding-right: 0px; width: 25px;">
+                    <div class="commonCheckBox">
+                      <input type="checkbox" name="check" value="None" [id]="'left'+comparisonClaims.leftCarrier"
+                        [checked]="checked('Carrier','left')" class="claimCheckBox" #leftCarrier
+                        [disabled]="comparisonClaims.leftCarrier==comparisonClaims.rightCarrier">
+                      <label></label>
+                    </div>
+                  </td>
+                  <td>Carrier</td>
+                  <td>{{comparisonClaims.leftCarrier}}
+                  </td>
+                </tr>
+                <tr [class.not-allowed]="comparisonClaims.leftDateOfBirth==comparisonClaims.rightDateOfBirth"
                   (click)="comparisonClaims.leftDateOfBirth!=comparisonClaims.rightDateOfBirth?leftDateOfBirth.checked=!leftDateOfBirth.checked:[];comparisonClaims.leftDateOfBirth!=comparisonClaims.rightDateOfBirth?merge(comparisonClaims.leftDateOfBirth,leftDateOfBirth,'DateOfBirth'):[]">
-                <td style="padding-left: 0px; padding-right: 0px; width: 25px;">
-                  <div class="commonCheckBox">
-                    <input type="checkbox" name="check" value="None" [id]="'left'+comparisonClaims.leftDateOfBirth"
-                           [checked]="checked('DateOfBirth','left')"
-                           class="claimCheckBox" #leftDateOfBirth
-                           [disabled]="comparisonClaims.leftDateOfBirth==comparisonClaims.rightDateOfBirth">
-                    <label></label>
-                  </div>
-                </td>
-                <td>Date of Birth</td>
-                <td>{{claimManager.formatDate(comparisonClaims.leftDateOfBirth)}}
-                </td>
-              </tr>
-              <!-- <tr [class.not-allowed]="" (click)="leftCarrier.checked=!leftCarrier.checked;merge(comparisonClaims.leftCarrier,leftCarrier,'Carrier')">
-<td style="padding-left: 0px; padding-right: 0px; width: 25px;">
-  <div class="commonCheckBox">
-    <input type="checkbox" name="check" value="None" [id]="'left'+comparisonClaims.leftCarrier" [checked]="checked('Carrier','left')"
-      class="claimCheckBox" #leftCarrier>
-    <label></label>
-  </div>
-</td>
-<td>Payor ID</td>
-<td>{{comparisonClaims.leftCarrier}}
-</td>
-</tr> -->
-              <tr [class.not-allowed]="comparisonClaims.leftInjuryDate==comparisonClaims.rightInjuryDate"
+                  <td style="padding-left: 0px; padding-right: 0px; width: 25px;">
+                    <div class="commonCheckBox">
+                      <input type="checkbox" name="check" value="None" [id]="'left'+comparisonClaims.leftDateOfBirth"
+                        [checked]="checked('DateOfBirth','left')" class="claimCheckBox" #leftDateOfBirth
+                        [disabled]="comparisonClaims.leftDateOfBirth==comparisonClaims.rightDateOfBirth">
+                      <label></label>
+                    </div>
+                  </td>
+                  <td>Date of Birth</td>
+                  <td>{{claimManager.formatDate(comparisonClaims.leftDateOfBirth)}}
+                  </td>
+                </tr>
+                <tr [class.not-allowed]="comparisonClaims.leftInjuryDate==comparisonClaims.rightInjuryDate"
                   (click)="comparisonClaims.leftInjuryDate!=comparisonClaims.rightInjuryDate?leftInjuryDate.checked=!leftInjuryDate.checked:[];comparisonClaims.leftInjuryDate!=comparisonClaims.rightInjuryDate?merge(comparisonClaims.leftInjuryDate,leftInjuryDate,'InjuryDate'):[]">
-                <td style="padding-left: 0px; padding-right: 0px; width: 25px;">
-                  <div class="commonCheckBox">
-                    <input type="checkbox" name="check" value="None" [id]="'left'+comparisonClaims.leftInjuryDate"
-                           [checked]="checked('InjuryDate','left')"
-                           class="claimCheckBox" #leftInjuryDate
-                           [disabled]="comparisonClaims.leftInjuryDate==comparisonClaims.rightInjuryDate">
-                    <label></label>
-                  </div>
-                </td>
-                <td>Injury Date</td>
-                <td>{{claimManager.formatDate(comparisonClaims.leftInjuryDate)}}
-                </td>
-              </tr>
-              <!-- <tr [class.not-allowed]="" (click)="leftAdjustorId.checked=!leftAdjustorId.checked;merge(comparisonClaims.leftAdjustorId,leftAdjustorId,'adjustorId')">
-<td style="padding-left: 0px; padding-right: 0px; width: 25px;">
-  <div class="commonCheckBox">
-    <input type="checkbox" name="check" value="None" [id]="'left'+comparisonClaims.leftAdjustorId" [checked]="checked('AdjustorId','left')"
-      class="claimCheckBox" #leftAdjustorId>
-    <label></label>
-  </div>
-</td>
-<td>Adjustor ID</td>
-<td>{{comparisonClaims.leftAdjustorId}}
-</td>
-</tr> -->
-              <tr [class.not-allowed]="comparisonClaims.leftAdjustorName==comparisonClaims.rightAdjustorName"
+                  <td style="padding-left: 0px; padding-right: 0px; width: 25px;">
+                    <div class="commonCheckBox">
+                      <input type="checkbox" name="check" value="None" [id]="'left'+comparisonClaims.leftInjuryDate"
+                        [checked]="checked('InjuryDate','left')" class="claimCheckBox" #leftInjuryDate
+                        [disabled]="comparisonClaims.leftInjuryDate==comparisonClaims.rightInjuryDate">
+                      <label></label>
+                    </div>
+                  </td>
+                  <td>Injury Date</td>
+                  <td>{{claimManager.formatDate(comparisonClaims.leftInjuryDate)}}
+                  </td>
+                </tr>
+                <tr [class.not-allowed]="comparisonClaims.leftAdjustorName==comparisonClaims.rightAdjustorName"
                   (click)="comparisonClaims.leftAdjustorName!=comparisonClaims.rightAdjustorName?leftAdjustorName.checked=!leftAdjustorName.checked:[];comparisonClaims.leftAdjustorName!=comparisonClaims.rightAdjustorName?merge(comparisonClaims.leftAdjustorName,leftAdjustorName,'AdjustorName'):[]">
-                <td style="padding-left: 0px; padding-right: 0px; width: 25px;">
-                  <div class="commonCheckBox">
-                    <input type="checkbox" name="check" value="None" [id]="'left'+comparisonClaims.leftAdjustorName"
-                           [checked]="checked('AdjustorName','left')"
-                           class="claimCheckBox" #leftAdjustorName
-                           [disabled]="comparisonClaims.leftAdjustorName==comparisonClaims.rightAdjustorName">
-                    <label></label>
-                  </div>
-                </td>
-                <td>Adjustor Name</td>
-                <td>{{comparisonClaims.leftAdjustorName}}
-                </td>
-              </tr>
-              <tr [class.not-allowed]="comparisonClaims.leftPatientName==comparisonClaims.rightPatientName"
+                  <td style="padding-left: 0px; padding-right: 0px; width: 25px;">
+                    <div class="commonCheckBox">
+                      <input type="checkbox" name="check" value="None" [id]="'left'+comparisonClaims.leftAdjustorName"
+                        [checked]="checked('AdjustorName','left')" class="claimCheckBox" #leftAdjustorName
+                        [disabled]="comparisonClaims.leftAdjustorName==comparisonClaims.rightAdjustorName">
+                      <label></label>
+                    </div>
+                  </td>
+                  <td>Adjustor Name</td>
+                  <td>{{comparisonClaims.leftAdjustorName}}
+                  </td>
+                </tr>
+                <tr [class.not-allowed]="comparisonClaims.leftPatientName==comparisonClaims.rightPatientName"
                   (click)="comparisonClaims.leftPatientName!=comparisonClaims.rightPatientName?leftPatientName.checked=!leftPatientName.checked:[];comparisonClaims.leftPatientName!=comparisonClaims.rightPatientName?merge(comparisonClaims.leftPatientName,leftPatientName,'PatientName'):[]">
-                <td style="padding-left: 0px; padding-right: 0px; width: 25px;">
-                  <div class="commonCheckBox">
-                    <input type="checkbox" name="check" value="None" [id]="'left'+comparisonClaims.leftPatientName"
-                           [checked]="checked('PatientName','left')"
-                           class="claimCheckBox" #leftPatientName
-                           [disabled]="comparisonClaims.leftPatientName==comparisonClaims.rightPatientName">
-                    <label></label>
-                  </div>
-                </td>
-                <td>Patient Name</td>
-                <td>{{comparisonClaims.leftPatientName}}
-                </td>
-              </tr>
-              <!-- <tr [class.not-allowed]="comparisonClaims.leftPatientId==comparisonClaims.rightPatientId" (click)="comparisonClaims.leftPatientId!=comparisonClaims.leftPatientId?rightPatientId.checked=!rightPatientId.checked:[];comparisonClaims.leftPatientId!=comparisonClaims.rightPatientId?merge(comparisonClaims.leftPatientId,leftPatientId,'PatientId'):[]">
-<td style="padding-left: 0px; padding-right: 0px; width: 25px;">
-  <div class="commonCheckBox">
-    <input type="checkbox" name="check" value="None" [id]="'left'+comparisonClaims.leftPatientId" [checked]="checked('PatientId','left')"
-      class="claimCheckBox" #leftPatientId  [disabled]="comparisonClaims.leftPatientId==comparisonClaims.rightPatientId">
-    <label></label>
-  </div>
-</td>
-<td>Patient ID</td>
-<td>{{comparisonClaims.leftPatientId}}
-</td>
-</tr> -->
-              <tr [class.not-allowed]="comparisonClaims.leftClaimFlex2Value==comparisonClaims.rightClaimFlex2Value"
+                  <td style="padding-left: 0px; padding-right: 0px; width: 25px;">
+                    <div class="commonCheckBox">
+                      <input type="checkbox" name="check" value="None" [id]="'left'+comparisonClaims.leftPatientName"
+                        [checked]="checked('PatientName','left')" class="claimCheckBox" #leftPatientName
+                        [disabled]="comparisonClaims.leftPatientName==comparisonClaims.rightPatientName">
+                      <label></label>
+                    </div>
+                  </td>
+                  <td>Patient Name</td>
+                  <td>{{comparisonClaims.leftPatientName}}
+                  </td>
+                </tr>
+                <tr [class.not-allowed]="comparisonClaims.leftClaimFlex2Value==comparisonClaims.rightClaimFlex2Value"
                   (click)="comparisonClaims.leftClaimFlex2Value!=comparisonClaims.rightClaimFlex2Value?leftClaimFlex2Value.checked=!leftClaimFlex2Value.checked:[];comparisonClaims.leftClaimFlex2Value!=comparisonClaims.rightClaimFlex2Value?merge(comparisonClaims.leftClaimFlex2Value,leftClaimFlex2Value,'ClaimFlex2Value'):[]">
-                <td style="padding-left: 0px; padding-right: 0px; width: 25px;">
-                  <div class="commonCheckBox">
-                    <input type="checkbox" name="check" value="None" [id]="'left'+comparisonClaims.leftClaimFlex2Value"
-                           [checked]="checked('ClaimFlex2Value','left')"
-                           class="claimCheckBox" #leftClaimFlex2Value
-                           [disabled]="comparisonClaims.leftClaimFlex2Value==comparisonClaims.rightClaimFlex2Value">
-                    <label></label>
-                  </div>
-                </td>
-                <td>Flex 2</td>
-                <td>{{comparisonClaims.leftClaimFlex2Value}}
-                </td>
-              </tr>
+                  <td style="padding-left: 0px; padding-right: 0px; width: 25px;">
+                    <div class="commonCheckBox">
+                      <input type="checkbox" name="check" value="None"
+                        [id]="'left'+comparisonClaims.leftClaimFlex2Value" [checked]="checked('ClaimFlex2Value','left')"
+                        class="claimCheckBox" #leftClaimFlex2Value
+                        [disabled]="comparisonClaims.leftClaimFlex2Value==comparisonClaims.rightClaimFlex2Value">
+                      <label></label>
+                    </div>
+                  </td>
+                  <td>Flex 2</td>
+                  <td>{{comparisonClaims.leftClaimFlex2Value}}
+                  </td>
+                </tr>
               </tbody>
             </table>
           </div>
@@ -502,151 +421,119 @@
           <div class="table-responsive">
             <table class="table no-margin table-striped to-merge" id="maintable">
               <tbody class="overflowable" tabindex="0">
-              <tr [class.not-allowed]="comparisonClaims.leftClaimNumber==comparisonClaims.rightClaimNumber"
+                <tr [class.not-allowed]="comparisonClaims.leftClaimNumber==comparisonClaims.rightClaimNumber"
                   (click)="comparisonClaims.leftClaimNumber!=comparisonClaims.rightClaimNumber?rightClaimNumber.checked=!rightClaimNumber.checked:[];comparisonClaims.leftClaimNumber!=comparisonClaims.rightClaimNumber?merge(comparisonClaims.rightClaimNumber,rightClaimNumber,'ClaimNumber'):[]">
-                <td style="padding-left: 0px; padding-right: 0px; width: 25px;">
-                  <div class="commonCheckBox">
-                    <input type="checkbox" name="check" value="None" [id]="'right'+comparisonClaims.rightClaimNumber"
-                           [checked]="checked('ClaimNumber','right')"
-                           class="claimCheckBox" #rightClaimNumber
-                           [disabled]="comparisonClaims.leftClaimNumber==comparisonClaims.rightClaimNumber">
-                    <label></label>
-                  </div>
-                </td>
-                <td>Claim Number</td>
-                <td>{{comparisonClaims.rightClaimNumber}}
-                </td>
-              </tr>
-              <tr [class.not-allowed]="comparisonClaims.leftClaimId==comparisonClaims.rightClaimId"
+                  <td style="padding-left: 0px; padding-right: 0px; width: 25px;">
+                    <div class="commonCheckBox">
+                      <input type="checkbox" name="check" value="None" [id]="'right'+comparisonClaims.rightClaimNumber"
+                        [checked]="checked('ClaimNumber','right')" class="claimCheckBox" #rightClaimNumber
+                        [disabled]="comparisonClaims.leftClaimNumber==comparisonClaims.rightClaimNumber">
+                      <label></label>
+                    </div>
+                  </td>
+                  <td>Claim Number</td>
+                  <td>{{comparisonClaims.rightClaimNumber}}
+                  </td>
+                </tr>
+                <tr [class.not-allowed]="comparisonClaims.leftClaimId==comparisonClaims.rightClaimId"
                   (click)="comparisonClaims.leftClaimId!=comparisonClaims.rightClaimId?rightClaimId.checked=!rightClaimId.checked:[];comparisonClaims.leftClaimId!=comparisonClaims.rightClaimId?merge(comparisonClaims.rightClaimId,rightClaimId,'ClaimId'):[];">
-                <td style="padding-left: 0px; padding-right: 0px; width: 25px;">
-                  <div class="commonCheckBox">
-                    <input type="checkbox" name="check" value="None" [id]="'right'+comparisonClaims.rightClaimId"
-                           [checked]="checked('ClaimId','right')"
-                           class="claimCheckBox" #rightClaimId
-                           [disabled]="comparisonClaims.leftClaimId==comparisonClaims.rightClaimId">
-                    <label></label>
-                  </div>
-                </td>
-                <td>Claim ID</td>
-                <td>{{comparisonClaims.rightClaimId}}
-                </td>
-              </tr>
-              <tr [class.not-allowed]="comparisonClaims.leftCarrier==comparisonClaims.rightCarrier"
+                  <td style="padding-left: 0px; padding-right: 0px; width: 25px;">
+                    <div class="commonCheckBox">
+                      <input type="checkbox" name="check" value="None" [id]="'right'+comparisonClaims.rightClaimId"
+                        [checked]="checked('ClaimId','right')" class="claimCheckBox" #rightClaimId
+                        [disabled]="comparisonClaims.leftClaimId==comparisonClaims.rightClaimId">
+                      <label></label>
+                    </div>
+                  </td>
+                  <td>Claim ID</td>
+                  <td>{{comparisonClaims.rightClaimId}}
+                  </td>
+                </tr>
+                <tr [class.not-allowed]="comparisonClaims.leftCarrier==comparisonClaims.rightCarrier"
                   (click)="comparisonClaims.leftCarrier!=comparisonClaims.rightCarrier?rightCarrier.checked=!rightCarrier.checked:[];comparisonClaims.leftCarrier!=comparisonClaims.rightCarrier?merge(comparisonClaims.rightCarrier,rightCarrier,'Carrier'):[]">
-                <td style="padding-left: 0px; padding-right: 0px; width: 25px;">
-                  <div class="commonCheckBox">
-                    <input type="checkbox" name="check" value="None" [id]="'right'+comparisonClaims.rightCarrier"
-                           [checked]="checked('Carrier','right')"
-                           class="claimCheckBox" #rightCarrier
-                           [disabled]="comparisonClaims.leftCarrier==comparisonClaims.rightCarrier">
-                    <label></label>
-                  </div>
-                </td>
-                <td>Carrier</td>
-                <td>{{comparisonClaims.rightCarrier}}
-                </td>
-              </tr>
-              <tr [class.not-allowed]="comparisonClaims.leftDateOfBirth==comparisonClaims.rightDateOfBirth"
+                  <td style="padding-left: 0px; padding-right: 0px; width: 25px;">
+                    <div class="commonCheckBox">
+                      <input type="checkbox" name="check" value="None" [id]="'right'+comparisonClaims.rightCarrier"
+                        [checked]="checked('Carrier','right')" class="claimCheckBox" #rightCarrier
+                        [disabled]="comparisonClaims.leftCarrier==comparisonClaims.rightCarrier">
+                      <label></label>
+                    </div>
+                  </td>
+                  <td>Carrier</td>
+                  <td>{{comparisonClaims.rightCarrier}}
+                  </td>
+                </tr>
+                <tr [class.not-allowed]="comparisonClaims.leftDateOfBirth==comparisonClaims.rightDateOfBirth"
                   (click)="comparisonClaims.leftDateOfBirth!=comparisonClaims.rightDateOfBirth?rightDateOfBirth.checked=!rightDateOfBirth.checked:[];comparisonClaims.leftDateOfBirth!=comparisonClaims.rightDateOfBirth?merge(comparisonClaims.rightDateOfBirth,rightDateOfBirth,'DateOfBirth'):[]">
-                <td style="padding-left: 0px; padding-right: 0px; width: 25px;">
-                  <div class="commonCheckBox">
-                    <input type="checkbox" name="check" value="None" [id]="'right'+comparisonClaims.rightDateOfBirth"
-                           [checked]="checked('DateOfBirth','right')"
-                           class="claimCheckBox" #rightDateOfBirth
-                           [disabled]="comparisonClaims.leftDateOfBirth==comparisonClaims.rightDateOfBirth">
-                    <label></label>
-                  </div>
-                </td>
-                <td>Date of Birth</td>
-                <td>{{claimManager.formatDate(comparisonClaims.rightDateOfBirth)}}
-                </td>
-              </tr>
-              <!-- <tr [class.not-allowed]="" (click)="rightCarrier.checked=!rightCarrier.checked;merge(comparisonClaims.rightCarrier,rightCarrier,'Carrier')">
-<td style="padding-left: 0px; padding-right: 0px; width: 25px;">
-  <div class="commonCheckBox">
-    <input type="checkbox" name="check" value="None" [id]="'right'+comparisonClaims.rightCarrier" [checked]="checked('Carrier','right')"
-      class="claimCheckBox" #rightCarrier>
-    <label></label>
-  </div>
-</td>
-<td>Payor ID</td>
-<td>{{comparisonClaims.rightCarrier}}
-</td>
-</tr> -->
-              <tr [class.not-allowed]="comparisonClaims.leftInjuryDate==comparisonClaims.rightInjuryDate"
+                  <td style="padding-left: 0px; padding-right: 0px; width: 25px;">
+                    <div class="commonCheckBox">
+                      <input type="checkbox" name="check" value="None" [id]="'right'+comparisonClaims.rightDateOfBirth"
+                        [checked]="checked('DateOfBirth','right')" class="claimCheckBox" #rightDateOfBirth
+                        [disabled]="comparisonClaims.leftDateOfBirth==comparisonClaims.rightDateOfBirth">
+                      <label></label>
+                    </div>
+                  </td>
+                  <td>Date of Birth</td>
+                  <td>{{claimManager.formatDate(comparisonClaims.rightDateOfBirth)}}
+                  </td>
+                </tr>
+                <tr [class.not-allowed]="comparisonClaims.leftInjuryDate==comparisonClaims.rightInjuryDate"
                   (click)="comparisonClaims.leftInjuryDate!=comparisonClaims.rightInjuryDate?rightInjuryDate.checked=!rightInjuryDate.checked:[];comparisonClaims.leftInjuryDate!=comparisonClaims.rightInjuryDate?merge(comparisonClaims.rightInjuryDate,rightInjuryDate,'InjuryDate'):[]">
-                <td style="padding-left: 0px; padding-right: 0px; width: 25px;">
-                  <div class="commonCheckBox">
-                    <input type="checkbox" name="check" value="None" [id]="'right'+comparisonClaims.rightInjuryDate"
-                           [checked]="checked('InjuryDate','right')"
-                           class="claimCheckBox" #rightInjuryDate
-                           [disabled]="comparisonClaims.leftInjuryDate==comparisonClaims.rightInjuryDate">
-                    <label></label>
-                  </div>
-                </td>
-                <td>Injury Date</td>
-                <td>{{claimManager.formatDate(comparisonClaims.rightInjuryDate)}}
-                </td>
-              </tr>
-              <tr [class.not-allowed]="comparisonClaims.leftAdjustorName==comparisonClaims.rightAdjustorName"
+                  <td style="padding-left: 0px; padding-right: 0px; width: 25px;">
+                    <div class="commonCheckBox">
+                      <input type="checkbox" name="check" value="None" [id]="'right'+comparisonClaims.rightInjuryDate"
+                        [checked]="checked('InjuryDate','right')" class="claimCheckBox" #rightInjuryDate
+                        [disabled]="comparisonClaims.leftInjuryDate==comparisonClaims.rightInjuryDate">
+                      <label></label>
+                    </div>
+                  </td>
+                  <td>Injury Date</td>
+                  <td>{{claimManager.formatDate(comparisonClaims.rightInjuryDate)}}
+                  </td>
+                </tr>
+                <tr [class.not-allowed]="comparisonClaims.leftAdjustorName==comparisonClaims.rightAdjustorName"
                   (click)="comparisonClaims.leftAdjustorName!=comparisonClaims.rightAdjustorName?rightAdjustorName.checked=!rightAdjustorName.checked:[];comparisonClaims.leftAdjustorName!=comparisonClaims.rightAdjustorName?merge(comparisonClaims.rightAdjustorName,rightAdjustorName,'AdjustorName'):[]">
-                <td style="padding-left: 0px; padding-right: 0px; width: 25px;">
-                  <div class="commonCheckBox">
-                    <input type="checkbox" name="check" value="None" [id]="'right'+comparisonClaims.rightAdjustorName"
-                           [checked]="checked('AdjustorName','right')"
-                           class="claimCheckBox" #rightAdjustorName
-                           [disabled]="comparisonClaims.leftAdjustorName==comparisonClaims.rightAdjustorName">
-                    <label></label>
-                  </div>
-                </td>
-                <td>Adjustor Name</td>
-                <td>{{comparisonClaims.rightAdjustorName}}
-                </td>
-              </tr>
-              <tr [class.not-allowed]="comparisonClaims.leftPatientName==comparisonClaims.rightPatientName"
+                  <td style="padding-left: 0px; padding-right: 0px; width: 25px;">
+                    <div class="commonCheckBox">
+                      <input type="checkbox" name="check" value="None" [id]="'right'+comparisonClaims.rightAdjustorName"
+                        [checked]="checked('AdjustorName','right')" class="claimCheckBox" #rightAdjustorName
+                        [disabled]="comparisonClaims.leftAdjustorName==comparisonClaims.rightAdjustorName">
+                      <label></label>
+                    </div>
+                  </td>
+                  <td>Adjustor Name</td>
+                  <td>{{comparisonClaims.rightAdjustorName}}
+                  </td>
+                </tr>
+                <tr [class.not-allowed]="comparisonClaims.leftPatientName==comparisonClaims.rightPatientName"
                   (click)="comparisonClaims.leftPatientName!=comparisonClaims.rightPatientName?rightPatientName.checked=!rightPatientName.checked:[];comparisonClaims.leftPatientName!=comparisonClaims.rightPatientName?merge(comparisonClaims.rightPatientName,rightPatientName,'PatientName'):[]">
-                <td style="padding-left: 0px; padding-right: 0px; width: 25px;">
-                  <div class="commonCheckBox">
-                    <input type="checkbox" name="check" value="None" [id]="'right'+comparisonClaims.rightPatientName"
-                           [checked]="checked('PatientName','right')"
-                           class="claimCheckBox" #rightPatientName
-                           [disabled]="comparisonClaims.leftPatientName==comparisonClaims.rightPatientName">
-                    <label></label>
-                  </div>
-                </td>
-                <td>Patient Name</td>
-                <td>{{comparisonClaims.rightPatientName}}
-                </td>
-              </tr>
-              <!-- <tr [class.not-allowed]="comparisonClaims.leftPatientId==comparisonClaims.rightPatientId" (click)="comparisonClaims.leftPatientId!=comparisonClaims.rightPatientId?rightPatientId.checked=!rightPatientId.checked:[];comparisonClaims.leftPatientId!=comparisonClaims.rightPatientId?merge(comparisonClaims.rightPatientId,rightPatientId,'PatientId'):[]">
-<td style="padding-left: 0px; padding-right: 0px; width: 25px;">
-  <div class="commonCheckBox">
-    <input type="checkbox" name="check" value="None" [id]="'right'+comparisonClaims.rightPatientId" [checked]="checked('PatientId','right')"
-      class="claimCheckBox" #rightPatientId  [disabled]="comparisonClaims.leftPatientId==comparisonClaims.rightPatientId">
-    <label></label>
-  </div>
-</td>
-<td>Patient ID</td>
-<td>{{comparisonClaims.rightPatientId}}
-</td>
-</tr> -->
-              <tr [class.not-allowed]="comparisonClaims.leftClaimFlex2Value==comparisonClaims.rightClaimFlex2Value"
+                  <td style="padding-left: 0px; padding-right: 0px; width: 25px;">
+                    <div class="commonCheckBox">
+                      <input type="checkbox" name="check" value="None" [id]="'right'+comparisonClaims.rightPatientName"
+                        [checked]="checked('PatientName','right')" class="claimCheckBox" #rightPatientName
+                        [disabled]="comparisonClaims.leftPatientName==comparisonClaims.rightPatientName">
+                      <label></label>
+                    </div>
+                  </td>
+                  <td>Patient Name</td>
+                  <td>{{comparisonClaims.rightPatientName}}
+                  </td>
+                </tr>
+                <tr [class.not-allowed]="comparisonClaims.leftClaimFlex2Value==comparisonClaims.rightClaimFlex2Value"
                   (click)="comparisonClaims.leftClaimFlex2Value!=comparisonClaims.rightClaimFlex2Value?rightClaimFlex2Value.checked=!rightClaimFlex2Value.checked:[];comparisonClaims.leftClaimFlex2Value!=comparisonClaims.rightClaimFlex2Value?merge(comparisonClaims.rightClaimFlex2Value,rightClaimFlex2Value,'ClaimFlex2Value'):[]">
-                <td style="padding-left: 0px; padding-right: 0px; width: 25px;">
-                  <div class="commonCheckBox">
-                    <input type="checkbox" name="check" value="None"
-                           [id]="'right'+comparisonClaims.rightClaimFlex2Value"
-                           [checked]="checked('ClaimFlex2Value','right')"
-                           class="claimCheckBox" #rightClaimFlex2Value
-                           [disabled]="comparisonClaims.leftClaimFlex2Value==comparisonClaims.rightClaimFlex2Value">
-                    <label></label>
-                  </div>
-                </td>
-                <td>Flex 2</td>
-                <td>{{comparisonClaims.rightClaimFlex2Value}}
-                </td>
-              </tr>
+                  <td style="padding-left: 0px; padding-right: 0px; width: 25px;">
+                    <div class="commonCheckBox">
+                      <input type="checkbox" name="check" value="None"
+                        [id]="'right'+comparisonClaims.rightClaimFlex2Value"
+                        [checked]="checked('ClaimFlex2Value','right')" class="claimCheckBox" #rightClaimFlex2Value
+                        [disabled]="comparisonClaims.leftClaimFlex2Value==comparisonClaims.rightClaimFlex2Value">
+                      <label></label>
+                    </div>
+                  </td>
+                  <td>Flex 2</td>
+                  <td>{{comparisonClaims.rightClaimFlex2Value}}
+                  </td>
+                </tr>
               </tbody>
             </table>
           </div>

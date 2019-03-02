@@ -1,17 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
-import { ClaimManager } from '../../services/claim-manager';
 import { HttpService } from '../../services/http-service';
 import { ReferenceManagerService } from '../../services/reference-manager.service';
+import { ClaimManager } from '../../services/claim-manager';
 
 @Component({
-  selector: 'app-carrier-modal',
-  templateUrl: './carrier-modal.component.html',
-  styleUrls: ['./carrier-modal.component.css']
+  selector: 'app-attorney-modal',
+  templateUrl: './attorney-modal.component.html',
+  styleUrls: ['./attorney-modal.component.css']
 })
-export class CarrierModalComponent implements OnInit {
+export class AttorneyModalComponent implements OnInit {
 
-  constructor(public dialogRef: MatDialogRef<CarrierModalComponent>,
+  constructor(public dialogRef: MatDialogRef<AttorneyModalComponent>,
     private http: HttpService,
     public rs: ReferenceManagerService,
     public claimManager: ClaimManager) {
@@ -21,16 +21,14 @@ export class CarrierModalComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
-    // console.log(this.claimManager.claimsData[0]);
-  }
+  ngOnInit() { }
 
   onNoClick(): void {
     this.dialogRef.close();
   }
 
-  showReference(payorId: any) {
+  showReference(attorneyId: number) {
     this.dialogRef.close();
-    window.open('#/main/references/?payorId=' + payorId, '_blank');
+    window.open('#/main/references/?attorneyId=' + attorneyId, '_blank');
   }
 }

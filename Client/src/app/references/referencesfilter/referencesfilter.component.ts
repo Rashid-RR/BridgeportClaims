@@ -1,13 +1,13 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
-import {ReferenceManagerService} from '../../services/reference-manager.service';
-import {ToastrService} from 'ngx-toastr';
-import {HttpService} from '../../services/http-service';
-import {UsState} from '../../models/us-state';
-import {Observable} from 'rxjs';
-import {map, startWith} from 'rxjs/operators';
-import {MatAutocomplete, MatAutocompleteSelectedEvent} from '@angular/material';
-import {FormControl} from '@angular/forms';
-import {ActivatedRoute} from '@angular/router';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { ReferenceManagerService } from '../../services/reference-manager.service';
+import { ToastrService } from 'ngx-toastr';
+import { HttpService } from '../../services/http-service';
+import { UsState } from '../../models/us-state';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
+import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material';
+import { FormControl } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 
 declare var $: any;
 
@@ -31,9 +31,9 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
   payorFilteredStates: Observable<UsState[]>;
 
   constructor(public rs: ReferenceManagerService,
-              private http: HttpService,
-              private route: ActivatedRoute,
-              private toast: ToastrService) {
+    private http: HttpService,
+    private route: ActivatedRoute,
+    private toast: ToastrService) {
     this.http.getStates({}).subscribe(data => {
       this.rs.states = data;
     }, error => {
@@ -44,16 +44,26 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
     if (!isNaN(Number(value))) {
       return this.rs.states;
     }
-    const filterValue = (value || '').toLowerCase(); // handle undefined that comes from the edit
-    return this.rs.states.filter(option => option.stateName.toLowerCase().indexOf(filterValue) === 0);
+    const filterValue = (value || '').toUpperCase(); // handle undefined that comes from the edit
+    return this.rs.states.filter(option => option.stateName.toUpperCase().indexOf(filterValue) === 0);
   }
 
   ngOnInit() {
     this.route.queryParams.subscribe(queryOptions => {
       if (queryOptions['payorId']) {
-        this.rs.payorID = queryOptions['payorId'];
-        this.rs.typeSelected = 'Payor';
+        this.rs.payorId = Number(queryOptions['payorId']);
+        this.rs.typeSelected = this.rs.types[2];
         this.rs.sortColumn = ('Payor'.toLowerCase() === 'payor' ? 'group' : 'Payor'.toLowerCase()) + 'Name';
+        this.rs.getReferencesList();
+      } else if (queryOptions['adjustorId']) {
+        this.rs.adjustorId = Number(queryOptions['adjustorId']);
+        this.rs.typeSelected = this.rs.types[0];
+        this.rs.sortColumn = 'adjustorName';
+        this.rs.getReferencesList();
+      } else if (queryOptions['attorneyId']) {
+        this.rs.attorneyId = Number(queryOptions['attorneyId']);
+        this.rs.typeSelected = this.rs.types[1];
+        this.rs.sortColumn = 'attorneyName';
         this.rs.getReferencesList();
       }
     });
@@ -76,26 +86,35 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
     if (selection) {
       return selection.stateName;
     }
-  };
+  }
 
   // This doesn't seem to work.
   onSelectionChanged(event: MatAutocompleteSelectedEvent) {
-    this.rs.payorForm.get('billToStateName').setValue(event.option.value);
+    const state = event.option.value;
+    if (state) {
+      this.rs.payorForm.get('billToStateName').setValue(state.toUpperCase());
+    }
   }
 
   onAdjustorStateSelection(stateId: number) {
     const selected = this.rs.states.find(st => st.stateId === stateId);
-    this.rs.adjustorForm.patchValue({state: selected.stateName, stateId: selected.stateId});
+    if (selected) {
+      this.rs.adjustorForm.patchValue({ state: selected.stateName.toUpperCase(), stateId: selected.stateId });
+    }
   }
 
   onAttorneyStateSelection(stateId: number) {
     const selected = this.rs.states.find(option => option.stateId === stateId);
-    this.rs.attorneyForm.patchValue({state: selected.stateName, stateId: selected.stateId});
+    if (selected) {
+      this.rs.attorneyForm.patchValue({ state: selected.stateName.toUpperCase(), stateId: selected.stateId });
+    }
   }
 
   onPayorStateSelection(stateId: number) {
     const selected = this.rs.states.find(option => option.stateId === stateId);
-    this.rs.payorForm.patchValue({billToStateName: selected.stateName, billToStateId: selected.stateId});
+    if (selected) {
+      this.rs.payorForm.patchValue({ billToStateName: selected.stateName.toUpperCase(), billToStateId: selected.stateId });
+    }
   }
 
   ngAfterViewInit() {

@@ -7,7 +7,9 @@ GO
 	Date:			1/18/2018
 	Description:	Edits a Claim and associated entities from the Claims blade.
 	Example Execute:
-					EXECUTE dbo.uspEditClaim 775, '9/9/1981', 1
+					DECLARE @UserID NVARCHAR(128);
+					SELECT TOP (1) @UserID = x.ID FROM dbo.AspNetUsers AS x ORDER BY NEWID();
+					EXECUTE dbo.uspEditClaim 775, @UserID, '20190218'
 */
 CREATE PROCEDURE [dbo].[uspEditClaim]
 (
@@ -112,19 +114,8 @@ AS BEGIN
 	BEGIN CATCH
 		IF (@@TRANCOUNT > 0)
 			ROLLBACK;
-				
-        DECLARE @ErrSeverity INT = ERROR_SEVERITY()
-            , @ErrState INT = ERROR_STATE()
-            , @ErrProc NVARCHAR(MAX) = ERROR_PROCEDURE()
-            , @ErrLine INT = ERROR_LINE()
-            , @ErrMsg NVARCHAR(MAX) = ERROR_MESSAGE();
-
-        RAISERROR(N'%s (line %d): %s',	-- Message text w formatting
-			@ErrSeverity,		-- Severity
-			@ErrState,			-- State
-			@ErrProc,			-- First argument (string)
-			@ErrLine,			-- Second argument (int)
-			@ErrMsg);			-- First argument (string)
+		DECLARE @Msg NVARCHAR(4000) = FORMATMESSAGE(N'An error has occurred: %s Line number: %u', ERROR_MESSAGE(), ERROR_LINE());
+        THROW 50000, @Msg, 0;
 	END CATCH
 END
 GO

@@ -25,9 +25,7 @@ AS
                ,Gender = g.GenderName
                ,Carrier = pay.GroupName
                ,Adjustor = a.AdjustorName
-               ,AdjustorPhoneNumber = a.PhoneNumber
-               ,AdjustorExtension = a.Extension
-               ,AdjustorFaxNumber = a.FaxNumber
+			   ,Attorney = att.[AttorneyName]
                ,EligibilityTermDate = c.TermDate
                ,Flex2 = cl.Flex2
                ,Address1 = p.Address1
@@ -37,6 +35,7 @@ AS
                ,PostalCode = p.PostalCode
                ,PatientPhoneNumber = p.PhoneNumber
                ,AdjustorId = c.AdjustorID
+			   ,AttorneyId = att.[AttorneyID]
                ,PayorId = c.PayorID
                ,StateId = p.StateID
                ,PatientGenderId = p.GenderID
@@ -46,6 +45,7 @@ AS
                 LEFT JOIN dbo.UsState AS s ON p.StateID = s.StateID
                 LEFT JOIN dbo.Gender AS g ON p.GenderID = g.GenderID
                 LEFT JOIN dbo.Adjustor AS a ON c.AdjustorID = a.AdjustorID
+				LEFT JOIN [dbo].[Attorney] AS [att] ON [c].[AttorneyID] = [att].[AttorneyID]
                 LEFT JOIN dbo.Payor AS pay ON c.PayorID = pay.PayorID
                 LEFT JOIN dbo.ClaimFlex2 AS cl ON c.ClaimFlex2ID = cl.ClaimFlex2ID
         WHERE   c.ClaimID = @ClaimID;

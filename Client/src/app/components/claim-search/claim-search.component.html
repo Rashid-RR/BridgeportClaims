@@ -34,13 +34,21 @@
 
         <div class="col-sm-6 field field-lg">
             <div class="form-group">
-                <button class="btn bg-darkRed btn-flat btn-small min-width-100 min-height-35" type="button" (click)="search()" id="claimSearchBtn">
+                <button mat-raised-button class="btn bg-darkRed" style="padding: 2px 14px 0px 13px;height: 36px;" type="button" (click)="search()" id="claimSearchBtn">
                     <i class="fa fa-search" aria-hidden="true"></i> Search</button>
-                <button class="btn bg-darkblue btn-flat btn-small min-width-100 min-height-35" type="button" (click)="clear()">
+                <button mat-raised-button class="btn bg-darkblue" type="button" style="padding: 2px 14px 0px 13px;height: 36px;" (click)="clear()">
                     <i class="fa fa-eraser" aria-hidden="true"></i> Clear</button>
-                <button class="color-palette btn bg-DarkGreen btn-flat btn-small min-width-100 min-height-35" type="button" (click)="refresh()">
+                <button mat-raised-button class="color-palette btn bg-DarkGreen btn-small" type="button" style="padding: 2px 14px 0px 13px;height: 36px;" (click)="refresh()">
                     <i class="fa fa-refresh" aria-hidden="true"></i> Refresh</button>
             </div>
         </div>
     </div>
 </form>
+<!-- 
+
+red #992727
+blue #414772
+green #084205
+
+
+ -->

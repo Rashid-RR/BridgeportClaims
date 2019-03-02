@@ -5,6 +5,6 @@ namespace BridgeportClaims.Data.DataProviders.PayorSearches
 {
     public interface IPayorSearchProvider
     {
-        IList<PayorSearchResultsDto> GetPayorSearchResults(string searchText);
+        IEnumerable<PayorSearchResultsDto> GetPayorSearchResults(string searchText);
     }
 }

@@ -66,32 +66,33 @@ namespace BridgeportClaims.Web.Controllers
 		    try
 		    {
 		        var claimId = model.ClaimId;
-		        var dateOfBirth = model.DateOfBirth;
-		        var genderId = model.GenderId;
+                var modifiedByUserId = User?.Identity?.GetUserId();
+                var ofBirth = model.DateOfBirth;
+                var ofBirthParam = null == ofBirth ? (DateTime?) null
+                    : "NULL" == ofBirth ? new DateTime(1901, 1, 1)
+                    : DateTime.TryParse(ofBirth, out DateTime dt) ? dt
+                    : throw new Exception($"Could not parse Date Time value {ofBirth}");
+                var genderId = model.GenderId;
 		        var payorId = model.PayorId;
 		        var adjustorId = model.AdjustorId;
-		        var adjustorPhone = model.AdjustorPhone;
-		        var dateOfInjury = model.DateOfInjury;
-		        var adjustorFax = model.AdjustorFax;
+                var attorneyId = model.AttorneyId;
+		        var ofInjury = model.DateOfInjury;
+                var ofInjuryParam = null == ofInjury ? (DateTime?) null
+                    : "NULL" == ofInjury ? new DateTime(1901, 1, 1)
+                    : DateTime.TryParse(ofInjury, out DateTime dat) ? dat
+                    : throw new Exception($"Could not parse Date Time value {ofInjury}");
 		        var address1 = model.Address1;
 		        var address2 = model.Address2;
 		        var city = model.City;
 		        var stateId = model.StateId;
 		        var postalCode = model.PostalCode;
 		        var claimFlex2Id = model.ClaimFlex2Id;
-		        var userId = User?.Identity?.GetUserId();
-		        var ext = model.AdjustorExtension;
-		        if (null == userId)
-		            throw new Exception("Could not locate the authenticated user.");
-		        _claimsEditProvider.Value.EditClaim(claimId, userId, null == dateOfBirth ? (DateTime?) null
-		            : "NULL" == dateOfBirth ? new DateTime(1901, 1, 1)
-		            : DateTime.TryParse(dateOfBirth, out DateTime dt) ? dt
-		            : throw new Exception($"Could not parse Date Time value {dateOfBirth}"), genderId, payorId,
-		            adjustorId, adjustorPhone, null == dateOfInjury ? (DateTime?) null
-		            : "NULL" == dateOfInjury ? new DateTime(1901, 1, 1)
-		            : DateTime.TryParse(dateOfInjury, out DateTime dat) ? dat
-		            : throw new Exception($"Could not parse Date Time value {dateOfInjury}"), adjustorFax,
-		            address1, address2, city, stateId, postalCode, claimFlex2Id, ext);
+                if (null == modifiedByUserId)
+                {
+                    throw new Exception("Could not locate the authenticated user.");
+                }
+                _claimsEditProvider.Value.EditClaim(claimId, modifiedByUserId, ofBirthParam, genderId, payorId,
+		            adjustorId,attorneyId, ofInjuryParam, address1, address2, city, stateId, postalCode, claimFlex2Id);
 		        return Ok(new {message = "The claim was updated successfully."});
 		    }
 		    catch (Exception ex)

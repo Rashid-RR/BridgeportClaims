@@ -11,5 +11,6 @@ namespace BridgeportClaims.Data.DataProviders.AttorneyProviders
             int? stateId, string postalCode, string phoneNumber, string faxNumber, string emailAddress, string modifiedByUserId);
         AttorneyResultDto UpdateAttorney(int attorneyId, string attorneyName, string address1,
             string address2, string city, int? stateId, string postalCode, string phoneNumber, string faxNumber, string emailAddress, string userId);
+        AttorneyResultDto GetAttorney(int attorneyId);
     }
 }

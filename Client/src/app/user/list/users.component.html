@@ -82,7 +82,7 @@
                   User Management
                 </h4>
               </div>
-              <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+              <table width="100%" class="table table-striped table-bordered table-hover user-management" id="dataTables-example">
                 <thead>
                 <tr>
                   <th>User Name</th>
@@ -94,6 +94,7 @@
                   <th>Extension</th>
                   <th>Referral Type</th>
                   <th>Client</th>
+                  <th>User</th>
                   <th>Indexer</th>
                   <th>Admin</th>
                 </tr>
@@ -135,6 +136,13 @@
                     </td>
                     <td class="center-in">
                       <label class="checkboxFive">
+                        <input type="checkbox" id="checkboxFiveInput" [(ngModel)]="user.user"
+                               (ngModelChange)="showRoleConfirm(user.userName,userRole,$event)">
+                        <div for="checkboxFiveInput"></div>
+                      </label>
+                    </td>
+                    <td class="center-in">
+                      <label class="checkboxFive">
                         <input type="checkbox" id="checkboxFiveInput" [(ngModel)]="user.indexer"
                                (ngModelChange)="showRoleConfirm(user.userName,indexerRole,$event)"
                                [disabled]="(user.admin)">
@@ -142,7 +150,6 @@
                       </label>
                     </td>
                     <td class="center-in">
-
                       <label class="checkboxFive">
                         <input type="checkbox" id="checkboxFiveInput" [(ngModel)]="user.admin"
                                (ngModelChange)="showRoleConfirm(user.userName,adminRole,$event)">

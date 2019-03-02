@@ -21,11 +21,9 @@ export class Claim {
     gender: String;
     carrier: String;
     adjustor: String;
-    adjustorPhoneNumber: String;
-    adjustorExtension: String;
+    attorney: String;
     dateEntered: Date;
     eligibilityTermDate: Date;
-    adjustorFaxNumber: String;
     flex2: String;
     address1: string;
     address2: string;
@@ -33,6 +31,7 @@ export class Claim {
     stateAbbreviation: string;
     postalCode: any;
     adjustorId: number;
+    attorneyId: number;
     payorId: number;
     stateId: number;
     selected: boolean;
@@ -57,8 +56,9 @@ export class Claim {
     editing: Boolean = false;
     states: { stateId: number, stateName: string}[] = [];
     constructor(claimId: Number, claimNumber: Number, dateOfBirth: Date, injuryDate: Date,
-        gender: String, carrier: String, adjustor: String, adjustorPhoneNumber: String, dateEntered: Date, adjustorFaxNumber: String, name?: String, firstName?: String, lastName?: String, flex2?: String, eligibilityTermDate?: Date,
-        address1?: string, address2?: string, city?: string, stateAbbreviation?: string,  postalCode?: any, genders?: any, adjustorExtension?: string) {
+        gender: String, carrier: String, adjustor: String, attorney: String, dateEntered: Date, name?: String, firstName?: String,
+        lastName?: String, flex2?: String, eligibilityTermDate?: Date, address1?: string, address2?: string,
+        city?: string, stateAbbreviation?: string,  postalCode?: any, genders?: any) {
         this.claimId = claimId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -75,12 +75,10 @@ export class Claim {
         this.postalCode = postalCode;
         this.carrier = carrier;
         this.adjustor = adjustor;
-        this.adjustorPhoneNumber = adjustorPhoneNumber;
+        this.attorney = attorney;
         this.dateEntered = dateEntered;
-        this.adjustorFaxNumber = adjustorFaxNumber;
         this.eligibilityTermDate = eligibilityTermDate;
         this.genders = genders;
-        this.adjustorExtension = adjustorExtension;
     }
 
     setPrescription(prescription: Array<Prescription>) {
