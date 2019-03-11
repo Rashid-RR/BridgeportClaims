@@ -1,0 +1,156 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [API_SPOT2000].[SPDashboard_EmailTrackingMessage_Split]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [API_SPOT2000].[SPDashboard_EmailTrackingMessage_Split]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>3/11/2019 10:32 AM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">OBJECT_ID</td>
+        <td colspan="1">OBJECT_ID('tempdb..#EmailTrackingMessageDetails')</td>
+        <td>2</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">One-part names</td>
+        <td colspan="1">#EmailTrackingMessageDetails</td>
+        <td>7</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">EmailTrackingMessage WITH (NOLOCK)</td>
+        <td>9</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">ClientAccount WITH (NOLOCK)</td>
+        <td>10</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#EmailTrackingMessageDetails AS EmailTrackingMessage WITH (NOLOCK)</td>
+        <td>25</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">ClientAccountAward WITH (NOLOCK)</td>
+        <td>28</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">ClientAccountAward WITH (NOLOCK)</td>
+        <td>36</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">InvoiceCoupon WITH (NOLOCK)</td>
+        <td>37</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">Invoice WITH (NOLOCK)</td>
+        <td>38</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">NOLOCK</td>
+        <td colspan="1">NOLOCK</td>
+        <td>9</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>10</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>25</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>28</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>36</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>37</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>38</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">Table-valued functions</td>
+        <td colspan="1">dbo.fnGUIDListToTable(@AccountNodeIDs) AS IDs</td>
+        <td>11</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">CASE</td>
+        <td colspan="1">CASE WHEN SentDate IS NOT NULL THEN SentDate ELSE FailedDate END</td>
+        <td>46</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN SentDate IS NOT NULL THEN SentDate ELSE FailedDate END</td>
+        <td>16</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN EmailTrackingMessage.SentDate IS NOT NULL THEN 1 ELSE 0 END</td>
+        <td>17</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN EmailTrackingMessage.FailedDate IS NOT NULL THEN 1 ELSE 0 END</td>
+        <td>18</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN EmailTrackingMessage.OpenedDate IS NOT NULL THEN 1 ELSE 0 END</td>
+        <td>19</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN ClientAccountAward.RedemptionDateTime IS NOT NULL
+          AND Redeemed = 1 THEN 1 ELSE 0 END</td>
+        <td>26</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN ClientAccountAward.InstanceID IS NOT NULL THEN 1 ELSE 0 END</td>
+        <td>27</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN SentDate IS NOT NULL THEN SentDate ELSE FailedDate END</td>
+        <td>32</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN SentDate IS NOT NULL THEN SentDate ELSE FailedDate END</td>
+        <td>41</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN SentDate IS NOT NULL THEN SentDate ELSE FailedDate END</td>
+        <td>44</td>
+      </tr>
+    </table>
+  </body>
+</html>

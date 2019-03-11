@@ -1,0 +1,339 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [API_SPOT2000].[SPManifest_RetrieveManifestList]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [API_SPOT2000].[SPManifest_RetrieveManifestList]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>3/11/2019 10:30 AM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SET OPTION ON</td>
+        <td colspan="1">SET NOCOUNT ON</td>
+        <td>2</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">DISTINCT</td>
+        <td colspan="1">Count(DISTINCT ManifestHistoryStop.StopNumber)</td>
+        <td>26</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">Count(DISTINCT ManifestHistoryStop.InstanceNumber)</td>
+        <td>27</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">Count(DISTINCT ManifestHistoryInvoice.InvoiceID)</td>
+        <td>28</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">Count(DISTINCT ManifestHistoryStop.StopNumber)</td>
+        <td>103</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">Count(DISTINCT ManifestHistoryStop.InstanceNumber)</td>
+        <td>104</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">Count(DISTINCT ManifestHistoryInvoice.InvoiceID)</td>
+        <td>105</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">CASE</td>
+        <td colspan="1">CASE WHEN ManifestHistory.SubsetType = 'T' THEN TS.TimeSpecifier ELSE '' END</td>
+        <td>51</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN ManifestHistory.SubsetType = 'T' THEN TS.TimeSpecifier ELSE '' END</td>
+        <td>127</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">APPLY</td>
+        <td colspan="1">[Route] WITH (NOLOCK)
+INNER JOIN
+dbo.fnGUIDListToTable(@RouteIDList) AS RIDS
+ON RIDS.ID = [Route].InstanceID
+INNER JOIN
+ESM_SPAccountNode AS SPAN WITH (NOLOCK)
+ON SPAN.InstanceID = [Route].SPAccountNodeID
+   AND (@StoreID IS NULL
+        OR @StoreID = [Route].SPAccountNodeID)
+INNER JOIN
+ManifestHistory WITH (NOLOCK)
+ON ManifestHistory.SPAccountNodeID = [Route].SPAccountNodeID
+   AND ManifestHistory.RouteName = [Route].RouteName
+   AND ManifestHistory.ManifestDateTime &gt;= @StartDate
+   AND ManifestHistory.ManifestDateTime &lt; @EndDate
+   AND IsNull(ManifestHistory.Aborted, 0) = 0
+   AND ManifestHistory.SubsetType IN ('N', 'T', 'S')
+LEFT OUTER JOIN
+MRSession WITH (NOLOCK)
+ON MRSession.ManifestID = ManifestHistory.InstanceID
+LEFT OUTER JOIN
+Setting AS Vehicle WITH (NOLOCK)
+ON Vehicle.InstanceID = MRSession.VehicleID
+LEFT OUTER JOIN
+ESM_SPWorkstation AS SPW WITH (NOLOCK)
+ON SPW.InstanceID = MRSession.SPWorkstationID
+LEFT OUTER JOIN
+ESM_SPUser AS SPU WITH (NOLOCK)
+ON SPU.InstanceID = MRSession.SPUserID OUTER APPLY (SELECT   TOP 1 TimeSpecifier
+                                                    FROM     ManifestHistoryStop WITH (NOLOCK)
+                                                    WHERE    ManifestHistoryStop.ManifestID = ManifestHistory.InstanceID
+                                                    ORDER BY ManifestHistoryStop.InstanceNumber) AS TS</td>
+        <td>63</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">[Route] WITH (NOLOCK)
+INNER JOIN
+ESM_SPAccountNode AS SPAN WITH (NOLOCK)
+ON SPAN.InstanceID = [Route].SPAccountNodeID
+   AND (@StoreID IS NULL
+        OR @StoreID = [Route].SPAccountNodeID)
+INNER JOIN
+ManifestHistory WITH (NOLOCK)
+ON ManifestHistory.SPAccountNodeID = [Route].SPAccountNodeID
+   AND ManifestHistory.RouteName = [Route].RouteName
+   AND ManifestHistory.ManifestDateTime &gt;= @StartDate
+   AND ManifestHistory.ManifestDateTime &lt; @EndDate
+   AND IsNull(ManifestHistory.Aborted, 0) = 0
+   AND ManifestHistory.SubsetType IN ('N', 'T', 'S')
+LEFT OUTER JOIN
+MRSession WITH (NOLOCK)
+ON MRSession.ManifestID = ManifestHistory.InstanceID
+LEFT OUTER JOIN
+Setting AS Vehicle WITH (NOLOCK)
+ON Vehicle.InstanceID = MRSession.VehicleID
+LEFT OUTER JOIN
+ESM_SPWorkstation AS SPW WITH (NOLOCK)
+ON SPW.InstanceID = MRSession.SPWorkstationID
+LEFT OUTER JOIN
+ESM_SPUser AS SPU WITH (NOLOCK)
+ON SPU.InstanceID = MRSession.SPUserID OUTER APPLY (SELECT   TOP 1 TimeSpecifier
+                                                    FROM     ManifestHistoryStop WITH (NOLOCK)
+                                                    WHERE    ManifestHistoryStop.ManifestID = ManifestHistory.InstanceID
+                                                    ORDER BY ManifestHistoryStop.InstanceNumber) AS TS</td>
+        <td>139</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">One-part names</td>
+        <td colspan="1">[Route] WITH (NOLOCK)</td>
+        <td>63</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">ESM_SPAccountNode AS SPAN WITH (NOLOCK)</td>
+        <td>65</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">ManifestHistory WITH (NOLOCK)</td>
+        <td>66</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">MRSession WITH (NOLOCK)</td>
+        <td>71</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">Setting AS Vehicle WITH (NOLOCK)</td>
+        <td>72</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">ESM_SPWorkstation AS SPW WITH (NOLOCK)</td>
+        <td>73</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">ESM_SPUser AS SPU WITH (NOLOCK)</td>
+        <td>74</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">ManifestHistoryStop WITH (NOLOCK)</td>
+        <td>75</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">ManifestHistoryStop WITH (NOLOCK)</td>
+        <td>81</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">ManifestHistoryInvoice WITH (NOLOCK)</td>
+        <td>82</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">[Route] WITH (NOLOCK)</td>
+        <td>139</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">ESM_SPAccountNode AS SPAN WITH (NOLOCK)</td>
+        <td>140</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">ManifestHistory WITH (NOLOCK)</td>
+        <td>141</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">MRSession WITH (NOLOCK)</td>
+        <td>146</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">Setting AS Vehicle WITH (NOLOCK)</td>
+        <td>147</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">ESM_SPWorkstation AS SPW WITH (NOLOCK)</td>
+        <td>148</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">ESM_SPUser AS SPU WITH (NOLOCK)</td>
+        <td>149</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">ManifestHistoryStop WITH (NOLOCK)</td>
+        <td>150</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">ManifestHistoryStop WITH (NOLOCK)</td>
+        <td>156</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">ManifestHistoryInvoice WITH (NOLOCK)</td>
+        <td>157</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">NOLOCK</td>
+        <td colspan="1">NOLOCK</td>
+        <td>63</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>65</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>66</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>71</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>72</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>73</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>74</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>75</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>81</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>82</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>139</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>140</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>141</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>146</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>147</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>148</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>149</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>150</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>156</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>157</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">Table-valued functions</td>
+        <td colspan="1">dbo.fnGUIDListToTable(@RouteIDList) AS RIDS</td>
+        <td>64</td>
+      </tr>
+    </table>
+  </body>
+</html>

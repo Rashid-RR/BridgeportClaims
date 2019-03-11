@@ -1,0 +1,163 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [API_SPOT2000].[SPReport_AutodialCRMEntries]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [API_SPOT2000].[SPReport_AutodialCRMEntries]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>3/11/2019 10:32 AM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">CASE</td>
+        <td colspan="1">CASE Specifier1 WHEN 'RRCL' THEN '(' + STUFF(STUFF(RR.Phone, 7, 0, '-'), 4, 0, ') ') WHEN 'ORCL' THEN '(' + STUFF(STUFF(RR.Phone, 7, 0, '-'), 4, 0, ') ') WHEN '14IN' THEN '(' + STUFF(STUFF(LFP.Phone, 7, 0, '-'), 4, 0, ') ') WHEN '30IN' THEN '(' + STUFF(STUFF(LFP.Phone, 7, 0, '-'), 4, 0, ') ') WHEN '60IN' THEN '(' + STUFF(STUFF(LFP.Phone, 7, 0, '-'), 4, 0, ') ') WHEN '90IN' THEN '(' + STUFF(STUFF(LFP.Phone, 7, 0, '-'), 4, 0, ') ') END</td>
+        <td>3</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE Specifier1 WHEN 'RRCL' THEN 'Route Reminder' WHEN 'ORCL' THEN 'OnDemand Route Reminder' WHEN '14IN' THEN '14 Day Inventory Reminder' WHEN '30IN' THEN '30 Day Inventory Reminder' WHEN '60IN' THEN '60 Day Inventory Reminder' WHEN '90IN' THEN '90 Day Inventory Reminder' END</td>
+        <td>13</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE Specifier1 WHEN 'RRCL' THEN ClientAccount.RouteName WHEN 'ORCL' THEN ClientAccount.RouteName ELSE ESM_SPAccountNode.Name END</td>
+        <td>21</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">STUFF</td>
+        <td colspan="1">STUFF(STUFF(RR.Phone, 7, 0, '-'), 4, 0, ') ')</td>
+        <td>4</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">STUFF(RR.Phone, 7, 0, '-')</td>
+        <td>4</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">STUFF(STUFF(RR.Phone, 7, 0, '-'), 4, 0, ') ')</td>
+        <td>5</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">STUFF(RR.Phone, 7, 0, '-')</td>
+        <td>5</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">STUFF(STUFF(LFP.Phone, 7, 0, '-'), 4, 0, ') ')</td>
+        <td>6</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">STUFF(LFP.Phone, 7, 0, '-')</td>
+        <td>6</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">STUFF(STUFF(LFP.Phone, 7, 0, '-'), 4, 0, ') ')</td>
+        <td>7</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">STUFF(LFP.Phone, 7, 0, '-')</td>
+        <td>7</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">STUFF(STUFF(LFP.Phone, 7, 0, '-'), 4, 0, ') ')</td>
+        <td>8</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">STUFF(LFP.Phone, 7, 0, '-')</td>
+        <td>8</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">STUFF(STUFF(LFP.Phone, 7, 0, '-'), 4, 0, ') ')</td>
+        <td>9</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">STUFF(LFP.Phone, 7, 0, '-')</td>
+        <td>9</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">APPLY</td>
+        <td colspan="1">ClientAccountEvent WITH (NOLOCK)
+INNER JOIN
+ClientAccount WITH (NOLOCK)
+ON ClientAccount.InstanceID = ClientAccountEvent.ClientAccountID
+INNER JOIN
+ESM_SPAccountNode WITH (NOLOCK)
+ON ClientAccount.SPAccountNodeID = ESM_SPAccountNode.InstanceID OUTER APPLY (SELECT MethodName,
+                                                                                    Phone
+                                                                             FROM   dbo.GetClientNotificationPHoneList('Route Reminder', ClientAccount.InstanceID)) AS RR OUTER APPLY (SELECT MethodName,
+                                                                                                                                                                                              Phone
+                                                                                                                                                                                       FROM   dbo.GetClientNotificationPHoneList('Late For Pickup', ClientAccount.InstanceID)) AS LFP</td>
+        <td>31</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">ClientAccountEvent WITH (NOLOCK)
+INNER JOIN
+ClientAccount WITH (NOLOCK)
+ON ClientAccount.InstanceID = ClientAccountEvent.ClientAccountID
+INNER JOIN
+ESM_SPAccountNode WITH (NOLOCK)
+ON ClientAccount.SPAccountNodeID = ESM_SPAccountNode.InstanceID OUTER APPLY (SELECT MethodName,
+                                                                                    Phone
+                                                                             FROM   dbo.GetClientNotificationPHoneList('Route Reminder', ClientAccount.InstanceID)) AS RR</td>
+        <td>31</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">One-part names</td>
+        <td colspan="1">ClientAccountEvent WITH (NOLOCK)</td>
+        <td>31</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">ClientAccount WITH (NOLOCK)</td>
+        <td>32</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">ESM_SPAccountNode WITH (NOLOCK)</td>
+        <td>33</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">NOLOCK</td>
+        <td colspan="1">NOLOCK</td>
+        <td>31</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>32</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>33</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">Table-valued functions</td>
+        <td colspan="1">dbo.GetClientNotificationPHoneList('Route Reminder', ClientAccount.InstanceID)</td>
+        <td>34</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">dbo.GetClientNotificationPHoneList('Late For Pickup', ClientAccount.InstanceID)</td>
+        <td>35</td>
+      </tr>
+    </table>
+  </body>
+</html>

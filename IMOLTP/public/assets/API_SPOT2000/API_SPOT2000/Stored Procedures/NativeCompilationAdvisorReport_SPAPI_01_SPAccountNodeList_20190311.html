@@ -1,0 +1,198 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [API_SPOT2000].[SPAPI_01_SPAccountNodeList]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [API_SPOT2000].[SPAPI_01_SPAccountNodeList]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>3/11/2019 10:32 AM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SET OPTION ON</td>
+        <td colspan="1">SET NOCOUNT ON</td>
+        <td>2</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">CASE</td>
+        <td colspan="1">CASE WHEN IsNull(@UsePublicFields, 0) = 0
+          OR IsNull(SPAN.ExcludeStoreOnWeb, 0) = 0 THEN 0 ELSE 1 END</td>
+        <td>4</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN IsNull(@UsePublicFields, 0) = 0
+          OR IsNull(SPAN.PublicDisplayName, '') = '' THEN SPAN.Name ELSE SPAN.PublicDisplayName END</td>
+        <td>6</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN IsNull(@UsePublicFields, 0) = 0
+          OR IsNull(SPAN.ExcludeContactOnWeb, 0) = 0 THEN SPAN.ContactName ELSE '' END</td>
+        <td>12</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN Routes.Number &gt; 0 THEN 1 ELSE 0 END</td>
+        <td>33</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN CustomerRoutes.Number &gt; 0 THEN 1 ELSE 0 END</td>
+        <td>34</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN BusinessRoutes.Number &gt; 0 THEN 1 ELSE 0 END</td>
+        <td>35</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">APPLY</td>
+        <td colspan="1">ESM_SPAccountNode AS SPAN WITH (NOLOCK)
+INNER JOIN
+dbo.fnSPAccountNodesByGroupID(@SPAccountID, @RetailBrandID, NULL) AS BRAND
+ON BRAND.SPAccountNodeID = SPAN.InstanceID
+LEFT OUTER JOIN
+ESM_SPAccountNodeAddress AS SAddrP WITH (NOLOCK)
+ON SAddrP.SPAccountNodeID = SPAN.InstanceID
+   AND SAddrP.AddressTypeID = 188
+LEFT OUTER JOIN
+ESM_SPAccountNodeAddress AS SAddrM WITH (NOLOCK)
+ON SAddrM.SPAccountNodeID = SPAN.InstanceID
+   AND SAddrM.AddressTypeID = 216 OUTER APPLY (SELECT COUNT(*) AS Number
+                                               FROM   Route WITH (NOLOCK)
+                                               WHERE  Route.SPAccountNodeID = SPAN.InstanceID
+                                                      AND Route.Active = 1
+                                                      AND Route.Deleted = 0) AS Routes OUTER APPLY (SELECT COUNT(*) AS Number
+                                                                                                    FROM   Route WITH (NOLOCK)
+                                                                                                    WHERE  Route.SPAccountNodeID = SPAN.InstanceID
+                                                                                                           AND Route.Active = 1
+                                                                                                           AND Route.Deleted = 0
+                                                                                                           AND Route.CustomerType IN ('Customer', 'Mixed')) AS CustomerRoutes OUTER APPLY (SELECT COUNT(*) AS Number
+                                                                                                                                                                                           FROM   Route WITH (NOLOCK)
+                                                                                                                                                                                           WHERE  Route.SPAccountNodeID = SPAN.InstanceID
+                                                                                                                                                                                                  AND Route.Active = 1
+                                                                                                                                                                                                  AND Route.Deleted = 0
+                                                                                                                                                                                                  AND Route.CustomerType IN ('Business', 'Mixed')) AS BusinessRoutes</td>
+        <td>37</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">ESM_SPAccountNode AS SPAN WITH (NOLOCK)
+INNER JOIN
+dbo.fnSPAccountNodesByGroupID(@SPAccountID, @RetailBrandID, NULL) AS BRAND
+ON BRAND.SPAccountNodeID = SPAN.InstanceID
+LEFT OUTER JOIN
+ESM_SPAccountNodeAddress AS SAddrP WITH (NOLOCK)
+ON SAddrP.SPAccountNodeID = SPAN.InstanceID
+   AND SAddrP.AddressTypeID = 188
+LEFT OUTER JOIN
+ESM_SPAccountNodeAddress AS SAddrM WITH (NOLOCK)
+ON SAddrM.SPAccountNodeID = SPAN.InstanceID
+   AND SAddrM.AddressTypeID = 216 OUTER APPLY (SELECT COUNT(*) AS Number
+                                               FROM   Route WITH (NOLOCK)
+                                               WHERE  Route.SPAccountNodeID = SPAN.InstanceID
+                                                      AND Route.Active = 1
+                                                      AND Route.Deleted = 0) AS Routes OUTER APPLY (SELECT COUNT(*) AS Number
+                                                                                                    FROM   Route WITH (NOLOCK)
+                                                                                                    WHERE  Route.SPAccountNodeID = SPAN.InstanceID
+                                                                                                           AND Route.Active = 1
+                                                                                                           AND Route.Deleted = 0
+                                                                                                           AND Route.CustomerType IN ('Customer', 'Mixed')) AS CustomerRoutes</td>
+        <td>37</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">ESM_SPAccountNode AS SPAN WITH (NOLOCK)
+INNER JOIN
+dbo.fnSPAccountNodesByGroupID(@SPAccountID, @RetailBrandID, NULL) AS BRAND
+ON BRAND.SPAccountNodeID = SPAN.InstanceID
+LEFT OUTER JOIN
+ESM_SPAccountNodeAddress AS SAddrP WITH (NOLOCK)
+ON SAddrP.SPAccountNodeID = SPAN.InstanceID
+   AND SAddrP.AddressTypeID = 188
+LEFT OUTER JOIN
+ESM_SPAccountNodeAddress AS SAddrM WITH (NOLOCK)
+ON SAddrM.SPAccountNodeID = SPAN.InstanceID
+   AND SAddrM.AddressTypeID = 216 OUTER APPLY (SELECT COUNT(*) AS Number
+                                               FROM   Route WITH (NOLOCK)
+                                               WHERE  Route.SPAccountNodeID = SPAN.InstanceID
+                                                      AND Route.Active = 1
+                                                      AND Route.Deleted = 0) AS Routes</td>
+        <td>37</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">One-part names</td>
+        <td colspan="1">ESM_SPAccountNode AS SPAN WITH (NOLOCK)</td>
+        <td>37</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">ESM_SPAccountNodeAddress AS SAddrP WITH (NOLOCK)</td>
+        <td>39</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">ESM_SPAccountNodeAddress AS SAddrM WITH (NOLOCK)</td>
+        <td>40</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">Route WITH (NOLOCK)</td>
+        <td>41</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">Route WITH (NOLOCK)</td>
+        <td>42</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">Route WITH (NOLOCK)</td>
+        <td>43</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">NOLOCK</td>
+        <td colspan="1">NOLOCK</td>
+        <td>37</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>39</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>40</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>41</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>42</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>43</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">Table-valued functions</td>
+        <td colspan="1">dbo.fnSPAccountNodesByGroupID(@SPAccountID, @RetailBrandID, NULL) AS BRAND</td>
+        <td>38</td>
+      </tr>
+    </table>
+  </body>
+</html>

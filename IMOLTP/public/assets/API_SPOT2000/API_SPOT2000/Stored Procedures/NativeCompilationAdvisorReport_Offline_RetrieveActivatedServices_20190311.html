@@ -1,0 +1,163 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [API_SPOT2000].[Offline_RetrieveActivatedServices]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [API_SPOT2000].[Offline_RetrieveActivatedServices]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>3/11/2019 10:31 AM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SET OPTION ON</td>
+        <td colspan="1">SET NOCOUNT ON</td>
+        <td>2</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">CASE</td>
+        <td colspan="1">CASE WHEN IsNull(OS.DisableEmailOnFailure, 0) = 0 THEN SPA.TechnicalContact ELSE '' END</td>
+        <td>15</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN IsNull(OS.DisableEmailOnFailure, 0) = 0 THEN SPA.TechnicalContact ELSE '' END</td>
+        <td>38</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">APPLY</td>
+        <td colspan="1">ESM_SPAccountNode AS SPAN WITH (NOLOCK)
+INNER JOIN
+ESM_SPAccount AS SPA WITH (NOLOCK)
+ON SPA.InstanceID = SPAN.SPAccountID
+   AND SPA.InstanceID = @SPAccountID
+INNER JOIN
+OfflineService AS OS WITH (NOLOCK)
+ON OS.ServiceScope = 'S'
+   AND OS.ServiceEnabled &lt;&gt; 0
+   AND (OS.TriggerTime1 &lt;&gt; ''
+        OR OS.TriggerTime2 &lt;&gt; ''
+        OR OS.TriggerTime3 &lt;&gt; '')
+LEFT OUTER JOIN
+OfflineServiceActivity AS OSA WITH (NOLOCK)
+ON OSA.OfflineServiceID = OS.InstanceID
+   AND OSA.SPAccountOrNodeID = SPAN.InstanceID OUTER APPLY (SELECT   TOP 1 TimeZoneName
+                                                            FROM     ESM_SPAccountNode AS SPAN
+                                                            WHERE    SPAN.SPAccountID = @SPAccountID
+                                                                     AND SPAN.NodeTypeID = 117
+                                                                     AND SPAN.TimeZoneOffset IS NOT NULL
+                                                                     AND SPAN.TimeZoneName IS NOT NULL
+                                                            ORDER BY SPAN.TimeZoneOffset DESC) AS TZI</td>
+        <td>17</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">ESM_SPAccount AS SPA WITH (NOLOCK)
+INNER JOIN
+OfflineService AS OS WITH (NOLOCK)
+ON OS.ServiceScope = 'C'
+   AND OS.ServiceEnabled &lt;&gt; 0
+   AND (OS.TriggerTime1 &lt;&gt; ''
+        OR OS.TriggerTime2 &lt;&gt; ''
+        OR OS.TriggerTime3 &lt;&gt; '')
+LEFT OUTER JOIN
+OfflineServiceActivity AS OSA WITH (NOLOCK)
+ON OSA.OfflineServiceID = OS.InstanceID
+   AND OSA.SPAccountOrNodeID = SPA.InstanceID OUTER APPLY (SELECT   TOP 1 TimeZoneName
+                                                           FROM     ESM_SPAccountNode AS SPAN
+                                                           WHERE    SPAN.SPAccountID = @SPAccountID
+                                                                    AND SPAN.NodeTypeID = 117
+                                                                    AND SPAN.TimeZoneOffset IS NOT NULL
+                                                                    AND SPAN.TimeZoneName IS NOT NULL
+                                                           ORDER BY SPAN.TimeZoneOffset DESC) AS TZI</td>
+        <td>40</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">One-part names</td>
+        <td colspan="1">ESM_SPAccountNode AS SPAN WITH (NOLOCK)</td>
+        <td>17</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">ESM_SPAccount AS SPA WITH (NOLOCK)</td>
+        <td>18</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">OfflineService AS OS WITH (NOLOCK)</td>
+        <td>19</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">OfflineServiceActivity AS OSA WITH (NOLOCK)</td>
+        <td>20</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">ESM_SPAccountNode AS SPAN</td>
+        <td>21</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">ESM_SPAccount AS SPA WITH (NOLOCK)</td>
+        <td>40</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">OfflineService AS OS WITH (NOLOCK)</td>
+        <td>41</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">OfflineServiceActivity AS OSA WITH (NOLOCK)</td>
+        <td>42</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">ESM_SPAccountNode AS SPAN</td>
+        <td>43</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">NOLOCK</td>
+        <td colspan="1">NOLOCK</td>
+        <td>17</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>18</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>19</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>20</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>40</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>41</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>42</td>
+      </tr>
+    </table>
+  </body>
+</html>

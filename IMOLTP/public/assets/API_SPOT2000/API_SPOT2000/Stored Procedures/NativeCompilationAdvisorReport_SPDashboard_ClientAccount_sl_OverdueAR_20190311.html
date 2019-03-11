@@ -1,0 +1,232 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [API_SPOT2000].[SPDashboard_ClientAccount_sl_OverdueAR]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [API_SPOT2000].[SPDashboard_ClientAccount_sl_OverdueAR]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>3/11/2019 10:31 AM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">One-part names</td>
+        <td colspan="1">ClientAccount AS CA WITH (NOLOCK)</td>
+        <td>7</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">GLEntry AS G WITH (NOLOCK)</td>
+        <td>8</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">RouteStopClientAccount AS RSCA WITH (NOLOCK)</td>
+        <td>10</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">RouteStop AS RS WITH (NOLOCK)</td>
+        <td>11</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">t2</td>
+        <td>63</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">[Statement] AS s WITH (NOLOCK)</td>
+        <td>35</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">ClientAccount AS CA WITH (NOLOCK)</td>
+        <td>36</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">RouteStopClientAccount AS RSCA WITH (NOLOCK)</td>
+        <td>37</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">RouteStop AS RS WITH (NOLOCK)</td>
+        <td>38</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">t</td>
+        <td>56</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">GLEntry AS G WITH (NOLOCK)</td>
+        <td>57</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">NOLOCK</td>
+        <td colspan="1">NOLOCK</td>
+        <td>7</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>8</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>10</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>11</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>35</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>36</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>37</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>38</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>57</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">Table-valued functions</td>
+        <td colspan="1">fnRetrieveRouteByBrandStore(@BrandList, @SPAccountNodeIDList, @RouteIDList, @ExcludeSelected, @SPAccountID, 'OTS') AS Selections</td>
+        <td>12</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">dbo.GetNotificationEmailList('Account Activity') AS SP</td>
+        <td>14</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">fnRetrieveRouteByBrandStore(@BrandList, @SPAccountNodeIDList, @RouteIDList, @ExcludeSelected, @SPAccountID, 'OTS') AS Selections</td>
+        <td>39</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">dbo.GetNotificationEmailList('Account Activity') AS SP</td>
+        <td>41</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">CASE</td>
+        <td colspan="1">CASE WHEN CrDr = 'CR' THEN -g.Amount WHEN EntryDateTime &lt; @OverdueDate THEN g.Amount END</td>
+        <td>22</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN CrDr = 'CR' THEN -g.Amount WHEN EntryDateTime &lt; t.OverdueDate THEN g.Amount END</td>
+        <td>51</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">WITH clause</td>
+        <td colspan="1">WITH t
+AS (SELECT CA.InstanceID,
+           ISNULL(SP.EmailAddress, '') AS EmailAddress,
+           CA.SPAccountNodeID,
+           dateadd(day, -@OverduePeriod, (SELECT max(DueDate)
+                                          FROM   [Statement] AS s WITH (NOLOCK)
+                                          WHERE  s.MasterClientAccountId = ca.InstanceID)) AS OverdueDate
+    FROM   ClientAccount AS CA WITH (NOLOCK)
+           LEFT OUTER JOIN
+           RouteStopClientAccount AS RSCA WITH (NOLOCK)
+           ON RSCA.ClientAccountID = CA.InstanceID
+           LEFT OUTER JOIN
+           RouteStop AS RS WITH (NOLOCK)
+           ON RSCA.RouteStopID = RS.InstanceID
+           INNER JOIN
+           fnRetrieveRouteByBrandStore(@BrandList, @SPAccountNodeIDList, @RouteIDList, @ExcludeSelected, @SPAccountID, 'OTS') AS Selections
+           ON Selections.RouteID = ISNULL(RS.RouteID, CA.SPAccountNodeID)
+           LEFT OUTER JOIN
+           dbo.GetNotificationEmailList('Account Activity') AS SP
+           ON CA.InstanceID = SP.ClientAccountID
+    WHERE  CA.ActiveFlag = 1
+           AND AccountTypeID &lt;&gt; 259
+           AND ISNULL(CA.DisableMarketing, 0) &lt;&gt; 1),
+ t2
+AS (SELECT   t.InstanceID,
+             t.EmailAddress,
+             t.SPAccountNodeID,
+             SUM(CASE WHEN CrDr = 'CR' THEN -g.Amount WHEN EntryDateTime &lt; t.OverdueDate THEN g.Amount END) AS Amount
+    FROM     t
+             INNER JOIN
+             GLEntry AS G WITH (NOLOCK)
+             ON G.ClientAccountID = t.InstanceID
+                AND G.ClosedDateTime IS NULL
+                AND G.EntryTypeID IN (294, 296, 297)
+    GROUP BY t.InstanceID, t.EmailAddress, t.SPAccountNodeID)</td>
+        <td>31</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1"> t
+AS (SELECT CA.InstanceID,
+           ISNULL(SP.EmailAddress, '') AS EmailAddress,
+           CA.SPAccountNodeID,
+           dateadd(day, -@OverduePeriod, (SELECT max(DueDate)
+                                          FROM   [Statement] AS s WITH (NOLOCK)
+                                          WHERE  s.MasterClientAccountId = ca.InstanceID)) AS OverdueDate
+    FROM   ClientAccount AS CA WITH (NOLOCK)
+           LEFT OUTER JOIN
+           RouteStopClientAccount AS RSCA WITH (NOLOCK)
+           ON RSCA.ClientAccountID = CA.InstanceID
+           LEFT OUTER JOIN
+           RouteStop AS RS WITH (NOLOCK)
+           ON RSCA.RouteStopID = RS.InstanceID
+           INNER JOIN
+           fnRetrieveRouteByBrandStore(@BrandList, @SPAccountNodeIDList, @RouteIDList, @ExcludeSelected, @SPAccountID, 'OTS') AS Selections
+           ON Selections.RouteID = ISNULL(RS.RouteID, CA.SPAccountNodeID)
+           LEFT OUTER JOIN
+           dbo.GetNotificationEmailList('Account Activity') AS SP
+           ON CA.InstanceID = SP.ClientAccountID
+    WHERE  CA.ActiveFlag = 1
+           AND AccountTypeID &lt;&gt; 259
+           AND ISNULL(CA.DisableMarketing, 0) &lt;&gt; 1)</td>
+        <td>31</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1"> t2
+AS (SELECT   t.InstanceID,
+             t.EmailAddress,
+             t.SPAccountNodeID,
+             SUM(CASE WHEN CrDr = 'CR' THEN -g.Amount WHEN EntryDateTime &lt; t.OverdueDate THEN g.Amount END) AS Amount
+    FROM     t
+             INNER JOIN
+             GLEntry AS G WITH (NOLOCK)
+             ON G.ClientAccountID = t.InstanceID
+                AND G.ClosedDateTime IS NULL
+                AND G.EntryTypeID IN (294, 296, 297)
+    GROUP BY t.InstanceID, t.EmailAddress, t.SPAccountNodeID)</td>
+        <td>47</td>
+      </tr>
+    </table>
+  </body>
+</html>
