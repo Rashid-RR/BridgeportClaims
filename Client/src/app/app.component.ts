@@ -25,7 +25,7 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
 
   }
-  ngOnInit() {
+  ngOnInit() {  
     const user = localStorage.getItem('user');
     if (user !== null && user.length > 0) {
       try {
