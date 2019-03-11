@@ -1,0 +1,636 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [API_SPOT2000].[SPDashboard_ProductionTracScoreCard]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [API_SPOT2000].[SPDashboard_ProductionTracScoreCard]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>3/11/2019 10:30 AM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SET OPTION ON</td>
+        <td colspan="1">SET NOCOUNT ON</td>
+        <td>2</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">@@language</td>
+        <td colspan="1">@@LANGUAGE</td>
+        <td>8</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">CASE</td>
+        <td colspan="1">CASE WHEN DATENAME(dw, PersistenceDateTime) = 'Sunday' THEN PieceCount ELSE 0 END</td>
+        <td>20</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN DATENAME(dw, PersistenceDateTime) = 'Monday' THEN PieceCount ELSE 0 END</td>
+        <td>29</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN DATENAME(dw, PersistenceDateTime) = 'Tuesday' THEN PieceCount ELSE 0 END</td>
+        <td>38</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN DATENAME(dw, PersistenceDateTime) = 'Wednesday' THEN PieceCount ELSE 0 END</td>
+        <td>47</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN DATENAME(dw, PersistenceDateTime) = 'Thursday' THEN PieceCount ELSE 0 END</td>
+        <td>56</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN DATENAME(dw, PersistenceDateTime) = 'Friday' THEN PieceCount ELSE 0 END</td>
+        <td>65</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN DATENAME(dw, PersistenceDateTime) = 'Saturday' THEN PieceCount ELSE 0 END</td>
+        <td>74</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN (SELECT sum(datediff(mi, TimeIn, isnull(TimeOut, @CurrentDate)))
+           FROM   TimeClock AS TC
+                  INNER JOIN
+                  dbo.fnVarcharListToTable(@LaborCategories) AS Categories
+                  ON TC.Category = Categories.Val
+           WHERE  TC.TimeIn BETWEEN @StartDate AND @EndDate) * 60.0 = 0 THEN 0 ELSE CAST (sum(PieceCount) AS MONEY) / (SELECT sum(datediff(mi, TimeIn, isnull(TimeOut, @CurrentDate)))
+                                                                                                                       FROM   TimeClock AS TC
+                                                                                                                              INNER JOIN
+                                                                                                                              dbo.fnVarcharListToTable(@LaborCategories) AS Categories
+                                                                                                                              ON TC.Category = Categories.Val
+                                                                                                                       WHERE  TC.TimeIn BETWEEN @StartDate AND @EndDate) * 60.0 END</td>
+        <td>86</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN datename(dw, ProcessedDateTime) = 'Sunday'
+          AND InvoiceItemProductionProcess.ProductionProcessID IN (1, 3) THEN 1 ELSE 0 END</td>
+        <td>126</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN datename(dw, ProcessedDateTime) = 'Sunday'
+          AND InvoiceItemProductionProcess.ProductionProcessID = 1 THEN 1 ELSE 0 END</td>
+        <td>127</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN datename(dw, ProcessedDateTime) = 'Sunday'
+          AND InvoiceItemProductionProcess.ProductionProcessID = 2 THEN 1 ELSE 0 END</td>
+        <td>128</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN datename(dw, ProcessedDateTime) = 'Monday'
+          AND InvoiceItemProductionProcess.ProductionProcessID IN (1, 3) THEN 1 ELSE 0 END</td>
+        <td>136</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN datename(dw, ProcessedDateTime) = 'Monday'
+          AND InvoiceItemProductionProcess.ProductionProcessID = 1 THEN 1 ELSE 0 END</td>
+        <td>137</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN datename(dw, ProcessedDateTime) = 'Monday'
+          AND InvoiceItemProductionProcess.ProductionProcessID = 2 THEN 1 ELSE 0 END</td>
+        <td>138</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN datename(dw, ProcessedDateTime) = 'Tuesday'
+          AND InvoiceItemProductionProcess.ProductionProcessID IN (1, 3) THEN 1 ELSE 0 END</td>
+        <td>146</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN datename(dw, ProcessedDateTime) = 'Tuesday'
+          AND InvoiceItemProductionProcess.ProductionProcessID = 1 THEN 1 ELSE 0 END</td>
+        <td>147</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN datename(dw, ProcessedDateTime) = 'Tuesday'
+          AND InvoiceItemProductionProcess.ProductionProcessID = 2 THEN 1 ELSE 0 END</td>
+        <td>148</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN datename(dw, ProcessedDateTime) = 'Wednesday'
+          AND InvoiceItemProductionProcess.ProductionProcessID IN (1, 3) THEN 1 ELSE 0 END</td>
+        <td>156</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN datename(dw, ProcessedDateTime) = 'Wednesday'
+          AND InvoiceItemProductionProcess.ProductionProcessID = 1 THEN 1 ELSE 0 END</td>
+        <td>157</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN datename(dw, ProcessedDateTime) = 'Wednesday'
+          AND InvoiceItemProductionProcess.ProductionProcessID = 2 THEN 1 ELSE 0 END</td>
+        <td>158</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN datename(dw, ProcessedDateTime) = 'Thursday'
+          AND InvoiceItemProductionProcess.ProductionProcessID IN (1, 3) THEN 1 ELSE 0 END</td>
+        <td>166</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN datename(dw, ProcessedDateTime) = 'Thursday'
+          AND InvoiceItemProductionProcess.ProductionProcessID = 1 THEN 1 ELSE 0 END</td>
+        <td>167</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN datename(dw, ProcessedDateTime) = 'Thursday'
+          AND InvoiceItemProductionProcess.ProductionProcessID = 2 THEN 1 ELSE 0 END</td>
+        <td>168</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN datename(dw, ProcessedDateTime) = 'Friday'
+          AND InvoiceItemProductionProcess.ProductionProcessID IN (1, 3) THEN 1 ELSE 0 END</td>
+        <td>176</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN datename(dw, ProcessedDateTime) = 'Friday'
+          AND InvoiceItemProductionProcess.ProductionProcessID = 1 THEN 1 ELSE 0 END</td>
+        <td>177</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN datename(dw, ProcessedDateTime) = 'Friday'
+          AND InvoiceItemProductionProcess.ProductionProcessID = 2 THEN 1 ELSE 0 END</td>
+        <td>178</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN datename(dw, ProcessedDateTime) = 'Saturday'
+          AND InvoiceItemProductionProcess.ProductionProcessID IN (1, 3) THEN 1 ELSE 0 END</td>
+        <td>186</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN datename(dw, ProcessedDateTime) = 'Saturday'
+          AND InvoiceItemProductionProcess.ProductionProcessID = 1 THEN 1 ELSE 0 END</td>
+        <td>187</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN datename(dw, ProcessedDateTime) = 'Saturday'
+          AND InvoiceItemProductionProcess.ProductionProcessID = 2 THEN 1 ELSE 0 END</td>
+        <td>188</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN InvoiceItemProductionProcess.ProductionProcessID = 1 THEN 1 ELSE 0 END</td>
+        <td>196</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN InvoiceItemProductionProcess.ProductionProcessID = 2 THEN 1 ELSE 0 END</td>
+        <td>197</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN (SELECT sum(datediff(mi, TimeIn, isnull(TimeOut, @CurrentDate)))
+           FROM   TimeClock AS TC
+           WHERE  TC.SPUSerID = SPUser.InstanceID
+                  AND TC.TimeIn BETWEEN @StartDate AND @EndDate
+                  AND (TC.Category = 'Production'
+                       OR TC.PTProductionFlag = 1)) * 60.0 = 0 THEN 0 ELSE CAST (sum(CASE WHEN ProductionProcessID IN (1, 3) THEN 1 ELSE 0 END) AS MONEY) / (SELECT sum(datediff(mi, TimeIn, isnull(TimeOut, @CurrentDate)))
+                                                                                                                                                             FROM   TimeClock AS TC
+                                                                                                                                                             WHERE  TC.SPUSerID = SPUser.InstanceID
+                                                                                                                                                                    AND TC.TimeIn BETWEEN @StartDate AND @EndDate
+                                                                                                                                                                    AND (TC.Category = 'Production'
+                                                                                                                                                                         OR TC.PTProductionFlag = 1)) * 60.0 END</td>
+        <td>199</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN ProductionProcessID IN (1, 3) THEN 1 ELSE 0 END</td>
+        <td>207</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">DATENAME</td>
+        <td colspan="1">DATENAME(dw, PersistenceDateTime)</td>
+        <td>20</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">datename(dw, TC.TimeIn)</td>
+        <td>27</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">DATENAME(dw, PersistenceDateTime)</td>
+        <td>29</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">datename(dw, TC.TimeIn)</td>
+        <td>36</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">DATENAME(dw, PersistenceDateTime)</td>
+        <td>38</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">datename(dw, TC.TimeIn)</td>
+        <td>45</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">DATENAME(dw, PersistenceDateTime)</td>
+        <td>47</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">datename(dw, TC.TimeIn)</td>
+        <td>54</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">DATENAME(dw, PersistenceDateTime)</td>
+        <td>56</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">datename(dw, TC.TimeIn)</td>
+        <td>63</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">DATENAME(dw, PersistenceDateTime)</td>
+        <td>65</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">datename(dw, TC.TimeIn)</td>
+        <td>72</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">DATENAME(dw, PersistenceDateTime)</td>
+        <td>74</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">datename(dw, TC.TimeIn)</td>
+        <td>81</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">datename(dw, ProcessedDateTime)</td>
+        <td>126</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">datename(dw, ProcessedDateTime)</td>
+        <td>127</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">datename(dw, ProcessedDateTime)</td>
+        <td>128</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">datename(dw, TC.TimeIn)</td>
+        <td>134</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">datename(dw, ProcessedDateTime)</td>
+        <td>136</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">datename(dw, ProcessedDateTime)</td>
+        <td>137</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">datename(dw, ProcessedDateTime)</td>
+        <td>138</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">datename(dw, TC.TimeIn)</td>
+        <td>144</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">datename(dw, ProcessedDateTime)</td>
+        <td>146</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">datename(dw, ProcessedDateTime)</td>
+        <td>147</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">datename(dw, ProcessedDateTime)</td>
+        <td>148</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">datename(dw, TC.TimeIn)</td>
+        <td>154</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">datename(dw, ProcessedDateTime)</td>
+        <td>156</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">datename(dw, ProcessedDateTime)</td>
+        <td>157</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">datename(dw, ProcessedDateTime)</td>
+        <td>158</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">datename(dw, TC.TimeIn)</td>
+        <td>164</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">datename(dw, ProcessedDateTime)</td>
+        <td>166</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">datename(dw, ProcessedDateTime)</td>
+        <td>167</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">datename(dw, ProcessedDateTime)</td>
+        <td>168</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">datename(dw, TC.TimeIn)</td>
+        <td>174</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">datename(dw, ProcessedDateTime)</td>
+        <td>176</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">datename(dw, ProcessedDateTime)</td>
+        <td>177</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">datename(dw, ProcessedDateTime)</td>
+        <td>178</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">datename(dw, TC.TimeIn)</td>
+        <td>184</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">datename(dw, ProcessedDateTime)</td>
+        <td>186</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">datename(dw, ProcessedDateTime)</td>
+        <td>187</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">datename(dw, ProcessedDateTime)</td>
+        <td>188</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">datename(dw, TC.TimeIn)</td>
+        <td>194</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">One-part names</td>
+        <td colspan="1">TimeClock AS TC</td>
+        <td>24</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">TimeClock AS TC</td>
+        <td>33</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">TimeClock AS TC</td>
+        <td>42</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">TimeClock AS TC</td>
+        <td>51</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">TimeClock AS TC</td>
+        <td>60</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">TimeClock AS TC</td>
+        <td>69</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">TimeClock AS TC</td>
+        <td>78</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">TimeClock AS TC</td>
+        <td>89</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">TimeClock AS TC</td>
+        <td>99</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">TimeClock AS TC</td>
+        <td>105</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">InvoiceHistory WITH (NOLOCK)</td>
+        <td>109</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">TimeClock AS TC</td>
+        <td>130</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">TimeClock AS TC</td>
+        <td>140</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">TimeClock AS TC</td>
+        <td>150</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">TimeClock AS TC</td>
+        <td>160</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">TimeClock AS TC</td>
+        <td>170</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">TimeClock AS TC</td>
+        <td>180</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">TimeClock AS TC</td>
+        <td>190</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">TimeClock AS TC</td>
+        <td>202</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">TimeClock AS TC</td>
+        <td>212</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">TimeClock AS TC</td>
+        <td>218</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">InvoiceItemProductionProcess WITH (NOLOCK)</td>
+        <td>224</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">ESM_SPUser AS SPUser</td>
+        <td>225</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">[InvoiceItem] AS I WITH (NOLOCK)</td>
+        <td>226</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">Table-valued functions</td>
+        <td colspan="1">dbo.fnVarcharListToTable(@LaborCategories) AS Categories</td>
+        <td>25</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">dbo.fnVarcharListToTable(@LaborCategories) AS Categories</td>
+        <td>34</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">dbo.fnVarcharListToTable(@LaborCategories) AS Categories</td>
+        <td>43</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">dbo.fnVarcharListToTable(@LaborCategories) AS Categories</td>
+        <td>52</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">dbo.fnVarcharListToTable(@LaborCategories) AS Categories</td>
+        <td>61</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">dbo.fnVarcharListToTable(@LaborCategories) AS Categories</td>
+        <td>70</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">dbo.fnVarcharListToTable(@LaborCategories) AS Categories</td>
+        <td>79</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">dbo.fnVarcharListToTable(@LaborCategories) AS Categories</td>
+        <td>90</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">dbo.fnVarcharListToTable(@LaborCategories) AS Categories</td>
+        <td>100</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">dbo.fnVarcharListToTable(@LaborCategories) AS Categories</td>
+        <td>106</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">NOLOCK</td>
+        <td colspan="1">NOLOCK</td>
+        <td>109</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>224</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>226</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>231</td>
+      </tr>
+    </table>
+  </body>
+</html>

@@ -1,0 +1,4 @@
+Failed to generate report for user defined function [SpotDecrypt]
+Property TextBody is not available for UserDefinedFunction '[dbo].[SpotDecrypt]'. This property may not exist for this object, or may not be retrievable due to insufficient access rights. The text is encrypted.
+Failed to generate report for user defined function [SpotEncrypt]
+Property TextBody is not available for UserDefinedFunction '[dbo].[SpotEncrypt]'. This property may not exist for this object, or may not be retrievable due to insufficient access rights. The text is encrypted.

@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [API_SPOT2000].[CCS_RetrieveJSON]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [API_SPOT2000].[CCS_RetrieveJSON]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>3/11/2019 10:30 AM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">*</td>
+        <td colspan="1">SELECT *
+FROM   ESMS_APIStorage WITH (NOLOCK)
+WHERE  SPAccountID = @AccountID
+       AND (ClientAccountID = @ClientAccountID
+            OR ClientAccountID IS NULL)</td>
+        <td>6</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT *
+FROM   ESMS_APIStorage WITH (NOLOCK)
+WHERE  SPAccountID = @AccountID
+       AND (ClientAccountID = @ClientAccountID
+            OR ClientAccountID IS NULL)
+       AND Name = @Name</td>
+        <td>13</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT *
+FROM   ESMS_APIStorage WITH (NOLOCK)
+WHERE  SPAccountNodeGroupID = @SPAccountNodeGroupID
+       AND (ClientAccountID = @ClientAccountID
+            OR ClientAccountID IS NULL)</td>
+        <td>24</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT *
+FROM   ESMS_APIStorage WITH (NOLOCK)
+WHERE  SPAccountNodeGroupID = @SPAccountNodeGroupID
+       AND (ClientAccountID = @ClientAccountID
+            OR ClientAccountID IS NULL)
+       AND Name = @Name</td>
+        <td>31</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">One-part names</td>
+        <td colspan="1">ESMS_APIStorage WITH (NOLOCK)</td>
+        <td>7</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">ESMS_APIStorage WITH (NOLOCK)</td>
+        <td>14</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">ESMS_APIStorage WITH (NOLOCK)</td>
+        <td>25</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">ESMS_APIStorage WITH (NOLOCK)</td>
+        <td>32</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">NOLOCK</td>
+        <td colspan="1">NOLOCK</td>
+        <td>7</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>14</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>25</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>32</td>
+      </tr>
+    </table>
+  </body>
+</html>

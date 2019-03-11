@@ -1,0 +1,765 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [API_SPOT2000].[SPRoute_01_RetrieveLockerCustomers]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [API_SPOT2000].[SPRoute_01_RetrieveLockerCustomers]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>3/11/2019 10:30 AM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SET OPTION ON</td>
+        <td colspan="1">SET NOCOUNT ON</td>
+        <td>2</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">Subquery</td>
+        <td colspan="1">(SELECT *
+ FROM   Invoice WITH (NOLOCK)
+ WHERE  LockerID IS NOT NULL
+        AND RouteID IS NULL
+        AND Invoice.Voided = 0
+        AND Invoice.CurrentStatusID &lt; 130)</td>
+        <td>6</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">(SELECT Invoice.*
+ FROM   Invoice WITH (NOLOCK)
+        INNER JOIN
+        RouteStop WITH (NOLOCK)
+        ON RouteStop.LockerID = Invoice.LockerID
+ WHERE  Invoice.LockerID IS NOT NULL
+        AND Invoice.RouteID IS NOT NULL
+        AND Invoice.Voided = 0
+        AND Invoice.CurrentStatusID &lt; 130
+        AND Invoice.RouteID &lt;&gt; RouteStop.RouteID)</td>
+        <td>20</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">One-part names</td>
+        <td colspan="1">Invoice WITH (NOLOCK)</td>
+        <td>6</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">Invoice</td>
+        <td>8</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">Invoice</td>
+        <td>10</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">RouteStop</td>
+        <td>11</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">Invoice WITH (NOLOCK)</td>
+        <td>20</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">RouteStop WITH (NOLOCK)</td>
+        <td>20</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">Invoice</td>
+        <td>22</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">Invoice</td>
+        <td>24</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">RouteStop</td>
+        <td>25</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">RouteStop AS RS WITH (NOLOCK)</td>
+        <td>97</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">[Route] WITH (NOLOCK)</td>
+        <td>99</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">Locker AS LB WITH (NOLOCK)</td>
+        <td>100</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">Locker AS LU WITH (NOLOCK)</td>
+        <td>105</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">InvoiceLockerEvent AS LE WITH (NOLOCK)</td>
+        <td>106</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">InvoiceLockerEvent AS NXT WITH (NOLOCK)</td>
+        <td>107</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">ClientAccount AS CA WITH (NOLOCK)</td>
+        <td>111</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">ClientAccountAccountsOnFile AS CAF WITH (NOLOCK)</td>
+        <td>112</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">ClientAccountAccountsOnFileTerm AS CAFT WITH (NOLOCK)</td>
+        <td>113</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">RouteServiceWindow AS RSW WITH (NOLOCK)</td>
+        <td>115</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">RouteServiceWindowOverride AS RSWO WITH (NOLOCK)</td>
+        <td>116</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">RouteStop AS RS WITH (NOLOCK)</td>
+        <td>189</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">[Route] WITH (NOLOCK)</td>
+        <td>191</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">Locker AS LB WITH (NOLOCK)</td>
+        <td>192</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">Locker AS LU WITH (NOLOCK)</td>
+        <td>197</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">InvoiceLockerEvent AS LE WITH (NOLOCK)</td>
+        <td>198</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">Invoice AS Inv WITH (NOLOCK)</td>
+        <td>199</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">InvoiceLockerEvent AS NXT WITH (NOLOCK)</td>
+        <td>200</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">ClientAccount AS CA WITH (NOLOCK)</td>
+        <td>204</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">ClientAccountAccountsOnFile AS CAF WITH (NOLOCK)</td>
+        <td>205</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">ClientAccountAccountsOnFileTerm AS CAFT WITH (NOLOCK)</td>
+        <td>206</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">RouteServiceWindow AS RSW WITH (NOLOCK)</td>
+        <td>208</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">RouteServiceWindowOverride AS RSWO WITH (NOLOCK)</td>
+        <td>209</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">RouteStop AS RS WITH (NOLOCK)</td>
+        <td>282</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">[Route] WITH (NOLOCK)</td>
+        <td>284</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">RouteServiceWindow AS RSW WITH (NOLOCK)</td>
+        <td>286</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">RouteServiceWindowOverride AS RSWO WITH (NOLOCK)</td>
+        <td>287</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">Invoice WITH (NOLOCK)</td>
+        <td>295</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">ClientAccount AS CA WITH (NOLOCK)</td>
+        <td>302</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">ClientAccountAccountsOnFile AS CAF WITH (NOLOCK)</td>
+        <td>303</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">ClientAccountAccountsOnFileTerm AS CAFT WITH (NOLOCK)</td>
+        <td>304</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">NOLOCK</td>
+        <td colspan="1">NOLOCK</td>
+        <td>6</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>20</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>20</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>97</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>99</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>100</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>105</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>106</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>107</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>111</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>112</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>113</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>115</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>116</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>189</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>191</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>192</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>197</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>198</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>199</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>200</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>204</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>205</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>206</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>208</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>209</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>282</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>284</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>286</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>287</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>295</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>302</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>303</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>304</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">UPDATE with FROM clause</td>
+        <td colspan="1">
+FROM Invoice
+     INNER JOIN
+     RouteStop
+     ON RouteStop.LockerID = Invoice.LockerID</td>
+        <td>10</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">
+FROM Invoice
+     INNER JOIN
+     RouteStop
+     ON RouteStop.LockerID = Invoice.LockerID</td>
+        <td>24</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">Table-valued functions</td>
+        <td colspan="1">dbo.fnGUIDListToTable(@RouteStopIDList)</td>
+        <td>35</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">ROW_NUMBER</td>
+        <td colspan="1">ROW_NUMBER() OVER (ORDER BY LC.LockerNumber)</td>
+        <td>54</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">ROW_NUMBER() OVER (ORDER BY LC.LockerNumber)</td>
+        <td>146</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">ROW_NUMBER() OVER (ORDER BY CA.Name, CA.InstanceNumber)</td>
+        <td>239</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">OVER</td>
+        <td colspan="1">OVER (ORDER BY LC.LockerNumber)</td>
+        <td>54</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">OVER (ORDER BY LC.LockerNumber)</td>
+        <td>146</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">OVER (ORDER BY CA.Name, CA.InstanceNumber)</td>
+        <td>239</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">CASE</td>
+        <td colspan="1">CASE WHEN IsNull(CA.Locker, '') IN ('Y', 'P') THEN 1 ELSE 0 END</td>
+        <td>77</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN IsNull(CA.Locker, '') IN ('Y', 'P') THEN 1 ELSE 0 END</td>
+        <td>169</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN IsNull(CA.Locker, '') IN ('Y', 'P') THEN 1 ELSE 0 END</td>
+        <td>262</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN Invoice.CurrentStatusID = 128
+          AND Invoice.PromisedDate &gt;= @ServiceDateEnd THEN 1 ELSE 0 END</td>
+        <td>292</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN Invoice.CurrentStatusID = 128
+          AND Invoice.PromisedDate &lt; @ServiceDateEnd THEN 1 ELSE 0 END</td>
+        <td>293</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN Invoice.CurrentStatusID = 129 THEN 1 ELSE 0 END</td>
+        <td>294</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">APPLY</td>
+        <td colspan="1">RouteStop AS RS WITH (NOLOCK)
+INNER JOIN
+@Stops AS SS
+ON SS.ID = RS.InstanceID
+INNER JOIN
+[Route] WITH (NOLOCK)
+ON [Route].InstanceID = RS.RouteID
+   AND [Route].VersionID = @VersionID
+INNER JOIN
+Locker AS LB WITH (NOLOCK)
+ON LB.InstanceID = RS.LockerID OUTER APPLY (SELECT   LU.InstanceID AS LockerID,
+                                                     LU.LocalNodeKey AS LockerNumber,
+                                                     LE.ClientAccountID,
+                                                     Count(LE.InstanceID) AS LockerPickupCount
+                                            FROM     Locker AS LU WITH (NOLOCK)
+                                                     INNER JOIN
+                                                     InvoiceLockerEvent AS LE WITH (NOLOCK)
+                                                     ON LE.LockerID = LU.InstanceID
+                                                        AND LE.EventType = 'D'
+                                                        AND LE.InvoiceID IS NULL
+                                                     LEFT OUTER JOIN
+                                                     InvoiceLockerEvent AS NXT WITH (NOLOCK)
+                                                     ON NXT.LockerID = LE.LockerID
+                                                        AND NXT.ClientAccountID = LE.ClientAccountID
+                                                        AND NXT.InstanceNumber &gt; LE.InstanceNumber
+                                            WHERE    LU.ParentID = LB.InstanceID
+                                                     AND NXT.InstanceID IS NULL
+                                            GROUP BY LU.InstanceID, LU.LocalNodeKey, LE.ClientAccountID) AS LC
+INNER JOIN
+ClientAccount AS CA WITH (NOLOCK)
+ON CA.InstanceID = LC.ClientAccountID
+   AND CA.ActiveFlag &lt;&gt; 0
+LEFT OUTER JOIN
+ClientAccountAccountsOnFile AS CAF WITH (NOLOCK)
+ON CAF.ClientAccountID = CA.InstanceID
+   AND CAF.AccountType = 1
+   AND CAF.AccountOrdinal = 1
+LEFT OUTER JOIN
+ClientAccountAccountsOnFileTerm AS CAFT WITH (NOLOCK)
+ON CAFT.ClientAccountAccountsOnFileID = CAF.InstanceID OUTER APPLY (SELECT RSW.InstanceID AS ServiceWindowID,
+                                                                           RSW.Ordinal AS ServiceWindowOrdinal,
+                                                                           RSW.StartTime AS ServiceWindowStartTime,
+                                                                           RSW.EndTime AS ServiceWindowEndTime,
+                                                                           (IsNull(RSWO.ServiceTypes, RSW.ServiceTypes) &amp; 48) AS ServiceWindowServiceTypes,
+                                                                           RSW.UsageTypes AS ServiceWindowUsageTypes,
+                                                                           IsNull(RSWO.ServiceFee, RSW.ServiceFee) AS ServiceWindowServiceFee
+                                                                    FROM   RouteServiceWindow AS RSW WITH (NOLOCK)
+                                                                           LEFT OUTER JOIN
+                                                                           RouteServiceWindowOverride AS RSWO WITH (NOLOCK)
+                                                                           ON RSWO.ParentID = RS.InstanceID
+                                                                              AND RSWO.RouteServiceWindowID = RSW.InstanceID
+                                                                              AND (RSWO.AppliesToDaysOfWeek &amp; @DayOfWeek) &lt;&gt; 0
+                                                                    WHERE  RSW.RouteID = [Route].InstanceID
+                                                                           AND (RSW.DaysOfWeek &amp; @DayOfWeek) &lt;&gt; 0
+                                                                           AND RSW.StartTime &gt;= @StartTime
+                                                                           AND RSW.EndTime &lt;= @EndTime) AS SW</td>
+        <td>97</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">RouteStop AS RS WITH (NOLOCK)
+INNER JOIN
+@Stops AS SS
+ON SS.ID = RS.InstanceID
+INNER JOIN
+[Route] WITH (NOLOCK)
+ON [Route].InstanceID = RS.RouteID
+   AND [Route].VersionID = @VersionID
+INNER JOIN
+Locker AS LB WITH (NOLOCK)
+ON LB.InstanceID = RS.LockerID OUTER APPLY (SELECT   LU.InstanceID AS LockerID,
+                                                     LU.LocalNodeKey AS LockerNumber,
+                                                     LE.ClientAccountID,
+                                                     Count(LE.InstanceID) AS LockerPickupCount
+                                            FROM     Locker AS LU WITH (NOLOCK)
+                                                     INNER JOIN
+                                                     InvoiceLockerEvent AS LE WITH (NOLOCK)
+                                                     ON LE.LockerID = LU.InstanceID
+                                                        AND LE.EventType = 'D'
+                                                        AND LE.InvoiceID IS NULL
+                                                     LEFT OUTER JOIN
+                                                     InvoiceLockerEvent AS NXT WITH (NOLOCK)
+                                                     ON NXT.LockerID = LE.LockerID
+                                                        AND NXT.ClientAccountID = LE.ClientAccountID
+                                                        AND NXT.InstanceNumber &gt; LE.InstanceNumber
+                                            WHERE    LU.ParentID = LB.InstanceID
+                                                     AND NXT.InstanceID IS NULL
+                                            GROUP BY LU.InstanceID, LU.LocalNodeKey, LE.ClientAccountID) AS LC</td>
+        <td>97</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">RouteStop AS RS WITH (NOLOCK)
+INNER JOIN
+@Stops AS SS
+ON SS.ID = RS.InstanceID
+INNER JOIN
+[Route] WITH (NOLOCK)
+ON [Route].InstanceID = RS.RouteID
+   AND [Route].VersionID = @VersionID
+INNER JOIN
+Locker AS LB WITH (NOLOCK)
+ON LB.InstanceID = RS.LockerID OUTER APPLY (SELECT   LU.InstanceID AS LockerID,
+                                                     LU.LocalNodeKey AS LockerNumber,
+                                                     LE.ClientAccountID,
+                                                     Count(LE.InstanceID) AS LockerCurrentCount
+                                            FROM     Locker AS LU WITH (NOLOCK)
+                                                     INNER JOIN
+                                                     InvoiceLockerEvent AS LE WITH (NOLOCK)
+                                                     ON LE.LockerID = LU.InstanceID
+                                                        AND LE.EventType = 'R'
+                                                     INNER JOIN
+                                                     Invoice AS Inv WITH (NOLOCK)
+                                                     ON Inv.InstanceID = LE.InvoiceID
+                                                        AND Inv.Voided = 0
+                                                     LEFT OUTER JOIN
+                                                     InvoiceLockerEvent AS NXT WITH (NOLOCK)
+                                                     ON NXT.LockerID = LE.LockerID
+                                                        AND NXT.InvoiceID = LE.InvoiceID
+                                                        AND NXT.EventType &lt;&gt; 'O'
+                                                        AND NXT.InstanceNumber &gt; LE.InstanceNumber
+                                            WHERE    LU.ParentID = LB.InstanceID
+                                                     AND NXT.InstanceID IS NULL
+                                            GROUP BY LU.InstanceID, LU.LocalNodeKey, LE.ClientAccountID) AS LC
+INNER JOIN
+ClientAccount AS CA WITH (NOLOCK)
+ON CA.InstanceID = LC.ClientAccountID
+   AND CA.ActiveFlag &lt;&gt; 0
+LEFT OUTER JOIN
+ClientAccountAccountsOnFile AS CAF WITH (NOLOCK)
+ON CAF.ClientAccountID = CA.InstanceID
+   AND CAF.AccountType = 1
+   AND CAF.AccountOrdinal = 1
+LEFT OUTER JOIN
+ClientAccountAccountsOnFileTerm AS CAFT WITH (NOLOCK)
+ON CAFT.ClientAccountAccountsOnFileID = CAF.InstanceID OUTER APPLY (SELECT RSW.InstanceID AS ServiceWindowID,
+                                                                           RSW.Ordinal AS ServiceWindowOrdinal,
+                                                                           RSW.StartTime AS ServiceWindowStartTime,
+                                                                           RSW.EndTime AS ServiceWindowEndTime,
+                                                                           (IsNull(RSWO.ServiceTypes, RSW.ServiceTypes) &amp; 48) AS ServiceWindowServiceTypes,
+                                                                           RSW.UsageTypes AS ServiceWindowUsageTypes,
+                                                                           IsNull(RSWO.ServiceFee, RSW.ServiceFee) AS ServiceWindowServiceFee
+                                                                    FROM   RouteServiceWindow AS RSW WITH (NOLOCK)
+                                                                           LEFT OUTER JOIN
+                                                                           RouteServiceWindowOverride AS RSWO WITH (NOLOCK)
+                                                                           ON RSWO.ParentID = RS.InstanceID
+                                                                              AND RSWO.RouteServiceWindowID = RSW.InstanceID
+                                                                              AND (RSWO.AppliesToDaysOfWeek &amp; @DayOfWeek) &lt;&gt; 0
+                                                                    WHERE  RSW.RouteID = [Route].InstanceID
+                                                                           AND (RSW.DaysOfWeek &amp; @DayOfWeek) &lt;&gt; 0
+                                                                           AND RSW.StartTime &gt;= @StartTime
+                                                                           AND RSW.EndTime &lt;= @EndTime) AS SW</td>
+        <td>189</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">RouteStop AS RS WITH (NOLOCK)
+INNER JOIN
+@Stops AS SS
+ON SS.ID = RS.InstanceID
+INNER JOIN
+[Route] WITH (NOLOCK)
+ON [Route].InstanceID = RS.RouteID
+   AND [Route].VersionID = @VersionID
+INNER JOIN
+Locker AS LB WITH (NOLOCK)
+ON LB.InstanceID = RS.LockerID OUTER APPLY (SELECT   LU.InstanceID AS LockerID,
+                                                     LU.LocalNodeKey AS LockerNumber,
+                                                     LE.ClientAccountID,
+                                                     Count(LE.InstanceID) AS LockerCurrentCount
+                                            FROM     Locker AS LU WITH (NOLOCK)
+                                                     INNER JOIN
+                                                     InvoiceLockerEvent AS LE WITH (NOLOCK)
+                                                     ON LE.LockerID = LU.InstanceID
+                                                        AND LE.EventType = 'R'
+                                                     INNER JOIN
+                                                     Invoice AS Inv WITH (NOLOCK)
+                                                     ON Inv.InstanceID = LE.InvoiceID
+                                                        AND Inv.Voided = 0
+                                                     LEFT OUTER JOIN
+                                                     InvoiceLockerEvent AS NXT WITH (NOLOCK)
+                                                     ON NXT.LockerID = LE.LockerID
+                                                        AND NXT.InvoiceID = LE.InvoiceID
+                                                        AND NXT.EventType &lt;&gt; 'O'
+                                                        AND NXT.InstanceNumber &gt; LE.InstanceNumber
+                                            WHERE    LU.ParentID = LB.InstanceID
+                                                     AND NXT.InstanceID IS NULL
+                                            GROUP BY LU.InstanceID, LU.LocalNodeKey, LE.ClientAccountID) AS LC</td>
+        <td>189</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">RouteStop AS RS WITH (NOLOCK)
+INNER JOIN
+@Stops AS SS
+ON SS.ID = RS.InstanceID
+INNER JOIN
+[Route] WITH (NOLOCK)
+ON [Route].InstanceID = RS.RouteID
+   AND [Route].VersionID = @VersionID OUTER APPLY (SELECT RSW.InstanceID AS ServiceWindowID,
+                                                          RSW.Ordinal AS ServiceWindowOrdinal,
+                                                          RSW.StartTime AS ServiceWindowStartTime,
+                                                          RSW.EndTime AS ServiceWindowEndTime,
+                                                          (IsNull(RSWO.ServiceTypes, RSW.ServiceTypes) &amp; 48) AS ServiceWindowServiceTypes,
+                                                          RSW.UsageTypes AS ServiceWindowUsageTypes,
+                                                          IsNull(RSWO.ServiceFee, RSW.ServiceFee) AS ServiceWindowServiceFee
+                                                   FROM   RouteServiceWindow AS RSW WITH (NOLOCK)
+                                                          LEFT OUTER JOIN
+                                                          RouteServiceWindowOverride AS RSWO WITH (NOLOCK)
+                                                          ON RSWO.ParentID = RS.InstanceID
+                                                             AND RSWO.RouteServiceWindowID = RSW.InstanceID
+                                                             AND (RSWO.AppliesToDaysOfWeek &amp; @DayOfWeek) &lt;&gt; 0
+                                                   WHERE  RSW.RouteID = [Route].InstanceID
+                                                          AND (RSW.DaysOfWeek &amp; @DayOfWeek) &lt;&gt; 0
+                                                          AND RSW.StartTime &gt;= @StartTime
+                                                          AND RSW.EndTime &lt;= @EndTime) AS SW OUTER APPLY (SELECT   Invoice.ClientAccountID,
+                                                                                                                   Sum(CASE WHEN Invoice.CurrentStatusID = 128
+                                                                                                                                 AND Invoice.PromisedDate &gt;= @ServiceDateEnd THEN 1 ELSE 0 END) AS OrderCountInProcess,
+                                                                                                                   Sum(CASE WHEN Invoice.CurrentStatusID = 128
+                                                                                                                                 AND Invoice.PromisedDate &lt; @ServiceDateEnd THEN 1 ELSE 0 END) AS OrderCountLate,
+                                                                                                                   Sum(CASE WHEN Invoice.CurrentStatusID = 129 THEN 1 ELSE 0 END) AS OrderCountReady
+                                                                                                          FROM     Invoice WITH (NOLOCK)
+                                                                                                          WHERE    Invoice.RouteID = RS.RouteID
+                                                                                                                   AND Invoice.LockerID = RS.LockerID
+                                                                                                                   AND (Invoice.InvoiceMode &lt;&gt; 'Storage'
+                                                                                                                        AND IsNull(Invoice.RackLocation, '') &lt;&gt; 'Storage')
+                                                                                                                   AND Invoice.Voided = 0
+                                                                                                                   AND (Invoice.CurrentStatusID IN (128, 129))
+                                                                                                          GROUP BY Invoice.ClientAccountID) AS OC</td>
+        <td>282</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">RouteStop AS RS WITH (NOLOCK)
+INNER JOIN
+@Stops AS SS
+ON SS.ID = RS.InstanceID
+INNER JOIN
+[Route] WITH (NOLOCK)
+ON [Route].InstanceID = RS.RouteID
+   AND [Route].VersionID = @VersionID OUTER APPLY (SELECT RSW.InstanceID AS ServiceWindowID,
+                                                          RSW.Ordinal AS ServiceWindowOrdinal,
+                                                          RSW.StartTime AS ServiceWindowStartTime,
+                                                          RSW.EndTime AS ServiceWindowEndTime,
+                                                          (IsNull(RSWO.ServiceTypes, RSW.ServiceTypes) &amp; 48) AS ServiceWindowServiceTypes,
+                                                          RSW.UsageTypes AS ServiceWindowUsageTypes,
+                                                          IsNull(RSWO.ServiceFee, RSW.ServiceFee) AS ServiceWindowServiceFee
+                                                   FROM   RouteServiceWindow AS RSW WITH (NOLOCK)
+                                                          LEFT OUTER JOIN
+                                                          RouteServiceWindowOverride AS RSWO WITH (NOLOCK)
+                                                          ON RSWO.ParentID = RS.InstanceID
+                                                             AND RSWO.RouteServiceWindowID = RSW.InstanceID
+                                                             AND (RSWO.AppliesToDaysOfWeek &amp; @DayOfWeek) &lt;&gt; 0
+                                                   WHERE  RSW.RouteID = [Route].InstanceID
+                                                          AND (RSW.DaysOfWeek &amp; @DayOfWeek) &lt;&gt; 0
+                                                          AND RSW.StartTime &gt;= @StartTime
+                                                          AND RSW.EndTime &lt;= @EndTime) AS SW</td>
+        <td>282</td>
+      </tr>
+    </table>
+  </body>
+</html>

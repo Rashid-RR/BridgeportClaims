@@ -1,4 +1,0 @@
-Failed to generate report for stored procedure [SendMessageToHost]
-Failed to parse the module.
-Failed to generate report for stored procedure [SendMessageToFileServer]
-Failed to parse the module.

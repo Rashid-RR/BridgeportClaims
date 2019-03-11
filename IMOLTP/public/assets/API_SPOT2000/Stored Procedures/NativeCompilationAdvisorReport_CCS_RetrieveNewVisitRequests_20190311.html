@@ -1,0 +1,779 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [API_SPOT2000].[CCS_RetrieveNewVisitRequests]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [API_SPOT2000].[CCS_RetrieveNewVisitRequests]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>3/11/2019 10:30 AM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SET OPTION ON</td>
+        <td colspan="1">SET NOCOUNT ON</td>
+        <td>2</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">CASE</td>
+        <td colspan="1">CASE WHEN RS.InstanceID IS NULL THEN 1 ELSE 0 END</td>
+        <td>18</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN IsNull(RS.ScanAtDelivery, '--') = '--'
+          OR RS.ScanAtDelivery = '' THEN CASE WHEN Route.DefaultScanAtDelivery = '' THEN 'RA' ELSE IsNull(Route.DefaultScanAtDelivery, 'RA') END ELSE RS.ScanAtDelivery END</td>
+        <td>61</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN Route.DefaultScanAtDelivery = '' THEN 'RA' ELSE IsNull(Route.DefaultScanAtDelivery, 'RA') END</td>
+        <td>62</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN Route.ImageAtDelivery = 'R' THEN Route.ImageAtDelivery ELSE IsNull(RS.ImageAtDelivery, Route.ImageAtDelivery) END</td>
+        <td>66</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN (IsNull(CAF.AccountFlags, 0) &amp; 1) = 1 THEN 1 ELSE 0 END</td>
+        <td>88</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN IsNull(MSS.VisitStatusID, 0) = 1 THEN 1 ELSE 0 END</td>
+        <td>104</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN IsNull(MSS.VisitStatusID, 0) = 2 THEN 1 ELSE 0 END</td>
+        <td>105</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN IsNull(MSS.VisitStatusID, 0) = 1 THEN CASE WHEN MSLS.InstanceID IS NULL THEN 'Start' ELSE CONVERT (VARCHAR (10), MSLS.StopNumber) END ELSE NULL END</td>
+        <td>120</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN MSLS.InstanceID IS NULL THEN 'Start' ELSE CONVERT (VARCHAR (10), MSLS.StopNumber) END</td>
+        <td>121</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN IsNull(MSS.VisitStatusID, 0) = 1 THEN CASE WHEN MSLS.InstanceID IS NULL THEN MR.StartDateTime ELSE MSLS.EntryDateTime END ELSE NULL END</td>
+        <td>124</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN MSLS.InstanceID IS NULL THEN MR.StartDateTime ELSE MSLS.EntryDateTime END</td>
+        <td>125</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN IsNull(MSS.VisitStatusID, 0) = 1 THEN CASE WHEN MSLS.InstanceID IS NULL THEN 0 ELSE MSLS.EventLatitude END ELSE NULL END</td>
+        <td>128</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN MSLS.InstanceID IS NULL THEN 0 ELSE MSLS.EventLatitude END</td>
+        <td>129</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN IsNull(MSS.VisitStatusID, 0) = 1 THEN CASE WHEN MSLS.InstanceID IS NULL THEN 0 ELSE MSLS.EventLongitude END ELSE NULL END</td>
+        <td>132</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN MSLS.InstanceID IS NULL THEN 0 ELSE MSLS.EventLongitude END</td>
+        <td>133</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN IsNull(CA.Locker, '') IN ('Y', 'P') THEN 1 ELSE 0 END</td>
+        <td>136</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">APPLY</td>
+        <td colspan="1">ManifestHistoryStop AS MS WITH (NOLOCK)
+INNER JOIN
+ManifestHistory AS MH WITH (NOLOCK)
+ON MH.InstanceID = MS.ManifestID
+INNER JOIN
+MRSession AS MR WITH (NOLOCK)
+ON MR.ManifestID = MH.InstanceID
+INNER JOIN
+ClientAccount AS CA WITH (NOLOCK)
+ON CA.InstanceID = MS.ClientAccountID
+INNER JOIN
+Route WITH (NOLOCK)
+ON Route.InstanceID = MR.RouteID
+LEFT OUTER JOIN
+ClientAccountAccountsOnFile AS CAF WITH (NOLOCK)
+ON CAF.ClientAccountID = CA.InstanceID
+   AND CAF.AccountType = 1
+   AND CAF.AccountOrdinal = 1
+   AND CAF.AccountDisabled = 0
+   AND CA.TenderInfo LIKE '%SOF%'
+LEFT OUTER JOIN
+ClientAccountAccountsOnFileTerm AS CAFT WITH (NOLOCK)
+ON CAFT.ClientAccountAccountsOnFileID = CAF.InstanceID
+LEFT OUTER JOIN
+RouteStopClientAccount AS RSCA WITH (NOLOCK)
+ON RSCA.ClientAccountID = CA.InstanceID
+LEFT OUTER JOIN
+RouteStop AS RS WITH (NOLOCK)
+ON RS.InstanceID = RSCA.RouteStopID
+   OR (Route.VersionID = 1
+       AND RS.AddressClientAccountID = CA.InstanceID)
+LEFT OUTER JOIN
+RouteZone AS RZ WITH (NOLOCK)
+ON RZ.InstanceID = RS.RouteZoneID
+LEFT OUTER JOIN
+ManifestHistoryStopStatus AS MSS WITH (NOLOCK)
+ON MSS.ManifestHistoryStopID = MS.InstanceID OUTER APPLY (SELECT   TOP 1 ManifestHistory.InstanceID AS ManifestID,
+                                                                         ManifestHistoryStopStatus.EntryDateTime,
+                                                                         ManifestHistoryStopStatus.BagsQuantity,
+                                                                         ManifestHistoryStopStatus.EventLatitude,
+                                                                         ManifestHistoryStopStatus.EventLongitude
+                                                          FROM     ManifestHistoryStop WITH (NOLOCK)
+                                                                   INNER JOIN
+                                                                   ManifestHistoryStopStatus WITH (NOLOCK)
+                                                                   ON ManifestHistoryStopStatus.ManifestHistoryStopID = ManifestHistoryStop.InstanceID
+                                                                   INNER JOIN
+                                                                   ManifestHistory WITH (NOLOCK)
+                                                                   ON ManifestHistory.InstanceID = ManifestHistoryStop.ManifestID
+                                                                   INNER JOIN
+                                                                   MRSession WITH (NOLOCK)
+                                                                   ON MRSession.ManifestID = ManifestHistory.InstanceID
+                                                                      AND MRSession.StartDateTime &lt; MR.StartDateTime
+                                                          WHERE    ManifestHistoryStop.ClientAccountID = CA.InstanceID
+                                                                   AND ManifestHistoryStopStatus.VisitStatusID = 1
+                                                                   AND ManifestHistoryStopStatus.BagsQuantity &gt; 0
+                                                          ORDER BY ManifestHistoryStopStatus.InstanceNumber DESC) AS MSSP OUTER APPLY (SELECT   TOP 1 ManifestHistory.InstanceID AS ManifestID,
+                                                                                                                                                      ManifestHistoryInvoiceStatus.EntryDateTime,
+                                                                                                                                                      ManifestHistoryInvoiceStatus.EventLatitude,
+                                                                                                                                                      ManifestHistoryInvoiceStatus.EventLongitude
+                                                                                                                                       FROM     ManifestHistoryInvoiceStatus WITH (NOLOCK)
+                                                                                                                                                INNER JOIN
+                                                                                                                                                ManifestHistoryInvoice WITH (NOLOCK)
+                                                                                                                                                ON ManifestHistoryInvoice.InstanceID = ManifestHistoryInvoiceStatus.ManifestHistoryInvoiceID
+                                                                                                                                                INNER JOIN
+                                                                                                                                                ManifestHistory WITH (NOLOCK)
+                                                                                                                                                ON ManifestHistory.InstanceID = ManifestHistoryInvoice.ManifestID
+                                                                                                                                                INNER JOIN
+                                                                                                                                                Invoice WITH (NOLOCK)
+                                                                                                                                                ON Invoice.InstanceID = ManifestHistoryInvoice.InvoiceID
+                                                                                                                                                   AND Invoice.ClientAccountID = CA.InstanceID
+                                                                                                                                                INNER JOIN
+                                                                                                                                                MRSession WITH (NOLOCK)
+                                                                                                                                                ON MRSession.ManifestID = ManifestHistory.InstanceID
+                                                                                                                                                   AND MRSession.StartDateTime &lt; MR.StartDateTime
+                                                                                                                                       WHERE    ManifestHistoryInvoiceStatus.OrderStatusID = 1
+                                                                                                                                       ORDER BY ManifestHistoryInvoiceStatus.InstanceNumber DESC) AS MISP OUTER APPLY (SELECT   TOP 1 ManifestHistoryStop.StopNumber,
+                                                                                                                                                                                                                                      ManifestHistoryStopStatus.InstanceID,
+                                                                                                                                                                                                                                      ManifestHistoryStopStatus.EntryDateTime,
+                                                                                                                                                                                                                                      ManifestHistoryStopStatus.EventLatitude,
+                                                                                                                                                                                                                                      ManifestHistoryStopStatus.EventLongitude
+                                                                                                                                                                                                                       FROM     ManifestHistoryStop WITH (NOLOCK)
+                                                                                                                                                                                                                                INNER JOIN
+                                                                                                                                                                                                                                ManifestHistoryStopStatus WITH (NOLOCK)
+                                                                                                                                                                                                                                ON ManifestHistoryStopStatus.ManifestHistoryStopID = ManifestHistoryStop.InstanceID
+                                                                                                                                                                                                                       WHERE    MSS.InstanceNumber IS NOT NULL
+                                                                                                                                                                                                                                AND ManifestHistoryStop.ManifestID = MH.InstanceID
+                                                                                                                                                                                                                                AND ManifestHistoryStopStatus.InstanceNumber &lt; MSS.InstanceNumber
+                                                                                                                                                                                                                                AND ManifestHistoryStopStatus.VisitStatusID = 1
+                                                                                                                                                                                                                       ORDER BY ManifestHistoryStopStatus.InstanceNumber DESC) AS MSLS OUTER APPLY (SELECT   TOP 1 *
+                                                                                                                                                                                                                                                                                                    FROM     ClientAccountRouteInfoExceptions WITH (NOLOCK)
+                                                                                                                                                                                                                                                                                                    WHERE    ClientAccountID = CA.InstanceID
+                                                                                                                                                                                                                                                                                                             AND EntryType = 'Visit'
+                                                                                                                                                                                                                                                                                                             AND RouteID = Route.InstanceID
+                                                                                                                                                                                                                                                                                                             AND ExceptionDate &gt;= @StartDate
+                                                                                                                                                                                                                                                                                                             AND ExceptionDate &lt; @EndDate
+                                                                                                                                                                                                                                                                                                    ORDER BY InstanceNumber DESC) AS CARIE OUTER APPLY dbo.GetRouteInstructions(CA.InstanceID, MS.AddressType, 1) AS RI</td>
+        <td>143</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">ManifestHistoryStop AS MS WITH (NOLOCK)
+INNER JOIN
+ManifestHistory AS MH WITH (NOLOCK)
+ON MH.InstanceID = MS.ManifestID
+INNER JOIN
+MRSession AS MR WITH (NOLOCK)
+ON MR.ManifestID = MH.InstanceID
+INNER JOIN
+ClientAccount AS CA WITH (NOLOCK)
+ON CA.InstanceID = MS.ClientAccountID
+INNER JOIN
+Route WITH (NOLOCK)
+ON Route.InstanceID = MR.RouteID
+LEFT OUTER JOIN
+ClientAccountAccountsOnFile AS CAF WITH (NOLOCK)
+ON CAF.ClientAccountID = CA.InstanceID
+   AND CAF.AccountType = 1
+   AND CAF.AccountOrdinal = 1
+   AND CAF.AccountDisabled = 0
+   AND CA.TenderInfo LIKE '%SOF%'
+LEFT OUTER JOIN
+ClientAccountAccountsOnFileTerm AS CAFT WITH (NOLOCK)
+ON CAFT.ClientAccountAccountsOnFileID = CAF.InstanceID
+LEFT OUTER JOIN
+RouteStopClientAccount AS RSCA WITH (NOLOCK)
+ON RSCA.ClientAccountID = CA.InstanceID
+LEFT OUTER JOIN
+RouteStop AS RS WITH (NOLOCK)
+ON RS.InstanceID = RSCA.RouteStopID
+   OR (Route.VersionID = 1
+       AND RS.AddressClientAccountID = CA.InstanceID)
+LEFT OUTER JOIN
+RouteZone AS RZ WITH (NOLOCK)
+ON RZ.InstanceID = RS.RouteZoneID
+LEFT OUTER JOIN
+ManifestHistoryStopStatus AS MSS WITH (NOLOCK)
+ON MSS.ManifestHistoryStopID = MS.InstanceID OUTER APPLY (SELECT   TOP 1 ManifestHistory.InstanceID AS ManifestID,
+                                                                         ManifestHistoryStopStatus.EntryDateTime,
+                                                                         ManifestHistoryStopStatus.BagsQuantity,
+                                                                         ManifestHistoryStopStatus.EventLatitude,
+                                                                         ManifestHistoryStopStatus.EventLongitude
+                                                          FROM     ManifestHistoryStop WITH (NOLOCK)
+                                                                   INNER JOIN
+                                                                   ManifestHistoryStopStatus WITH (NOLOCK)
+                                                                   ON ManifestHistoryStopStatus.ManifestHistoryStopID = ManifestHistoryStop.InstanceID
+                                                                   INNER JOIN
+                                                                   ManifestHistory WITH (NOLOCK)
+                                                                   ON ManifestHistory.InstanceID = ManifestHistoryStop.ManifestID
+                                                                   INNER JOIN
+                                                                   MRSession WITH (NOLOCK)
+                                                                   ON MRSession.ManifestID = ManifestHistory.InstanceID
+                                                                      AND MRSession.StartDateTime &lt; MR.StartDateTime
+                                                          WHERE    ManifestHistoryStop.ClientAccountID = CA.InstanceID
+                                                                   AND ManifestHistoryStopStatus.VisitStatusID = 1
+                                                                   AND ManifestHistoryStopStatus.BagsQuantity &gt; 0
+                                                          ORDER BY ManifestHistoryStopStatus.InstanceNumber DESC) AS MSSP OUTER APPLY (SELECT   TOP 1 ManifestHistory.InstanceID AS ManifestID,
+                                                                                                                                                      ManifestHistoryInvoiceStatus.EntryDateTime,
+                                                                                                                                                      ManifestHistoryInvoiceStatus.EventLatitude,
+                                                                                                                                                      ManifestHistoryInvoiceStatus.EventLongitude
+                                                                                                                                       FROM     ManifestHistoryInvoiceStatus WITH (NOLOCK)
+                                                                                                                                                INNER JOIN
+                                                                                                                                                ManifestHistoryInvoice WITH (NOLOCK)
+                                                                                                                                                ON ManifestHistoryInvoice.InstanceID = ManifestHistoryInvoiceStatus.ManifestHistoryInvoiceID
+                                                                                                                                                INNER JOIN
+                                                                                                                                                ManifestHistory WITH (NOLOCK)
+                                                                                                                                                ON ManifestHistory.InstanceID = ManifestHistoryInvoice.ManifestID
+                                                                                                                                                INNER JOIN
+                                                                                                                                                Invoice WITH (NOLOCK)
+                                                                                                                                                ON Invoice.InstanceID = ManifestHistoryInvoice.InvoiceID
+                                                                                                                                                   AND Invoice.ClientAccountID = CA.InstanceID
+                                                                                                                                                INNER JOIN
+                                                                                                                                                MRSession WITH (NOLOCK)
+                                                                                                                                                ON MRSession.ManifestID = ManifestHistory.InstanceID
+                                                                                                                                                   AND MRSession.StartDateTime &lt; MR.StartDateTime
+                                                                                                                                       WHERE    ManifestHistoryInvoiceStatus.OrderStatusID = 1
+                                                                                                                                       ORDER BY ManifestHistoryInvoiceStatus.InstanceNumber DESC) AS MISP OUTER APPLY (SELECT   TOP 1 ManifestHistoryStop.StopNumber,
+                                                                                                                                                                                                                                      ManifestHistoryStopStatus.InstanceID,
+                                                                                                                                                                                                                                      ManifestHistoryStopStatus.EntryDateTime,
+                                                                                                                                                                                                                                      ManifestHistoryStopStatus.EventLatitude,
+                                                                                                                                                                                                                                      ManifestHistoryStopStatus.EventLongitude
+                                                                                                                                                                                                                       FROM     ManifestHistoryStop WITH (NOLOCK)
+                                                                                                                                                                                                                                INNER JOIN
+                                                                                                                                                                                                                                ManifestHistoryStopStatus WITH (NOLOCK)
+                                                                                                                                                                                                                                ON ManifestHistoryStopStatus.ManifestHistoryStopID = ManifestHistoryStop.InstanceID
+                                                                                                                                                                                                                       WHERE    MSS.InstanceNumber IS NOT NULL
+                                                                                                                                                                                                                                AND ManifestHistoryStop.ManifestID = MH.InstanceID
+                                                                                                                                                                                                                                AND ManifestHistoryStopStatus.InstanceNumber &lt; MSS.InstanceNumber
+                                                                                                                                                                                                                                AND ManifestHistoryStopStatus.VisitStatusID = 1
+                                                                                                                                                                                                                       ORDER BY ManifestHistoryStopStatus.InstanceNumber DESC) AS MSLS OUTER APPLY (SELECT   TOP 1 *
+                                                                                                                                                                                                                                                                                                    FROM     ClientAccountRouteInfoExceptions WITH (NOLOCK)
+                                                                                                                                                                                                                                                                                                    WHERE    ClientAccountID = CA.InstanceID
+                                                                                                                                                                                                                                                                                                             AND EntryType = 'Visit'
+                                                                                                                                                                                                                                                                                                             AND RouteID = Route.InstanceID
+                                                                                                                                                                                                                                                                                                             AND ExceptionDate &gt;= @StartDate
+                                                                                                                                                                                                                                                                                                             AND ExceptionDate &lt; @EndDate
+                                                                                                                                                                                                                                                                                                    ORDER BY InstanceNumber DESC) AS CARIE</td>
+        <td>143</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">ManifestHistoryStop AS MS WITH (NOLOCK)
+INNER JOIN
+ManifestHistory AS MH WITH (NOLOCK)
+ON MH.InstanceID = MS.ManifestID
+INNER JOIN
+MRSession AS MR WITH (NOLOCK)
+ON MR.ManifestID = MH.InstanceID
+INNER JOIN
+ClientAccount AS CA WITH (NOLOCK)
+ON CA.InstanceID = MS.ClientAccountID
+INNER JOIN
+Route WITH (NOLOCK)
+ON Route.InstanceID = MR.RouteID
+LEFT OUTER JOIN
+ClientAccountAccountsOnFile AS CAF WITH (NOLOCK)
+ON CAF.ClientAccountID = CA.InstanceID
+   AND CAF.AccountType = 1
+   AND CAF.AccountOrdinal = 1
+   AND CAF.AccountDisabled = 0
+   AND CA.TenderInfo LIKE '%SOF%'
+LEFT OUTER JOIN
+ClientAccountAccountsOnFileTerm AS CAFT WITH (NOLOCK)
+ON CAFT.ClientAccountAccountsOnFileID = CAF.InstanceID
+LEFT OUTER JOIN
+RouteStopClientAccount AS RSCA WITH (NOLOCK)
+ON RSCA.ClientAccountID = CA.InstanceID
+LEFT OUTER JOIN
+RouteStop AS RS WITH (NOLOCK)
+ON RS.InstanceID = RSCA.RouteStopID
+   OR (Route.VersionID = 1
+       AND RS.AddressClientAccountID = CA.InstanceID)
+LEFT OUTER JOIN
+RouteZone AS RZ WITH (NOLOCK)
+ON RZ.InstanceID = RS.RouteZoneID
+LEFT OUTER JOIN
+ManifestHistoryStopStatus AS MSS WITH (NOLOCK)
+ON MSS.ManifestHistoryStopID = MS.InstanceID OUTER APPLY (SELECT   TOP 1 ManifestHistory.InstanceID AS ManifestID,
+                                                                         ManifestHistoryStopStatus.EntryDateTime,
+                                                                         ManifestHistoryStopStatus.BagsQuantity,
+                                                                         ManifestHistoryStopStatus.EventLatitude,
+                                                                         ManifestHistoryStopStatus.EventLongitude
+                                                          FROM     ManifestHistoryStop WITH (NOLOCK)
+                                                                   INNER JOIN
+                                                                   ManifestHistoryStopStatus WITH (NOLOCK)
+                                                                   ON ManifestHistoryStopStatus.ManifestHistoryStopID = ManifestHistoryStop.InstanceID
+                                                                   INNER JOIN
+                                                                   ManifestHistory WITH (NOLOCK)
+                                                                   ON ManifestHistory.InstanceID = ManifestHistoryStop.ManifestID
+                                                                   INNER JOIN
+                                                                   MRSession WITH (NOLOCK)
+                                                                   ON MRSession.ManifestID = ManifestHistory.InstanceID
+                                                                      AND MRSession.StartDateTime &lt; MR.StartDateTime
+                                                          WHERE    ManifestHistoryStop.ClientAccountID = CA.InstanceID
+                                                                   AND ManifestHistoryStopStatus.VisitStatusID = 1
+                                                                   AND ManifestHistoryStopStatus.BagsQuantity &gt; 0
+                                                          ORDER BY ManifestHistoryStopStatus.InstanceNumber DESC) AS MSSP OUTER APPLY (SELECT   TOP 1 ManifestHistory.InstanceID AS ManifestID,
+                                                                                                                                                      ManifestHistoryInvoiceStatus.EntryDateTime,
+                                                                                                                                                      ManifestHistoryInvoiceStatus.EventLatitude,
+                                                                                                                                                      ManifestHistoryInvoiceStatus.EventLongitude
+                                                                                                                                       FROM     ManifestHistoryInvoiceStatus WITH (NOLOCK)
+                                                                                                                                                INNER JOIN
+                                                                                                                                                ManifestHistoryInvoice WITH (NOLOCK)
+                                                                                                                                                ON ManifestHistoryInvoice.InstanceID = ManifestHistoryInvoiceStatus.ManifestHistoryInvoiceID
+                                                                                                                                                INNER JOIN
+                                                                                                                                                ManifestHistory WITH (NOLOCK)
+                                                                                                                                                ON ManifestHistory.InstanceID = ManifestHistoryInvoice.ManifestID
+                                                                                                                                                INNER JOIN
+                                                                                                                                                Invoice WITH (NOLOCK)
+                                                                                                                                                ON Invoice.InstanceID = ManifestHistoryInvoice.InvoiceID
+                                                                                                                                                   AND Invoice.ClientAccountID = CA.InstanceID
+                                                                                                                                                INNER JOIN
+                                                                                                                                                MRSession WITH (NOLOCK)
+                                                                                                                                                ON MRSession.ManifestID = ManifestHistory.InstanceID
+                                                                                                                                                   AND MRSession.StartDateTime &lt; MR.StartDateTime
+                                                                                                                                       WHERE    ManifestHistoryInvoiceStatus.OrderStatusID = 1
+                                                                                                                                       ORDER BY ManifestHistoryInvoiceStatus.InstanceNumber DESC) AS MISP OUTER APPLY (SELECT   TOP 1 ManifestHistoryStop.StopNumber,
+                                                                                                                                                                                                                                      ManifestHistoryStopStatus.InstanceID,
+                                                                                                                                                                                                                                      ManifestHistoryStopStatus.EntryDateTime,
+                                                                                                                                                                                                                                      ManifestHistoryStopStatus.EventLatitude,
+                                                                                                                                                                                                                                      ManifestHistoryStopStatus.EventLongitude
+                                                                                                                                                                                                                       FROM     ManifestHistoryStop WITH (NOLOCK)
+                                                                                                                                                                                                                                INNER JOIN
+                                                                                                                                                                                                                                ManifestHistoryStopStatus WITH (NOLOCK)
+                                                                                                                                                                                                                                ON ManifestHistoryStopStatus.ManifestHistoryStopID = ManifestHistoryStop.InstanceID
+                                                                                                                                                                                                                       WHERE    MSS.InstanceNumber IS NOT NULL
+                                                                                                                                                                                                                                AND ManifestHistoryStop.ManifestID = MH.InstanceID
+                                                                                                                                                                                                                                AND ManifestHistoryStopStatus.InstanceNumber &lt; MSS.InstanceNumber
+                                                                                                                                                                                                                                AND ManifestHistoryStopStatus.VisitStatusID = 1
+                                                                                                                                                                                                                       ORDER BY ManifestHistoryStopStatus.InstanceNumber DESC) AS MSLS</td>
+        <td>143</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">ManifestHistoryStop AS MS WITH (NOLOCK)
+INNER JOIN
+ManifestHistory AS MH WITH (NOLOCK)
+ON MH.InstanceID = MS.ManifestID
+INNER JOIN
+MRSession AS MR WITH (NOLOCK)
+ON MR.ManifestID = MH.InstanceID
+INNER JOIN
+ClientAccount AS CA WITH (NOLOCK)
+ON CA.InstanceID = MS.ClientAccountID
+INNER JOIN
+Route WITH (NOLOCK)
+ON Route.InstanceID = MR.RouteID
+LEFT OUTER JOIN
+ClientAccountAccountsOnFile AS CAF WITH (NOLOCK)
+ON CAF.ClientAccountID = CA.InstanceID
+   AND CAF.AccountType = 1
+   AND CAF.AccountOrdinal = 1
+   AND CAF.AccountDisabled = 0
+   AND CA.TenderInfo LIKE '%SOF%'
+LEFT OUTER JOIN
+ClientAccountAccountsOnFileTerm AS CAFT WITH (NOLOCK)
+ON CAFT.ClientAccountAccountsOnFileID = CAF.InstanceID
+LEFT OUTER JOIN
+RouteStopClientAccount AS RSCA WITH (NOLOCK)
+ON RSCA.ClientAccountID = CA.InstanceID
+LEFT OUTER JOIN
+RouteStop AS RS WITH (NOLOCK)
+ON RS.InstanceID = RSCA.RouteStopID
+   OR (Route.VersionID = 1
+       AND RS.AddressClientAccountID = CA.InstanceID)
+LEFT OUTER JOIN
+RouteZone AS RZ WITH (NOLOCK)
+ON RZ.InstanceID = RS.RouteZoneID
+LEFT OUTER JOIN
+ManifestHistoryStopStatus AS MSS WITH (NOLOCK)
+ON MSS.ManifestHistoryStopID = MS.InstanceID OUTER APPLY (SELECT   TOP 1 ManifestHistory.InstanceID AS ManifestID,
+                                                                         ManifestHistoryStopStatus.EntryDateTime,
+                                                                         ManifestHistoryStopStatus.BagsQuantity,
+                                                                         ManifestHistoryStopStatus.EventLatitude,
+                                                                         ManifestHistoryStopStatus.EventLongitude
+                                                          FROM     ManifestHistoryStop WITH (NOLOCK)
+                                                                   INNER JOIN
+                                                                   ManifestHistoryStopStatus WITH (NOLOCK)
+                                                                   ON ManifestHistoryStopStatus.ManifestHistoryStopID = ManifestHistoryStop.InstanceID
+                                                                   INNER JOIN
+                                                                   ManifestHistory WITH (NOLOCK)
+                                                                   ON ManifestHistory.InstanceID = ManifestHistoryStop.ManifestID
+                                                                   INNER JOIN
+                                                                   MRSession WITH (NOLOCK)
+                                                                   ON MRSession.ManifestID = ManifestHistory.InstanceID
+                                                                      AND MRSession.StartDateTime &lt; MR.StartDateTime
+                                                          WHERE    ManifestHistoryStop.ClientAccountID = CA.InstanceID
+                                                                   AND ManifestHistoryStopStatus.VisitStatusID = 1
+                                                                   AND ManifestHistoryStopStatus.BagsQuantity &gt; 0
+                                                          ORDER BY ManifestHistoryStopStatus.InstanceNumber DESC) AS MSSP OUTER APPLY (SELECT   TOP 1 ManifestHistory.InstanceID AS ManifestID,
+                                                                                                                                                      ManifestHistoryInvoiceStatus.EntryDateTime,
+                                                                                                                                                      ManifestHistoryInvoiceStatus.EventLatitude,
+                                                                                                                                                      ManifestHistoryInvoiceStatus.EventLongitude
+                                                                                                                                       FROM     ManifestHistoryInvoiceStatus WITH (NOLOCK)
+                                                                                                                                                INNER JOIN
+                                                                                                                                                ManifestHistoryInvoice WITH (NOLOCK)
+                                                                                                                                                ON ManifestHistoryInvoice.InstanceID = ManifestHistoryInvoiceStatus.ManifestHistoryInvoiceID
+                                                                                                                                                INNER JOIN
+                                                                                                                                                ManifestHistory WITH (NOLOCK)
+                                                                                                                                                ON ManifestHistory.InstanceID = ManifestHistoryInvoice.ManifestID
+                                                                                                                                                INNER JOIN
+                                                                                                                                                Invoice WITH (NOLOCK)
+                                                                                                                                                ON Invoice.InstanceID = ManifestHistoryInvoice.InvoiceID
+                                                                                                                                                   AND Invoice.ClientAccountID = CA.InstanceID
+                                                                                                                                                INNER JOIN
+                                                                                                                                                MRSession WITH (NOLOCK)
+                                                                                                                                                ON MRSession.ManifestID = ManifestHistory.InstanceID
+                                                                                                                                                   AND MRSession.StartDateTime &lt; MR.StartDateTime
+                                                                                                                                       WHERE    ManifestHistoryInvoiceStatus.OrderStatusID = 1
+                                                                                                                                       ORDER BY ManifestHistoryInvoiceStatus.InstanceNumber DESC) AS MISP</td>
+        <td>143</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">ManifestHistoryStop AS MS WITH (NOLOCK)
+INNER JOIN
+ManifestHistory AS MH WITH (NOLOCK)
+ON MH.InstanceID = MS.ManifestID
+INNER JOIN
+MRSession AS MR WITH (NOLOCK)
+ON MR.ManifestID = MH.InstanceID
+INNER JOIN
+ClientAccount AS CA WITH (NOLOCK)
+ON CA.InstanceID = MS.ClientAccountID
+INNER JOIN
+Route WITH (NOLOCK)
+ON Route.InstanceID = MR.RouteID
+LEFT OUTER JOIN
+ClientAccountAccountsOnFile AS CAF WITH (NOLOCK)
+ON CAF.ClientAccountID = CA.InstanceID
+   AND CAF.AccountType = 1
+   AND CAF.AccountOrdinal = 1
+   AND CAF.AccountDisabled = 0
+   AND CA.TenderInfo LIKE '%SOF%'
+LEFT OUTER JOIN
+ClientAccountAccountsOnFileTerm AS CAFT WITH (NOLOCK)
+ON CAFT.ClientAccountAccountsOnFileID = CAF.InstanceID
+LEFT OUTER JOIN
+RouteStopClientAccount AS RSCA WITH (NOLOCK)
+ON RSCA.ClientAccountID = CA.InstanceID
+LEFT OUTER JOIN
+RouteStop AS RS WITH (NOLOCK)
+ON RS.InstanceID = RSCA.RouteStopID
+   OR (Route.VersionID = 1
+       AND RS.AddressClientAccountID = CA.InstanceID)
+LEFT OUTER JOIN
+RouteZone AS RZ WITH (NOLOCK)
+ON RZ.InstanceID = RS.RouteZoneID
+LEFT OUTER JOIN
+ManifestHistoryStopStatus AS MSS WITH (NOLOCK)
+ON MSS.ManifestHistoryStopID = MS.InstanceID OUTER APPLY (SELECT   TOP 1 ManifestHistory.InstanceID AS ManifestID,
+                                                                         ManifestHistoryStopStatus.EntryDateTime,
+                                                                         ManifestHistoryStopStatus.BagsQuantity,
+                                                                         ManifestHistoryStopStatus.EventLatitude,
+                                                                         ManifestHistoryStopStatus.EventLongitude
+                                                          FROM     ManifestHistoryStop WITH (NOLOCK)
+                                                                   INNER JOIN
+                                                                   ManifestHistoryStopStatus WITH (NOLOCK)
+                                                                   ON ManifestHistoryStopStatus.ManifestHistoryStopID = ManifestHistoryStop.InstanceID
+                                                                   INNER JOIN
+                                                                   ManifestHistory WITH (NOLOCK)
+                                                                   ON ManifestHistory.InstanceID = ManifestHistoryStop.ManifestID
+                                                                   INNER JOIN
+                                                                   MRSession WITH (NOLOCK)
+                                                                   ON MRSession.ManifestID = ManifestHistory.InstanceID
+                                                                      AND MRSession.StartDateTime &lt; MR.StartDateTime
+                                                          WHERE    ManifestHistoryStop.ClientAccountID = CA.InstanceID
+                                                                   AND ManifestHistoryStopStatus.VisitStatusID = 1
+                                                                   AND ManifestHistoryStopStatus.BagsQuantity &gt; 0
+                                                          ORDER BY ManifestHistoryStopStatus.InstanceNumber DESC) AS MSSP</td>
+        <td>143</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">One-part names</td>
+        <td colspan="1">ManifestHistoryStop AS MS WITH (NOLOCK)</td>
+        <td>143</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">ManifestHistory AS MH WITH (NOLOCK)</td>
+        <td>144</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">MRSession AS MR WITH (NOLOCK)</td>
+        <td>145</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">ClientAccount AS CA WITH (NOLOCK)</td>
+        <td>146</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">Route WITH (NOLOCK)</td>
+        <td>147</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">ClientAccountAccountsOnFile AS CAF WITH (NOLOCK)</td>
+        <td>148</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">ClientAccountAccountsOnFileTerm AS CAFT WITH (NOLOCK)</td>
+        <td>149</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">RouteStopClientAccount AS RSCA WITH (NOLOCK)</td>
+        <td>150</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">RouteStop AS RS WITH (NOLOCK)</td>
+        <td>151</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">RouteZone AS RZ WITH (NOLOCK)</td>
+        <td>152</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">ManifestHistoryStopStatus AS MSS WITH (NOLOCK)</td>
+        <td>153</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">ManifestHistoryStop WITH (NOLOCK)</td>
+        <td>157</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">ManifestHistoryStopStatus WITH (NOLOCK)</td>
+        <td>158</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">ManifestHistory WITH (NOLOCK)</td>
+        <td>159</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">MRSession WITH (NOLOCK)</td>
+        <td>160</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">ManifestHistoryInvoiceStatus WITH (NOLOCK)</td>
+        <td>169</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">ManifestHistoryInvoice WITH (NOLOCK)</td>
+        <td>170</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">ManifestHistory WITH (NOLOCK)</td>
+        <td>171</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">Invoice WITH (NOLOCK)</td>
+        <td>172</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">MRSession WITH (NOLOCK)</td>
+        <td>173</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">ManifestHistoryStop WITH (NOLOCK)</td>
+        <td>181</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">ManifestHistoryStopStatus WITH (NOLOCK)</td>
+        <td>182</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">ClientAccountRouteInfoExceptions WITH (NOLOCK)</td>
+        <td>189</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">NOLOCK</td>
+        <td colspan="1">NOLOCK</td>
+        <td>143</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>144</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>145</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>146</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>147</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>148</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>149</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>150</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>151</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>152</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>153</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>157</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>158</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>159</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>160</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>169</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>170</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>171</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>172</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>173</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>181</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>182</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>189</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">LIKE</td>
+        <td colspan="1">CA.TenderInfo LIKE '%SOF%'</td>
+        <td>148</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">Table-valued functions</td>
+        <td colspan="1">dbo.GetRouteInstructions(CA.InstanceID, MS.AddressType, 1) AS RI</td>
+        <td>196</td>
+      </tr>
+    </table>
+  </body>
+</html>

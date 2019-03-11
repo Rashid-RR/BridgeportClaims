@@ -1,0 +1,884 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [API_SPOT2000].[SPManifest_RetrieveCustomersSpecific]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [API_SPOT2000].[SPManifest_RetrieveCustomersSpecific]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>3/11/2019 10:30 AM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SET OPTION ON</td>
+        <td colspan="1">SET NOCOUNT ON</td>
+        <td>2</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">CASE</td>
+        <td colspan="1">CASE WHEN PickupRouteAddress.AddressClientAccountID = ClientAccount.InstanceID THEN PickupRouteAddress.AddressUpdateID ELSE -1 END</td>
+        <td>25</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN DeliveryRouteAddress.AddressClientAccountID = ClientAccount.InstanceID THEN DeliveryRouteAddress.AddressUpdateID ELSE -1 END</td>
+        <td>37</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN IsNull(RouteStop.ScanAtDelivery, '--') = '--'
+          OR RouteStop.ScanAtDelivery = '' THEN CASE WHEN Route.DefaultScanAtDelivery = '' THEN 'RA' ELSE IsNull(Route.DefaultScanAtDelivery, 'RA') END ELSE RouteStop.ScanAtDelivery END</td>
+        <td>107</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN Route.DefaultScanAtDelivery = '' THEN 'RA' ELSE IsNull(Route.DefaultScanAtDelivery, 'RA') END</td>
+        <td>108</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN IsNull(ClientAccount.Locker, '') IN ('Y', 'P') THEN 1 ELSE 0 END</td>
+        <td>112</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN Invoice.CurrentStatusID = 128 THEN 1 ELSE 0 END</td>
+        <td>127</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN Invoice.CurrentStatusID = 129 THEN 1 ELSE 0 END</td>
+        <td>128</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN PickupRouteAddress.AddressClientAccountID = ClientAccount.InstanceID THEN PickupRouteAddress.AddressUpdateID ELSE -1 END</td>
+        <td>160</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN DeliveryRouteAddress.AddressClientAccountID = ClientAccount.InstanceID THEN DeliveryRouteAddress.AddressUpdateID ELSE -1 END</td>
+        <td>172</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN MH.ClientAccountID IS NULL THEN 'N' ELSE 'S' END</td>
+        <td>204</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN IsNull(RouteStop.ScanAtDelivery, '--') = '--'
+          OR RouteStop.ScanAtDelivery = '' THEN CASE WHEN Route.DefaultScanAtDelivery = '' THEN 'RA' ELSE IsNull(Route.DefaultScanAtDelivery, 'RA') END ELSE RouteStop.ScanAtDelivery END</td>
+        <td>242</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN Route.DefaultScanAtDelivery = '' THEN 'RA' ELSE IsNull(Route.DefaultScanAtDelivery, 'RA') END</td>
+        <td>243</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN IsNull(ClientAccount.Locker, '') IN ('Y', 'P') THEN 1 ELSE 0 END</td>
+        <td>247</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN Invoice.CurrentStatusID = 128 THEN 1 ELSE 0 END</td>
+        <td>267</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN Invoice.CurrentStatusID = 129 THEN 1 ELSE 0 END</td>
+        <td>268</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN PickupRouteAddress.AddressClientAccountID = ClientAccount.InstanceID THEN PickupRouteAddress.AddressUpdateID ELSE -1 END</td>
+        <td>308</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN DeliveryRouteAddress.AddressClientAccountID = ClientAccount.InstanceID THEN DeliveryRouteAddress.AddressUpdateID ELSE -1 END</td>
+        <td>320</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN IsNull(RouteStop.ScanAtDelivery, '--') = '--'
+          OR RouteStop.ScanAtDelivery = '' THEN CASE WHEN Route.DefaultScanAtDelivery = '' THEN 'RA' ELSE IsNull(Route.DefaultScanAtDelivery, 'RA') END ELSE RouteStop.ScanAtDelivery END</td>
+        <td>390</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN Route.DefaultScanAtDelivery = '' THEN 'RA' ELSE IsNull(Route.DefaultScanAtDelivery, 'RA') END</td>
+        <td>391</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN IsNull(ClientAccount.Locker, '') IN ('Y', 'P') THEN 1 ELSE 0 END</td>
+        <td>395</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN Invoice.CurrentStatusID = 128 THEN 1 ELSE 0 END</td>
+        <td>410</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN Invoice.CurrentStatusID = 129 THEN 1 ELSE 0 END</td>
+        <td>411</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">APPLY</td>
+        <td colspan="1">ClientAccount WITH (NOLOCK)
+INNER JOIN
+RouteStopClientAccount WITH (NOLOCK)
+ON ClientAccount.InstanceID = RouteStopClientAccount.ClientAccountID
+INNER JOIN
+RouteStop WITH (NOLOCK)
+ON RouteStopClientAccount.RouteStopID = RouteStop.InstanceID
+   AND RouteStop.RouteID = @RouteID
+INNER JOIN
+Route WITH (NOLOCK)
+ON Route.InstanceID = RouteStop.RouteID
+INNER JOIN
+ClientAccountRouteInfo WITH (NOLOCK)
+ON ClientAccountRouteInfo.ClientAccountID = ClientAccount.InstanceID
+   AND ClientAccountRouteInfo.TimeRange = @TimeRangeSpecifier
+LEFT OUTER JOIN
+RouteStop AS LinkedStop WITH (NOLOCK)
+ON LinkedStop.InstanceID = RouteStop.LinkedInstanceID
+   AND LinkedStop.RouteID = @RouteID
+   AND RouteStop.InstanceID &lt;&gt; LinkedStop.InstanceID
+LEFT OUTER JOIN
+ClientAccountAccountsOnFile WITH (NOLOCK)
+ON ClientAccountAccountsOnFile.ClientAccountID = ClientAccount.InstanceID
+   AND ClientAccountAccountsOnFile.AccountType = 1
+   AND ClientAccountAccountsOnFile.AccountOrdinal = 1
+LEFT OUTER JOIN
+ClientAccountAccountsOnFileTerm WITH (NOLOCK)
+ON ClientAccountAccountsOnFileTerm.ClientAccountAccountsOnFileID = ClientAccountAccountsOnFile.InstanceID OUTER APPLY dbo.fnGetClientAccountAddress(ClientAccount.InstanceID, ClientAccountRouteInfo.PickupAddressType) AS PickupRouteAddress OUTER APPLY dbo.fnGetClientAccountAddress(ClientAccount.InstanceID, ClientAccountRouteInfo.DeliveryAddressType) AS DeliveryRouteAddress OUTER APPLY (SELECT Sum(CASE WHEN Invoice.CurrentStatusID = 128 THEN 1 ELSE 0 END) AS OrderCountInProcess,
+                                                                                                                                                                                                                                                                                                                                                                                                          Sum(CASE WHEN Invoice.CurrentStatusID = 129 THEN 1 ELSE 0 END) AS OrderCountReady
+                                                                                                                                                                                                                                                                                                                                                                                                   FROM   Invoice WITH (NOLOCK)
+                                                                                                                                                                                                                                                                                                                                                                                                   WHERE  Invoice.ClientAccountID = ClientAccount.InstanceID
+                                                                                                                                                                                                                                                                                                                                                                                                          AND Invoice.RouteID = @RouteID
+                                                                                                                                                                                                                                                                                                                                                                                                          AND (Invoice.InvoiceMode &lt;&gt; 'Storage'
+                                                                                                                                                                                                                                                                                                                                                                                                               OR (@RackLocation &lt;&gt; ''
+                                                                                                                                                                                                                                                                                                                                                                                                                   AND Invoice.Racklocation = @RackLocation))
+                                                                                                                                                                                                                                                                                                                                                                                                          AND Invoice.Voided = 0
+                                                                                                                                                                                                                                                                                                                                                                                                          AND ((Invoice.CurrentStatusID = 129
+                                                                                                                                                                                                                                                                                                                                                                                                                AND (@RackLocation = ''
+                                                                                                                                                                                                                                                                                                                                                                                                                     OR Invoice.Racklocation = @RackLocation))
+                                                                                                                                                                                                                                                                                                                                                                                                               OR ((@ShowReadyOrdersOnly = 0
+                                                                                                                                                                                                                                                                                                                                                                                                                    OR @ShowDelayedOrders &lt;&gt; 0)
+                                                                                                                                                                                                                                                                                                                                                                                                                   AND Invoice.CurrentStatusID = 128
+                                                                                                                                                                                                                                                                                                                                                                                                                   AND Invoice.PromisedDate &lt; @ManifestDateEnd))) AS OC</td>
+        <td>117</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">ClientAccount WITH (NOLOCK)
+INNER JOIN
+RouteStopClientAccount WITH (NOLOCK)
+ON ClientAccount.InstanceID = RouteStopClientAccount.ClientAccountID
+INNER JOIN
+RouteStop WITH (NOLOCK)
+ON RouteStopClientAccount.RouteStopID = RouteStop.InstanceID
+   AND RouteStop.RouteID = @RouteID
+INNER JOIN
+Route WITH (NOLOCK)
+ON Route.InstanceID = RouteStop.RouteID
+INNER JOIN
+ClientAccountRouteInfo WITH (NOLOCK)
+ON ClientAccountRouteInfo.ClientAccountID = ClientAccount.InstanceID
+   AND ClientAccountRouteInfo.TimeRange = @TimeRangeSpecifier
+LEFT OUTER JOIN
+RouteStop AS LinkedStop WITH (NOLOCK)
+ON LinkedStop.InstanceID = RouteStop.LinkedInstanceID
+   AND LinkedStop.RouteID = @RouteID
+   AND RouteStop.InstanceID &lt;&gt; LinkedStop.InstanceID
+LEFT OUTER JOIN
+ClientAccountAccountsOnFile WITH (NOLOCK)
+ON ClientAccountAccountsOnFile.ClientAccountID = ClientAccount.InstanceID
+   AND ClientAccountAccountsOnFile.AccountType = 1
+   AND ClientAccountAccountsOnFile.AccountOrdinal = 1
+LEFT OUTER JOIN
+ClientAccountAccountsOnFileTerm WITH (NOLOCK)
+ON ClientAccountAccountsOnFileTerm.ClientAccountAccountsOnFileID = ClientAccountAccountsOnFile.InstanceID OUTER APPLY dbo.fnGetClientAccountAddress(ClientAccount.InstanceID, ClientAccountRouteInfo.PickupAddressType) AS PickupRouteAddress OUTER APPLY dbo.fnGetClientAccountAddress(ClientAccount.InstanceID, ClientAccountRouteInfo.DeliveryAddressType) AS DeliveryRouteAddress</td>
+        <td>117</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">ClientAccount WITH (NOLOCK)
+INNER JOIN
+RouteStopClientAccount WITH (NOLOCK)
+ON ClientAccount.InstanceID = RouteStopClientAccount.ClientAccountID
+INNER JOIN
+RouteStop WITH (NOLOCK)
+ON RouteStopClientAccount.RouteStopID = RouteStop.InstanceID
+   AND RouteStop.RouteID = @RouteID
+INNER JOIN
+Route WITH (NOLOCK)
+ON Route.InstanceID = RouteStop.RouteID
+INNER JOIN
+ClientAccountRouteInfo WITH (NOLOCK)
+ON ClientAccountRouteInfo.ClientAccountID = ClientAccount.InstanceID
+   AND ClientAccountRouteInfo.TimeRange = @TimeRangeSpecifier
+LEFT OUTER JOIN
+RouteStop AS LinkedStop WITH (NOLOCK)
+ON LinkedStop.InstanceID = RouteStop.LinkedInstanceID
+   AND LinkedStop.RouteID = @RouteID
+   AND RouteStop.InstanceID &lt;&gt; LinkedStop.InstanceID
+LEFT OUTER JOIN
+ClientAccountAccountsOnFile WITH (NOLOCK)
+ON ClientAccountAccountsOnFile.ClientAccountID = ClientAccount.InstanceID
+   AND ClientAccountAccountsOnFile.AccountType = 1
+   AND ClientAccountAccountsOnFile.AccountOrdinal = 1
+LEFT OUTER JOIN
+ClientAccountAccountsOnFileTerm WITH (NOLOCK)
+ON ClientAccountAccountsOnFileTerm.ClientAccountAccountsOnFileID = ClientAccountAccountsOnFile.InstanceID OUTER APPLY dbo.fnGetClientAccountAddress(ClientAccount.InstanceID, ClientAccountRouteInfo.PickupAddressType) AS PickupRouteAddress</td>
+        <td>117</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">ClientAccount WITH (NOLOCK)
+INNER JOIN
+RouteStopClientAccount WITH (NOLOCK)
+ON ClientAccount.InstanceID = RouteStopClientAccount.ClientAccountID
+INNER JOIN
+RouteStop WITH (NOLOCK)
+ON RouteStopClientAccount.RouteStopID = RouteStop.InstanceID
+   AND RouteStop.RouteID = @RouteID
+INNER JOIN
+Route WITH (NOLOCK)
+ON Route.InstanceID = RouteStop.RouteID
+INNER JOIN
+ClientAccountRouteInfo WITH (NOLOCK)
+ON ClientAccountRouteInfo.ClientAccountID = ClientAccount.InstanceID
+LEFT OUTER JOIN
+RouteStop AS LinkedStop WITH (NOLOCK)
+ON LinkedStop.InstanceID = RouteStop.LinkedInstanceID
+   AND LinkedStop.RouteID = @RouteID
+   AND RouteStop.InstanceID &lt;&gt; LinkedStop.InstanceID
+LEFT OUTER JOIN
+ClientAccountAccountsOnFile WITH (NOLOCK)
+ON ClientAccountAccountsOnFile.ClientAccountID = ClientAccount.InstanceID
+   AND ClientAccountAccountsOnFile.AccountType = 1
+   AND ClientAccountAccountsOnFile.AccountOrdinal = 1
+LEFT OUTER JOIN
+ClientAccountAccountsOnFileTerm WITH (NOLOCK)
+ON ClientAccountAccountsOnFileTerm.ClientAccountAccountsOnFileID = ClientAccountAccountsOnFile.InstanceID
+LEFT OUTER JOIN
+(SELECT DISTINCT ManifestHistoryStop.ClientAccountID
+ FROM   ManifestHistoryStop WITH (NOLOCK)
+        INNER JOIN
+        ManifestHistory WITH (NOLOCK)
+        ON ManifestHistory.InstanceID = ManifestHistoryStop.ManifestID
+           AND ManifestHistory.ManifestDateTime = @ManifestDate
+           AND ManifestHistory.InstanceNumber &gt;= @BaselineManifestID
+           AND IsNull(ManifestHistory.Aborted, 0) = 0
+        INNER JOIN
+        Route WITH (NOLOCK)
+        ON Route.Routename = ManifestHistory.RouteName
+           AND Route.InstanceID = @RouteID) AS MH
+ON MH.ClientAccountID = ClientAccount.InstanceID OUTER APPLY dbo.fnGetClientAccountAddress(ClientAccount.InstanceID, ClientAccountRouteInfo.PickupAddressType) AS PickupRouteAddress OUTER APPLY dbo.fnGetClientAccountAddress(ClientAccount.InstanceID, ClientAccountRouteInfo.DeliveryAddressType) AS DeliveryRouteAddress OUTER APPLY (SELECT Sum(CASE WHEN Invoice.CurrentStatusID = 128 THEN 1 ELSE 0 END) AS OrderCountInProcess,
+                                                                                                                                                                                                                                                                                                                                                 Sum(CASE WHEN Invoice.CurrentStatusID = 129 THEN 1 ELSE 0 END) AS OrderCountReady
+                                                                                                                                                                                                                                                                                                                                          FROM   Invoice WITH (NOLOCK)
+                                                                                                                                                                                                                                                                                                                                                 LEFT OUTER JOIN
+                                                                                                                                                                                                                                                                                                                                                 (SELECT ManifestHistoryInvoice.InvoiceID
+                                                                                                                                                                                                                                                                                                                                                  FROM   ManifestHistoryInvoice WITH (NOLOCK)
+                                                                                                                                                                                                                                                                                                                                                         INNER JOIN
+                                                                                                                                                                                                                                                                                                                                                         ManifestHistory WITH (NOLOCK)
+                                                                                                                                                                                                                                                                                                                                                         ON ManifestHistory.InstanceID = ManifestHistoryInvoice.ManifestID
+                                                                                                                                                                                                                                                                                                                                                            AND ManifestHistory.ManifestDateTime = @ManifestDate
+                                                                                                                                                                                                                                                                                                                                                            AND ManifestHistory.InstanceNumber &gt;= @BaselineManifestID
+                                                                                                                                                                                                                                                                                                                                                            AND IsNull(ManifestHistory.Aborted, 0) = 0
+                                                                                                                                                                                                                                                                                                                                                         INNER JOIN
+                                                                                                                                                                                                                                                                                                                                                         Route WITH (NOLOCK)
+                                                                                                                                                                                                                                                                                                                                                         ON Route.Routename = ManifestHistory.RouteName
+                                                                                                                                                                                                                                                                                                                                                            AND Route.InstanceID = @RouteID
+                                                                                                                                                                                                                                                                                                                                                  WHERE  ManifestHistoryInvoice.ManifestExclusionReasonID IS NULL
+                                                                                                                                                                                                                                                                                                                                                         AND ManifestHistoryInvoice.DelayedFlag IS NULL) AS MHI
+                                                                                                                                                                                                                                                                                                                                                 ON MHI.InvoiceID = Invoice.InstanceID
+                                                                                                                                                                                                                                                                                                                                          WHERE  MHI.InvoiceID IS NULL
+                                                                                                                                                                                                                                                                                                                                                 AND Invoice.ClientAccountID = ClientAccount.InstanceID
+                                                                                                                                                                                                                                                                                                                                                 AND Invoice.RouteID = @RouteID
+                                                                                                                                                                                                                                                                                                                                                 AND (Invoice.InvoiceMode &lt;&gt; 'Storage'
+                                                                                                                                                                                                                                                                                                                                                      OR (@RackLocation &lt;&gt; ''
+                                                                                                                                                                                                                                                                                                                                                          AND Invoice.Racklocation = @RackLocation))
+                                                                                                                                                                                                                                                                                                                                                 AND Invoice.Voided = 0
+                                                                                                                                                                                                                                                                                                                                                 AND ((Invoice.CurrentStatusID = 129
+                                                                                                                                                                                                                                                                                                                                                       AND (@RackLocation = ''
+                                                                                                                                                                                                                                                                                                                                                            OR Invoice.Racklocation = @RackLocation))
+                                                                                                                                                                                                                                                                                                                                                      OR ((@ShowReadyOrdersOnly = 0
+                                                                                                                                                                                                                                                                                                                                                           OR @ShowDelayedOrders &lt;&gt; 0)
+                                                                                                                                                                                                                                                                                                                                                          AND Invoice.CurrentStatusID = 128
+                                                                                                                                                                                                                                                                                                                                                          AND Invoice.PromisedDate &lt; @ManifestDateEnd))) AS OC</td>
+        <td>252</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">ClientAccount WITH (NOLOCK)
+INNER JOIN
+RouteStopClientAccount WITH (NOLOCK)
+ON ClientAccount.InstanceID = RouteStopClientAccount.ClientAccountID
+INNER JOIN
+RouteStop WITH (NOLOCK)
+ON RouteStopClientAccount.RouteStopID = RouteStop.InstanceID
+   AND RouteStop.RouteID = @RouteID
+INNER JOIN
+Route WITH (NOLOCK)
+ON Route.InstanceID = RouteStop.RouteID
+INNER JOIN
+ClientAccountRouteInfo WITH (NOLOCK)
+ON ClientAccountRouteInfo.ClientAccountID = ClientAccount.InstanceID
+LEFT OUTER JOIN
+RouteStop AS LinkedStop WITH (NOLOCK)
+ON LinkedStop.InstanceID = RouteStop.LinkedInstanceID
+   AND LinkedStop.RouteID = @RouteID
+   AND RouteStop.InstanceID &lt;&gt; LinkedStop.InstanceID
+LEFT OUTER JOIN
+ClientAccountAccountsOnFile WITH (NOLOCK)
+ON ClientAccountAccountsOnFile.ClientAccountID = ClientAccount.InstanceID
+   AND ClientAccountAccountsOnFile.AccountType = 1
+   AND ClientAccountAccountsOnFile.AccountOrdinal = 1
+LEFT OUTER JOIN
+ClientAccountAccountsOnFileTerm WITH (NOLOCK)
+ON ClientAccountAccountsOnFileTerm.ClientAccountAccountsOnFileID = ClientAccountAccountsOnFile.InstanceID
+LEFT OUTER JOIN
+(SELECT DISTINCT ManifestHistoryStop.ClientAccountID
+ FROM   ManifestHistoryStop WITH (NOLOCK)
+        INNER JOIN
+        ManifestHistory WITH (NOLOCK)
+        ON ManifestHistory.InstanceID = ManifestHistoryStop.ManifestID
+           AND ManifestHistory.ManifestDateTime = @ManifestDate
+           AND ManifestHistory.InstanceNumber &gt;= @BaselineManifestID
+           AND IsNull(ManifestHistory.Aborted, 0) = 0
+        INNER JOIN
+        Route WITH (NOLOCK)
+        ON Route.Routename = ManifestHistory.RouteName
+           AND Route.InstanceID = @RouteID) AS MH
+ON MH.ClientAccountID = ClientAccount.InstanceID OUTER APPLY dbo.fnGetClientAccountAddress(ClientAccount.InstanceID, ClientAccountRouteInfo.PickupAddressType) AS PickupRouteAddress OUTER APPLY dbo.fnGetClientAccountAddress(ClientAccount.InstanceID, ClientAccountRouteInfo.DeliveryAddressType) AS DeliveryRouteAddress</td>
+        <td>252</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">ClientAccount WITH (NOLOCK)
+INNER JOIN
+RouteStopClientAccount WITH (NOLOCK)
+ON ClientAccount.InstanceID = RouteStopClientAccount.ClientAccountID
+INNER JOIN
+RouteStop WITH (NOLOCK)
+ON RouteStopClientAccount.RouteStopID = RouteStop.InstanceID
+   AND RouteStop.RouteID = @RouteID
+INNER JOIN
+Route WITH (NOLOCK)
+ON Route.InstanceID = RouteStop.RouteID
+INNER JOIN
+ClientAccountRouteInfo WITH (NOLOCK)
+ON ClientAccountRouteInfo.ClientAccountID = ClientAccount.InstanceID
+LEFT OUTER JOIN
+RouteStop AS LinkedStop WITH (NOLOCK)
+ON LinkedStop.InstanceID = RouteStop.LinkedInstanceID
+   AND LinkedStop.RouteID = @RouteID
+   AND RouteStop.InstanceID &lt;&gt; LinkedStop.InstanceID
+LEFT OUTER JOIN
+ClientAccountAccountsOnFile WITH (NOLOCK)
+ON ClientAccountAccountsOnFile.ClientAccountID = ClientAccount.InstanceID
+   AND ClientAccountAccountsOnFile.AccountType = 1
+   AND ClientAccountAccountsOnFile.AccountOrdinal = 1
+LEFT OUTER JOIN
+ClientAccountAccountsOnFileTerm WITH (NOLOCK)
+ON ClientAccountAccountsOnFileTerm.ClientAccountAccountsOnFileID = ClientAccountAccountsOnFile.InstanceID
+LEFT OUTER JOIN
+(SELECT DISTINCT ManifestHistoryStop.ClientAccountID
+ FROM   ManifestHistoryStop WITH (NOLOCK)
+        INNER JOIN
+        ManifestHistory WITH (NOLOCK)
+        ON ManifestHistory.InstanceID = ManifestHistoryStop.ManifestID
+           AND ManifestHistory.ManifestDateTime = @ManifestDate
+           AND ManifestHistory.InstanceNumber &gt;= @BaselineManifestID
+           AND IsNull(ManifestHistory.Aborted, 0) = 0
+        INNER JOIN
+        Route WITH (NOLOCK)
+        ON Route.Routename = ManifestHistory.RouteName
+           AND Route.InstanceID = @RouteID) AS MH
+ON MH.ClientAccountID = ClientAccount.InstanceID OUTER APPLY dbo.fnGetClientAccountAddress(ClientAccount.InstanceID, ClientAccountRouteInfo.PickupAddressType) AS PickupRouteAddress</td>
+        <td>252</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">ClientAccount WITH (NOLOCK)
+INNER JOIN
+RouteStopClientAccount WITH (NOLOCK)
+ON ClientAccount.InstanceID = RouteStopClientAccount.ClientAccountID
+INNER JOIN
+RouteStop WITH (NOLOCK)
+ON RouteStopClientAccount.RouteStopID = RouteStop.InstanceID
+   AND RouteStop.RouteID = @RouteID
+INNER JOIN
+Route WITH (NOLOCK)
+ON Route.InstanceID = RouteStop.RouteID
+INNER JOIN
+ClientAccountRouteInfo WITH (NOLOCK)
+ON ClientAccountRouteInfo.ClientAccountID = ClientAccount.InstanceID
+LEFT OUTER JOIN
+RouteStop AS LinkedStop WITH (NOLOCK)
+ON LinkedStop.InstanceID = RouteStop.LinkedInstanceID
+   AND LinkedStop.RouteID = @RouteID
+   AND RouteStop.InstanceID &lt;&gt; LinkedStop.InstanceID
+LEFT OUTER JOIN
+ClientAccountAccountsOnFile WITH (NOLOCK)
+ON ClientAccountAccountsOnFile.ClientAccountID = ClientAccount.InstanceID
+   AND ClientAccountAccountsOnFile.AccountType = 1
+   AND ClientAccountAccountsOnFile.AccountOrdinal = 1
+LEFT OUTER JOIN
+ClientAccountAccountsOnFileTerm WITH (NOLOCK)
+ON ClientAccountAccountsOnFileTerm.ClientAccountAccountsOnFileID = ClientAccountAccountsOnFile.InstanceID OUTER APPLY dbo.fnGetClientAccountAddress(ClientAccount.InstanceID, ClientAccountRouteInfo.PickupAddressType) AS PickupRouteAddress OUTER APPLY dbo.fnGetClientAccountAddress(ClientAccount.InstanceID, ClientAccountRouteInfo.DeliveryAddressType) AS DeliveryRouteAddress OUTER APPLY (SELECT Sum(CASE WHEN Invoice.CurrentStatusID = 128 THEN 1 ELSE 0 END) AS OrderCountInProcess,
+                                                                                                                                                                                                                                                                                                                                                                                                          Sum(CASE WHEN Invoice.CurrentStatusID = 129 THEN 1 ELSE 0 END) AS OrderCountReady
+                                                                                                                                                                                                                                                                                                                                                                                                   FROM   Invoice WITH (NOLOCK)
+                                                                                                                                                                                                                                                                                                                                                                                                   WHERE  Invoice.ClientAccountID = ClientAccount.InstanceID
+                                                                                                                                                                                                                                                                                                                                                                                                          AND Invoice.RouteID = @RouteID
+                                                                                                                                                                                                                                                                                                                                                                                                          AND (Invoice.InvoiceMode &lt;&gt; 'Storage'
+                                                                                                                                                                                                                                                                                                                                                                                                               OR (@RackLocation &lt;&gt; ''
+                                                                                                                                                                                                                                                                                                                                                                                                                   AND Invoice.Racklocation = @RackLocation))
+                                                                                                                                                                                                                                                                                                                                                                                                          AND Invoice.Voided = 0
+                                                                                                                                                                                                                                                                                                                                                                                                          AND ((Invoice.CurrentStatusID = 129
+                                                                                                                                                                                                                                                                                                                                                                                                                AND (@RackLocation = ''
+                                                                                                                                                                                                                                                                                                                                                                                                                     OR Invoice.Racklocation = @RackLocation))
+                                                                                                                                                                                                                                                                                                                                                                                                               OR ((@ShowReadyOrdersOnly = 0
+                                                                                                                                                                                                                                                                                                                                                                                                                    OR @ShowDelayedOrders &lt;&gt; 0)
+                                                                                                                                                                                                                                                                                                                                                                                                                   AND Invoice.CurrentStatusID = 128
+                                                                                                                                                                                                                                                                                                                                                                                                                   AND Invoice.PromisedDate &lt; @ManifestDateEnd))) AS OC</td>
+        <td>400</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">ClientAccount WITH (NOLOCK)
+INNER JOIN
+RouteStopClientAccount WITH (NOLOCK)
+ON ClientAccount.InstanceID = RouteStopClientAccount.ClientAccountID
+INNER JOIN
+RouteStop WITH (NOLOCK)
+ON RouteStopClientAccount.RouteStopID = RouteStop.InstanceID
+   AND RouteStop.RouteID = @RouteID
+INNER JOIN
+Route WITH (NOLOCK)
+ON Route.InstanceID = RouteStop.RouteID
+INNER JOIN
+ClientAccountRouteInfo WITH (NOLOCK)
+ON ClientAccountRouteInfo.ClientAccountID = ClientAccount.InstanceID
+LEFT OUTER JOIN
+RouteStop AS LinkedStop WITH (NOLOCK)
+ON LinkedStop.InstanceID = RouteStop.LinkedInstanceID
+   AND LinkedStop.RouteID = @RouteID
+   AND RouteStop.InstanceID &lt;&gt; LinkedStop.InstanceID
+LEFT OUTER JOIN
+ClientAccountAccountsOnFile WITH (NOLOCK)
+ON ClientAccountAccountsOnFile.ClientAccountID = ClientAccount.InstanceID
+   AND ClientAccountAccountsOnFile.AccountType = 1
+   AND ClientAccountAccountsOnFile.AccountOrdinal = 1
+LEFT OUTER JOIN
+ClientAccountAccountsOnFileTerm WITH (NOLOCK)
+ON ClientAccountAccountsOnFileTerm.ClientAccountAccountsOnFileID = ClientAccountAccountsOnFile.InstanceID OUTER APPLY dbo.fnGetClientAccountAddress(ClientAccount.InstanceID, ClientAccountRouteInfo.PickupAddressType) AS PickupRouteAddress OUTER APPLY dbo.fnGetClientAccountAddress(ClientAccount.InstanceID, ClientAccountRouteInfo.DeliveryAddressType) AS DeliveryRouteAddress</td>
+        <td>400</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">ClientAccount WITH (NOLOCK)
+INNER JOIN
+RouteStopClientAccount WITH (NOLOCK)
+ON ClientAccount.InstanceID = RouteStopClientAccount.ClientAccountID
+INNER JOIN
+RouteStop WITH (NOLOCK)
+ON RouteStopClientAccount.RouteStopID = RouteStop.InstanceID
+   AND RouteStop.RouteID = @RouteID
+INNER JOIN
+Route WITH (NOLOCK)
+ON Route.InstanceID = RouteStop.RouteID
+INNER JOIN
+ClientAccountRouteInfo WITH (NOLOCK)
+ON ClientAccountRouteInfo.ClientAccountID = ClientAccount.InstanceID
+LEFT OUTER JOIN
+RouteStop AS LinkedStop WITH (NOLOCK)
+ON LinkedStop.InstanceID = RouteStop.LinkedInstanceID
+   AND LinkedStop.RouteID = @RouteID
+   AND RouteStop.InstanceID &lt;&gt; LinkedStop.InstanceID
+LEFT OUTER JOIN
+ClientAccountAccountsOnFile WITH (NOLOCK)
+ON ClientAccountAccountsOnFile.ClientAccountID = ClientAccount.InstanceID
+   AND ClientAccountAccountsOnFile.AccountType = 1
+   AND ClientAccountAccountsOnFile.AccountOrdinal = 1
+LEFT OUTER JOIN
+ClientAccountAccountsOnFileTerm WITH (NOLOCK)
+ON ClientAccountAccountsOnFileTerm.ClientAccountAccountsOnFileID = ClientAccountAccountsOnFile.InstanceID OUTER APPLY dbo.fnGetClientAccountAddress(ClientAccount.InstanceID, ClientAccountRouteInfo.PickupAddressType) AS PickupRouteAddress</td>
+        <td>400</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">One-part names</td>
+        <td colspan="1">ClientAccount WITH (NOLOCK)</td>
+        <td>117</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">RouteStopClientAccount WITH (NOLOCK)</td>
+        <td>118</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">RouteStop WITH (NOLOCK)</td>
+        <td>119</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">Route WITH (NOLOCK)</td>
+        <td>120</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">ClientAccountRouteInfo WITH (NOLOCK)</td>
+        <td>121</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">RouteStop AS LinkedStop WITH (NOLOCK)</td>
+        <td>122</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">ClientAccountAccountsOnFile WITH (NOLOCK)</td>
+        <td>123</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">ClientAccountAccountsOnFileTerm WITH (NOLOCK)</td>
+        <td>124</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">Invoice WITH (NOLOCK)</td>
+        <td>129</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">ClientAccount WITH (NOLOCK)</td>
+        <td>252</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">RouteStopClientAccount WITH (NOLOCK)</td>
+        <td>253</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">RouteStop WITH (NOLOCK)</td>
+        <td>254</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">Route WITH (NOLOCK)</td>
+        <td>255</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">ClientAccountRouteInfo WITH (NOLOCK)</td>
+        <td>256</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">RouteStop AS LinkedStop WITH (NOLOCK)</td>
+        <td>257</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">ClientAccountAccountsOnFile WITH (NOLOCK)</td>
+        <td>258</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">ClientAccountAccountsOnFileTerm WITH (NOLOCK)</td>
+        <td>259</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">ManifestHistoryStop WITH (NOLOCK)</td>
+        <td>261</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">ManifestHistory WITH (NOLOCK)</td>
+        <td>262</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">Route WITH (NOLOCK)</td>
+        <td>263</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">Invoice WITH (NOLOCK)</td>
+        <td>269</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">ManifestHistoryInvoice WITH (NOLOCK)</td>
+        <td>271</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">ManifestHistory WITH (NOLOCK)</td>
+        <td>272</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">Route WITH (NOLOCK)</td>
+        <td>273</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">ClientAccount WITH (NOLOCK)</td>
+        <td>400</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">RouteStopClientAccount WITH (NOLOCK)</td>
+        <td>401</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">RouteStop WITH (NOLOCK)</td>
+        <td>402</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">Route WITH (NOLOCK)</td>
+        <td>403</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">ClientAccountRouteInfo WITH (NOLOCK)</td>
+        <td>404</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">RouteStop AS LinkedStop WITH (NOLOCK)</td>
+        <td>405</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">ClientAccountAccountsOnFile WITH (NOLOCK)</td>
+        <td>406</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">ClientAccountAccountsOnFileTerm WITH (NOLOCK)</td>
+        <td>407</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">Invoice WITH (NOLOCK)</td>
+        <td>412</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">NOLOCK</td>
+        <td colspan="1">NOLOCK</td>
+        <td>117</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>118</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>119</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>120</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>121</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>122</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>123</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>124</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>129</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>252</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>253</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>254</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>255</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>256</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>257</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>258</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>259</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>261</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>262</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>263</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>269</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>271</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>272</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>273</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>400</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>401</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>402</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>403</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>404</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>405</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>406</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>407</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>412</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">Table-valued functions</td>
+        <td colspan="1">dbo.fnGetClientAccountAddress(ClientAccount.InstanceID, ClientAccountRouteInfo.PickupAddressType) AS PickupRouteAddress</td>
+        <td>125</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">dbo.fnGetClientAccountAddress(ClientAccount.InstanceID, ClientAccountRouteInfo.DeliveryAddressType) AS DeliveryRouteAddress</td>
+        <td>126</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">dbo.fnGetClientAccountAddress(ClientAccount.InstanceID, ClientAccountRouteInfo.PickupAddressType) AS PickupRouteAddress</td>
+        <td>265</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">dbo.fnGetClientAccountAddress(ClientAccount.InstanceID, ClientAccountRouteInfo.DeliveryAddressType) AS DeliveryRouteAddress</td>
+        <td>266</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">dbo.fnGetClientAccountAddress(ClientAccount.InstanceID, ClientAccountRouteInfo.PickupAddressType) AS PickupRouteAddress</td>
+        <td>408</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">dbo.fnGetClientAccountAddress(ClientAccount.InstanceID, ClientAccountRouteInfo.DeliveryAddressType) AS DeliveryRouteAddress</td>
+        <td>409</td>
+      </tr>
+    </table>
+  </body>
+</html>

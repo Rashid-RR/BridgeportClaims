@@ -1,0 +1,866 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [API_SPOT2000].[SPReport_NewCustomers]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [API_SPOT2000].[SPReport_NewCustomers]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>3/11/2019 10:31 AM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">CASE</td>
+        <td colspan="1">CASE WHEN @DeliveryGroup = 'All Separate' THEN CASE WHEN ISNULL(R.RouteName, '') &lt;&gt; '' THEN 'Rte: ' + R.RouteName WHEN ISNULL(H.HotelName, '') &lt;&gt; '' THEN 'Htl: ' + H.HotelName ELSE 'Counter' END WHEN @DeliveryGroup = 'Counter Separate, Delivery Combined' THEN CASE WHEN ISNULL(R.RouteName, '') &lt;&gt; ''
+                                                                                                                                                                                                                                                                              OR ISNULL(H.HotelName, '') &lt;&gt; '' THEN 'Delivery' ELSE 'Counter' END ELSE 'ALL Customers' END</td>
+        <td>8</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN ISNULL(R.RouteName, '') &lt;&gt; '' THEN 'Rte: ' + R.RouteName WHEN ISNULL(H.HotelName, '') &lt;&gt; '' THEN 'Htl: ' + H.HotelName ELSE 'Counter' END</td>
+        <td>9</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN ISNULL(R.RouteName, '') &lt;&gt; ''
+          OR ISNULL(H.HotelName, '') &lt;&gt; '' THEN 'Delivery' ELSE 'Counter' END</td>
+        <td>13</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN @StoreGroup = 'Separate' THEN CONVERT (VARCHAR (3), SPAccountNode.NodeNumber) + ' - ' + SPAccountNode.Name ELSE '(Multiple Stores)' END</td>
+        <td>16</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN DLIPRIM.InstanceID = 216 THEN ClientAccount.PhoneDisplay ELSE CAP.PhoneDisplay END</td>
+        <td>22</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN ClientAccount.SignupOrigin = 'C' THEN 'CustomerConnect' WHEN ClientAccount.SignupOrigin = 'M' THEN 'Mobile App' WHEN ClientAccount.SignupOrigin = 'R' THEN 'RouteTrac' WHEN ClientAccount.SignupOrigin = 'S' THEN 'SPOT' ELSE 'N/A' END</td>
+        <td>36</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN dbo.ValidateEmailAddress(ClientAccount.EmailAddress) = 1 THEN ClientAccount.EmailAddress ELSE '' END</td>
+        <td>47</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN SMSRouteReminder.InstanceID IS NULL THEN '' ELSE '*' END</td>
+        <td>57</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN SMSSpecials.InstanceID IS NULL THEN '' ELSE '*' END</td>
+        <td>58</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN (EM1RouteReminder.InstanceID IS NOT NULL
+           OR EM2RouteReminder.InstanceID IS NOT NULL
+           OR EM3RouteReminder.InstanceID IS NOT NULL
+           OR EM4RouteReminder.InstanceID IS NOT NULL) THEN '*' ELSE '' END</td>
+        <td>59</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN (EM1Specials.InstanceID IS NOT NULL
+           OR EM2Specials.InstanceID IS NOT NULL
+           OR EM3Specials.InstanceID IS NOT NULL
+           OR EM4Specials.InstanceID IS NOT NULL) THEN '*' ELSE '' END</td>
+        <td>60</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN @DeliveryGroup = 'All Separate' THEN CASE WHEN ISNULL(R.RouteName, '') &lt;&gt; '' THEN 'Rte: ' + R.RouteName WHEN ISNULL(H.HotelName, '') &lt;&gt; '' THEN 'Htl: ' + H.HotelName ELSE 'Counter' END WHEN @DeliveryGroup = 'Counter Separate, Delivery Combined' THEN CASE WHEN ISNULL(R.RouteName, '') &lt;&gt; ''
+                                                                                                                                                                                                                                                                              OR ISNULL(H.HotelName, '') &lt;&gt; '' THEN 'Delivery' ELSE 'Counter' END ELSE 'ALL Customers' END</td>
+        <td>111</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN ISNULL(R.RouteName, '') &lt;&gt; '' THEN 'Rte: ' + R.RouteName WHEN ISNULL(H.HotelName, '') &lt;&gt; '' THEN 'Htl: ' + H.HotelName ELSE 'Counter' END</td>
+        <td>112</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN ISNULL(R.RouteName, '') &lt;&gt; ''
+          OR ISNULL(H.HotelName, '') &lt;&gt; '' THEN 'Delivery' ELSE 'Counter' END</td>
+        <td>116</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN @StoreGroup = 'Separate' THEN CONVERT (VARCHAR (3), SPAccountNode.NodeNumber) + ' - ' + SPAccountNode.Name ELSE '(Multiple Stores)' END</td>
+        <td>119</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN DLIPRIM.InstanceID = 216 THEN ClientAccount.PhoneDisplay ELSE CAP.PhoneDisplay END</td>
+        <td>126</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN dbo.ValidateEmailAddress(ClientAccount.EmailAddress) = 1 THEN ClientAccount.EmailAddress ELSE '' END</td>
+        <td>145</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN @DeliveryGroup = 'All Separate' THEN CASE WHEN ISNULL(R.RouteName, '') &lt;&gt; '' THEN 'Rte: ' + R.RouteName WHEN ISNULL(H.HotelName, '') &lt;&gt; '' THEN 'Htl: ' + H.HotelName ELSE 'Counter' END WHEN @DeliveryGroup = 'Counter Separate, Delivery Combined' THEN CASE WHEN ISNULL(R.RouteName, '') &lt;&gt; ''
+                                                                                                                                                                                                                                                                              OR ISNULL(H.HotelName, '') &lt;&gt; '' THEN 'Delivery' ELSE 'Counter' END ELSE 'ALL Customers' END</td>
+        <td>172</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN ISNULL(R.RouteName, '') &lt;&gt; '' THEN 'Rte: ' + R.RouteName WHEN ISNULL(H.HotelName, '') &lt;&gt; '' THEN 'Htl: ' + H.HotelName ELSE 'Counter' END</td>
+        <td>173</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN ISNULL(R.RouteName, '') &lt;&gt; ''
+          OR ISNULL(H.HotelName, '') &lt;&gt; '' THEN 'Delivery' ELSE 'Counter' END</td>
+        <td>177</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN @StoreGroup = 'Separate' THEN CONVERT (VARCHAR (3), SPAccountNode.NodeNumber) + ' - ' + SPAccountNode.Name ELSE '(Multiple Stores)' END</td>
+        <td>180</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN DLIPRIM.InstanceID = 216 THEN ClientAccount.PhoneDisplay ELSE CAP.PhoneDisplay END</td>
+        <td>186</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN ClientAccount.SignupOrigin = 'C' THEN 'CustomerConnect' WHEN ClientAccount.SignupOrigin = 'M' THEN 'Mobile App' WHEN ClientAccount.SignupOrigin = 'R' THEN 'RouteTrac' WHEN ClientAccount.SignupOrigin = 'S' THEN 'SPOT' ELSE 'N/A' END</td>
+        <td>200</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN dbo.ValidateEmailAddress(ClientAccount.EmailAddress) = 1 THEN ClientAccount.EmailAddress ELSE '' END</td>
+        <td>211</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN SMSRouteReminder.InstanceID IS NULL THEN '' ELSE '*' END</td>
+        <td>221</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN SMSSpecials.InstanceID IS NULL THEN '' ELSE '*' END</td>
+        <td>222</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN (EM1RouteReminder.InstanceID IS NOT NULL
+           OR EM2RouteReminder.InstanceID IS NOT NULL
+           OR EM3RouteReminder.InstanceID IS NOT NULL
+           OR EM4RouteReminder.InstanceID IS NOT NULL) THEN '*' ELSE '' END</td>
+        <td>223</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN (EM1Specials.InstanceID IS NOT NULL
+           OR EM2Specials.InstanceID IS NOT NULL
+           OR EM3Specials.InstanceID IS NOT NULL
+           OR EM4Specials.InstanceID IS NOT NULL) THEN '*' ELSE '' END</td>
+        <td>224</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN @DeliveryGroup = 'All Separate' THEN CASE WHEN ISNULL(R.RouteName, '') &lt;&gt; '' THEN 'Rte: ' + R.RouteName WHEN ISNULL(H.HotelName, '') &lt;&gt; '' THEN 'Htl: ' + H.HotelName ELSE 'Counter' END WHEN @DeliveryGroup = 'Counter Separate, Delivery Combined' THEN CASE WHEN ISNULL(R.RouteName, '') &lt;&gt; ''
+                                                                                                                                                                                                                                                                              OR ISNULL(H.HotelName, '') &lt;&gt; '' THEN 'Delivery' ELSE 'Counter' END ELSE 'ALL Customers' END</td>
+        <td>275</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN ISNULL(R.RouteName, '') &lt;&gt; '' THEN 'Rte: ' + R.RouteName WHEN ISNULL(H.HotelName, '') &lt;&gt; '' THEN 'Htl: ' + H.HotelName ELSE 'Counter' END</td>
+        <td>276</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN ISNULL(R.RouteName, '') &lt;&gt; ''
+          OR ISNULL(H.HotelName, '') &lt;&gt; '' THEN 'Delivery' ELSE 'Counter' END</td>
+        <td>280</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN @StoreGroup = 'Separate' THEN CONVERT (VARCHAR (3), SPAccountNode.NodeNumber) + ' - ' + SPAccountNode.Name ELSE '(Multiple Stores)' END</td>
+        <td>283</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN DLIPRIM.InstanceID = 216 THEN ClientAccount.PhoneDisplay ELSE CAP.PhoneDisplay END</td>
+        <td>290</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN dbo.ValidateEmailAddress(ClientAccount.EmailAddress) = 1 THEN ClientAccount.EmailAddress ELSE '' END</td>
+        <td>309</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">APPLY</td>
+        <td colspan="1">ClientAccount WITH (NOLOCK)
+INNER JOIN
+ESM_SPAccountNode AS SPAccountNode WITH (NOLOCK)
+ON ClientAccount.SPAccountNodeID = SPAccountNode.InstanceID
+LEFT OUTER JOIN
+DiscreteListInstance AS DLIPRIM WITH (NOLOCK)
+ON DLIPRIM.InstanceID = ClientAccount.PhoneTypeID
+LEFT OUTER JOIN
+ALL_Invoice AS Invoice WITH (NOLOCK)
+ON Invoice.ClientAccountID = ClientAccount.InstanceID
+LEFT OUTER JOIN
+ESM_SPAccountNodeAddress AS SPAccountNodeAddress WITH (NOLOCK)
+ON (SPAccountNodeAddress.SPAccountNodeID = SPAccountNode.InstanceID
+    AND AddressTypeID = 188)
+LEFT OUTER JOIN
+ESM_SPUser AS SPUser
+ON ClientAccount.SignupUserID = SPUser.InstanceID
+LEFT OUTER JOIN
+fnGUIDListToTable(@SelectedSites) AS SELECTED_SITES
+ON SPAccountNode.InstanceID = SELECTED_SITES.ID
+LEFT OUTER JOIN
+ClientAccountNotificationValue AS SMSRouteReminder WITH (NOLOCK)
+ON SMSRouteReminder.ClientAccountID = ClientAccount.InstanceID
+   AND SMSRouteReminder.ClientAccountNotificationMethodID = 'B74A63D8-99CC-4A98-9A6B-9CD629A49882'
+   AND SMSRouteReminder.ClientAccountNotificationTypeID = 'F4194E04-6D79-4580-BDDD-D28563E5584C'
+LEFT OUTER JOIN
+ClientAccountNotificationValue AS SMSSpecials WITH (NOLOCK)
+ON SMSSpecials.ClientAccountID = ClientAccount.InstanceID
+   AND SMSSpecials.ClientAccountNotificationMethodID = 'B74A63D8-99CC-4A98-9A6B-9CD629A49882'
+   AND SMSSpecials.ClientAccountNotificationTypeID = '393BB589-E1FF-4A21-8BEB-CAAEB87C2CF7'
+LEFT OUTER JOIN
+ClientAccountNotificationValue AS EM1RouteReminder WITH (NOLOCK)
+ON EM1RouteReminder.ClientAccountID = ClientAccount.InstanceID
+   AND EM1RouteReminder.ClientAccountNotificationMethodID = 'FCD665C4-99C4-4985-AA27-0D2B92A92FBB'
+   AND EM1RouteReminder.ClientAccountNotificationTypeID = 'F4194E04-6D79-4580-BDDD-D28563E5584C'
+LEFT OUTER JOIN
+ClientAccountNotificationValue AS EM2RouteReminder WITH (NOLOCK)
+ON EM2RouteReminder.ClientAccountID = ClientAccount.InstanceID
+   AND EM2RouteReminder.ClientAccountNotificationMethodID = 'FFED2A65-8F55-45A3-BE16-7E10CB45ED3C'
+   AND EM2RouteReminder.ClientAccountNotificationTypeID = 'F4194E04-6D79-4580-BDDD-D28563E5584C'
+LEFT OUTER JOIN
+ClientAccountNotificationValue AS EM3RouteReminder WITH (NOLOCK)
+ON EM3RouteReminder.ClientAccountID = ClientAccount.InstanceID
+   AND EM3RouteReminder.ClientAccountNotificationMethodID = '7681B267-E0B7-4E4A-A3DA-1216AD555926'
+   AND EM3RouteReminder.ClientAccountNotificationTypeID = 'F4194E04-6D79-4580-BDDD-D28563E5584C'
+LEFT OUTER JOIN
+ClientAccountNotificationValue AS EM4RouteReminder WITH (NOLOCK)
+ON EM4RouteReminder.ClientAccountID = ClientAccount.InstanceID
+   AND EM4RouteReminder.ClientAccountNotificationMethodID = '42A81BCF-6A39-4F7E-9BC9-7908A0EC9278'
+   AND EM4RouteReminder.ClientAccountNotificationTypeID = 'F4194E04-6D79-4580-BDDD-D28563E5584C'
+LEFT OUTER JOIN
+ClientAccountNotificationValue AS EM1Specials WITH (NOLOCK)
+ON EM1Specials.ClientAccountID = ClientAccount.InstanceID
+   AND EM1Specials.ClientAccountNotificationMethodID = 'FCD665C4-99C4-4985-AA27-0D2B92A92FBB'
+   AND EM1Specials.ClientAccountNotificationTypeID = '393BB589-E1FF-4A21-8BEB-CAAEB87C2CF7'
+LEFT OUTER JOIN
+ClientAccountNotificationValue AS EM2Specials WITH (NOLOCK)
+ON EM2Specials.ClientAccountID = ClientAccount.InstanceID
+   AND EM2Specials.ClientAccountNotificationMethodID = 'FFED2A65-8F55-45A3-BE16-7E10CB45ED3C'
+   AND EM2Specials.ClientAccountNotificationTypeID = '393BB589-E1FF-4A21-8BEB-CAAEB87C2CF7'
+LEFT OUTER JOIN
+ClientAccountNotificationValue AS EM3Specials WITH (NOLOCK)
+ON EM3Specials.ClientAccountID = ClientAccount.InstanceID
+   AND EM3Specials.ClientAccountNotificationMethodID = '7681B267-E0B7-4E4A-A3DA-1216AD555926'
+   AND EM3Specials.ClientAccountNotificationTypeID = '393BB589-E1FF-4A21-8BEB-CAAEB87C2CF7'
+LEFT OUTER JOIN
+ClientAccountNotificationValue AS EM4Specials WITH (NOLOCK)
+ON EM4Specials.ClientAccountID = ClientAccount.InstanceID
+   AND EM4Specials.ClientAccountNotificationMethodID = '42A81BCF-6A39-4F7E-9BC9-7908A0EC9278'
+   AND EM4Specials.ClientAccountNotificationTypeID = '393BB589-E1FF-4A21-8BEB-CAAEB87C2CF7'
+LEFT OUTER JOIN
+RouteStopClientAccount AS RSCA WITH (NOLOCK)
+ON RSCA.ClientAccountID = ClientAccount.InstanceID
+LEFT OUTER JOIN
+RouteStop AS RS WITH (NOLOCK)
+ON RS.InstanceID = RSCA.RouteStopID
+LEFT OUTER JOIN
+Route AS R WITH (NOLOCK)
+ON RS.RouteID = R.InstanceID
+LEFT OUTER JOIN
+dbo.fnGUIDListToTable(@Route) AS SELECTED_ROUTES
+ON R.InstanceID = SELECTED_ROUTES.ID
+LEFT OUTER JOIN
+HotelClientAccount WITH (NOLOCK)
+ON ClientAccount.InstanceID = HotelClientAccount.ClientAccountID
+LEFT OUTER JOIN
+Hotel AS H WITH (NOLOCK)
+ON HotelClientAccount.HotelID = H.InstanceID
+LEFT OUTER JOIN
+dbo.fnGUIDListToTable(@Hotel) AS SELECTED_HOTELS
+ON H.InstanceID = SELECTED_HOTELS.ID OUTER APPLY (SELECT TOP 1 PhoneDisplay
+                                                  FROM   ClientAccountPhone WITH (NOLOCK)
+                                                  WHERE  ClientAccountPhone.PhoneTypeID = 216
+                                                         AND ClientAccountPhone.ClientAccountID = ClientAccount.InstanceID) AS CAP</td>
+        <td>63</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">ClientAccount WITH (NOLOCK)
+INNER JOIN
+ESM_SPAccountNode AS SPAccountNode WITH (NOLOCK)
+ON ClientAccount.SPAccountNodeID = SPAccountNode.InstanceID
+LEFT OUTER JOIN
+Invoice WITH (NOLOCK)
+ON Invoice.ClientAccountID = ClientAccount.InstanceID
+LEFT OUTER JOIN
+DiscreteListInstance AS DLIPRIM WITH (NOLOCK)
+ON DLIPRIM.InstanceID = ClientAccount.PhoneTypeID
+LEFT OUTER JOIN
+ESM_SPAccountNodeAddress AS SPAccountNodeAddress WITH (NOLOCK)
+ON (SPAccountNodeAddress.SPAccountNodeID = SPAccountNode.InstanceID
+    AND AddressTypeID = 188)
+LEFT OUTER JOIN
+ESM_SPUser AS SPUser
+ON ClientAccount.SignupUserID = SPUser.InstanceID
+LEFT OUTER JOIN
+fnGUIDListToTable(@SelectedSites) AS SELECTED_SITES
+ON SPAccountNode.InstanceID = SELECTED_SITES.ID
+LEFT OUTER JOIN
+ClientAccountNotificationValue AS SMSRouteReminder WITH (NOLOCK)
+ON SMSRouteReminder.ClientAccountID = ClientAccount.InstanceID
+   AND SMSRouteReminder.ClientAccountNotificationMethodID = 'B74A63D8-99CC-4A98-9A6B-9CD629A49882'
+   AND SMSRouteReminder.ClientAccountNotificationTypeID = 'F4194E04-6D79-4580-BDDD-D28563E5584C'
+LEFT OUTER JOIN
+ClientAccountNotificationValue AS SMSSpecials WITH (NOLOCK)
+ON SMSSpecials.ClientAccountID = ClientAccount.InstanceID
+   AND SMSSpecials.ClientAccountNotificationMethodID = 'B74A63D8-99CC-4A98-9A6B-9CD629A49882'
+   AND SMSSpecials.ClientAccountNotificationTypeID = '393BB589-E1FF-4A21-8BEB-CAAEB87C2CF7'
+LEFT OUTER JOIN
+ClientAccountNotificationValue AS EM1RouteReminder WITH (NOLOCK)
+ON EM1RouteReminder.ClientAccountID = ClientAccount.InstanceID
+   AND EM1RouteReminder.ClientAccountNotificationMethodID = 'FCD665C4-99C4-4985-AA27-0D2B92A92FBB'
+   AND EM1RouteReminder.ClientAccountNotificationTypeID = 'F4194E04-6D79-4580-BDDD-D28563E5584C'
+LEFT OUTER JOIN
+ClientAccountNotificationValue AS EM2RouteReminder WITH (NOLOCK)
+ON EM2RouteReminder.ClientAccountID = ClientAccount.InstanceID
+   AND EM2RouteReminder.ClientAccountNotificationMethodID = 'FFED2A65-8F55-45A3-BE16-7E10CB45ED3C'
+   AND EM2RouteReminder.ClientAccountNotificationTypeID = 'F4194E04-6D79-4580-BDDD-D28563E5584C'
+LEFT OUTER JOIN
+ClientAccountNotificationValue AS EM3RouteReminder WITH (NOLOCK)
+ON EM3RouteReminder.ClientAccountID = ClientAccount.InstanceID
+   AND EM3RouteReminder.ClientAccountNotificationMethodID = '7681B267-E0B7-4E4A-A3DA-1216AD555926'
+   AND EM3RouteReminder.ClientAccountNotificationTypeID = 'F4194E04-6D79-4580-BDDD-D28563E5584C'
+LEFT OUTER JOIN
+ClientAccountNotificationValue AS EM4RouteReminder WITH (NOLOCK)
+ON EM4RouteReminder.ClientAccountID = ClientAccount.InstanceID
+   AND EM4RouteReminder.ClientAccountNotificationMethodID = '42A81BCF-6A39-4F7E-9BC9-7908A0EC9278'
+   AND EM4RouteReminder.ClientAccountNotificationTypeID = 'F4194E04-6D79-4580-BDDD-D28563E5584C'
+LEFT OUTER JOIN
+ClientAccountNotificationValue AS EM1Specials WITH (NOLOCK)
+ON EM1Specials.ClientAccountID = ClientAccount.InstanceID
+   AND EM1Specials.ClientAccountNotificationMethodID = 'FCD665C4-99C4-4985-AA27-0D2B92A92FBB'
+   AND EM1Specials.ClientAccountNotificationTypeID = '393BB589-E1FF-4A21-8BEB-CAAEB87C2CF7'
+LEFT OUTER JOIN
+ClientAccountNotificationValue AS EM2Specials WITH (NOLOCK)
+ON EM2Specials.ClientAccountID = ClientAccount.InstanceID
+   AND EM2Specials.ClientAccountNotificationMethodID = 'FFED2A65-8F55-45A3-BE16-7E10CB45ED3C'
+   AND EM2Specials.ClientAccountNotificationTypeID = '393BB589-E1FF-4A21-8BEB-CAAEB87C2CF7'
+LEFT OUTER JOIN
+ClientAccountNotificationValue AS EM3Specials WITH (NOLOCK)
+ON EM3Specials.ClientAccountID = ClientAccount.InstanceID
+   AND EM3Specials.ClientAccountNotificationMethodID = '7681B267-E0B7-4E4A-A3DA-1216AD555926'
+   AND EM3Specials.ClientAccountNotificationTypeID = '393BB589-E1FF-4A21-8BEB-CAAEB87C2CF7'
+LEFT OUTER JOIN
+ClientAccountNotificationValue AS EM4Specials WITH (NOLOCK)
+ON EM4Specials.ClientAccountID = ClientAccount.InstanceID
+   AND EM4Specials.ClientAccountNotificationMethodID = '42A81BCF-6A39-4F7E-9BC9-7908A0EC9278'
+   AND EM4Specials.ClientAccountNotificationTypeID = '393BB589-E1FF-4A21-8BEB-CAAEB87C2CF7'
+LEFT OUTER JOIN
+RouteStopClientAccount AS RSCA WITH (NOLOCK)
+ON RSCA.ClientAccountID = ClientAccount.InstanceID
+LEFT OUTER JOIN
+RouteStop AS RS WITH (NOLOCK)
+ON RS.InstanceID = RSCA.RouteStopID
+LEFT OUTER JOIN
+Route AS R WITH (NOLOCK)
+ON RS.RouteID = R.InstanceID
+LEFT OUTER JOIN
+dbo.fnGUIDListToTable(@Route) AS SELECTED_ROUTES
+ON R.InstanceID = SELECTED_ROUTES.ID
+LEFT OUTER JOIN
+HotelClientAccount WITH (NOLOCK)
+ON ClientAccount.InstanceID = HotelClientAccount.ClientAccountID
+LEFT OUTER JOIN
+Hotel AS H WITH (NOLOCK)
+ON HotelClientAccount.HotelID = H.InstanceID
+LEFT OUTER JOIN
+dbo.fnGUIDListToTable(@Hotel) AS SELECTED_HOTELS
+ON H.InstanceID = SELECTED_HOTELS.ID OUTER APPLY (SELECT TOP 1 PhoneDisplay
+                                                  FROM   ClientAccountPhone WITH (NOLOCK)
+                                                  WHERE  ClientAccountPhone.PhoneTypeID = 216
+                                                         AND ClientAccountPhone.ClientAccountID = ClientAccount.InstanceID) AS CAP</td>
+        <td>227</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">One-part names</td>
+        <td colspan="1">ClientAccount WITH (NOLOCK)</td>
+        <td>63</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">ESM_SPAccountNode AS SPAccountNode WITH (NOLOCK)</td>
+        <td>64</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">DiscreteListInstance AS DLIPRIM WITH (NOLOCK)</td>
+        <td>65</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">ALL_Invoice AS Invoice WITH (NOLOCK)</td>
+        <td>66</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">ESM_SPAccountNodeAddress AS SPAccountNodeAddress WITH (NOLOCK)</td>
+        <td>67</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">ESM_SPUser AS SPUser</td>
+        <td>69</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">ClientAccountNotificationValue AS SMSRouteReminder WITH (NOLOCK)</td>
+        <td>72</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">ClientAccountNotificationValue AS SMSSpecials WITH (NOLOCK)</td>
+        <td>74</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">ClientAccountNotificationValue AS EM1RouteReminder WITH (NOLOCK)</td>
+        <td>76</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">ClientAccountNotificationValue AS EM2RouteReminder WITH (NOLOCK)</td>
+        <td>78</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">ClientAccountNotificationValue AS EM3RouteReminder WITH (NOLOCK)</td>
+        <td>80</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">ClientAccountNotificationValue AS EM4RouteReminder WITH (NOLOCK)</td>
+        <td>82</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">ClientAccountNotificationValue AS EM1Specials WITH (NOLOCK)</td>
+        <td>84</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">ClientAccountNotificationValue AS EM2Specials WITH (NOLOCK)</td>
+        <td>86</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">ClientAccountNotificationValue AS EM3Specials WITH (NOLOCK)</td>
+        <td>88</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">ClientAccountNotificationValue AS EM4Specials WITH (NOLOCK)</td>
+        <td>90</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">RouteStopClientAccount AS RSCA WITH (NOLOCK)</td>
+        <td>92</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">RouteStop AS RS WITH (NOLOCK)</td>
+        <td>93</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">Route AS R WITH (NOLOCK)</td>
+        <td>94</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">HotelClientAccount WITH (NOLOCK)</td>
+        <td>96</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">Hotel AS H WITH (NOLOCK)</td>
+        <td>97</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">ClientAccountPhone WITH (NOLOCK)</td>
+        <td>99</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">ClientAccount WITH (NOLOCK)</td>
+        <td>227</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">ESM_SPAccountNode AS SPAccountNode WITH (NOLOCK)</td>
+        <td>228</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">Invoice WITH (NOLOCK)</td>
+        <td>229</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">DiscreteListInstance AS DLIPRIM WITH (NOLOCK)</td>
+        <td>230</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">ESM_SPAccountNodeAddress AS SPAccountNodeAddress WITH (NOLOCK)</td>
+        <td>231</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">ESM_SPUser AS SPUser</td>
+        <td>233</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">ClientAccountNotificationValue AS SMSRouteReminder WITH (NOLOCK)</td>
+        <td>236</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">ClientAccountNotificationValue AS SMSSpecials WITH (NOLOCK)</td>
+        <td>238</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">ClientAccountNotificationValue AS EM1RouteReminder WITH (NOLOCK)</td>
+        <td>240</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">ClientAccountNotificationValue AS EM2RouteReminder WITH (NOLOCK)</td>
+        <td>242</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">ClientAccountNotificationValue AS EM3RouteReminder WITH (NOLOCK)</td>
+        <td>244</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">ClientAccountNotificationValue AS EM4RouteReminder WITH (NOLOCK)</td>
+        <td>246</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">ClientAccountNotificationValue AS EM1Specials WITH (NOLOCK)</td>
+        <td>248</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">ClientAccountNotificationValue AS EM2Specials WITH (NOLOCK)</td>
+        <td>250</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">ClientAccountNotificationValue AS EM3Specials WITH (NOLOCK)</td>
+        <td>252</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">ClientAccountNotificationValue AS EM4Specials WITH (NOLOCK)</td>
+        <td>254</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">RouteStopClientAccount AS RSCA WITH (NOLOCK)</td>
+        <td>256</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">RouteStop AS RS WITH (NOLOCK)</td>
+        <td>257</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">Route AS R WITH (NOLOCK)</td>
+        <td>258</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">HotelClientAccount WITH (NOLOCK)</td>
+        <td>260</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">Hotel AS H WITH (NOLOCK)</td>
+        <td>261</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">ClientAccountPhone WITH (NOLOCK)</td>
+        <td>263</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">NOLOCK</td>
+        <td colspan="1">NOLOCK</td>
+        <td>63</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>64</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>65</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>66</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>67</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>72</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>74</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>76</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>78</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>80</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>82</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>84</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>86</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>88</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>90</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>92</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>93</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>94</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>96</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>97</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>99</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>227</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>228</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>229</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>230</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>231</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>236</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>238</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>240</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>242</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>244</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>246</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>248</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>250</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>252</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>254</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>256</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>257</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>258</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>260</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>261</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>263</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">Table-valued functions</td>
+        <td colspan="1">fnGUIDListToTable(@SelectedSites) AS SELECTED_SITES</td>
+        <td>70</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">dbo.fnGUIDListToTable(@Route) AS SELECTED_ROUTES</td>
+        <td>95</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">dbo.fnGUIDListToTable(@Hotel) AS SELECTED_HOTELS</td>
+        <td>98</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">fnGUIDListToTable(@SelectedSites) AS SELECTED_SITES</td>
+        <td>234</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">dbo.fnGUIDListToTable(@Route) AS SELECTED_ROUTES</td>
+        <td>259</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">dbo.fnGUIDListToTable(@Hotel) AS SELECTED_HOTELS</td>
+        <td>262</td>
+      </tr>
+    </table>
+  </body>
+</html>

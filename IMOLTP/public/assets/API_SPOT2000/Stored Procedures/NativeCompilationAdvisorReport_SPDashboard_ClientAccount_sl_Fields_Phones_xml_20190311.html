@@ -1,0 +1,259 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [API_SPOT2000].[SPDashboard_ClientAccount_sl_Fields_Phones_xml]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [API_SPOT2000].[SPDashboard_ClientAccount_sl_Fields_Phones_xml]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>3/11/2019 10:31 AM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">OBJECT_ID</td>
+        <td colspan="1">object_id('tempdb..#t')</td>
+        <td>3</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">One-part names</td>
+        <td colspan="1">EXECUTE sp_xml_preparedocument @handle OUTPUT, @ClientAccountIDs_xml</td>
+        <td>9</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#t</td>
+        <td>11</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#t AS ids</td>
+        <td>82</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">phonesSms AS pSms</td>
+        <td>83</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">phonesMobile AS pMobile</td>
+        <td>86</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">phonesWork AS pWork</td>
+        <td>89</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">phonesOther AS pOther</td>
+        <td>92</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">ClientAccount AS ca WITH (NOLOCK)</td>
+        <td>18</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#t AS ids</td>
+        <td>19</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">ClientAccountPhone AS cap WITH (NOLOCK)</td>
+        <td>25</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#t AS ids</td>
+        <td>26</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">phones</td>
+        <td>34</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">phonesRows</td>
+        <td>38</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">phonesDistinct</td>
+        <td>43</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">phonesDistinct</td>
+        <td>48</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">phonesDistinct</td>
+        <td>53</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">phonesDistinct</td>
+        <td>58</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">OPENXML</td>
+        <td colspan="1">OPENXML (@handle, '/xL/x', 2) WITH (x UNIQUEIDENTIFIER '.')</td>
+        <td>12</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">WITH clause</td>
+        <td colspan="1">WITH phones
+AS (SELECT ca.InstanceID AS ClientAccountID,
+           0 AS InstanceNumber,
+           ca.Phone AS PhoneNumber,
+           ca.PhoneTypeID,
+           ca.PhoneMask
+    FROM   ClientAccount AS ca WITH (NOLOCK)
+           INNER JOIN
+           #t AS ids
+           ON ids.ID = ca.InstanceID
+    WHERE  PhoneTypeID IN (215, 216, 308)
+    UNION
+    SELECT cap.ClientAccountID AS ClientAccountID,
+           cap.InstanceNumber,
+           cap.PhoneNumber AS PhoneNumber,
+           cap.PhoneTypeID,
+           cap.PhoneMask
+    FROM   ClientAccountPhone AS cap WITH (NOLOCK)
+           INNER JOIN
+           #t AS ids
+           ON ids.ID = cap.ClientAccountID
+    WHERE  PhoneTypeID IN (215, 216, 308)),
+ phonesRows
+AS (SELECT ROW_NUMBER() OVER (PARTITION BY ClientAccountID, PhoneTypeID ORDER BY InstanceNumber) AS row,
+           *
+    FROM   phones),
+ phonesDistinct
+AS (SELECT *
+    FROM   phonesRows
+    WHERE  row = 1),
+ phonesSms
+AS (SELECT *
+    FROM   phonesDistinct
+    WHERE  PhoneTypeID = 216),
+ phonesMobile
+AS (SELECT *
+    FROM   phonesDistinct
+    WHERE  PhoneTypeID = 216),
+ phonesWork
+AS (SELECT *
+    FROM   phonesDistinct
+    WHERE  PhoneTypeID = 215),
+ phonesOther
+AS (SELECT *
+    FROM   phonesDistinct
+    WHERE  PhoneTypeID = 308)</td>
+        <td>15</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1"> phones
+AS (SELECT ca.InstanceID AS ClientAccountID,
+           0 AS InstanceNumber,
+           ca.Phone AS PhoneNumber,
+           ca.PhoneTypeID,
+           ca.PhoneMask
+    FROM   ClientAccount AS ca WITH (NOLOCK)
+           INNER JOIN
+           #t AS ids
+           ON ids.ID = ca.InstanceID
+    WHERE  PhoneTypeID IN (215, 216, 308)
+    UNION
+    SELECT cap.ClientAccountID AS ClientAccountID,
+           cap.InstanceNumber,
+           cap.PhoneNumber AS PhoneNumber,
+           cap.PhoneTypeID,
+           cap.PhoneMask
+    FROM   ClientAccountPhone AS cap WITH (NOLOCK)
+           INNER JOIN
+           #t AS ids
+           ON ids.ID = cap.ClientAccountID
+    WHERE  PhoneTypeID IN (215, 216, 308))</td>
+        <td>15</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1"> phonesRows
+AS (SELECT ROW_NUMBER() OVER (PARTITION BY ClientAccountID, PhoneTypeID ORDER BY InstanceNumber) AS row,
+           *
+    FROM   phones)</td>
+        <td>30</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1"> phonesDistinct
+AS (SELECT *
+    FROM   phonesRows
+    WHERE  row = 1)</td>
+        <td>36</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1"> phonesSms
+AS (SELECT *
+    FROM   phonesDistinct
+    WHERE  PhoneTypeID = 216)</td>
+        <td>41</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1"> phonesMobile
+AS (SELECT *
+    FROM   phonesDistinct
+    WHERE  PhoneTypeID = 216)</td>
+        <td>46</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1"> phonesWork
+AS (SELECT *
+    FROM   phonesDistinct
+    WHERE  PhoneTypeID = 215)</td>
+        <td>51</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1"> phonesOther
+AS (SELECT *
+    FROM   phonesDistinct
+    WHERE  PhoneTypeID = 308)</td>
+        <td>56</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">NOLOCK</td>
+        <td colspan="1">NOLOCK</td>
+        <td>18</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>25</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">ROW_NUMBER</td>
+        <td colspan="1">ROW_NUMBER() OVER (PARTITION BY ClientAccountID, PhoneTypeID ORDER BY InstanceNumber)</td>
+        <td>33</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">OVER</td>
+        <td colspan="1">OVER (PARTITION BY ClientAccountID, PhoneTypeID ORDER BY InstanceNumber)</td>
+        <td>33</td>
+      </tr>
+    </table>
+  </body>
+</html>

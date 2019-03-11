@@ -1,0 +1,216 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [API_SPOT2000].[CCS_PickupRequestInsertEmail]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [API_SPOT2000].[CCS_PickupRequestInsertEmail]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>3/11/2019 10:32 AM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">CASE</td>
+        <td colspan="1">CASE WHEN ClientAccountPhone.InstanceID IS NULL
+          OR ClientAccount.PhoneTypeID = 216 THEN ClientAccount.PhoneDisplay ELSE ClientAccountPhone.PhoneDisplay END</td>
+        <td>30</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN ClientAccountPhone.InstanceID IS NULL
+          OR ClientAccount.PhoneTypeID = 216 THEN ClientAccount.PhoneDisplay ELSE ClientAccountPhone.PhoneDisplay END</td>
+        <td>53</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">APPLY</td>
+        <td colspan="1">ClientAccount WITH (NOLOCK)
+LEFT OUTER JOIN
+ClientAccountPhone WITH (NOLOCK)
+ON ClientAccountPhone.ClientAccountID = ClientAccount.InstanceID
+   AND ClientAccountPhone.PhoneTypeID = 216
+LEFT OUTER JOIN
+RouteStopClientAccount WITH (NOLOCK)
+ON RouteStopClientAccount.ClientAccountID = ClientAccount.InstanceID
+LEFT OUTER JOIN
+RouteStop WITH (NOLOCK)
+ON RouteStop.InstanceID = RouteStopClientAccount.RouteStopID OUTER APPLY dbo.fnGetClientAccountAddress(ClientAccount.InstanceID, 304) AS RouteAddress</td>
+        <td>41</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">ClientAccount WITH (NOLOCK)
+LEFT OUTER JOIN
+ClientAccountPhone WITH (NOLOCK)
+ON ClientAccountPhone.ClientAccountID = ClientAccount.InstanceID
+   AND ClientAccountPhone.PhoneTypeID = 216
+LEFT OUTER JOIN
+RouteStopClientAccount WITH (NOLOCK)
+ON RouteStopClientAccount.ClientAccountID = ClientAccount.InstanceID
+LEFT OUTER JOIN
+RouteStop WITH (NOLOCK)
+ON RouteStop.InstanceID = RouteStopClientAccount.RouteStopID OUTER APPLY dbo.fnGetClientAccountAddress(ClientAccount.InstanceID, 304) AS RouteAddress</td>
+        <td>64</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">One-part names</td>
+        <td colspan="1">ClientAccount WITH (NOLOCK)</td>
+        <td>41</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">ClientAccountPhone WITH (NOLOCK)</td>
+        <td>42</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">RouteStopClientAccount WITH (NOLOCK)</td>
+        <td>43</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">RouteStop WITH (NOLOCK)</td>
+        <td>44</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">ClientAccount WITH (NOLOCK)</td>
+        <td>64</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">ClientAccountPhone WITH (NOLOCK)</td>
+        <td>65</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">RouteStopClientAccount WITH (NOLOCK)</td>
+        <td>66</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">RouteStop WITH (NOLOCK)</td>
+        <td>67</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">ClientAccountMessage WITH (NOLOCK)</td>
+        <td>77</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">EmailTrackingMessage WITH (NOLOCK)</td>
+        <td>80</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">WEB_PickupRequest</td>
+        <td>86</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">ClientAccountRouteInfoExceptions WITH (NOLOCK)</td>
+        <td>94</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">ClientAccountRouteInfoExceptions</td>
+        <td>95</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">ClientAccountRouteInfoExceptions WITH (NOLOCK)</td>
+        <td>100</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">ClientAccountRouteInfoExceptions</td>
+        <td>111</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">NOLOCK</td>
+        <td colspan="1">NOLOCK</td>
+        <td>41</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>42</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>43</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>44</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>64</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>65</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>66</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>67</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>77</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>80</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>94</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>100</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">Table-valued functions</td>
+        <td colspan="1">dbo.fnGetClientAccountAddress(ClientAccount.InstanceID, 304) AS RouteAddress</td>
+        <td>45</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">dbo.fnGetClientAccountAddress(ClientAccount.InstanceID, 304) AS RouteAddress</td>
+        <td>68</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">Subquery</td>
+        <td colspan="1">(SELECT *
+ FROM   ClientAccountRouteInfoExceptions WITH (NOLOCK)
+ WHERE  ClientAccountID = @ClientAccountID
+        AND EntryType = 'Cancellation'
+        AND dbo.dateNoTime(ExceptionDate) = @Date)</td>
+        <td>94</td>
+      </tr>
+    </table>
+  </body>
+</html>
