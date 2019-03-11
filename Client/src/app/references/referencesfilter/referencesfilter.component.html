@@ -1,5 +1,5 @@
 <form (keyup.enter)="search()" autocapitalize="none" autocomplete="off" autocomplete="off" role="form">
-  <section class="row" style="margin-top: 0.5%">
+  <section class="row" style="margin-top: 0.5%; margin-left: 0.5%;">
     <section class="col-md-3">
       <section class="form-group">
         <label>{{rs.typeSelected}} Name</label>
@@ -86,9 +86,9 @@
                 <input type="text" formControlName="state" placeholder="" aria-label="State:" matInput [formControl]="adjustorStateControl"
                   tabindex="5" [matAutocomplete]="auto">
                 <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-                  <mat-option *ngFor="let state of adjustorFilteredStates | async" [value]="state.stateName"
+                  <mat-option *ngFor="let state of adjustorFilteredStates | async" [value]="state.stateName?.toUpperCase()"
                     (onSelectionChange)="onAdjustorStateSelection(state.stateId)">
-                    {{state.stateName}}
+                    {{state.stateName | uppercase}}
                   </mat-option>
                 </mat-autocomplete>
               </mat-form-field>
@@ -172,9 +172,9 @@
                 <input type="text" formControlName="state" placeholder="" aria-label="State:" matInput [formControl]="attorneyStateControl"
                   tabindex="5" [matAutocomplete]="auto">
                 <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-                  <mat-option *ngFor="let state of attorneyFilteredStates | async" [value]="state.stateName"
+                  <mat-option *ngFor="let state of attorneyFilteredStates | async" [value]="state.stateName?.toUpperCase()"
                     (onSelectionChange)="onAttorneyStateSelection(state.stateId)">
-                    {{state.stateName}}
+                    {{state.stateName | uppercase}}
                   </mat-option>
                 </mat-autocomplete>
               </mat-form-field>
@@ -258,7 +258,7 @@
                 <input type="text" formControlName="billToStateName" placeholder="" aria-label="State:" matInput [formControl]="payorStateControl" tabindex="6" [matAutocomplete]="auto">
                 <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="onSelectionChanged($event)">
                   <mat-option *ngFor="let state of payorFilteredStates | async" [value]="state.stateName" (onSelectionChange)="onPayorStateSelection(state.stateId)">
-                    {{state.stateName}}
+                    {{state.stateName | uppercase}}
                   </mat-option>
                 </mat-autocomplete>
               </mat-form-field>

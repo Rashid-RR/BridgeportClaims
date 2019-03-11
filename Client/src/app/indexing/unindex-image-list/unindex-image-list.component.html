@@ -25,20 +25,20 @@
       <ul class="products-list product-list-in-box">
         <li class="item row" *ngFor="let file of ds.documentList" [class.edited]="file.edited" [class.added]="file.added"
           [class.deleted]="file.deleted">
-          <div class="col-md-4"  (click)="openFile(file)">
-            <i class="fa fa-file-pdf-o text-red" style="margin-right:15px;"></i> 
+          <div class="col-md-4" (click)="openFile(file)">
+            <i class="fa fa-file-pdf-o text-red" style="margin-right:15px;"></i>
             {{file.fileName}}
           </div>
-          <div class="col-md-1"  (click)="openFile(file)">
+          <div class="col-md-1" (click)="openFile(file)">
             {{file.fileSize}}
           </div>
-          <div class="col-md-2"  (click)="openFile(file)">
+          <div class="col-md-2" (click)="openFile(file)">
             {{file.creationTimeLocal | date : 'mediumDate'}} {{file.creationTimeLocal | date : 'mediumTime'}}
           </div>
-          <div class="col-md-2"  (click)="openFile(file)">
+          <div class="col-md-2" (click)="openFile(file)">
             {{file.lastAccessTimeLocal | date : 'mediumDate'}} {{file.lastAccessTimeLocal | date : 'mediumTime'}}
           </div>
-          <div class="col-md-2"  (click)="openFile(file)">
+          <div class="col-md-2" (click)="openFile(file)">
             {{file.lastWriteTimeLocal | date : 'mediumDate'}} {{file.lastWriteTimeLocal | date : 'mediumTime'}}
           </div>
           <div class="col-md-1">

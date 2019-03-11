@@ -30,13 +30,9 @@ ALTER TABLE [dbo].[Episode] ADD CONSTRAINT [pkEpisode] PRIMARY KEY CLUSTERED  ([
 GO
 CREATE NONCLUSTERED INDEX [idxEpisodeClaimID] ON [dbo].[Episode] ([ClaimID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
-CREATE NONCLUSTERED INDEX [idxEpisodeCreatedClaimIDPharmacyNABPEpisodeTypeIDAssignedUserIDEpisodeCategoryIDIncludeEpisodeID] ON [dbo].[Episode] ([Created], [ClaimID], [PharmacyNABP], [EpisodeTypeID], [AssignedUserID], [EpisodeCategoryID]) INCLUDE ([EpisodeID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
-GO
 CREATE NONCLUSTERED INDEX [idxEpisodeDocumentIDIncludes] ON [dbo].[Episode] ([DocumentID]) INCLUDE ([AcquiredUserID], [Archived], [AssignedUserID], [ClaimID], [Created], [CreatedOnUTC], [Description], [EpisodeCategoryID], [EpisodeTypeID], [ModifiedByUserID], [PharmacyNABP], [ResolvedDateUTC], [ResolvedUserID], [Role], [RxNumber], [Status], [UpdatedOnUTC]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
 CREATE NONCLUSTERED INDEX [idxEpisodeEpisodeCategoryIDIncludes] ON [dbo].[Episode] ([EpisodeCategoryID]) INCLUDE ([AssignedUserID], [Created], [EpisodeID], [EpisodeTypeID], [PharmacyNABP], [ResolvedDateUTC], [Role], [RxNumber]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
-GO
-CREATE NONCLUSTERED INDEX [idxEpisodeEpisodeTypeIDIncludes] ON [dbo].[Episode] ([EpisodeTypeID]) INCLUDE ([AssignedUserID], [ClaimID], [Created], [DocumentID], [EpisodeCategoryID], [PharmacyNABP], [ResolvedDateUTC]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
 ALTER TABLE [dbo].[Episode] ADD CONSTRAINT [fkEpisodeAcquiredUserIDAspNetUsersID] FOREIGN KEY ([AcquiredUserID]) REFERENCES [dbo].[AspNetUsers] ([ID])
 GO

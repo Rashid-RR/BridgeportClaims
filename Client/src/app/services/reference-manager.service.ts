@@ -1,10 +1,11 @@
 import {Injectable} from '@angular/core';
 import {HttpService} from './http-service';
 import {AdjustorItem} from '../references/dataitems/adjustor-item.model';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { UsState } from '../models/us-state';
-import { PayorItem } from '../references/dataitems/payor-item.model';
-import { AttorneyItem } from '../references/dataitems/attorney-item.model';
+import {FormGroup, FormBuilder, Validators} from '@angular/forms';
+import {UsState} from '../models/us-state';
+import {PayorItem} from '../references/dataitems/payor-item.model';
+import {AttorneyItem} from '../references/dataitems/attorney-item.model';
+import { throwError } from 'rxjs';
 
 declare var $: any;
 
@@ -15,6 +16,9 @@ export class ReferenceManagerService {
   payorForm: FormGroup;
   states: UsState[];
   public editFlag = false;
+  public payorId: number;
+  public adjustorId: number;
+  public attorneyId: number;
   public loading = false;
   public adjustors: Array<AdjustorItem>;
   public payors: Array<PayorItem>;
@@ -108,12 +112,26 @@ export class ReferenceManagerService {
     this.abstractSearchParams.page = this.currentPage;
     this.abstractSearchParams.sortDirection = this.sortType;
     this.abstractSearchParams.sort = this.sortColumn;
-    if (this.typeSelected === 'Adjustor') {
-      this.fetchAdjustors(this.abstractSearchParams);
-    } else if (this.typeSelected === 'Attorney') {
-      this.fetchAttorneys(this.abstractSearchParams);
-    } else if (this.typeSelected === 'Payor') {
-      this.fetchPayors(this.abstractSearchParams);
+    if (this.typeSelected === this.types[0]) {
+      // checking if we are getting a single adjustor or not....
+      if (this.adjustorId) {
+        this.fetchSingleAdjustor(this.adjustorId);
+      } else {
+        this.fetchAdjustors(this.abstractSearchParams);
+      }
+    } else if (this.typeSelected === this.types[1]) {
+      if (this.attorneyId) {
+        this.fetchSingleAttorney(this.attorneyId);
+      } else {
+        this.fetchAttorneys(this.abstractSearchParams);
+      }
+    } else if (this.typeSelected === this.types[2]) {
+      // checking if we are getting a single payor or not...
+      if (this.payorId) {
+        this.fetchSinglePayor(this.payorId);
+      } else {
+        this.fetchPayors(this.abstractSearchParams);
+      }
     }
   }
 
@@ -153,6 +171,81 @@ export class ReferenceManagerService {
       .subscribe((result: any) => {
         this.payors = result.results;
         this.totalEntityRows = result.totalRowCount;
+        this.loading = false;
+      }, error => {
+        this.loading = false;
+      });
+  }
+
+  fetchSingleAdjustor(id: number): void {
+    if (id !== this.adjustorId) {
+      throwError('Somethine went wrong, the id passed in does not match the adjustor Id.');
+      return;
+    }
+    this.loading = true;
+    this.http.getAdjustorById(this.adjustorId)
+      .subscribe((result: any) => {
+        this.adjustors = [];
+        this.adjustors.push(result);
+        this.editFlag = true;
+        this.editedEntity = result;
+        this.openModal(true);
+        setTimeout(() => {
+          const element = document.getElementById(this.adjustorId.toString());
+          element.classList.add('bgBlue');
+          this.adjustorId = null;
+        }, 1200);
+        this.totalEntityRows = 1;
+        this.loading = false;
+      }, error => {
+        this.loading = false;
+      });
+  }
+
+  fetchSingleAttorney(id: number): void {
+    if (id !== this.attorneyId) {
+      throwError('Somethine went wrong, the id passed in does not match the attorney Id.');
+      return;
+    }
+    this.loading = true;
+    this.http.getAttorneyById(this.attorneyId)
+      .subscribe((result: any) => {
+        this.attorneys = [];
+        this.attorneys.push(result);
+        this.editFlag = true;
+        this.editedEntity = result;
+        this.openModal(true);
+        setTimeout(() => {
+          const element = document.getElementById(this.attorneyId.toString());
+          element.classList.add('bgBlue');
+          this.attorneyId = null;
+        }, 1200);
+        this.totalEntityRows = 1;
+        this.loading = false;
+      }, error => {
+        this.loading = false;
+      });
+  }
+
+  fetchSinglePayor(id: number): void {
+    if (id !== this.payorId) {
+      throwError('Somethine went wrong, the id passed in does not match the payor Id.');
+      return;
+    }
+    this.loading = true;
+    this.http.getPayorById(this.payorId)
+      .subscribe((result: any) => {
+        this.payors = [];
+        this.payors.push(result);
+        this.editFlag = true;
+        this.editedEntity = result;
+        this.openModal(true);
+        setTimeout(() => {
+          const element = document.getElementById(this.payorId.toString());
+          element.classList.add('bgBlue');
+          this.payorId = null;
+        }, 1200);
+        this.totalEntityRows = 1;
         this.loading = false;
       }, error => {
         this.loading = false;
@@ -203,6 +296,18 @@ export class ReferenceManagerService {
     return Math.floor(this.currentStartedPage);
   }
 
+  convertPhoneNumber(num: any) {
+    let convertedNumber: string;
+    if (num.length === 10) {
+      convertedNumber = '(' + num.substring(0, 3) + ') ' + num.substring(3, 6) + '-' + num.substring(6, 10);
+      return convertedNumber;
+
+    } else if (num.length === 11) {
+      convertedNumber = num.substring(0, 1) + '-(' + num.substring(1, 4) + ') ' + num.substring(4, 7) + '-' + num.substring(7, 11);
+      return convertedNumber;
+    }
+  }
+
   openModal(isModalEdit: boolean): void {
     this.editFlag = isModalEdit;
     $('#modalAddAdjustor').modal('show');
@@ -242,10 +347,12 @@ export class ReferenceManagerService {
         this.adjustorForm.controls.address1.setValue(this.editedEntity.address1);
         this.adjustorForm.controls.address2.setValue(this.editedEntity.address2);
         this.adjustorForm.controls.city.setValue(this.editedEntity.city);
-        const adjustorState = this.states.find(st => st.stateName === this.editedEntity.stateName);
-        if (adjustorState) {
-          this.adjustorForm.controls.state.setValue(adjustorState.stateName);
-          this.adjustorForm.controls.stateId.setValue(adjustorState.stateId);
+        if (this.editedEntity.stateName) {
+          const adjustorState = this.states.find(x => x.stateName === this.editedEntity.stateName.toUpperCase());
+          if (adjustorState) {
+            this.adjustorForm.controls.state.setValue(adjustorState.stateName);
+            this.adjustorForm.controls.stateId.setValue(adjustorState.stateId);
+          }
         }
         this.adjustorForm.controls.postalCode.setValue(this.editedEntity.postalCode);
         this.adjustorForm.controls.phoneNumber.setValue(this.editedEntity.phoneNumber);
@@ -259,10 +366,12 @@ export class ReferenceManagerService {
         this.attorneyForm.controls.address1.setValue(this.editedEntity.address1);
         this.attorneyForm.controls.address2.setValue(this.editedEntity.address2);
         this.attorneyForm.controls.city.setValue(this.editedEntity.city);
-        const attorneyState = this.states.find(st => st.stateName === this.editedEntity.stateName);
-        if (attorneyState) {
-          this.attorneyForm.controls.state.setValue(attorneyState.stateName);
-          this.attorneyForm.controls.stateId.setValue(attorneyState.stateId);
+        if (this.editedEntity.stateName) {
+          const attorneyState = this.states.find(x => x.stateName === this.editedEntity.stateName.toUpperCase());
+          if (attorneyState) {
+            this.attorneyForm.controls.state.setValue(attorneyState.stateName);
+            this.attorneyForm.controls.stateId.setValue(attorneyState.stateId);
+          }
         }
         this.attorneyForm.controls.postalCode.setValue(this.editedEntity.postalCode);
         this.attorneyForm.controls.phoneNumber.setValue(this.editedEntity.phoneNumber);
@@ -270,17 +379,21 @@ export class ReferenceManagerService {
         this.attorneyForm.controls.emailAddress.setValue(this.editedEntity.emailAddress);
         // Payors
       } else if (this.typeSelected === this.types[2]) {
+        if (this.editedEntity.state) {
+          this.editedEntity.billToStateName = this.editedEntity.state;
+        }
         this.payorForm.controls.payorId.setValue(this.editedEntity.payorId);
         this.payorForm.controls.groupName.setValue(this.editedEntity.groupName);
         this.payorForm.controls.billToName.setValue(this.editedEntity.billToName);
         this.payorForm.controls.billToAddress1.setValue(this.editedEntity.billToAddress1);
         this.payorForm.controls.billToAddress2.setValue(this.editedEntity.billToAddress2);
         this.payorForm.controls.billToCity.setValue(this.editedEntity.billToCity);
-        this.payorForm.controls.billToStateName.setValue(this.editedEntity.billToStateName);
-        const payorState = this.states.find(st => st.stateName === this.editedEntity.billToStateName);
-        if (payorState) {
-          this.payorForm.controls.billToStateName.setValue(payorState.stateName);
-          this.payorForm.controls.billToStateId.setValue(payorState.stateId);
+        if (this.editedEntity.billToStateName) {
+          const payorState = this.states.find(x => x.stateName === this.editedEntity.billToStateName.toUpperCase());
+          if (payorState) {
+            this.payorForm.controls.billToStateName.setValue(payorState.stateName);
+            this.payorForm.controls.billToStateId.setValue(payorState.stateId);
+          }
         }
         this.payorForm.controls.billToPostalCode.setValue(this.editedEntity.billToPostalCode);
         this.payorForm.controls.phoneNumber.setValue(this.editedEntity.phoneNumber);

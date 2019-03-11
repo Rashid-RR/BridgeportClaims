@@ -57,6 +57,7 @@ AS BEGIN
 			[Created] [datetime2](7) NULL,
 			[PatientName] [nvarchar](312) NULL,
 			[ClaimNumber] [varchar](255) NULL,
+			ClaimId INT NULL,
 			[Type] [varchar](255) NULL,
 			[Pharmacy] [varchar](60) NULL,
 			[Carrier] [varchar](255) NULL,
@@ -65,13 +66,14 @@ AS BEGIN
 		);
 
 		DECLARE @Spacing NVARCHAR(2) = N', ';
-		INSERT INTO [#Episodes] ([EpisodeId],[Owner],[Created],[PatientName],[ClaimNumber],
+		INSERT INTO [#Episodes] ([EpisodeId],[Owner],[Created],[PatientName],[ClaimNumber],[ClaimId],
 				[Type],[Pharmacy],[Carrier],[EpisodeNoteCount], [FileUrl])
 		SELECT          EpisodeId     = [ep].[EpisodeID]
 					  ,	[Owner]       = CONCAT([u].[LastName], @Spacing, [u].[FirstName])
 					  , [Created]     = ep.Created
 					  , [PatientName] = CONCAT([pa].LastName, @Spacing, [pa].FirstName)
 					  , [ClaimNumber] = cl.ClaimNumber
+					  , ClaimId = cl.[ClaimID]
 					  , [Type]        = et.TypeName
 					  , [Pharmacy]    = ph.PharmacyName
 					  , [Carrier]     = py.GroupName
@@ -104,6 +106,7 @@ AS BEGIN
              , [e].[Created]
              , [e].[PatientName]
              , [e].[ClaimNumber]	
+			 , e.[ClaimId]
              , [e].[Type]
              , [e].[Pharmacy]
              , [e].[Carrier]
@@ -174,6 +177,4 @@ AS BEGIN
 			@ErrMsg);			-- First argument (string)
 	END CATCH
 END
-
-
 GO

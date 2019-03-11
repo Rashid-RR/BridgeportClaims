@@ -2,14 +2,14 @@
 /**
  * This service will serve to facilitate communication between app views and the web services
  */
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
-import {HttpClient, HttpHeaders, HttpParams, HttpResponse} from '@angular/common/http';
-import {UUID} from 'angular2-uuid';
-import {Router} from '@angular/router';
-import {EventsService} from './events-service';
-import {ToastrService} from 'ngx-toastr';
-import {tap} from 'rxjs/operators';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
+import { UUID } from 'angular2-uuid';
+import { Router } from '@angular/router';
+import { EventsService } from './events-service';
+import { ToastrService } from 'ngx-toastr';
+import { tap } from 'rxjs/operators';
 
 @Injectable()
 export class HttpService {
@@ -44,7 +44,7 @@ export class HttpService {
   }
 
   login(data: any, headers: any): Observable<any> {
-    return this.http.post('/oauth/token', data, {headers: headers});
+    return this.http.post('/oauth/token', data, { headers: headers });
   }
 
   referralTypes(data): Observable<any> {
@@ -277,7 +277,7 @@ export class HttpService {
   }
 
   getDetailedPaymentClaim(data: any, sort: String = null, sortDir: 'asc' | 'desc' = 'asc',
-                          page: Number = 1, pageSize: Number = 30) {
+    page: Number = 1, pageSize: Number = 30) {
     // api/payment/claims-script-details?sort=RxDate&sortDirection=DESC&page=1&pageSize=30
     let params = new HttpParams();
     if (sort) {
@@ -634,7 +634,7 @@ export class HttpService {
   }
 
   sortEpisodes(claimId: Number, sort: String = null, sortDir: 'asc' | 'desc' = 'asc',
-               page: Number = 1, pageSize: Number = 30) {
+    page: Number = 1, pageSize: Number = 30) {
     const data = {
       claimId: claimId.toString(),
       sortColumn: sort.toString(),
@@ -679,7 +679,7 @@ export class HttpService {
         toast.message = 'An invalid login was detected. Please log in again.';
       } else {
         this.activeToastId = this.toast.info('An invalid login was detected. Please log in again.', null,
-          {timeOut: 10000}).toastId;
+          { timeOut: 10000 }).toastId;
       }
       this.router.navigate(['/login']);
       this.events.broadcast('logout', true);
@@ -689,7 +689,7 @@ export class HttpService {
       if (toast) {
         toast.message = err.message;
       } else {
-        this.errorToastId = this.toast.error(err.message, null, {timeOut: 100000}).toastId;
+        this.errorToastId = this.toast.error(err.message, null, { timeOut: 100000 }).toastId;
       }
     } else if (res.status === 500) {
       const toast = this.toast.toasts.find(t => t.toastId === this.errorToastId);
@@ -697,7 +697,7 @@ export class HttpService {
         toast.message = 'A server error was detected. Please contact your system administrator.';
       } else {
         this.errorToastId = this.toast.error('A server error was detected. Please contact your system administrator.', null,
-          {timeOut: 10000}).toastId;
+          { timeOut: 10000 }).toastId;
       }
       this.events.broadcast('loading-error', true);
     } else if (res.status === 0 || res.status === 504) {
@@ -706,14 +706,14 @@ export class HttpService {
         toast.message = 'Cannot reach the server. Please check your network connection.';
       } else {
         this.errorToastId = this.toast.error('Cannot reach the server. Please check your network connection.', null,
-          {timeOut: 10000}).toastId;
+          { timeOut: 10000 }).toastId;
       }
       this.events.broadcast('loading-error', true);
     }
   }
 
   getPrescriptions(claimId: Number, sort: string = null, sortDir: 'asc' | 'desc' = 'asc',
-                   page: Number = 1, pageSize: Number = 30) {
+    page: Number = 1, pageSize: Number = 30) {
     // api/prescriptions/sort/?claimId=776&sort=RxDate&sortDirection=DESC&page=1&pageSize=30
     let params = new HttpParams()
       .set('claimId', claimId.toString())
@@ -726,7 +726,7 @@ export class HttpService {
       params = params.set('page', page.toString());
     }
 
-    const s = this.http.post(this.baseUrl + '/prescriptions/sort/', {}, {params: params})
+    const s = this.http.post(this.baseUrl + '/prescriptions/sort/', {}, { params: params })
       .pipe(
         tap(_ => {
         }, error => {
@@ -737,7 +737,7 @@ export class HttpService {
   }
 
   getOutstandingPrescriptions(claimId: Number, sort: string = 'rxDate', sortDir: 'asc' | 'desc' = 'asc',
-                              page: Number = 1, pageSize: Number = 30) {
+    page: Number = 1, pageSize: Number = 30) {
 
     const data: any = {
       claimId: claimId,
@@ -758,7 +758,7 @@ export class HttpService {
   }
 
   getPayments(claimId: Number, sort: String = null, sortDir: 'asc' | 'desc' = 'asc',
-              page: Number = 1, pageSize: Number = 30) {
+    page: Number = 1, pageSize: Number = 30) {
     let params = new HttpParams().set('claimId', claimId.toString());
     if (sort) {
       params = params.set('sort', sort.toString());
@@ -771,7 +771,7 @@ export class HttpService {
       params = params.set('page', page.toString());
     }
     params = params.set('pageSize', pageSize.toString());
-    const options = {params: params};
+    const options = { params: params };
     const s = this.http.post(this.baseUrl + '/payment/payments-blade/', {}, options)
       .pipe(
         tap(_ => {
@@ -939,7 +939,7 @@ export class HttpService {
     const params = new HttpParams()
       .set('episodeId', id);
 
-    return this.http.post(this.baseUrl + '/episodes/archive', {}, {params: params})
+    return this.http.post(this.baseUrl + '/episodes/archive', {}, { params: params })
       .pipe(
         tap(_ => {
         }, error => {
@@ -1031,7 +1031,7 @@ export class HttpService {
   archiveDuplicateClaim(id: any): Observable<any> {
     const params = new HttpParams()
       .set('claimId', id);
-    return this.http.post(this.baseUrl + '/reports/archive-duplicate-claim', {}, {params: params})
+    return this.http.post(this.baseUrl + '/reports/archive-duplicate-claim', {}, { params: params })
       .pipe(
         tap(_ => {
         }, error => {
@@ -1074,7 +1074,7 @@ export class HttpService {
     const params = new HttpParams()
       .set('month', data.month)
       .set('year', data.year);
-    return this.http.post(this.baseUrl + '/reports/collections-bonus', {}, {params: params})
+    return this.http.post(this.baseUrl + '/reports/collections-bonus', {}, { params: params })
       .pipe(
         tap(_ => {
         }, error => {
@@ -1127,7 +1127,7 @@ export class HttpService {
     const headers = new HttpHeaders();
     headers.append('accept', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
 
-    return this.http.post(this.baseUrl + '/reports/excel-export', data, {observe: 'response', responseType: 'blob', headers: headers})
+    return this.http.post(this.baseUrl + '/reports/excel-export', data, { observe: 'response', responseType: 'blob', headers: headers })
       .pipe(
         tap(_ => {
         }, error => {
@@ -1351,7 +1351,7 @@ export class HttpService {
     const params = new HttpParams()
       .set('prescriptionId', data.prescriptionId)
       .set('billedAmount', data.billedAmount);
-    return this.http.post(this.baseUrl + '/admin/update-billed-amount/', {}, {params: params})
+    return this.http.post(this.baseUrl + '/admin/update-billed-amount/', {}, { params: params })
       .pipe(
         tap(_ => {
         }, error => {
@@ -1386,15 +1386,36 @@ export class HttpService {
       );
   }
 
-  getPayorsbyId(id: any): Observable<any> {
-    const s = this.http.get(this.baseUrl + '/payors/get-payor-by-id/?payorId='+id)
+  getPayorById(id: any): Observable<any> {
+    const s = this.http.get(this.baseUrl + '/payors/get-payor-by-id/?payorId=' + id)
       .pipe(
         tap(_ => {
         }, error => {
           this.handleResponseError(error);
         })
       );
+    return s;
+  }
 
+  getAdjustorById(id: number): Observable<any> {
+    const s = this.http.post(this.baseUrl + '/adjustors/get-adjustor/?adjustorId=' + id, {})
+      .pipe(
+        tap(_ => {
+        }, error => {
+          this.handleResponseError(error);
+        })
+      );
+    return s;
+  }
+
+  getAttorneyById(id: number): Observable<any> {
+    const s = this.http.get(this.baseUrl + '/attorney/get-attorney/?attorneyId=' + id)
+      .pipe(
+        tap(_ => {
+        }, error => {
+          this.handleResponseError(error);
+        })
+      );
     return s;
   }
 
@@ -1434,9 +1455,9 @@ export class HttpService {
   exportLetter(data: any): Observable<HttpResponse<Blob>> {
     return this.http.post(this.baseUrl + '/letters/download/?claimId=' + data.claimId + '&letterType='
       + data.type + '&prescriptionId=' + data.prescriptionId, data, {
-      observe: 'response',
-      responseType: 'blob'
-    })
+        observe: 'response',
+        responseType: 'blob'
+      })
       .pipe(
         tap(_ => {
         }, error => {
@@ -1466,7 +1487,7 @@ export class HttpService {
   }
 
   multipageInvoices(data: any): Observable<HttpResponse<Blob>> {
-    return this.http.post(this.baseUrl + '/prescriptions/multi-page-invoices', data, {observe: 'response', responseType: 'blob'})
+    return this.http.post(this.baseUrl + '/prescriptions/multi-page-invoices', data, { observe: 'response', responseType: 'blob' })
       .pipe(
         tap(_ => {
         }, error => {

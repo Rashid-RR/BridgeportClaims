@@ -15,15 +15,13 @@ namespace BridgeportClaims.Web.Models
         [Required]
         public int PayorId { get; set; } = DefaultInt;
         public int? AdjustorId { get; set; } = DefaultInt;
-        public string AdjustorPhone { get; set; } = DefaultString;
+        public int? AttorneyId { get; set; } = DefaultInt;
         public string DateOfInjury { get; set; } = DefaultString;
-        public string AdjustorFax { get; set; } = DefaultString;
         public string Address1 { get; set; } = DefaultString;
         public string Address2 { get; set; } = DefaultString;
         public string City { get; set; } = DefaultString;
         public int? StateId { get; set; } = DefaultInt;
         public string PostalCode { get; set; } = DefaultString;
         public int? ClaimFlex2Id { get; set; } = DefaultInt;
-        public string AdjustorExtension { get; set; } = DefaultString;
     }
 }

@@ -17,6 +17,7 @@ namespace BridgeportClaims.Data.Dtos
         public string Gender { get; set; }
         public string Carrier { get; set; }
         public string Adjustor { get; set; }
+        public string Attorney { get; set; }
         public string AdjustorPhoneNumber { get; set; }
         public string AdjustorExtension { get; set; }
         public string AdjustorFaxNumber { get; set; }
@@ -29,6 +30,7 @@ namespace BridgeportClaims.Data.Dtos
         public string PostalCode { get; set; }
         public string PatientPhoneNumber { get; set; }
         public int? AdjustorId { get; set; }
+        public int? AttorneyId { get; set; }
         public int PayorId { get; set; }
         public int? StateId { get; set; }
         public int PatientGenderId { get; set; }

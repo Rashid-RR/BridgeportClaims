@@ -50,7 +50,7 @@ export class UnindexedImageListComponent implements OnInit {
         }
       }
     ]);
-  };
+  }
   next() {
     this.ds.search(true);
     this.goToPage = '';
@@ -79,11 +79,12 @@ export class UnindexedImageListComponent implements OnInit {
     } else if (page > 0 && page <= this.ds.totalPages) {
       this.ds.search(false, false, page);
     } else {
-      let toast = this.toast.toasts.find(t=>t.toastId ==this.activeToast)
+      const toast = this.toast.toasts.find(t => t.toastId === this.activeToast);
       if (toast) {
         toast.message = 'Page number entered is out of range. Enter a page number between 1 and ' + this.ds.totalPages;
       } else {
-        this.toast.warning('Page number entered is out of range. Enter a page number between 1 and ' + this.ds.totalPages).toastId
+        this.toast.warning('Page number entered is out of range. Enter a page number between 1 and '
+          + this.ds.totalPages);
       }
     }
   }

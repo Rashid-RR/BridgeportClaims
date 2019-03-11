@@ -106,5 +106,21 @@ namespace BridgeportClaims.Web.Controllers
                 return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
             }
         }
+
+        [HttpPost]
+        [Route("get-adjustor")]
+        public IHttpActionResult GetAdjustor(int adjustorId)
+        {
+            try
+            {
+                var adjustor = _adjustorSearchProvider.Value.GetAdjustor(adjustorId);
+                return Ok(adjustor);
+            }
+            catch (Exception ex)
+            {
+                Logger.Value.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+            }
+        }
     }
 }

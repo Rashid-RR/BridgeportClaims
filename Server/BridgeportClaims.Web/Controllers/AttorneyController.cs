@@ -4,6 +4,7 @@ using System.Web.Http;
 using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.DataProviders.AttorneyProviders;
 using BridgeportClaims.Data.DataProviders.Clients;
+using BridgeportClaims.Data.Dtos;
 using BridgeportClaims.Web.Models;
 using Microsoft.AspNet.Identity;
 using NLog;
@@ -23,6 +24,22 @@ namespace BridgeportClaims.Web.Controllers
         {
             _attorneyProvider = attorneyProvider;
             _clientDataProvider = clientDataProvider;
+        }
+
+        [HttpPost]
+        [Route("attorney-names")]
+        public IHttpActionResult GetAttorneyNames(string attorneyName)
+        {
+            try
+            {
+                var results = _attorneyProvider.Value.GetAttorneyNames(attorneyName ?? string.Empty);
+                return Ok(results);
+            }
+            catch (Exception ex)
+            {
+                Logger.Value.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+            }
         }
 
         [HttpGet]
@@ -56,6 +73,22 @@ namespace BridgeportClaims.Web.Controllers
             {
                 Logger.Value.Error(ex);
                 return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+            }
+        }
+
+        [HttpGet]
+        [Route("get-attorney")]
+        public IHttpActionResult GetAttorney(int attorneyId)
+        {
+            try
+            {
+                var attorney = _attorneyProvider.Value.GetAttorney(attorneyId);
+                return Ok(attorney);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
             }
         }
 

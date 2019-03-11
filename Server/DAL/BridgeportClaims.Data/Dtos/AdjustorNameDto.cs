@@ -3,7 +3,7 @@
 namespace BridgeportClaims.Data.Dtos
 {
     [SQLinqTable("Adjustor")]
-    public class AdjustorNameDto
+    public sealed class AdjustorNameDto
     {
         [SQLinqColumn("AdjustorID")]
         public int AdjustorId { get; set; }

@@ -1,6 +1,8 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
-import {ClaimManager} from '../../services/claim-manager';
+import { Component, OnInit } from '@angular/core';
+import { MatDialogRef } from '@angular/material';
+import { ClaimManager } from '../../services/claim-manager';
+import { HttpService } from '../../services/http-service';
+import { ReferenceManagerService } from '../../services/reference-manager.service';
 
 @Component({
   selector: 'app-carrier-modal',
@@ -10,28 +12,25 @@ import {ClaimManager} from '../../services/claim-manager';
 export class CarrierModalComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<CarrierModalComponent>,
-              public claimManager: ClaimManager) {
+    private http: HttpService,
+    public rs: ReferenceManagerService,
+    public claimManager: ClaimManager) {
+    this.http.getStates({}).subscribe(data => {
+      this.rs.states = data;
+    }, error => {
+    });
   }
 
   ngOnInit() {
-    console.log(this.claimManager.claimsData[0]);
+    // console.log(this.claimManager.claimsData[0]);
   }
 
   onNoClick(): void {
     this.dialogRef.close();
   }
 
-  convertPhoneNumber(num: any) {
-    console.log(num);
-    let convertedNumber;
-    if (num.length === 10) {
-      convertedNumber = '(' + num.substring(0, 3) + ') ' + num.substring(3, 6) + '-' + num.substring(6, 10);
-      return convertedNumber;
-
-    } else if (num.length === 11) {
-      convertedNumber = num.substring(0, 1) + '-(' + num.substring(1, 4) + ') ' + num.substring(4, 7) + '-' + num.substring(7, 11);
-      return convertedNumber;
-
-    }
+  showReference(payorId: any) {
+    this.dialogRef.close();
+    window.open('#/main/references/?payorId=' + payorId, '_blank');
   }
 }

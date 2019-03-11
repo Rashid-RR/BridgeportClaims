@@ -1,6 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ElementRef} from '@angular/core';
 import {ReferenceManagerService} from '../../services/reference-manager.service';
 import {ToastrService} from 'ngx-toastr';
+import {AdjustorItem} from '../dataitems/adjustor-item.model';
+import {AttorneyItem} from '../dataitems/attorney-item.model';
+import {PayorItem} from '../dataitems/payor-item.model';
 
 declare var $: any;
 
@@ -10,15 +13,22 @@ declare var $: any;
   styleUrls: ['./references-grid.component.css']
 })
 export class ReferencesGridComponent implements OnInit {
+
+  selectedId: any;
   goToPage: any = '';
   toastId: number;
   toastIsActive = false;
-  constructor(public rs: ReferenceManagerService,
-              private toast: ToastrService) {
+  selectedAdjustorIds: Array<string> = [];
+  selectedAttorneyIds: Array<string> = [];
+  selectedPayorIds: Array<string> = [];
+
+  constructor(public rs: ReferenceManagerService, private _rootElement: ElementRef,
+              private toast: ToastrService,) {
   }
 
   ngOnInit() {
   }
+
 
   goto() {
     const page = Number.parseInt(this.goToPage);
@@ -44,6 +54,40 @@ export class ReferencesGridComponent implements OnInit {
   prev() {
     this.rs.currentPage = this.rs.currentPage - 1;
     this.rs.getReferencesList();
+  }
+
+  setSelected(adjustor: AdjustorItem) {
+    if (this.selectedAdjustorIds.indexOf(adjustor.adjustorId) !== -1) {
+      this.selectedAdjustorIds.splice(this.selectedAdjustorIds.indexOf(adjustor.adjustorId), 1);
+      $(this._rootElement.nativeElement).find(`#${adjustor.adjustorId}`).removeClass('bgBlue');
+    } else {
+      this.selectedAdjustorIds[this.selectedAdjustorIds.length] = adjustor.adjustorId;
+      $(this._rootElement.nativeElement).find(`#${adjustor.adjustorId}`).addClass('bgBlue');
+    }
+  }
+
+  setSelectedAttorney(attorney: AttorneyItem) {
+    if (this.selectedAttorneyIds.indexOf(attorney.attorneyId) !== -1) {
+      this.selectedAttorneyIds.splice(this.selectedAttorneyIds.indexOf(attorney.attorneyId), 1);
+      $(this._rootElement.nativeElement).find(`#${attorney.attorneyId}`).removeClass('bgBlue');
+    } else {
+      this.selectedAttorneyIds[this.selectedAttorneyIds.length] = attorney.attorneyId;
+      $(this._rootElement.nativeElement).find(`#${attorney.attorneyId}`).addClass('bgBlue');
+    }
+  }
+
+  setSelectedPayor(payor: PayorItem) {
+    if (this.selectedPayorIds.indexOf(payor.payorId) !== -1) {
+      this.selectedPayorIds.splice(this.selectedPayorIds.indexOf(payor.payorId), 1);
+      $(this._rootElement.nativeElement).find(`#${payor.payorId}`).removeClass('bgBlue');
+    } else {
+      this.selectedPayorIds[this.selectedPayorIds.length] = payor.payorId;
+      $(this._rootElement.nativeElement).find(`#${payor.payorId}`).addClass('bgBlue');
+    }
+  }
+
+  highlightRow(id: any) {
+    this.selectedId = id;
   }
 
   keyPress(event: any) {

@@ -1,210 +1,210 @@
 <div class="row claim-info">
-  <div class="col-sm-12 claim-col expanded-custom" style="overflow:hidden;">
+  <div class="col-sm-12 claim-col expanded-custom" style="overflow:hidden; padding-right: 0px;  padding-left: 0px;">
     <div class="table-responsive top-header">
       <!-- Adjustors -->
       <ng-container *ngIf="rs.typeSelected==rs.types[0]">
-        <table class="table no-margin table-striped" id="adjustorTable">
+        <table class="table no-margin table-striped adjustor" id="adjustorTable">
           <thead class="overflowable" id="fixed-thead">
-            <tr #referencesTable='table-sort' (tableSort)="rs.onSortColumn($event)">
-              <th>
-                <span [sort-table]="referencesTable" columnSort="AdjustorName">
-                  Adjustor Name
-                </span>
-              </th>
-              <th>
-                <span [sort-table]="referencesTable" columnSort="Address1">
-                  Address 1
-                </span>
-              </th>
-              <th>
-                <span [sort-table]="referencesTable" columnSort="Address2">
-                  Address 2
-                </span>
-              </th>
-              <th>
-                <span [sort-table]="referencesTable" columnSort="City">
-                  City
-                </span>
-              </th>
-              <th>
-                <span [sort-table]="referencesTable" columnSort="StateName">
-                  State
-                </span>
-              </th>
-              <th>
-                <span [sort-table]="referencesTable" columnSort="PostalCode">
-                  Zip
-                </span>
-              </th>
-              <th>
-                <span [sort-table]="referencesTable" columnSort="PhoneNumber">
-                  Phone
-                </span>
-              </th>
-              <th>
-                <span [sort-table]="referencesTable" columnSort="FaxNumber">
-                  Fax
-                </span>
-              </th>
-              <th>
-                <span [sort-table]="referencesTable" columnSort="EmailAddress">
-                  Email
-                </span>
-              </th>
-              <th>
-                <span [sort-table]="referencesTable" columnSort="Extension">
-                  Extension
-                </span>
-              </th>
-              <th>
-                <span [sort-table]="referencesTable" columnSort="ModifiedBy">
-                  Modified By
-                </span>
-              </th>
-              <th></th><!-- Edit Button Empty Header -->
-            </tr>
+          <tr #referencesTable='table-sort' (tableSort)="rs.onSortColumn($event)">
+            <th>
+          <span [sort-table]="referencesTable" columnSort="AdjustorName">
+          Adjustor Name
+          </span>
+            </th>
+            <th>
+          <span [sort-table]="referencesTable" columnSort="Address1">
+          Address 1
+          </span>
+            </th>
+            <th>
+          <span [sort-table]="referencesTable" columnSort="Address2">
+          Address 2
+          </span>
+            </th>
+            <th>
+          <span [sort-table]="referencesTable" columnSort="City">
+          City
+          </span>
+            </th>
+            <th>
+          <span [sort-table]="referencesTable" columnSort="StateName">
+          State
+          </span>
+            </th>
+            <th>
+          <span [sort-table]="referencesTable" columnSort="PostalCode">
+          Zip
+          </span>
+            </th>
+            <th>
+          <span [sort-table]="referencesTable" columnSort="PhoneNumber">
+          Phone
+          </span>
+            </th>
+            <th>
+          <span [sort-table]="referencesTable" columnSort="FaxNumber">
+          Fax
+          </span>
+            </th>
+            <th>
+          <span [sort-table]="referencesTable" columnSort="EmailAddress">
+          Email
+          </span>
+            </th>
+            <th>
+          <span [sort-table]="referencesTable" columnSort="Extension">
+          Extension
+          </span>
+            </th>
+            <th>
+          <span [sort-table]="referencesTable" columnSort="ModifiedBy">
+          Modified By
+          </span>
+            </th>
+            <th></th>
+            <!-- Edit Button Empty Header -->
+          </tr>
+
           </thead>
         </table>
       </ng-container>
       <!-- End Adjustors -->
       <!-- Attorneys -->
       <ng-container *ngIf="rs.typeSelected==rs.types[1]">
-        <table class="table no-margin table-striped" id="attorneyTable">
+        <table class="table no-margin table-striped atorny" id="attorneyTable">
           <thead class="overflowable" id="fixed-thead">
-            <tr #referencesTable='table-sort' (tableSort)="rs.onSortColumn($event)">
-              <th>
+          <tr #referencesTable='table-sort' (tableSort)="rs.onSortColumn($event)">
+            <th>
                 <span [sort-table]="referencesTable" columnSort="AttorneyName">
-                  Attorney Name
-                </span>
-              </th>
-              <th>
-                <span [sort-table]="referencesTable" columnSort="Address1">
+            Attorney Name
+            </span>
+            </th>
+            <th>      <span [sort-table]="referencesTable" columnSort="Address1">
                   Address 1
                 </span>
-              </th>
-              <th>
-                <span [sort-table]="referencesTable" columnSort="Address2">
+            </th>
+            <th>                <span [sort-table]="referencesTable" columnSort="Address2">
                   Address 2
                 </span>
-              </th>
-              <th>
+            </th>
+            <th>
                 <span [sort-table]="referencesTable" columnSort="City">
                   City
                 </span>
-              </th>
-              <th>
+            </th>
+            <th>
                 <span [sort-table]="referencesTable" columnSort="StateName">
                   State
                 </span>
-              </th>
-              <th>
+            </th>
+            <th>
                 <span [sort-table]="referencesTable" columnSort="PostalCode">
                   Zip
                 </span>
-              </th>
-              <th>
+            </th>
+            <th>
                 <span [sort-table]="referencesTable" columnSort="PhoneNumber">
                   Phone
                 </span>
-              </th>
-              <th>
-                <span [sort-table]="referencesTable" columnSort="FaxNumber">
+            </th>
+            <th>                <span [sort-table]="referencesTable" columnSort="FaxNumber">
                   Fax
                 </span>
-              </th>
-              <th>
+            </th>
+            <th>
                 <span [sort-table]="referencesTable" columnSort="EmailAddress">
                   Email
                 </span>
-              </th>
-              <th>
+            </th>
+            <th>
                 <span [sort-table]="referencesTable" columnSort="ModifiedBy">
                   Modified By
                 </span>
-              </th>
-              <th></th><!-- Edit Button Empty Header -->
-            </tr>
+            </th>
+            <th></th>
+
+          </tr>
           </thead>
         </table>
       </ng-container>
       <!-- End Attorneys -->
       <!-- Payors -->
       <ng-container *ngIf="rs.typeSelected==rs.types[2]">
-        <table class="table no-margin table-striped" id="payorTable">
+        <table class="table no-margin table-striped payor" id="payorTable">
           <thead class="overflowable" id="fixed-thead">
-            <tr #referencesTable='table-sort' (tableSort)="rs.onSortColumn($event)">
-              <th>
+          <tr #referencesTable='table-sort' (tableSort)="rs.onSortColumn($event)">
+            <th>
                 <span [sort-table]="referencesTable" columnSort="GroupName">
                   Group Name
                 </span>
-              </th>
-              <th>
+            </th>
+            <th>
                 <span [sort-table]="referencesTable" columnSort="BillToName">
                   Bill to
                 </span>
-              </th>
-              <th>
+            </th>
+            <th>
                 <span [sort-table]="referencesTable" columnSort="BillToAddress1">
                   Address 1
                 </span>
-              </th>
-              <th>
+            </th>
+            <th>
                 <span [sort-table]="referencesTable" columnSort="BillToAddress2">
                   Address 2
                 </span>
-              </th>
-              <th>
+            </th>
+            <th>
                 <span [sort-table]="referencesTable" columnSort="BillToCity">
                   City
                 </span>
-              </th>
-              <th>
+            </th>
+            <th>
                 <span [sort-table]="referencesTable" columnSort="BillToStateName">
                   State
                 </span>
-              </th>
-              <th>
+            </th>
+            <th>
                 <span [sort-table]="referencesTable" columnSort="BillToPostalCode">
                   Zip
                 </span>
-              </th>
-              <th>
+            </th>
+            <th>
                 <span [sort-table]="referencesTable" columnSort="PhoneNumber">
                   Phone
                 </span>
-              </th>
-              <th>
+            </th>
+            <th>
                 <span [sort-table]="referencesTable" columnSort="AlternatePhoneNumber">
                   Alt Phone
                 </span>
-              </th>
-              <th>
+            </th>
+            <th>
                 <span [sort-table]="referencesTable" columnSort="FaxNumber">
                   Fax
                 </span>
-              </th>
-              <th>
+            </th>
+            <th>
                 <span [sort-table]="referencesTable" columnSort="Notes">
                   Notes
                 </span>
-              </th>
-              <th>
+            </th>
+            <th>
                 <span [sort-table]="referencesTable" columnSort="Contact">
                   Contact
                 </span>
-              </th>
-              <th>
+            </th>
+            <th>
                 <span [sort-table]="referencesTable" columnSort="LetterName">
                   LetterName
                 </span>
-              </th>
-              <th>
+            </th>
+            <th>
                 <span [sort-table]="referencesTable" columnSort="ModifiedBy">
                   Modified By
                 </span>
-              </th>
-              <th></th><!-- Edit Button Empty Header -->
-            </tr>
+            </th>
+            <th></th><!-- Edit Button Empty Header -->
+          </tr>
           </thead>
         </table>
       </ng-container>
@@ -213,77 +213,78 @@
     <div class="table-responsive table-body">
       <table class="table no-margin table-striped" id="maintable">
         <!-- Adjustors -->
-        <tbody class="overflowable" tabindex="0" *ngIf="rs.typeSelected==rs.types[0]">
-          <ng-container *ngFor="let adjustor of rs.getAdjustors()">
-            <tr>
-              <td>{{adjustor?.adjustorName}}</td>
-              <td>{{adjustor?.address1}}</td>
-              <td>{{adjustor?.address2}}</td>
-              <td>{{adjustor?.city}}</td>
-              <td>{{adjustor?.stateName}}</td>
-              <td>{{adjustor?.postalCode}}</td>
-              <td>{{adjustor?.phoneNumber}}</td>
-              <td>{{adjustor?.faxNumber}}</td>
-              <td>{{adjustor?.emailAddress}}</td>
-              <td>{{adjustor?.extension}}</td>
-              <td>{{adjustor?.modifiedBy}}</td>
-              <td>
-                <button style="float: right;" (click)="edit(adjustor)" class="btn btn-primary btn-xs" type="button">
-                  Edit
-                </button>
-              </td>
-            </tr>
-          </ng-container>
+        <tbody *ngIf="rs.typeSelected==rs.types[0]" class="overflowable adjustor" tabindex="0">
+        <ng-container *ngFor="let adjustor of rs.getAdjustors(); let i = index;">
+          <tr (click)="setSelected(adjustor)" class=""
+              id="{{adjustor.adjustorId}}">
+            <td>{{adjustor?.adjustorName}}</td>
+            <td>{{adjustor?.address1}}</td>
+            <td>{{adjustor?.address2}}</td>
+            <td>{{adjustor?.city}}</td>
+            <td>{{adjustor?.stateName | uppercase}}</td>
+            <td>{{adjustor?.postalCode}}</td>
+            <td>{{adjustor?.phoneNumber ? rs.convertPhoneNumber(adjustor.phoneNumber) : ''}}</td>
+            <td>{{adjustor?.faxNumber ? rs.convertPhoneNumber(adjustor.faxNumber) : ''}}</td>
+            <td>{{adjustor?.emailAddress}}</td>
+            <td>{{adjustor?.extension}}</td>
+            <td>{{adjustor?.modifiedBy}}</td>
+            <td>
+              <button (click)="edit(adjustor)" class="btn btn-primary btn-xs" style="float: right;" type="button">
+                Edit
+              </button>
+            </td>
+          </tr>
+        </ng-container>
         </tbody>
         <!-- End Adjustors -->
         <!-- Attorneys -->
-        <tbody class="overflowable" tabindex="0" *ngIf="rs.typeSelected==rs.types[1]">
-          <ng-container *ngFor="let attorney of rs.getAttorneys()">
-            <tr>
-              <td>{{attorney?.attorneyName}}</td>
-              <td>{{attorney?.address1}}</td>
-              <td>{{attorney?.address2}}</td>
-              <td>{{attorney?.city}}</td>
-              <td>{{attorney?.stateName}}</td>
-              <td>{{attorney?.postalCode}}</td>
-              <td>{{attorney?.phoneNumber}}</td>
-              <td>{{attorney?.faxNumber}}</td>
-              <td>{{attorney?.emailAddress}}</td>
-              <td>{{attorney?.modifiedBy}}</td>
-              <td>
-                <button style="float: right;" (click)="edit(attorney)" class="btn btn-primary btn-xs" type="button">
-                  Edit
-                </button>
-              </td>
-            </tr>
-          </ng-container>
+        <tbody *ngIf="rs.typeSelected==rs.types[1]" class="overflowable atorny" tabindex="0">
+        <ng-container *ngFor="let attorney of rs.getAttorneys(); let i=index">
+          <tr (click)="setSelectedAttorney(attorney)" id="{{attorney.attorneyId}}">
+            <td>{{attorney?.attorneyName}}</td>
+            <td>{{attorney?.address1}}</td>
+            <td>{{attorney?.address2}}</td>
+            <td>{{attorney?.city}}</td>
+            <td>{{attorney?.stateName | uppercase}}</td>
+            <td>{{attorney?.postalCode}}</td>
+            <td>{{attorney?.phoneNumber ? rs.convertPhoneNumber(attorney.phoneNumber) : ''}}</td>
+            <td>{{attorney?.faxNumber ? rs.convertPhoneNumber(attorney.faxNumber) : ''}}</td>
+            <td>{{attorney?.emailAddress}}</td>
+            <td>{{attorney?.modifiedBy}}</td>
+            <td>
+              <button (click)="edit(attorney)" class="btn btn-primary btn-xs" style="float: right;" type="button">
+                Edit
+              </button>
+            </td>
+          </tr>
+        </ng-container>
         </tbody>
         <!-- End Attorneys -->
         <!-- Payors -->
-        <tbody class="overflowable" tabindex="0" *ngIf="rs.typeSelected==rs.types[2]">
-          <ng-container *ngFor="let payor of rs.getPayors()">
-            <tr>
-              <td>{{payor?.groupName}}</td>
-              <td>{{payor?.billToName}}</td>
-              <td>{{payor?.billToAddress1}}</td>
-              <td>{{payor?.billToAddress2}}</td>
-              <td>{{payor?.billToCity}}</td>
-              <td>{{payor?.billToStateName}}</td>
-              <td>{{payor?.billToPostalCode}}</td>
-              <td>{{payor?.phoneNumber}}</td>
-              <td>{{payor?.alternatePhoneNumber}}</td>
-              <td>{{payor?.faxNumber}}</td>
-              <td>{{payor?.notes}}</td>
-              <td>{{payor?.contact}}</td>
-              <td>{{payor?.letterName}}</td>
-              <td>{{payor?.modifiedBy}}</td>
-              <td>
-                <button style="float: right;" (click)="edit(payor)" class="btn btn-primary btn-xs" type="button">
-                  Edit
-                </button>
-              </td>
-            </tr>
-          </ng-container>
+        <tbody *ngIf="rs.typeSelected==rs.types[2]" class="overflowable payor" tabindex="0">
+        <ng-container *ngFor="let payor of rs.getPayors()">
+          <tr (click)="setSelectedPayor(payor)" class="payor" id="{{payor.payorId}}">
+            <td>{{payor?.groupName}}</td>
+            <td>{{payor?.billToName}}</td>
+            <td>{{payor?.billToAddress1}}</td>
+            <td>{{payor?.billToAddress2}}</td>
+            <td>{{payor?.billToCity}}</td>
+            <td>{{(payor?.billToStateName ? payor.billToStateName : '') | uppercase}}</td>
+            <td>{{payor?.billToPostalCode}}</td>
+            <td>{{payor?.phoneNumber ? rs.convertPhoneNumber(payor.phoneNumber) : ''}}</td>
+            <td>{{payor?.alternatePhoneNumber ? rs.convertPhoneNumber(payor.alternatePhoneNumber) : ''}}</td>
+            <td>{{payor?.faxNumber ? rs.convertPhoneNumber(payor.faxNumber) : ''}}</td>
+            <td>{{payor?.notes}}</td>
+            <td>{{payor?.contact}}</td>
+            <td>{{payor?.letterName}}</td>
+            <td>{{payor?.modifiedBy}}</td>
+            <td>
+              <button (click)="edit(payor)" class="btn btn-primary btn-xs" style="float: right;" type="button">
+                Edit
+              </button>
+            </td>
+          </tr>
+        </ng-container>
         </tbody>
         <!-- End Payors -->
       </table>
@@ -293,11 +294,13 @@
       </button>
       <button class="btn btn-default  selected btn-md" style="width:76px" type="button"> {{rs.currentPage}}
         of {{rs.getTotalRows() + 1}}</button>
-      <button (click)="next()" [disabled]="rs.getTotalRows()+1 <= rs.currentPage" class="btn btn-default  btn-md" type="button">Next
+      <button (click)="next()" [disabled]="rs.getTotalRows()+1 <= rs.currentPage" class="btn btn-default  btn-md"
+              type="button">Next
       </button>
       <div class="input-group" style="width:164px">
-        <input (keypress)="keyPress($event)" (keyup.enter)="goto()" [(ngModel)]="goToPage" [attr.placeholder]="rs.currentPage"
-          [ngModelOptions]="{standalone: true}" class="form-control">
+        <input (keypress)="keyPress($event)" (keyup.enter)="goto()" [(ngModel)]="goToPage"
+               [attr.placeholder]="rs.currentPage"
+               [ngModelOptions]="{standalone: true}" class="form-control">
         <div class="input-group-btn">
           <button (click)="goto()" class="btn btn-success goto" type="button">Go to Page</button>
         </div>

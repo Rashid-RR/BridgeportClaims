@@ -1,5 +1,5 @@
 export interface PayorItem {
-    'payorId': number;
+    'payorId': string;
     'groupName': string;
     'billToName': string;
     'billToAddress1': string;

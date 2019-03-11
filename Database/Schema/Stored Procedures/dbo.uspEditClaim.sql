@@ -7,7 +7,9 @@ GO
 	Date:			1/18/2018
 	Description:	Edits a Claim and associated entities from the Claims blade.
 	Example Execute:
-					EXECUTE dbo.uspEditClaim 775, '9/9/1981', 1
+					DECLARE @UserID NVARCHAR(128);
+					SELECT TOP (1) @UserID = x.ID FROM dbo.AspNetUsers AS x ORDER BY NEWID();
+					EXECUTE dbo.uspEditClaim 775, @UserID, '20190218'
 */
 CREATE PROCEDURE [dbo].[uspEditClaim]
 (
@@ -17,16 +19,14 @@ CREATE PROCEDURE [dbo].[uspEditClaim]
 	@GenderID INTEGER = -1,
 	@PayorID INTEGER = -1,
 	@AdjustorID INTEGER = -1,
-	@AdjustorPhone VARCHAR(30) = 'NULL',
+	@AttorneyID INTEGER = -1,
 	@DateOfInjury DATE = '1/1/1901',
-	@AdjustorFax VARCHAR(30) = 'NULL',
 	@Address1 VARCHAR(255) = 'NULL',
 	@Address2 VARCHAR(255) = 'NULL',
 	@City VARCHAR(155) = 'NULL',
 	@StateID INTEGER = -1,
 	@PostalCode varchar(100) = 'NULL',
-	@ClaimFlex2ID INTEGER = -1,
-	@AdjustorExtension VARCHAR(10) = 'NULL'
+	@ClaimFlex2ID INTEGER = -1
 )
 AS BEGIN
 	SET NOCOUNT ON;
@@ -46,9 +46,9 @@ AS BEGIN
 			BEGIN
 				IF (@@TRANCOUNT > 0)
 					ROLLBACK;
-				SET @PrntMsg = N'Error. The Claim # ' + CONVERT(NVARCHAR, @ClaimID) + ' does not exist.'
+				SET @PrntMsg = N'Error. The Claim # ' + CONVERT(NVARCHAR(500), @ClaimID) + ' does not exist.'
 				RAISERROR(@PrntMsg, 16, 1) WITH NOWAIT
-				RETURN;
+				RETURN -1;
 			END
 
 		-- UPDATE Patient
@@ -75,16 +75,16 @@ AS BEGIN
 					BEGIN
 						IF (@@TRANCOUNT > 0)
 							ROLLBACK;
-						SET @PrntMsg = N'The affected Row Count for updating the Patient was not 1, it was ' + CONVERT(NVARCHAR, @RowCount);
+						SET @PrntMsg = N'The affected Row Count for updating the Patient was not 1, it was ' + CONVERT(NVARCHAR(500), @RowCount);
 						RAISERROR(@PrntMsg, 16, 1) WITH NOWAIT;
-						RETURN;
+						RETURN -1;
 					END
 			END
 
 		-- UPDATE Claim
 		IF (@PayorID != -1 OR @AdjustorID != -1 OR @AdjustorID IS NULL 
 			OR @DateOfInjury != '1/1/1901' OR @DateOfInjury IS NULL
-			OR @ClaimFlex2ID IS NULL OR @ClaimFlex2ID != -1)
+			OR @ClaimFlex2ID IS NULL OR @ClaimFlex2ID != -1 OR @AttorneyID != -1)
 			BEGIN
 				UPDATE  [c]
 				SET     [c].[PayorID] = CASE WHEN @PayorID = -1 THEN [c].[PayorID] ELSE @PayorID END, 
@@ -92,6 +92,7 @@ AS BEGIN
 						[c].[DateOfInjury] = CASE WHEN @DateOfInjury = '1/1/1901' THEN [c].[DateOfInjury] ELSE @DateOfInjury END,
 						[c].[ClaimFlex2ID] = CASE WHEN @ClaimFlex2ID = -1 THEN [c].[ClaimFlex2ID] ELSE @ClaimFlex2ID END,
 						[c].[ModifiedByUserID] = @ModifiedByUserID,
+						[c].[AttorneyID] = CASE WHEN @AttorneyID = -1 THEN [c].[AttorneyID] ELSE @AttorneyID END,
 						[c].[UpdatedOnUTC] = @UtcNow
 				FROM    [dbo].[Claim] AS [c]
 				WHERE   [c].[ClaimID] = @ClaimID
@@ -101,34 +102,9 @@ AS BEGIN
 					BEGIN
 						IF (@@TRANCOUNT > 0)
 							ROLLBACK;
-						SET @PrntMsg = N'The affected Row Count for updating the Claim was not 1, it was ' + CONVERT(NVARCHAR, @RowCount);
+						SET @PrntMsg = N'The affected Row Count for updating the Claim was not 1, it was ' + CONVERT(NVARCHAR(500), @RowCount);
 						RAISERROR(@PrntMsg, 16, 1) WITH NOWAIT;
-						RETURN;
-					END
-			END
-
-		-- UPDATE Adjustor
-		IF (@AdjustorPhone != 'NULL' OR @AdjustorPhone IS NULL
-			OR @AdjustorFax != 'NULL' OR @AdjustorFax IS NULL OR @AdjustorExtension IS NULL OR @AdjustorExtension != 'NULL')
-			BEGIN
-				UPDATE          [a]
-				SET             [a].[PhoneNumber] = CASE WHEN @AdjustorPhone = 'NULL' THEN [a].[PhoneNumber] ELSE @AdjustorPhone END,
-								[a].[FaxNumber] = CASE WHEN @AdjustorFax = 'NULL' THEN [a].[FaxNumber] ELSE @AdjustorFax END,
-								[a].[ModifiedByUserID] = @ModifiedByUserID,
-								[a].[Extension] = CASE WHEN @AdjustorExtension = 'NULL' THEN [a].[Extension] ELSE @AdjustorExtension END,
-								[a].[UpdatedOnUTC] = @UtcNow
-				FROM            [dbo].[Claim]    AS [c]
-					INNER JOIN  [dbo].[Adjustor] AS [a] ON [a].[AdjustorID] = [c].[AdjustorID]
-				WHERE           [c].[ClaimID] = @ClaimID
-				SET @RowCount = @@ROWCOUNT
-
-				IF (@RowCount != 1)
-					BEGIN
-						IF (@@TRANCOUNT > 0)
-							ROLLBACK;
-						SET @PrntMsg = N'The affected Row Count for updating the Adjustor was not 1, it was ' + CONVERT(NVARCHAR, @RowCount);
-						RAISERROR(@PrntMsg, 16, 1) WITH NOWAIT;
-						RETURN;
+						RETURN -1;
 					END
 			END
 
@@ -138,19 +114,8 @@ AS BEGIN
 	BEGIN CATCH
 		IF (@@TRANCOUNT > 0)
 			ROLLBACK;
-				
-        DECLARE @ErrSeverity INT = ERROR_SEVERITY()
-            , @ErrState INT = ERROR_STATE()
-            , @ErrProc NVARCHAR(MAX) = ERROR_PROCEDURE()
-            , @ErrLine INT = ERROR_LINE()
-            , @ErrMsg NVARCHAR(MAX) = ERROR_MESSAGE();
-
-        RAISERROR(N'%s (line %d): %s',	-- Message text w formatting
-			@ErrSeverity,		-- Severity
-			@ErrState,			-- State
-			@ErrProc,			-- First argument (string)
-			@ErrLine,			-- Second argument (int)
-			@ErrMsg);			-- First argument (string)
+		DECLARE @Msg NVARCHAR(4000) = FORMATMESSAGE(N'An error has occurred: %s Line number: %u', ERROR_MESSAGE(), ERROR_LINE());
+        THROW 50000, @Msg, 0;
 	END CATCH
 END
 GO

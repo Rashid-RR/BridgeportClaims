@@ -135,7 +135,7 @@ namespace BridgeportClaims.Data.DataProviders.Payors
         public PayorFullDto GetPayor(int payorId) =>
             DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
-                const string sp = "[dbo].[uspGetPayor]";
+                const string sp = "[claims].[uspGetPayor]";
                 if (conn.State != ConnectionState.Open)
                 {
                     conn.Open();
