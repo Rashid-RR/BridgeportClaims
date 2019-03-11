@@ -16,9 +16,10 @@ namespace BridgeportClaims.Web.Formatters
         {
             JsConfig.DateHandler = DateHandler.ISO8601;
             SupportedMediaTypes.Add(new MediaTypeHeaderValue(s.ApplicationJson));
-
+            const bool bigEndian = false;
+            const bool byteOrderMark = true;
             SupportedEncodings.Add(new UTF8Encoding(false, true));
-            SupportedEncodings.Add(new UnicodeEncoding(false, true, true));
+            SupportedEncodings.Add(new UnicodeEncoding(bigEndian, byteOrderMark, true));
         }
 
         public override bool CanReadType(Type type)
@@ -29,7 +30,10 @@ namespace BridgeportClaims.Web.Formatters
 
         public override bool CanWriteType(Type type)
         {
-            if (type == null) throw new ArgumentNullException(nameof(type));
+            if (type == null)
+            {
+                throw new ArgumentNullException(nameof(type));
+            }
             return true;
         }
 
