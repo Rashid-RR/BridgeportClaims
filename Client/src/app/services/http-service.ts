@@ -22,7 +22,7 @@ export class HttpService {
       return this.groupNameAutoSuggest(name);
     }
   };
-
+  treeWin:any
   constructor(private router: Router, private http: HttpClient, private events: EventsService, private toast: ToastrService) {
 
   }
@@ -1558,6 +1558,22 @@ export class HttpService {
       nodeDescription: (nodeDescription || null)
     })
       .pipe(
+        tap(_ => {
+        }, error => {
+          this.handleResponseError(error);
+        })
+      );
+    return s;
+  }
+  saveTreeExperience(rootTreeId: any, leafTreeId: any, claimId: any=null, pharmacyNabp: string,rxNumber:any,episodeText:any): Observable<any> {
+    const s = this.http.post(this.baseUrl + `/trees/save-tree-experience`, {
+      rootTreeId: rootTreeId,
+      leafTreeId: leafTreeId,
+      claimId: (claimId=='episode' ? null : claimId),
+      pharmacyNabp: pharmacyNabp,
+      rxNumber: rxNumber,
+      episodeText: episodeText
+    }).pipe(
         tap(_ => {
         }, error => {
           this.handleResponseError(error);

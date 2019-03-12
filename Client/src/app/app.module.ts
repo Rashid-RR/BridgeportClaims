@@ -69,7 +69,6 @@ import { EpisodePageComponent } from './pages/episode-page/episode-page.componen
 import { EpisodeResultsComponent } from './components/episode-results/episode-results.component';
 import { EpisodeFilterComponent } from './components/episode-filter/episode-filter.component';
 import { EpisodeService } from './services/episode.service';
-import { NewEpisodeComponent } from './components/new-episode/new-episode.component';
 import { FirewallSettingsComponent } from './pages/firewall-settings/firewall-settings.component';
 import { FirewallFilterComponent } from './components/firewall-filter/firewall-filter.component';
 import { FirewallGridComponent } from './components/firewall-grid/firewall-grid.component';
@@ -103,7 +102,7 @@ import { FormsModule } from '@angular/forms';
     ChangePasswordComponent, ConfirmEmailComponent, FileUploadComponent, FooterComponent,
     UnpaidScriptComponent, UnindexedImageComponent,
     UnindexedImageFileComponent, IndexFileComponent, UnindexedImageFileListComponent, MainLayoutComponent, EpisodePageComponent,
-    EpisodeResultsComponent, EpisodeFilterComponent, NewEpisodeComponent, FirewallSettingsComponent, FirewallFilterComponent,
+    EpisodeResultsComponent, EpisodeFilterComponent, FirewallSettingsComponent, FirewallFilterComponent,
     FirewallGridComponent, AcquireEpisodeComponent, TestComponent, OutstandingFilterComponent, OutstandingResultComponent,
     ClaimOutstandingComponent,
     CarrierModalComponent, AdjustorModalComponent, AttorneyModalComponent

@@ -18,6 +18,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { Prescription } from '../../models/prescription';
 import { MatDialog } from '@angular/material';
 declare var $: any;
+declare var treeWin: any;
 
 @Component({
   selector: 'app-claim',
@@ -79,7 +80,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
   }
 
   showDecisionTreeWindow(claimId: string) {
-    window.open('#/main/decision-tree/list/' + claimId, '_blank');
+    this.http.treeWin = window.open('#/main/decision-tree/list/' + claimId, '_blank');
   }
 
   expand(expanded: Boolean, expandedBlade: Number, table: string) {
@@ -300,7 +301,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
         onOpen: function () {
           $('#prescriptionNoteTypeId').focus();
         }
-      }).catch(swal.noop);
+      }).catch(()=>{});
       $('#datepicker').datepicker({
         autoclose: true
       });
@@ -333,7 +334,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
         } else {
           swal.close();
           setTimeout(() => {
-            swal({ title: '', html: 'Adding note to Diary... <br/> <img src=\'assets/1.gif\'>', showConfirmButton: false }).catch(swal.noop);
+            swal({ title: '', html: 'Adding note to Diary... <br/> <img src=\'assets/1.gif\'>', showConfirmButton: false }).catch(()=>{});
           }, 200);
           // let followUpDate = $("#datepicker").val();
           const followUpDate = this.dp.transform($('#datepicker').val(), 'MM/dd/yyyy');
@@ -384,7 +385,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
             $('#noteTextLabel').css({ 'color': 'red' });
           }, 200);
         } else {
-          swal({ title: '', html: 'Saving note... <br/> <img src=\'assets/1.gif\'>', showConfirmButton: false }).catch(swal.noop);
+          swal({ title: '', html: 'Saving note... <br/> <img src=\'assets/1.gif\'>', showConfirmButton: false }).catch(()=>{});
           this.http.savePrescriptionNote(
             {
               claimId: this.claimManager.selectedClaim.claimId,
@@ -671,8 +672,8 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
             $('#noteTextLabel').css({ 'color': 'red' });
           }, 200);
         } else {
-          swal({ title: '', html: 'Saving note... <br/> <img src=\'assets/1.gif\'>', showConfirmButton: false }).catch(swal.noop)
-            .catch(swal.noop);
+          swal({ title: '', html: 'Saving note... <br/> <img src=\'assets/1.gif\'>', showConfirmButton: false }).catch(()=>{})
+            .catch(()=>{});
           let txt = JSON.stringify(result[1]);
           txt = txt.substring(1, txt.length - 1);
           this.http.saveClaimNote({
@@ -703,6 +704,6 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
           });
         }
       }
-    }); // .catch(swal.noop);
+    }); // .catch(()=>{});
   }
 }

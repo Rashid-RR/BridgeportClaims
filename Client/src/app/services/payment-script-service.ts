@@ -55,7 +55,7 @@ export class PaymentScriptService {
                 title: '',
                 html: 'Searching claims... <br/> <img src=\'assets/1.gif\'>',
                 showConfirmButton: false
-            }).catch(swal.noop);
+            }).catch(()=>{});
             this.paymentService.prescriptionSelected = true;
             this.paymentService.clearClaimsDetail();
             this.paymentService.getPaymentClaimDataByIds(selectedClaims);
@@ -75,7 +75,7 @@ export class PaymentScriptService {
                 // width: (window.innerWidth - 740) + "px",
                 html: 'Searching claims... <br/> <img src=\'assets/1.gif\'>',
                 showConfirmButton: false
-            }).catch(swal.noop);
+            }).catch(()=>{});
             const data = JSON.parse(JSON.stringify(this.form.value)); // copy data
             data.rxDate = rxDate || null;
             this.paymentService.search(data, false, true);

@@ -2,14 +2,13 @@ import { Component, ViewChild, OnInit, AfterViewInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { DatePipe } from '@angular/common';
-import swal from 'sweetalert2';
 import { SwalComponent, SwalPartialTargets } from '@toverux/ngx-sweetalert2';
-import { PrescriptionNoteType } from '../../models/prescription-note-type';
 
 // Services
 import { HttpService } from '../../services/http-service';
 import { EpisodeService } from '../../services/episode.service';
 declare var $: any;
+declare var treeWin: any;
 
 @Component({
   selector: 'app-episode-filter',
@@ -26,6 +25,8 @@ export class EpisodeFilterComponent implements OnInit, AfterViewInit {
   open = true;
   closed: Boolean = false;
   submitted = false;
+
+  over: boolean[];
   resolved: Boolean = false;
   @ViewChild('episodeSwal') private episodeSwal: SwalComponent;
   constructor(
@@ -36,7 +37,11 @@ export class EpisodeFilterComponent implements OnInit, AfterViewInit {
     private toast: ToastrService,
     private fb: FormBuilder
   ) {
-
+    this.over = new Array(1);
+    this.over.fill(false);
+  }
+  showDecisionTreeWindow() {
+    this.http.treeWin = window.open('#/main/decision-tree/list/episode', '_blank');
   }
 
   ngOnInit() {

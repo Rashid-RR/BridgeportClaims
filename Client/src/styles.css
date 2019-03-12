@@ -58,6 +58,8 @@ a.disabled, a.disabled:active, a.disabled:hover {
 }
 
 .swal2-modal.payment-modal:not(.episodes):not(.search-modal) {
+  min-width: 500px;
+  min-height: 500px;
   width: calc(100vw - 780px) !important;
   width: -webkit-calc(100vw - 780px) !important;
   width: -moz-calc(100vw - 780px) !important;
@@ -65,6 +67,8 @@ a.disabled, a.disabled:active, a.disabled:hover {
 }
 
 .swal2-modal.payment-modal.custom {
+  min-width: 500px;
+  min-height: 500px;
   width: calc(100vw - 580px) !important;
   width: -webkit-calc(100vw - 580px) !important;
   width: -moz-calc(100vw - 580px) !important;
@@ -223,6 +227,8 @@ a.disabled, a.disabled:active, a.disabled:hover {
 .swal2-modal.custom-modal .swal2-content,
 .swal2-modal.payment-modal .swal2-content {
   display: block !important;
+  min-width: 400px;
+  min-height: 500px;
 }
 
 .swal2-modal.payment-modal .swal2-content .payment-input .col-md-2,
@@ -231,7 +237,7 @@ a.disabled, a.disabled:active, a.disabled:hover {
   padding-left: 0px !important;
 }
 
-.swal2-modal.payment-modal .swal2-content .payment-input .col-md-3,
+.swal2-modal.payment-modal .swal2-content .payment-input .col-md-3
 {
   padding-right: 0px !important;
 }

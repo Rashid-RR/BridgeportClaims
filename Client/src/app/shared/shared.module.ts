@@ -11,7 +11,7 @@ import { FilterUserPipe } from '../user/list/filter-user.pipe';
 import { DiariesFilterPipe } from '../diaries/diary-results/diary-filter.pipe';
 import { EpisodesFilterPipe } from '../components/episode-results/episode-filter.pipe';
 import {
-  UnpaidScriptResultsComponent, UnpaidScriptSearchComponent, InvoiceSearchComponent,
+  UnpaidScriptResultsComponent, UnpaidScriptSearchComponent, InvoiceSearchComponent,NewEpisodeComponent,
    EpisodeNoteModalComponent, UnindexedImageFilterComponent, UnindexedImageListComponent, ScriptNoteWindowComponent
 } from '../components/components-barrel';
 import { ColumnSortDirective } from '../directives/column-sort.directive';
@@ -58,7 +58,7 @@ export class SafeUrlPipe implements PipeTransform {
     DisplayRolesPipe, ArraySortPipe, PhonePipe, EpisodesFilterPipe, SafeStylePipe, SafeUrlPipe, FilterUserPipe, DiariesFilterPipe,
     UnpaidScriptResultsComponent, UnpaidScriptSearchComponent, InvoiceSearchComponent,
      EpisodeNoteModalComponent, UnindexedImageFilterComponent, UnindexedImageListComponent, ScriptNoteWindowComponent,
-     TreeListGridComponent, TreeListFilterComponent, TreeListComponent
+     TreeListGridComponent, TreeListFilterComponent, TreeListComponent,NewEpisodeComponent
   ],
   providers: [
     WindowsInjetor,
@@ -74,13 +74,13 @@ export class SafeUrlPipe implements PipeTransform {
     TableSortDirective, ColumnSortDirective, TextSelectDirective,
     DisplayRolesPipe, ArraySortPipe, PhonePipe, EpisodesFilterPipe, SafeUrlPipe, SafeStylePipe, FilterUserPipe, DiariesFilterPipe,
     UnpaidScriptResultsComponent, UnpaidScriptSearchComponent,
-    EpisodeNoteModalComponent, InvoiceSearchComponent,
+    EpisodeNoteModalComponent, InvoiceSearchComponent,NewEpisodeComponent,
     UnindexedImageFilterComponent, UnindexedImageListComponent, ScriptNoteWindowComponent,
     TreeListGridComponent, TreeListFilterComponent, TreeListComponent, MaterialComponentsModule
   ],
   entryComponents: [
     ConfirmComponent, BootstrapWindowContainer, WindowBackdrop, ScriptNoteWindowComponent,
-    EpisodeNoteModalComponent, DeleteIndexConfirmationComponent,
+    EpisodeNoteModalComponent, DeleteIndexConfirmationComponent,NewEpisodeComponent,
     TreeListGridComponent, TreeListFilterComponent, TreeListComponent
   ]
 })

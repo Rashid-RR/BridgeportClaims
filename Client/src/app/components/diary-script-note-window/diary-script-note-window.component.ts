@@ -31,8 +31,8 @@ export class ScriptNoteWindowComponent implements OnInit {
   saveFollowUpDate() {
     const followupDate = this.dp.transform($('#followupDate').val(), 'MM/dd/yyyy');
     if (followupDate) {
-    swal({ title: '', html: 'Saving changes... <br/> <img src=\'assets/1.gif\'>', showConfirmButton: false }).catch(swal.noop)
-      .catch(swal.noop);
+    swal({ title: '', html: 'Saving changes... <br/> <img src=\'assets/1.gif\'>', showConfirmButton: false }).catch(()=>{})
+      .catch(()=>{});
     this.http.updateDiaryFollowUpDate(this.note.prescriptionNoteId, { diaryId: this.note.diaryId, followUpDate: followupDate })
       .subscribe(res => {
         swal.close();

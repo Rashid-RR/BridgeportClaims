@@ -318,7 +318,7 @@ export class PaymentInputComponent implements OnInit, OnDestroy {
           const result = results.value;
           this.confirmSuspense(amountToSuspend, result[0]);
         }
-      }).catch(swal.noop);
+      }).catch(()=>{});
     }
 
   }

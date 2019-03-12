@@ -103,13 +103,13 @@ svg text tspan{
   .relative_div {
     top: 0px;
     display: inline=block;
-    z-index: 100000;
+    z-index: 10001;
     position: absolute;
     height: 100%;
   }
   .relative_div ~ svg {
     margin-left: 20px;
-    z-index: 10000;
+    z-index: 1000;
     display: inline=block;
     height: 100%;
   }

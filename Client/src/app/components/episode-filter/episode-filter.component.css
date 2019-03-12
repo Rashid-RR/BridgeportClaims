@@ -128,6 +128,7 @@ label.check-label{
   }
   .field-lg .form-group button{
     margin:5px 2px;
+    height:34px;
   }
   @media (max-width: 1020px){ 
     .search-container{

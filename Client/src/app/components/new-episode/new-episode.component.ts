@@ -3,8 +3,12 @@ import { Component, Input, OnInit, NgZone } from '@angular/core';
 import { HttpService } from '../../services/http-service';
 import { ClaimManager } from '../../services/claim-manager';
 import { EpisodeService } from '../../services/episode.service';
+import { DecisionTreeService } from '../../services/decision-tree.service';
+import {ConfirmComponent} from '../../components/confirm.component';
+import {DialogService} from 'ng2-bootstrap-modal';
 import swal from 'sweetalert2';
 
+declare var treeWin: any;
 declare var $: any;
 
 @Component({
@@ -17,7 +21,12 @@ export class NewEpisodeComponent implements OnInit {
   payorId: any = '';
   submitted = false;
   searchText = '';
-  @Input() episode;
+  @Input() episode:any;
+  @Input() claimId:any;
+  @Input() rootTreeId:any;
+  @Input() leafTreeId:any;
+  @Input() rootText:any;
+  @Input() leafText:any;
 
   dropdownVisible = false;
   loading = false;
@@ -25,12 +34,29 @@ export class NewEpisodeComponent implements OnInit {
   constructor(
     public claimManager: ClaimManager,
     private http: HttpService,
+    private ds: DecisionTreeService,
+    private dialogService: DialogService,
     public es: EpisodeService
   ) {
 
   }
   closeModal() {
-    swal.clickCancel();
+    if(this.claimId){
+      this.dialogService.addDialog(ConfirmComponent, {
+        title: 'Cancel Episode Progress and Experience',
+        buttonText:'I understand',
+        message: 'By cancelling, you will lose the episode entry and progress on your tree experience'
+      }).subscribe((isConfirmed) => {
+        // We get dialog result
+        if (isConfirmed) {
+            swal.clickCancel();
+            
+        }
+      });
+    }else{
+      swal.clickCancel();
+      
+    }
   }
 
   get autoCompletePharmacyName(): string {
@@ -39,6 +65,11 @@ export class NewEpisodeComponent implements OnInit {
   pharmacySelected($event) {
     if (this.episode && this.es.pharmacyName && $event.nabp) {
       this.es.episodeForm.controls['pharmacyNabp'].setValue($event.nabp);
+      setTimeout(() => {
+        this.dropdownVisible = false;
+      }, 100);
+    } else if (this.claimId && this.ds.pharmacyName && $event.nabp) {
+      this.ds.episodeForm.controls['pharmacyNabp'].setValue($event.nabp);
       setTimeout(() => {
         this.dropdownVisible = false;
       }, 100);

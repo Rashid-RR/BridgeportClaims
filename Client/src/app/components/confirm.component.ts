@@ -5,6 +5,7 @@ import { Subject } from 'rxjs';
 export interface ConfirmModel {
   title: string;
   buttonText?: string;
+  cancelText?: string;
   customStyle?: string;
   message: string;
   listener?: Subject<any>;
@@ -25,7 +26,7 @@ export interface ConfirmModel {
      </div>
      <div class="modal-footer">
        <button type="button" class="btn" style="height:49px" (click)="confirm()" [disabled]="buttonDisabled" cdkFocusInitial>{{buttonText ||'OK'}}</button>
-       <button type="button" mat-button class="btn btn-default" (click)="close()" >Cancel</button>
+       <button type="button" mat-button class="btn btn-default" (click)="close()" >{{cancelText ||'Cancel'}}</button>
      </div>
    </div>
 </div>`
@@ -35,6 +36,7 @@ export class ConfirmComponent extends DialogComponent<ConfirmModel, boolean> imp
   customStyle: string;
   message: string;
   buttonText: string;
+  cancelText: string;
   listener: Subject<any>;
   buttonDisabled = false;
   prescription: any = {};

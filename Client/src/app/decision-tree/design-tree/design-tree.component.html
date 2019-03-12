@@ -84,3 +84,9 @@
     </div>
   </div>
 </div>
+
+<swal #episodeSwal [showCancelButton]="false" [showConfirmButton]="false" customClass="payment-modal" [focusCancel]="false"
+    title="Episode Entry">
+    <app-new-episode *swalPartial [claimId]="claimId" [leafTreeId]="leafTreeId" [rootTreeId]="rootTreeId" [leafText]="leafText" [rootText]="rootText">
+    </app-new-episode>
+</swal>
