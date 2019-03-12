@@ -14,6 +14,8 @@ namespace BridgeportClaims.Data.DataProviders.DecisionTrees
             int pageSize);
         int DeleteDecisionTree(int treeId);
         void DecisionTreeHeaderDelete(string modelSessionId, int modelClaimId);
+        void SaveDecisionTreeChoice(int rootTreeId, int leafTreeId, int? claimId, byte episodeTypeId,
+            string pharmacyNabp, string rxNumber, string episodeText, string modifiedByUserId);
     };
   
 }

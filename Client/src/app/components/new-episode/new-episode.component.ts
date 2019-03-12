@@ -1,5 +1,5 @@
 import { Subject } from 'rxjs';
-import { Component, Input, OnInit, NgZone } from '@angular/core';
+import { Component, Input, OnInit, NgZone, AfterViewInit } from '@angular/core';
 import { HttpService } from '../../services/http-service';
 import { ClaimManager } from '../../services/claim-manager';
 import { EpisodeService } from '../../services/episode.service';
@@ -16,17 +16,17 @@ declare var $: any;
   templateUrl: './new-episode.component.html',
   styleUrls: ['./new-episode.component.css']
 })
-export class NewEpisodeComponent implements OnInit {
+export class NewEpisodeComponent implements OnInit, AfterViewInit {
 
   payorId: any = '';
   submitted = false;
   searchText = '';
-  @Input() episode:any;
-  @Input() claimId:any;
-  @Input() rootTreeId:any;
-  @Input() leafTreeId:any;
-  @Input() rootText:any;
-  @Input() leafText:any;
+  @Input() episode: any;
+  @Input() claimId: any;
+  @Input() rootTreeId: any;
+  @Input() leafTreeId: any;
+  @Input() rootText: any;
+  @Input() leafText: any;
 
   dropdownVisible = false;
   loading = false;
@@ -34,28 +34,28 @@ export class NewEpisodeComponent implements OnInit {
   constructor(
     public claimManager: ClaimManager,
     private http: HttpService,
-    private ds: DecisionTreeService,
+    public ds: DecisionTreeService,
     private dialogService: DialogService,
     public es: EpisodeService
   ) {
 
   }
   closeModal() {
-    if(this.claimId){
+    if (this.claimId) {
       this.dialogService.addDialog(ConfirmComponent, {
         title: 'Cancel Episode Progress and Experience',
-        buttonText:'I understand',
+        buttonText: 'I understand',
         message: 'By cancelling, you will lose the episode entry and progress on your tree experience'
       }).subscribe((isConfirmed) => {
         // We get dialog result
         if (isConfirmed) {
             swal.clickCancel();
-            
+
         }
       });
-    }else{
+    } else {
       swal.clickCancel();
-      
+
     }
   }
 
