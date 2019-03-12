@@ -133,5 +133,26 @@ namespace BridgeportClaims.Data.DataProviders.DecisionTrees
                 ps.Add("@ClaimID", claimId, DbType.Int32);
                 conn.Execute(sp, ps, commandType: CommandType.StoredProcedure);
             });
+
+        public void SaveDecisionTreeChoice(int rootTreeId, int leafTreeId, int? claimId, byte episodeTypeId,
+            string pharmacyNabp, string rxNumber, string episodeText, string modifiedByUserId) =>
+            DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+            {
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                }
+                const string sp = "[dbo].[uspSaveDecisionTreeChoice]";
+                var ps = new DynamicParameters();
+                ps.Add("@RootTreeID", rootTreeId, DbType.Int32);
+                ps.Add("@LeafTreeID", leafTreeId, DbType.Int32);
+                ps.Add("@ClaimID", claimId, DbType.Int32);
+                ps.Add("@EpisodeTypeID", episodeTypeId, DbType.Byte);
+                ps.Add("@PharmacyNABP", pharmacyNabp, DbType.AnsiString, size: 7);
+                ps.Add("@RxNumber", rxNumber, DbType.AnsiString, size: 100);
+                ps.Add("@EpisodeText", episodeText, DbType.AnsiString, size: 8000);
+                ps.Add("@ModifiedByUserID", modifiedByUserId, DbType.String, size: 128);
+                conn.Execute(sp, ps, commandType: CommandType.StoredProcedure);
+            });
     }
 }

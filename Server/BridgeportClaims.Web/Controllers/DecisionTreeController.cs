@@ -1,11 +1,10 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.Net;
 using System.Web.Http;
-using BridgeportClaims.Common.Caching;
-using BridgeportClaims.Data.DataProviders.DecisionTrees;
-using BridgeportClaims.Web.Models;
 using Microsoft.AspNet.Identity;
-using NLog;
+using BridgeportClaims.Web.Models;
+using BridgeportClaims.Data.DataProviders.DecisionTrees;
 
 namespace BridgeportClaims.Web.Controllers
 {
@@ -15,12 +14,10 @@ namespace BridgeportClaims.Web.Controllers
     {
         private static readonly Lazy<ILogger> Logger = new Lazy<ILogger>(LogManager.GetCurrentClassLogger);
         private readonly Lazy<IDecisionTreeDataProvider> _decisionTreeDataProvider;
-        private readonly Lazy<IMemoryCacher> _memoryCacher;
 
         public DecisionsTreeController(Lazy<IDecisionTreeDataProvider> decisionTreeDataProvider)
         {
             _decisionTreeDataProvider = decisionTreeDataProvider;
-            _memoryCacher = new Lazy<IMemoryCacher>(() => MemoryCacher.Instance);
         }
 
         [HttpPost]
@@ -29,7 +26,10 @@ namespace BridgeportClaims.Web.Controllers
         {
             try
             {
-                var userId = User.Identity.GetUserId();
+                var modifiedByUserId = User.Identity.GetUserId();
+                _decisionTreeDataProvider.Value.SaveDecisionTreeChoice(model.RootTreeId, model.LeafTreeId,
+                    model.ClaimId, model.EpisodeTypeId, model.PharmacyNabp,
+                    model.RxNumber, model.EpisodeText, modifiedByUserId);
                 return Ok(new {message = "The episode and tree path were saved successfully."});
             }
             catch (Exception ex)

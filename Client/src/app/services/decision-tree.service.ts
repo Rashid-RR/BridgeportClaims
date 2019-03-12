@@ -11,7 +11,7 @@ import { ITreeNode } from '../decision-tree/tree-node';
 import { ProfileManager } from './profile-manager';
 import * as d3 from 'd3';
 import swal from 'sweetalert2';
-import * as _ from "lodash";
+import * as _ from 'lodash';
 import { EpisodeNoteType } from '../models/episode-note-type';
 
 declare var treeWin: any;
@@ -47,22 +47,22 @@ export class DecisionTreeService {
   activeToastId: number;
   episodeForm: FormGroup;
   episodeNoteTypes: Array<EpisodeNoteType> = [];
-  onExperienceEnd = new Subject<{root:ITreeNode,leaf:ITreeNode}>();
+  onExperienceEnd = new Subject<{root: ITreeNode, leaf: ITreeNode}>();
   saveEpisode() {
     const pharmacyNabp = $('#ePayorsSelection').val() || null;
     this.episodeForm.controls['pharmacyNabp'].setValue(pharmacyNabp);
     if (this.episodeForm.controls['pharmacyNabp'].value == null && this.pharmacyName) {
       this.toast.warning('Incorrect Pharmacy name, Correct it to a valid value, or delete the value and leave it blank');
     } else if (this.episodeForm.valid) {
-      swal({ title: '', html: 'Saving Episode... <br/> <img src=\'assets/1.gif\'>', showConfirmButton: false }).catch(()=>{});
+      swal({ title: '', html: 'Saving Episode... <br/> <img src=\'assets/1.gif\'>', showConfirmButton: false }).catch(() => {});
       // this.episodeForm.value.episodeId = this.episodeForm.value.episodeId ? Number(this.episodeForm.value.episodeId) : null;
       this.episodeForm.value.episodeTypeId = this.episodeForm.value.episodeTypeId ? Number(this.episodeForm.value.episodeTypeId) : null;
       const form = this.episodeForm.value;
-      this.http.saveTreeExperience(form.rootTreeId,form.leafTreeId,this.claimId,form.pharmacyNabp,form.rxNumber,form.episodeText).subscribe(res => {                
+      this.http.saveTreeExperience(form.rootTreeId, form.leafTreeId, this.claimId, form.pharmacyNabp, form.rxNumber, form.episodeText).subscribe(res => {
         this.closeModal();
         this.toast.success(res.message);
       }, err => {
-         
+
       });
     } else {
       if (this.episodeForm.controls['episodeText'].errors && this.episodeForm.controls['episodeText'].errors.required) {
@@ -80,9 +80,9 @@ export class DecisionTreeService {
 
   closeModal() {
     swal.clickCancel();
-    
+
   }
-  constructor(private formBuilder: FormBuilder,private profileManager: ProfileManager, private router: Router, private http: HttpService, private toast: ToastrService) {
+  constructor(private formBuilder: FormBuilder, private profileManager: ProfileManager, private router: Router, private http: HttpService, private toast: ToastrService) {
     this.data = {
       'searchText': null,
       'sort': 'treeLevel',
@@ -127,7 +127,7 @@ get EpisodeNoteTypes(): Array<any> {
       if (d.children || d._children) {
         (d.children || d._children || []).forEach(c => this.mapNodes(c));
       }
-    })
+    });
   }
   get treeDepth() {
     return this.depth || 0;
@@ -188,7 +188,7 @@ get EpisodeNoteTypes(): Array<any> {
             this.data.page = page;
           }
           setTimeout(() => {
-            //this.events.broadcast('payment-amountRemaining',result)
+            // this.events.broadcast('payment-amountRemaining',result)
           }, 200);
         }, err => {
           this.loading = false;
@@ -236,8 +236,8 @@ get EpisodeNoteTypes(): Array<any> {
 
   }
   setDescription(d) {
-    this.episodeForm.patchValue({rootTreeId:this.root.data.treeId,leafTreeId:d.data.treeId})
-    this.onExperienceEnd.next({root:this.root.data,leaf:d.data});
+    this.episodeForm.patchValue({rootTreeId: this.root.data.treeId, leafTreeId: d.data.treeId});
+    this.onExperienceEnd.next({root: this.root.data, leaf: d.data});
   }
   selectNode(d): any {
     if (!d.children && !d._children) {
@@ -251,9 +251,9 @@ get EpisodeNoteTypes(): Array<any> {
   }
   collapse(d) {
     if (d.children) {
-      d._children = d.children
+      d._children = d.children;
       d._children.forEach(c => this.collapse(c));
-      d.children = null
+      d.children = null;
     }
   }
   expandSelection(n: any, selection: number[]) {
@@ -275,22 +275,22 @@ get EpisodeNoteTypes(): Array<any> {
     }
   }
   deSelectNode(n): any {
-    let newSelection = d3.selectAll(".tracked")
+    const newSelection = d3.selectAll('.tracked')
       .filter(function (d) {
         return d.data.treeLevel <= n.data.treeLevel;
-      }).data().map(d => d.data.treeId)
-    //console.log(newSelection);
-    let newData = JSON.stringify(this.treeData).replace(/,"picked":true/g, '')
+      }).data().map(d => d.data.treeId);
+    // console.log(newSelection);
+    const newData = JSON.stringify(this.treeData).replace(/,"picked":true/g, '');
     this.treeData = JSON.parse(newData);
-    this.root = d3.hierarchy(this.treeData, (d) => { if (newSelection.indexOf(d.treeId) > -1) d.picked = true; return d.children; });
+    this.root = d3.hierarchy(this.treeData, (d) => { if (newSelection.indexOf(d.treeId) > -1) { d.picked = true; } return d.children; });
     this.root.x0 = this.height / 2;
     this.root.y0 = 20;
     this.root.y = 20;
     this.svg = d3.select('#decisionTree')
-      .style("width", this.width)
-      .style("height", this.height)
-      .attr("transform", "translate("
-        + this.margin.left + "," + this.margin.top + ")");
+      .style('width', this.width)
+      .style('height', this.height)
+      .attr('transform', 'translate('
+        + this.margin.left + ',' + this.margin.top + ')');
     (this.root.children || []).forEach(c => this.collapse(c));
     this.update(this.root);
     this.expandSelection(this.root, newSelection);
@@ -352,7 +352,7 @@ get EpisodeNoteTypes(): Array<any> {
             this.deSelectNode(n);
             return true;
           }
-        }
+        };
       }
     } else {
       items.add = {
@@ -470,7 +470,7 @@ get EpisodeNoteTypes(): Array<any> {
             } catch (e) { }
           });
       }
-    }).catch(()=>{});
+    }).catch(() => {});
   }
   removeNode(d) {
     // this is the links target node which you want to remove
@@ -650,9 +650,9 @@ get EpisodeNoteTypes(): Array<any> {
   addTextLinks(textNodes) {
     textNodes.each(function () {
       const text = d3.select(this);
-      const words = text.text().split(/\s+/).reverse()
+      const words = text.text().split(/\s+/).reverse();
       const lwords = words.filter(w => w !== '');
-      let word: any, line = []
+      let word: any, line = [];
       const lineNumber = -0.9,
         y = text.attr('y');
       let tspan = text.text(null).append('tspan').attr('x', /* (x > 0 ? 1.1 : -1.1) */(1) + 'em').attr('y', (-0.9) + 'em');
@@ -716,7 +716,7 @@ get EpisodeNoteTypes(): Array<any> {
       onOpen: function () {
         $('#treeNodeName').focus();
       }
-    }).catch(()=>{});
+    }).catch(() => {});
     $('#treeNodeName').on('keypress', function (e) {
       if (e.which === 13) {
         $('button.save-tree-node').click();
