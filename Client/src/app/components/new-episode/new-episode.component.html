@@ -77,7 +77,7 @@
   <div class="row">
     <div class="col-sm-12">
       <div class="form-group text-center">
-        <button class="btn bg-darkRed btn-flat btn-small search-claims" type="button" (click)="episode ? this.es.saveEpisode():(claimId ? ds.saveEpisode(rootTreeId,leafTreeId):claimManager.saveEpisode())">
+        <button class="btn bg-darkRed btn-flat btn-small search-claims" type="button" (click)="episode ? this.es.saveEpisode():(claimId ? ds.saveEpisode():claimManager.saveEpisode())">
           <i class="fa fa-search"></i> Save
         </button>
         <button style="margin-left:15px;" class="btn bg-darkblue btn-flat btn-small clear-inputs" type="button" (click)="closeModal()">
