@@ -108,15 +108,15 @@ export class DecisionTreeService {
       }
     });
     this.http.getEpisodesNoteTypes()
-    .subscribe((result: Array<any>) => {
-      this.episodeNoteTypes = result;
-    }, () => {
-      this.loading = false;
-    });
-}
-get EpisodeNoteTypes(): Array<any> {
-  return this.episodeNoteTypes;
-}
+      .subscribe((result: Array<any>) => {
+        this.episodeNoteTypes = result;
+      }, () => {
+        this.loading = false;
+      });
+  }
+  get EpisodeNoteTypes(): Array<any> {
+    return this.episodeNoteTypes;
+  }
   mapNodes(n: any) {
     (n.children || n._children || []).forEach((d) => {
       console.log(d);
@@ -233,7 +233,11 @@ get EpisodeNoteTypes(): Array<any> {
     this.update(d);
   }
   cancelTree() {
-
+    if (this.allowed) {
+      this.router.navigate(['/main/decision-tree/list']);
+    } else {
+      this.router.navigate(['/main/decision-tree/list/' + this.claimId]);
+    }
   }
   setDescription(d) {
     this.episodeForm.patchValue({rootTreeId: this.root.data.treeId, leafTreeId: d.data.treeId});
@@ -446,7 +450,7 @@ get EpisodeNoteTypes(): Array<any> {
 
   deleteNode(n) {
     const title = `Delete this node - ${n.data.nodeName}`,
-      msg = `Are you sure you want to delete this node - ${n.data.nodeName}. This will delete all the decendant trees/nodes`;
+      msg = `Are you sure you want to delete this node - ${n.data.nodeName}. This will delete all child nodes (if any)`;
     swal({
       title: title,
       text: msg,
@@ -490,7 +494,11 @@ get EpisodeNoteTypes(): Array<any> {
         }
       });
       // set the target parent with new set of children sans the one which is removed
-      d.parent.children = children;
+      if (children.length !== 0) {
+        d.parent.children = children;
+      } else {
+        d.parent.children = null;
+      }
       // redraw the parent since one of its children is removed
       this.update(d.parent);
     }

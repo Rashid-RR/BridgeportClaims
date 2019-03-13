@@ -1,5 +1,5 @@
-import { ITreeNode } from "./tree-node";
+import {ITreeNode} from './tree-node';
 
 export interface ITree {
-    treeNodes: Array<ITreeNode>;
+  treeNodes: Array<ITreeNode>;
 }
