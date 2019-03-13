@@ -38,5 +38,20 @@ namespace BridgeportClaims.Web.Controllers
                 return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
             }
         }
+
+        [HttpPost]
+        [Route("get-upline")]
+        public IHttpActionResult GetUpline(int leafTreeId)
+        {
+            try
+            {
+                return Ok(_decisionTreeDataProvider.Value.GetUpline(leafTreeId));
+            }
+            catch (Exception ex)
+            {
+                Logger.Value.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+            }
+        }
     }
 }

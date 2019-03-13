@@ -154,5 +154,17 @@ namespace BridgeportClaims.Data.DataProviders.DecisionTrees
                 ps.Add("@ModifiedByUserID", modifiedByUserId, DbType.String, size: 128);
                 conn.Execute(sp, ps, commandType: CommandType.StoredProcedure);
             });
+
+        public IEnumerable<TreeGraphDto> GetUpline(int leafTreeId) =>
+            DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+            {
+                const string sp = "dbo.uspGetUpline";
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                }
+                return conn.Query<TreeGraphDto>(sp, new {LeafTreeID = leafTreeId},
+                    commandType: CommandType.StoredProcedure);
+            });
     }
 }
