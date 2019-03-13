@@ -8,7 +8,10 @@
           </a>
         </li>
         <li>
-          <a [routerLink]="['/main/decision-tree',(!allowed ? 'list':''),(!allowed ? claimId:'')]">
+          <a *ngIf="allowed" [routerLink]="['/main/decision-tree/list']">
+            Decision Tree
+          </a>
+          <a *ngIf="!allowed" [routerLink]="['/main/decision-tree/list/' + claimId ]">
             Decision Tree
           </a>
         </li>
@@ -21,7 +24,6 @@
     </section>
   </div>
 </div>
-
 <div class="row">
   <div class="col-md-12 col-sm-12 col-xs-12">
     <div class="box">
@@ -29,8 +31,6 @@
         <h3 class="box-title"> Design Decision Tree</h3>
       </div>
       <div class="box-body">
-
-        <!-- Diary Results -->
         <div class="row">
           <div class="col-sm-12" id="accordion">
             <div class="box">
@@ -44,7 +44,6 @@
                     title="Create a New Tree" (click)="ds.createUpdateNode()">
                     <button mat-raised-button style="margin-top: 0px;line-height: 30px;" [hidden]="!claimId" (click)="ds.cancelTree()">Cancel</button>
                 </div>
-
               </div>
               <div class="box-body diary-results">
                 <div class="row claim-info">
@@ -84,7 +83,6 @@
     </div>
   </div>
 </div>
-
 <swal #episodeSwal [showCancelButton]="false" [showConfirmButton]="false" customClass="payment-modal" [focusCancel]="false"
     title="Episode Entry">
     <app-new-episode *swalPartial [claimId]="claimId" [leafTreeId]="leafTreeId" [rootTreeId]="rootTreeId" [leafText]="leafText" [rootText]="rootText">

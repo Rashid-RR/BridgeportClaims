@@ -51,7 +51,7 @@ export class TreeListGridComponent implements OnInit {
     this.goToPage = '';
   }
   viewTree(t: ITreeNode) {
-     this.router.navigate([`/main/decision-tree/${this.claimId ? 'experience':'construct'}//${this.claimId ?  t.treeId+'/'+ this.claimId: t.treeId}`]);
+     this.router.navigate([`/main/decision-tree/${this.claimId ? 'experience' : 'construct'}//${this.claimId ?  t.treeId + '/' + this.claimId : t.treeId}`]);
   }
 
   goto() {

@@ -10,7 +10,7 @@ using NLog;
 
 namespace BridgeportClaims.Web.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "User")]
     [RoutePrefix("api/tree-config")]
     public class DecisionTreesConfigurationController : BaseApiController
     {
@@ -41,6 +41,7 @@ namespace BridgeportClaims.Web.Controllers
 
         [HttpPost]
         [Route("insert-node")]
+        [Authorize(Roles = "Admin")]
         public IHttpActionResult InsertNode(DecisionTreeModel model)
         {
             try
@@ -71,6 +72,7 @@ namespace BridgeportClaims.Web.Controllers
 
         [HttpPost]
         [Route("delete-node")]
+        [Authorize(Roles = "Admin")]
         public IHttpActionResult DeleteNode(int treeId)
         {
             try
