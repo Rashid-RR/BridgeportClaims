@@ -233,7 +233,11 @@ get EpisodeNoteTypes(): Array<any> {
     this.update(d);
   }
   cancelTree() {
-
+    if (this.allowed) {
+      this.router.navigate(['/main/decision-tree/list']);
+    } else {
+      this.router.navigate(['/main/decision-tree/list/' + this.claimId]);
+    }
   }
   setDescription(d) {
     this.episodeForm.patchValue({rootTreeId: this.root.data.treeId, leafTreeId: d.data.treeId});
@@ -446,7 +450,7 @@ get EpisodeNoteTypes(): Array<any> {
 
   deleteNode(n) {
     const title = `Delete this node - ${n.data.nodeName}`,
-      msg = `Are you sure you want to delete this node - ${n.data.nodeName}. This will delete all the decendant trees/nodes`;
+      msg = `Are you sure you want to delete this node - ${n.data.nodeName}. This will delete all child nodes (if any)`;
     swal({
       title: title,
       text: msg,

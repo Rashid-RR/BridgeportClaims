@@ -9,7 +9,7 @@ import { SwalComponent, SwalPartialTargets } from '@toverux/ngx-sweetalert2';
 
 declare var $: any;
 
-var zoomX = 0, zoomY = 0, zoomZ = 1, clickOriginX = null, clickOriginY = null;
+let zoomX = 0, zoomY = 0, zoomZ = 1, clickOriginX = null, clickOriginY = null;
 
 @Component({
   selector: 'app-design-tree',
@@ -24,10 +24,11 @@ export class DesignTreeComponent implements OnInit, AfterViewInit {
   rootTreeId: any;
   leafText: string;
   leafTreeId: any;
-  rootText: string
+  rootText: string;
   @ViewChild('episodeSwal') private episodeSwal: SwalComponent;
   constructor(
-    public readonly swalTargets: SwalPartialTargets,private route: ActivatedRoute, public ds: DecisionTreeService, private profileManager: ProfileManager, private http: HttpService) {
+    public readonly swalTargets: SwalPartialTargets, private route: ActivatedRoute,
+      public ds: DecisionTreeService, private profileManager: ProfileManager, private http: HttpService) {
     this.over = new Array(1);
     this.over.fill(false);
 
@@ -40,9 +41,9 @@ export class DesignTreeComponent implements OnInit, AfterViewInit {
   }
   collapse(d) {
     if (d.children) {
-      d._children = d.children
+      d._children = d.children;
       d._children.forEach(c => this.collapse(c));
-      d.children = null
+      d.children = null;
     }
   }
 
@@ -54,15 +55,15 @@ export class DesignTreeComponent implements OnInit, AfterViewInit {
         .subscribe((result: any) => {
           this.ds.loading = false;
           this.ds.treeData = result;
-          this.ds.root = d3.hierarchy(this.ds.treeData, (d) => { return d.children; });
+          this.ds.root = d3.hierarchy(this.ds.treeData, (d) => d.children);
           this.ds.root.x0 = this.ds.height / 2;
           this.ds.root.y0 = 20;
           this.ds.root.y = 20;
           this.ds.svg = d3.select('#decisionTree')
-            .style("width", this.ds.width)
-            .style("height", this.ds.height)
-            .attr("transform", "translate("
-              + this.ds.margin.left + "," + this.ds.margin.top + ")");
+            .style('width', this.ds.width)
+            .style('height', this.ds.height)
+            .attr('transform', 'translate('
+              + this.ds.margin.left + ',' + this.ds.margin.top + ')');
           (this.ds.root.children || []).forEach(c => this.collapse(c));
           if (this.claimId) {
             this.ds.treeData.picked = true;
@@ -89,7 +90,7 @@ export class DesignTreeComponent implements OnInit, AfterViewInit {
         this.claimId = params.claimId;
       }
     });
-    try { swal.clickCancel() } catch (e) { };
+    try { swal.clickCancel(); } catch (e) { }
     this.ds.onExperienceEnd.subscribe(exp => {
       this.rootText = exp.root.nodeName;
       this.rootTreeId = exp.root.treeId;
@@ -128,7 +129,7 @@ export class DesignTreeComponent implements OnInit, AfterViewInit {
                 return 'translate(' + [zoomX, zoomY] + ')' + `scale(${zoomZ})`;
               });
           })
-      )
+      );
   }
   handleZoomLevel(x) {
     zoomZ = x;
