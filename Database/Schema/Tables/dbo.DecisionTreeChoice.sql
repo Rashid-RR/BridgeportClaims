@@ -2,7 +2,6 @@ CREATE TABLE [dbo].[DecisionTreeChoice]
 (
 [DecisionTreeChoiceID] [int] NOT NULL IDENTITY(1, 1),
 [ClaimID] [int] NULL,
-[RootTreeID] [int] NOT NULL,
 [LeafTreeID] [int] NOT NULL,
 [ModifiedByUserID] [nvarchar] (128) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 [CreatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfDecisionTreeChoiceCreatedOnUTC] DEFAULT (sysutcdatetime()),
@@ -21,6 +20,4 @@ GO
 ALTER TABLE [dbo].[DecisionTreeChoice] ADD CONSTRAINT [fkDecisionTreeChoiceLeafTreeIDDecisionTreeTreeID] FOREIGN KEY ([LeafTreeID]) REFERENCES [dbo].[DecisionTree] ([TreeID])
 GO
 ALTER TABLE [dbo].[DecisionTreeChoice] ADD CONSTRAINT [fkDecisionTreeChoiceModifiedByUserIDAspNetUsersID] FOREIGN KEY ([ModifiedByUserID]) REFERENCES [dbo].[AspNetUsers] ([ID])
-GO
-ALTER TABLE [dbo].[DecisionTreeChoice] ADD CONSTRAINT [fkDecisionTreeChoiceRootTreeIDDecisionTreeTreeID] FOREIGN KEY ([RootTreeID]) REFERENCES [dbo].[DecisionTree] ([TreeID])
 GO
