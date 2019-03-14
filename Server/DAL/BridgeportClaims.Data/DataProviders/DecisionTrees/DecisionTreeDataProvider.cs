@@ -134,7 +134,7 @@ namespace BridgeportClaims.Data.DataProviders.DecisionTrees
                 conn.Execute(sp, ps, commandType: CommandType.StoredProcedure);
             });
 
-        public void SaveDecisionTreeChoice(int rootTreeId, int leafTreeId, int? claimId, byte episodeTypeId,
+        public void SaveDecisionTreeChoice(int leafTreeId, int? claimId, byte episodeTypeId,
             string pharmacyNabp, string rxNumber, string episodeText, string modifiedByUserId) =>
             DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
@@ -144,7 +144,6 @@ namespace BridgeportClaims.Data.DataProviders.DecisionTrees
                 }
                 const string sp = "[dbo].[uspSaveDecisionTreeChoice]";
                 var ps = new DynamicParameters();
-                ps.Add("@RootTreeID", rootTreeId, DbType.Int32);
                 ps.Add("@LeafTreeID", leafTreeId, DbType.Int32);
                 ps.Add("@ClaimID", claimId, DbType.Int32);
                 ps.Add("@EpisodeTypeID", episodeTypeId, DbType.Byte);

@@ -27,7 +27,7 @@ namespace BridgeportClaims.Web.Controllers
             try
             {
                 var modifiedByUserId = User.Identity.GetUserId();
-                _decisionTreeDataProvider.Value.SaveDecisionTreeChoice(model.RootTreeId, model.LeafTreeId,
+                _decisionTreeDataProvider.Value.SaveDecisionTreeChoice(model.LeafTreeId,
                     model.ClaimId, model.EpisodeTypeId, model.PharmacyNabp,
                     model.RxNumber, model.EpisodeText, modifiedByUserId);
                 return Ok(new {message = "The episode and tree path were saved successfully."});
