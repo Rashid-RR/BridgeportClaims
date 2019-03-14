@@ -58,7 +58,7 @@ export class DecisionTreeService {
       // this.episodeForm.value.episodeId = this.episodeForm.value.episodeId ? Number(this.episodeForm.value.episodeId) : null;
       this.episodeForm.value.episodeTypeId = this.episodeForm.value.episodeTypeId ? Number(this.episodeForm.value.episodeTypeId) : null;
       const form = this.episodeForm.value;
-      this.http.saveTreeExperience(form.rootTreeId, form.leafTreeId, this.claimId, form.pharmacyNabp, form.rxNumber,
+      this.http.saveTreeExperience(form.leafTreeId, this.claimId, form.pharmacyNabp, form.rxNumber,
         form.episodeText, form.episodeTypeId).subscribe(res => {
         this.closeModal();
         this.toast.success(res.message);

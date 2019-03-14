@@ -22,7 +22,7 @@ namespace BridgeportClaims.Web.Controllers
 
         [HttpPost]
         [Route("save-tree-experience")]
-        public IHttpActionResult GetDecisionTree(TreeExperienceModel model)
+        public IHttpActionResult SaveTreeExperience(TreeExperienceModel model)
         {
             try
             {

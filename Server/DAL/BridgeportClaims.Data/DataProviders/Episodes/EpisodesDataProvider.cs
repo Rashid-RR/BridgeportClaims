@@ -314,11 +314,11 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 						var createdOrdinal = reader.GetOrdinal("Created");
 						var ownerOrdinal = reader.GetOrdinal("Owner");
 						var typeOrdinal = reader.GetOrdinal("Type");
-						var roleOrdinal = reader.GetOrdinal("Role");
 						var pharmacyOrdinal = reader.GetOrdinal("Pharmacy");
 						var rxNumberOrdinal = reader.GetOrdinal("RxNumber");
 						var resolvedOrdinal = reader.GetOrdinal("Resolved");
 						var noteCountOrdinal = reader.GetOrdinal("NoteCount");
+                        var hasTreeOrdinal = reader.GetOrdinal("HasTree");
 						var list = new List<EpisodeBladeDto>();
 						while (reader.Read())
 						{
@@ -328,11 +328,11 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 								Created = !reader.IsDBNull(createdOrdinal) ? reader.GetDateTime(createdOrdinal) : (DateTime?) null,
 								Owner = !reader.IsDBNull(ownerOrdinal) ? reader.GetString(ownerOrdinal) : string.Empty,
 								Type = !reader.IsDBNull(typeOrdinal) ? reader.GetString(typeOrdinal) : string.Empty,
-								Role = !reader.IsDBNull(roleOrdinal) ? reader.GetString(roleOrdinal) : string.Empty,
 								Pharmacy = !reader.IsDBNull(pharmacyOrdinal) ? reader.GetString(pharmacyOrdinal) : string.Empty,
 								RxNumber = !reader.IsDBNull(rxNumberOrdinal) ? reader.GetString(rxNumberOrdinal) : string.Empty,
 								Resolved = !reader.IsDBNull(resolvedOrdinal) && reader.GetBoolean(resolvedOrdinal),
-								NoteCount = !reader.IsDBNull(noteCountOrdinal) ? reader.GetInt32(noteCountOrdinal) : default
+								NoteCount = !reader.IsDBNull(noteCountOrdinal) ? reader.GetInt32(noteCountOrdinal) : default,
+                                HasTree = !reader.IsDBNull(hasTreeOrdinal) && reader.GetBoolean(hasTreeOrdinal)
 							};
 							list.Add(episodeBladeDto);
 						}

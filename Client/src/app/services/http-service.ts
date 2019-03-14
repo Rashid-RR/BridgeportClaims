@@ -1566,10 +1566,9 @@ export class HttpService {
     return s;
   }
 
-  saveTreeExperience(rootTreeId: any, leafTreeId: any, claimId: any= null, pharmacyNabp: string,
+  saveTreeExperience(leafTreeId: any, claimId: any= null, pharmacyNabp: string,
     rxNumber: any, episodeText: any, episodeTypeId: any): Observable<any> {
     const s = this.http.post(this.baseUrl + `/trees/save-tree-experience`, {
-      rootTreeId: rootTreeId,
       leafTreeId: leafTreeId,
       claimId: (claimId === 'episode' ? null : claimId),
       pharmacyNabp: pharmacyNabp,
