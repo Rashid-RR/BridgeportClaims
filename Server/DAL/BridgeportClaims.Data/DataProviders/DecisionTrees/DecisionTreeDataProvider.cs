@@ -134,7 +134,7 @@ namespace BridgeportClaims.Data.DataProviders.DecisionTrees
                 conn.Execute(sp, ps, commandType: CommandType.StoredProcedure);
             });
 
-        public void SaveDecisionTreeChoice(int rootTreeId, int leafTreeId, int? claimId, byte episodeTypeId,
+        public void SaveDecisionTreeChoice(int leafTreeId, int? claimId, byte episodeTypeId,
             string pharmacyNabp, string rxNumber, string episodeText, string modifiedByUserId) =>
             DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
@@ -144,7 +144,6 @@ namespace BridgeportClaims.Data.DataProviders.DecisionTrees
                 }
                 const string sp = "[dbo].[uspSaveDecisionTreeChoice]";
                 var ps = new DynamicParameters();
-                ps.Add("@RootTreeID", rootTreeId, DbType.Int32);
                 ps.Add("@LeafTreeID", leafTreeId, DbType.Int32);
                 ps.Add("@ClaimID", claimId, DbType.Int32);
                 ps.Add("@EpisodeTypeID", episodeTypeId, DbType.Byte);
@@ -153,6 +152,18 @@ namespace BridgeportClaims.Data.DataProviders.DecisionTrees
                 ps.Add("@EpisodeText", episodeText, DbType.AnsiString, size: 8000);
                 ps.Add("@ModifiedByUserID", modifiedByUserId, DbType.String, size: 128);
                 conn.Execute(sp, ps, commandType: CommandType.StoredProcedure);
+            });
+
+        public IEnumerable<TreeGraphDto> GetUpline(int leafTreeId) =>
+            DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+            {
+                const string sp = "dbo.uspGetUpline";
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                }
+                return conn.Query<TreeGraphDto>(sp, new {LeafTreeID = leafTreeId},
+                    commandType: CommandType.StoredProcedure);
             });
     }
 }

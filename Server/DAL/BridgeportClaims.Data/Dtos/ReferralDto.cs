@@ -42,6 +42,6 @@ namespace BridgeportClaims.Data.Dtos
         [Required]
         public int GenderId { get; set; }
         [Required]
-        public string GroupName { get; set; }
+        public string InsuranceCarrierName { get; set; }
     }
 }

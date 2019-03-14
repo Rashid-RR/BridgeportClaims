@@ -22,7 +22,7 @@ AS BEGIN
 		DECLARE @RealNow DATE = CONVERT(DATE, [dtme].[udfGetLocalDate]())
 		
 		-- Payor Letter Name Notifications.	
-		DECLARE @NotificationTypeID INT, @MaxPayorID INT;
+		DECLARE @NotificationTypeID INT, @MaxPayorID INT, @MaxReferralID INT;
 		SET @NotificationTypeID = dbo.udfGetNotificationTypeIDFromCode('PAYORLETTER');
 
 		IF (@IsBeforeDataImport = 1) -- Stage any data needed to generating notifications after the data import.
@@ -37,7 +37,6 @@ AS BEGIN
 			END
 		ELSE -- else we're running after the data import.
 			BEGIN
-				DECLARE @MessageText VARCHAR(4000);
 
 				SELECT  @MaxPayorID = CONVERT(INT, [nc].[NotificationValue])
 				FROM    [dbo].[NotificationConfig] AS [nc]
@@ -49,7 +48,7 @@ AS BEGIN
 				  , [NotificationTypeID]
 				  , [CreatedOnUTC]
 				  , [UpdatedOnUTC])
-				SELECT  'A new Payor (ID ' + CONVERT(VARCHAR, [p].[PayorID]) + ') has been imported into the system as of ' + FORMAT(@RealNow, 'M/d/yyyy') +
+				SELECT  'A new Payor (ID ' + CONVERT(VARCHAR(100), [p].[PayorID]) + ') has been imported into the system as of ' + FORMAT(@RealNow, 'M/d/yyyy') +
 						'. The "BillToName" is "' + [p].[BillToName] + '". This will be used for the "LetterName" unless you''d like to edit it here.'
 					  , @RealNow
 					  , @NotificationTypeID
@@ -57,6 +56,34 @@ AS BEGIN
 					  , @UtcNow
 				FROM    [dbo].[Payor] AS [p]
 				WHERE   [p].[PayorID] > @MaxPayorID
+
+				-- Notifying of any new client referrals.
+				SET @NotificationTypeID = dbo.udfGetNotificationTypeIDFromCode('NEWREFERRAL');
+				SELECT  @MaxReferralID = CONVERT(INT, [nc].[NotificationValue])
+				FROM    [dbo].[NotificationConfig] AS [nc]
+				WHERE   [nc].[NotificationTypeID] = @NotificationTypeID
+
+				INSERT INTO [dbo].[Notification]
+				(   [MessageText]
+				  , [GeneratedDate]
+				  , [NotificationTypeID]
+				  , [CreatedOnUTC]
+				  , [UpdatedOnUTC])
+				SELECT 'A new client referral (ID ' + CONVERT(VARCHAR(100), r.ReferralID) + ') has been entered into the system as of ' + FORMAT(@RealNow, 'M/d/yyyy') +
+				'. Patient name: ' + ISNULL(r.FirstName, '') + ' ' + ISNULL(r.LastName, '')
+				, @RealNow
+				, @NotificationTypeID
+				, @UtcNow
+				, @UtcNow
+				FROM client.Referral AS r;
+				
+				SELECT @MaxReferralID = MAX(r.ReferralID) FROM client.Referral AS r;
+
+				UPDATE  [dbo].[NotificationConfig]
+				SET     [NotificationValue] = @MaxReferralID,	
+						[EffectiveDate] = @RealNow,
+						[UpdatedOnUTC] = @UtcNow
+				WHERE   [NotificationTypeID] = @NotificationTypeID
 			END
 			
 		IF (@@TRANCOUNT > 0)
@@ -64,20 +91,11 @@ AS BEGIN
     END TRY
     BEGIN CATCH     
 		IF (@@TRANCOUNT > 0)
-			ROLLBACK;
-				
-		DECLARE @ErrSeverity INT = ERROR_SEVERITY()
-			, @ErrState INT = ERROR_STATE()
-			, @ErrProc NVARCHAR(MAX) = ERROR_PROCEDURE()
-			, @ErrLine INT = ERROR_LINE()
-			, @ErrMsg NVARCHAR(MAX) = ERROR_MESSAGE();
-
-		RAISERROR(N'%s (line %d): %s',	-- Message text w formatting
-			@ErrSeverity,		-- Severity
-			@ErrState,			-- State
-			@ErrProc,			-- First argument (string)
-			@ErrLine,			-- Second argument (int)
-			@ErrMsg);			-- First argument (string)
+			ROLLBACK;	
+		DECLARE @ErrLine INT = ERROR_LINE()
+              , @ErrMsg NVARCHAR(4000) = ERROR_MESSAGE();
+		DECLARE @Msg NVARCHAR(2000) = FORMATMESSAGE(N'An error occurred: %s Line Number: %u', @ErrMsg, @ErrLine);
+		THROW 50000, @Msg, 0;
     END CATCH
 END
 GO

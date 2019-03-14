@@ -22,7 +22,7 @@ CREATE TABLE [client].[Referral]
 [AdjustorPhone] [varchar] (30) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [PersonCode] [char] (2) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [GenderID] [int] NOT NULL,
-[GroupName] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[InsuranceCarrierName] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 [CreatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfReferralCreatedOnUTC] DEFAULT (sysutcdatetime()),
 [UpdatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfReferralUpdatedOnUTC] DEFAULT (sysutcdatetime()),
 [DataVersion] [timestamp] NOT NULL

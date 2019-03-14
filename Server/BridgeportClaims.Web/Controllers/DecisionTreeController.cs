@@ -22,15 +22,30 @@ namespace BridgeportClaims.Web.Controllers
 
         [HttpPost]
         [Route("save-tree-experience")]
-        public IHttpActionResult GetDecisionTree(TreeExperienceModel model)
+        public IHttpActionResult SaveTreeExperience(TreeExperienceModel model)
         {
             try
             {
                 var modifiedByUserId = User.Identity.GetUserId();
-                _decisionTreeDataProvider.Value.SaveDecisionTreeChoice(model.RootTreeId, model.LeafTreeId,
+                _decisionTreeDataProvider.Value.SaveDecisionTreeChoice(model.LeafTreeId,
                     model.ClaimId, model.EpisodeTypeId, model.PharmacyNabp,
                     model.RxNumber, model.EpisodeText, modifiedByUserId);
                 return Ok(new {message = "The episode and tree path were saved successfully."});
+            }
+            catch (Exception ex)
+            {
+                Logger.Value.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        [Route("get-upline")]
+        public IHttpActionResult GetUpline(int leafTreeId)
+        {
+            try
+            {
+                return Ok(_decisionTreeDataProvider.Value.GetUpline(leafTreeId));
             }
             catch (Exception ex)
             {

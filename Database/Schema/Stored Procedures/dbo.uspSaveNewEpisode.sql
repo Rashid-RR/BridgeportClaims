@@ -18,7 +18,8 @@ CREATE PROC [dbo].[uspSaveNewEpisode]
 	@PharmacyNABP VARCHAR(7),
 	@RxNumber VARCHAR(100),
 	@NoteText VARCHAR(8000),
-	@UserID NVARCHAR(128)
+	@UserID NVARCHAR(128),
+	@DecisionTreeChoiceID INT = NULL
 )
 AS BEGIN
 	SET NOCOUNT ON;
@@ -60,19 +61,20 @@ AS BEGIN
 		  , [NoteText]
 		  , [WrittenByUserID]
 		  , [Created]
+		  , [DecisionTreeChoiceID]
 		  , [CreatedOnUTC]
 		  , [UpdatedOnUTC])
-		SELECT @EpisodeID,@NoteText,@UserID,@Today,@UtcNow,@UtcNow
+		SELECT @EpisodeID,@NoteText,@UserID,@Today,@DecisionTreeChoiceID,@UtcNow,@UtcNow
 
 		SELECT  [ve].[Id]
               , [ve].[Created]
               , [ve].[Owner]
               , [ve].[Type]
-              , [ve].[Role]
               , [ve].[Pharmacy]
               , [ve].[RxNumber]
               , [ve].[Resolved]
               , [ve].[NoteCount]
+			  , [ve].[HasTree]
 		FROM    dbo.vwEpisodeBlade AS [ve]
 		WHERE   [ve].[Id] = @EpisodeID
 		
@@ -81,20 +83,12 @@ AS BEGIN
     END TRY
     BEGIN CATCH     
 		IF (@@TRANCOUNT > 0)
-			ROLLBACK;
-				
-		DECLARE @ErrSeverity INT = ERROR_SEVERITY()
-			, @ErrState INT = ERROR_STATE()
-			, @ErrProc NVARCHAR(MAX) = ERROR_PROCEDURE()
-			, @ErrLine INT = ERROR_LINE()
-			, @ErrMsg NVARCHAR(MAX) = ERROR_MESSAGE();
-
-		RAISERROR(N'%s (line %d): %s',	-- Message text w formatting
-			@ErrSeverity,		-- Severity
-			@ErrState,			-- State
-			@ErrProc,			-- First argument (string)
-			@ErrLine,			-- Second argument (int)
-			@ErrMsg);			-- First argument (string)
+			ROLLBACK;	
+		DECLARE @ErrLine INT = ERROR_LINE()
+              , @ErrMsg NVARCHAR(4000) = ERROR_MESSAGE();
+		DECLARE @Msg NVARCHAR(2000) = FORMATMESSAGE(N'An error occurred: %s Line Number: %u', @ErrMsg, @ErrLine);
+		THROW 50000, @Msg, 0;
     END CATCH
 END
+
 GO

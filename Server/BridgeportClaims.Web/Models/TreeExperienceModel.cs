@@ -2,7 +2,6 @@
 {
     public sealed class TreeExperienceModel
     {
-        public int RootTreeId { get; set; }
         public int LeafTreeId { get; set; }
         public int? ClaimId { get; set; }
         public byte EpisodeTypeId { get; set; }
