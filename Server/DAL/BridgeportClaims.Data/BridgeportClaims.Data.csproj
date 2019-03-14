@@ -146,6 +146,8 @@
     <Compile Include="DataProviders\KPI\KpiProvider.cs" />
     <Compile Include="DataProviders\LetterGenerations\ILetterGenerationProvider.cs" />
     <Compile Include="DataProviders\LetterGenerations\LetterGenerationProvider.cs" />
+    <Compile Include="DataProviders\Notifications\INotificationsDataProvider.cs" />
+    <Compile Include="DataProviders\Notifications\NotificationsDataProvider.cs" />
     <Compile Include="DataProviders\Notifications\PayorLetterName\IPayorLetterNameProvider.cs" />
     <Compile Include="DataProviders\Notifications\PayorLetterName\PayorLetterNameProvider.cs" />
     <Compile Include="DataProviders\Payments\IPaymentsDataProvider.cs" />

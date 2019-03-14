@@ -3,6 +3,7 @@ using System;
 using System.Net;
 using System.Web.Http;
 using BridgeportClaims.Common.Extensions;
+using BridgeportClaims.Data.DataProviders.Notifications;
 using BridgeportClaims.Data.DataProviders.Notifications.PayorLetterName;
 using BridgeportClaims.Web.Models;
 using Microsoft.AspNet.Identity;
@@ -15,10 +16,30 @@ namespace BridgeportClaims.Web.Controllers
     {
         private readonly Lazy<IPayorLetterNameProvider> _payorLetterNameProvider;
         private static readonly Lazy<ILogger> Logger = new Lazy<ILogger>(LogManager.GetCurrentClassLogger);
+        private readonly Lazy<INotificationsDataProvider> _notificationsDataProvider;
 
-        public NotificationsController(Lazy<IPayorLetterNameProvider> payorLetterNameProvider)
+        public NotificationsController(Lazy<IPayorLetterNameProvider> payorLetterNameProvider,
+            Lazy<INotificationsDataProvider> notificationsDataProvider)
         {
             _payorLetterNameProvider = payorLetterNameProvider;
+            _notificationsDataProvider = notificationsDataProvider;
+        }
+
+        [HttpPost]
+        [Route("dismiss")]
+        public IHttpActionResult Dismiss(int notificationId)
+        {
+            try
+            {
+                var dismissedByUserId = User.Identity.GetUserId();
+                _notificationsDataProvider.Value.DismissNotification(notificationId, dismissedByUserId);
+                return Ok(new { message = "The notification was dismissed successfully." });
+            }
+            catch (Exception ex)
+            {
+                Logger.Value.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+            }
         }
 
         [HttpPost]
