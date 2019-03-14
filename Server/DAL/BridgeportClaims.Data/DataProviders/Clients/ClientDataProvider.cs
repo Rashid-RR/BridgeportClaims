@@ -47,7 +47,7 @@ namespace BridgeportClaims.Data.DataProviders.Clients
                 ps.Add("@AdjustorPhone", referral.AdjustorPhone, DbType.AnsiString, size: 30);
                 ps.Add("@PersonCode", referral.PersonCode, DbType.AnsiStringFixedLength, size: 2);
                 ps.Add("@GenderID", referral.GenderId, DbType.Int32);
-                ps.Add("@GroupName", referral.GroupName, DbType.AnsiString, size: 255);
+                ps.Add("@InsuranceCarrierName", referral.InsuranceCarrierName, DbType.AnsiString, size: 255);
                 conn.Execute(sp, ps, commandType: CommandType.StoredProcedure);
             });
 
