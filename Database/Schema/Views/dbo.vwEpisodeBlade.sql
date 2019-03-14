@@ -9,7 +9,6 @@ SELECT          Id        = e.[EpisodeID]
               , e.[Created]
               , [Owner]   = u.[FirstName] + ' ' + u.[LastName]
               , [Type]    = et.[TypeName]
-              , e.[Role]
               , Pharmacy  = ph.[PharmacyName]
               , e.[RxNumber]
               , Category  = ec.[CategoryName]
@@ -20,6 +19,9 @@ SELECT          Id        = e.[EpisodeID]
                     WHERE   en.[EpisodeID] = e.[EpisodeID])
 			  , e.[ClaimID]
 			  , et.[EpisodeTypeID]
+			  , HasTree = CAST(CASE WHEN EXISTS (SELECT * FROM dbo.EpisodeNote AS ien WHERE ien.EpisodeID = e.EpisodeID AND ien.DecisionTreeChoiceID IS NOT NULL)
+					 THEN 1 ELSE 0
+				END AS BIT)
 FROM            [dbo].[Episode]         AS [e]
 	INNER JOIN  [dbo].[EpisodeType]     AS [et] ON [et].[EpisodeTypeID] = [e].[EpisodeTypeID]
     LEFT JOIN  [dbo].[Claim]           AS [c] ON [c].[ClaimID] = [e].[ClaimID]
@@ -28,4 +30,5 @@ FROM            [dbo].[Episode]         AS [e]
     LEFT JOIN   [dbo].[AspNetUsers]     AS [u] ON [u].[ID] = [e].[AssignedUserID]
     LEFT JOIN   [dbo].[Pharmacy]        AS [ph] ON [ph].[NABP] = [e].[PharmacyNABP]
 WHERE			e.Archived = 0;
+
 GO

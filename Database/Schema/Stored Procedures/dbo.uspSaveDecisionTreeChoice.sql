@@ -13,7 +13,6 @@ GO
 */
 CREATE PROCEDURE [dbo].[uspSaveDecisionTreeChoice]
 (
-	@RootTreeID INT,
 	@LeafTreeID INT,
 	@ClaimID INT,
 	@EpisodeTypeID TINYINT,
@@ -28,7 +27,6 @@ AS BEGIN
 	INSERT [dbo].[DecisionTreeChoice]
 	(
 	    [ClaimID]
-	  , [RootTreeID]
 	  , [LeafTreeID]
 	  , [ModifiedByUserID]
 	  , [CreatedOnUTC]
@@ -36,7 +34,6 @@ AS BEGIN
 	)
 	VALUES
 	     (@ClaimID
-	    , @RootTreeID
 	    , @LeafTreeID
 	    , @ModifiedByUserID
 	    , @UtcNow

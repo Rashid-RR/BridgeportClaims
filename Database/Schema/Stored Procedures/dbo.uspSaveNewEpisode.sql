@@ -70,11 +70,11 @@ AS BEGIN
               , [ve].[Created]
               , [ve].[Owner]
               , [ve].[Type]
-              , [ve].[Role]
               , [ve].[Pharmacy]
               , [ve].[RxNumber]
               , [ve].[Resolved]
               , [ve].[NoteCount]
+			  , [ve].[HasTree]
 		FROM    dbo.vwEpisodeBlade AS [ve]
 		WHERE   [ve].[Id] = @EpisodeID
 		
@@ -90,4 +90,5 @@ AS BEGIN
 		THROW 50000, @Msg, 0;
     END CATCH
 END
+
 GO

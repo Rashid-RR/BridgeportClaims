@@ -30,31 +30,31 @@ AS BEGIN
 				[Created] [date] NULL,
 				[Owner] [nvarchar](201) NULL,
 				[Type] [varchar](255) NOT NULL,
-				[Role] [varchar](25) NULL,
 				[Pharmacy] [varchar](60) NULL,
 				[RxNumber] [varchar](100) NULL,
 				[Resolved] [bit] NULL,
-				[NoteCount] [int] NULL
+				[NoteCount] [int] NULL,
+				[HasTree] [BIT] NOT NULL
 			)
 			INSERT INTO [#Episodes]
 			(   [Id]
 			  , [Created]
 			  , [Owner]
 			  , [Type]
-			  , [Role]
 			  , [Pharmacy]
 			  , [RxNumber]
 			  , [Resolved]
-			  , [NoteCount])
+			  , [NoteCount]
+			  , HasTree)
 			SELECT  e.[Id]
 					, e.[Created]
 					, e.[Owner]
 					, e.[Type]
-					, e.[Role]
 					, e.[Pharmacy]
 					, e.[RxNumber]
 					, e.[Resolved]
 					, e.[NoteCount]
+					, e.HasTree
 			FROM    dbo.vwEpisodeBlade AS [e]
 			WHERE	[e].[ClaimID] = @ClaimID
                     AND [e].[Category] = @Call
@@ -63,11 +63,11 @@ AS BEGIN
                  , [c].[Created]
                  , [c].[Owner]
                  , [c].[Type]
-                 , [c].[Role]
                  , [c].[Pharmacy]
                  , [c].[RxNumber]
                  , [c].[Resolved]
                  , [c].[NoteCount]
+				 , c.HasTree
 			FROM [#Episodes] c
 			ORDER BY CASE WHEN @SortColumn = 'Id' AND @SortDirection = 'ASC'
 					THEN [c].[Id] END ASC,
@@ -85,10 +85,6 @@ AS BEGIN
 					THEN [c].[Type] END ASC,
 				 CASE WHEN @SortColumn = 'Type' AND @SortDirection = 'DESC'
 					THEN [c].[Type] END DESC,
-				 CASE WHEN @SortColumn = 'Role' AND @SortDirection = 'ASC'
-					THEN [c].[Role] END ASC,
-				 CASE WHEN @SortColumn = 'Role' AND @SortDirection = 'DESC'
-					THEN [c].[Role] END DESC,
 				 CASE WHEN @SortColumn = 'Pharmacy' AND @SortDirection = 'ASC'
 					THEN [c].[Pharmacy] END ASC,
 				 CASE WHEN @SortColumn = 'Pharmacy' AND @SortDirection = 'DESC'
@@ -104,7 +100,11 @@ AS BEGIN
 				 CASE WHEN @SortColumn = 'NoteCount' AND @SortDirection = 'ASC'
 					THEN [c].[NoteCount] END ASC,
 				 CASE WHEN @SortColumn = 'NoteCount' AND @SortDirection = 'DESC'
-					THEN [c].[NoteCount] END DESC;
+					THEN [c].[NoteCount] END DESC,
+				CASE WHEN @SortColumn = 'HasTree' AND @SortDirection = 'ASC'
+					THEN [c].[HasTree] END ASC,
+				 CASE WHEN @SortColumn = 'HasTree' AND @SortDirection = 'DESC'
+					THEN [c].[HasTree] END DESC;
 			
 		IF (@@TRANCOUNT > 0)
 			COMMIT;
@@ -127,4 +127,5 @@ AS BEGIN
 			@ErrMsg);			-- First argument (string)
     END CATCH
 END
+
 GO
