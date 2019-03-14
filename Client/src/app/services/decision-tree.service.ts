@@ -14,7 +14,7 @@ import swal from 'sweetalert2';
 import * as _ from 'lodash';
 import { EpisodeNoteType } from '../models/episode-note-type';
 
-declare var treeWin: any;
+
 declare var $: any;
 
 @Injectable()
@@ -244,6 +244,7 @@ export class DecisionTreeService {
   }
   setDescription(d) {
     this.episodeForm.patchValue({rootTreeId: this.root.data.treeId, leafTreeId: d.data.treeId});
+    console.log("Show button",new Date())
     this.onExperienceEnd.next({root: this.root.data, leaf: d.data});
   }
   selectNode(d): any {
