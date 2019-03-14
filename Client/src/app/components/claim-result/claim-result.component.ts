@@ -64,6 +64,7 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
       address2: [undefined], // NULL
       city: [undefined], // NULL
       stateId: [undefined], // NULL
+      postalCode: [undefined] // NULL
     });
   }
 
@@ -280,6 +281,7 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
       address2: this.claimManager.selectedClaim.address2, // NULL
       city: this.claimManager.selectedClaim.city, // NULL
       stateId: this.claimManager.selectedClaim.stateId,
+      postalCode: this.claimManager.selectedClaim.postalCode
     });
     this.lastForm = {
       claimId: this.claimManager.selectedClaim.claimId,
@@ -296,6 +298,7 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
       address2: this.claimManager.selectedClaim.address2, // NULL
       city: this.claimManager.selectedClaim.city, // NULL
       stateId: this.claimManager.selectedClaim.stateId,
+      postalCode: this.claimManager.selectedClaim.postalCode
     };
 
     setTimeout(() => {
@@ -317,15 +320,15 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
   }
 
   enableSelect2() {
-    let editAdjustorSelection = $('#editAdjustorSelection').select2({
+    const editAdjustorSelection = $('#editAdjustorSelection').select2({
       ajax: {
         headers: {'Authorization': this.auth},
         url: function (params) {
           return '/api/adjustors/adjustor-names/?adjustorName=' + (params.term || '');
         },
         type: 'POST',
-        processResults:  (data)=> {
-          let content = data.filter(d=>d.adjustorId!==(this.claimManager.selectedClaim.adjustorId || 'null'))
+        processResults:  (data) => {
+          const content = data.filter(d => d.adjustorId !== (this.claimManager.selectedClaim.adjustorId || 'null'));
           content.forEach(d => {
             d.id = d.adjustorId,
               d.text = d.adjustorName;
@@ -334,7 +337,7 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
             id: 'null',
             text: '-- No Adjustor --'
           });
-          if(this.claimManager.selectedClaim.adjustorId){
+          if (this.claimManager.selectedClaim.adjustorId) {
             content.unshift({
               id: this.claimManager.selectedClaim.adjustorId,
               text: this.claimManager.selectedClaim.adjustor
@@ -351,17 +354,17 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
       const val = data === 'null' ? null : data;
       this.form.controls['adjustorId'].setValue(val);
     });
-    var option = new Option(this.claimManager.selectedClaim.adjustor as string, this.claimManager.selectedClaim.adjustorId as any, true, true);
+    const option = new Option(this.claimManager.selectedClaim.adjustor as string, this.claimManager.selectedClaim.adjustorId as any, true, true);
     editAdjustorSelection.append(option).trigger('change');
-    let eCarrierSelection = $('#eCarrierSelection').select2({
+    const eCarrierSelection = $('#eCarrierSelection').select2({
       ajax: {
         headers: {'Authorization': this.auth},
         url: (params) => {
           return '/api/payors/search/?searchText=' + (params.term || '');
         },
         type: 'POST',
-        processResults: (data) =>{
-          let content = data.filter(d=>d.adjustorId!==(this.claimManager.selectedClaim.adjustorId || 'null'))
+        processResults: (data) => {
+          const content = data.filter(d => d.adjustorId !== (this.claimManager.selectedClaim.adjustorId || 'null'));
           content.forEach(d => {
             d.id = d.payorId,
               d.text = d.groupName;
@@ -371,7 +374,7 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
             id: 'null',
             text: '-- No Carrier --'
           });
-          if(this.claimManager.selectedClaim.payorId){
+          if (this.claimManager.selectedClaim.payorId) {
             content.unshift({
               id: this.claimManager.selectedClaim.payorId,
               text: this.claimManager.selectedClaim.carrier
@@ -388,9 +391,9 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
       const val = data === 'null' ? null : data;
       this.form.controls['payorId'].setValue(val);
     });
-    if(this.claimManager.selectedClaim.carrier){
-    var option = new Option(this.claimManager.selectedClaim.carrier as string, this.claimManager.selectedClaim.payorId as any, true, true);
-    eCarrierSelection.append(option).trigger('change');
+    if (this.claimManager.selectedClaim.carrier) {
+    const thisOption = new Option(this.claimManager.selectedClaim.carrier as string, this.claimManager.selectedClaim.payorId as any, true, true);
+    eCarrierSelection.append(thisOption).trigger('change');
     }
   }
 
@@ -430,6 +433,7 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
       this.form.value.adjustorId === this.lastForm.adjustorId && this.form.value.dateOfInjury === this.lastForm.dateOfInjury &&
       this.form.value.claimFlex2Id === this.lastForm.claimFlex2Id && this.form.value.address1 === this.lastForm.address1 &&
       this.form.value.address2 === this.lastForm.address2 && this.form.value.city === this.lastForm.city &&
+      this.form.value.postalCode === this.lastForm.postalCode && this.form.value.postalCode === this.lastForm.postalCode &&
       this.form.value.stateId === this.lastForm.stateId && this.form.value.attorneyId === this.lastForm.attorneyId) {
       this.toast.warning('No changes were made.', 'Not saved');
     } else if (!this.form.controls['payorId'].value) { // Check for the required payorId
@@ -449,6 +453,7 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
         form.dateOfInjury = this.lastForm.dateOfInjury !== this.form.value.dateOfInjury ? this.form.value.dateOfInjury : undefined, // NULL
         form.address1 = this.form.value.address1 !== this.lastForm.address1 ? this.form.value.address1 : undefined;
       form.address2 = this.form.value.address2 !== this.lastForm.address2 ? this.form.value.address2 : undefined;
+      form.postalCode = this.form.value.postalCode !== this.lastForm.postalCode ? this.form.value.postalCode : undefined;
       form.adjustorId = this.form.value.adjustorId !== this.lastForm.adjustorId ?
         (this.form.value.adjustorId === null ? null : Number(this.form.value.adjustorId)) : undefined;
       form.attorneyId = this.form.value.attorneyId !== this.lastForm.attorneyId ?
@@ -501,6 +506,12 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
         }
         if (this.form.value.address2 == null) {
           this.claimManager.selectedClaim.address2 = null;
+        }
+        if (form.postalCode) {
+          this.claimManager.selectedClaim.postalCode = form.postalCode;
+        }
+        if (this.form.value.postalCode == null) {
+          this.claimManager.selectedClaim.postalCode = null;
         }
         if (form.claimFlex2Id || form.claimFlex2Id === null) {
           const newFlex2 = this.claimManager.selectedClaim.getFlex2.find(g => g.claimFlex2Id + '' === form.claimFlex2Id + '');

@@ -104,6 +104,17 @@
               </ng-container>
             </div>
           </div>
+          <div [class.editing]="editing" class="form-group">
+            <label class="col-sm-4">Zip: </label>
+            <div class="col-sm-8">
+              <ng-container *ngIf="!editing">
+                {{claim.postalCode}}
+              </ng-container>
+              <ng-container *ngIf="editing">
+                <input class="form-control" formControlName="postalCode" id="postalCode" type="text" />
+              </ng-container>
+            </div>
+          </div>
           <br>
           <br>
         </address>

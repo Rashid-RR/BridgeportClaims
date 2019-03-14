@@ -39,6 +39,7 @@ using BridgeportClaims.Data.DataProviders.Documents;
 using BridgeportClaims.Data.DataProviders.EpisodeNotes;
 using BridgeportClaims.Data.DataProviders.KPI;
 using BridgeportClaims.Data.DataProviders.LetterGenerations;
+using BridgeportClaims.Data.DataProviders.Notifications;
 using BridgeportClaims.Data.DataProviders.Notifications.PayorLetterName;
 using BridgeportClaims.Data.DataProviders.PayorSearches;
 using BridgeportClaims.Data.DataProviders.PrescriptionPayments;
@@ -81,6 +82,7 @@ namespace BridgeportClaims.Web.IoCConfig
             builder.RegisterType<DocumentDataProvider>().As<IDocumentDataProvider>().InstancePerRequest();
             builder.RegisterType<DocumentIndexProvider>().As<IDocumentIndexProvider>().InstancePerRequest();
             builder.RegisterType<ClaimSearchProvider>().As<IClaimSearchProvider>().InstancePerRequest();
+            builder.RegisterType<NotificationsDataProvider>().As<INotificationsDataProvider>().InstancePerRequest();
             builder.RegisterType<AttorneyProvider>().As<IAttorneyProvider>().InstancePerRequest();
             builder.RegisterType<DecisionTreeDataProvider>().As<IDecisionTreeDataProvider>().InstancePerRequest();
             builder.RegisterType<CachingClearingService>().As<ICachingClearingService>().InstancePerRequest();
