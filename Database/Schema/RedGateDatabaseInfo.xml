@@ -58,7 +58,7 @@
     <DataWriteAllFilesInOneDirectory>True</DataWriteAllFilesInOneDirectory>
   </WriteToFileOptions>
   <DataFileSet>
-    <Count>19</Count>
+    <Count>20</Count>
     <DataFile>client.ReferralType_Data.sql</DataFile>
     <DataFile>dbo.AspNetRoles_Data.sql</DataFile>
     <DataFile>dbo.ClaimFlex2_Data.sql</DataFile>
@@ -78,5 +78,6 @@
     <DataFile>dtme.TimeZone_Data.sql</DataFile>
     <DataFile>util.ExcelColumn_Data.sql</DataFile>
     <DataFile>util.ImportFileType_Data.sql</DataFile>
+    <DataFile>dbo.NotificationConfig_Data.sql</DataFile>
   </DataFileSet>
 </DatabaseInformation>

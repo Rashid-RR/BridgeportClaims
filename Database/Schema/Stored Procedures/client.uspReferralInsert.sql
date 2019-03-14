@@ -24,12 +24,12 @@ CREATE PROC [client].[uspReferralInsert]
     @AdjustorPhone varchar(30),
 	@PersonCode CHAR(2),
 	@GenderID INT,
-	@GroupName VARCHAR(255)
+	@InsuranceCarrierName VARCHAR(255)
 AS BEGIN 
 	SET NOCOUNT ON 
 	SET XACT_ABORT ON  
 	DECLARE @UtcNow DATETIME2 = dtme.udfGetDate();
-	INSERT INTO [client].[Referral] ([ClaimNumber], [JurisdictionStateID], [LastName], [FirstName], [DateOfBirth], [InjuryDate], [Notes], [ReferredBy], [ReferralDate], [EligibilityStart], [EligibilityEnd], [Address1], [Address2], [City], [StateID], PostalCode, [PatientPhone], [AdjustorName], [AdjustorPhone], [PersonCode], [GenderID], [GroupName], [CreatedOnUTC], [UpdatedOnUTC])
-	SELECT @ClaimNumber, @JurisdictionStateID, @LastName, @FirstName, @DateOfBirth, @InjuryDate, @Notes, @ReferredBy, @ReferralDate, @EligibilityStart, @EligibilityEnd, @Address1, @Address2, @City, @StateID, @PostalCode, @PatientPhone, @AdjustorName, @AdjustorPhone, @PersonCode, @GenderID, @GroupName, @UtcNow, @UtcNow;
+	INSERT INTO [client].[Referral] ([ClaimNumber], [JurisdictionStateID], [LastName], [FirstName], [DateOfBirth], [InjuryDate], [Notes], [ReferredBy], [ReferralDate], [EligibilityStart], [EligibilityEnd], [Address1], [Address2], [City], [StateID], PostalCode, [PatientPhone], [AdjustorName], [AdjustorPhone], [PersonCode], [GenderID], [InsuranceCarrierName], [CreatedOnUTC], [UpdatedOnUTC])
+	SELECT @ClaimNumber, @JurisdictionStateID, @LastName, @FirstName, @DateOfBirth, @InjuryDate, @Notes, @ReferredBy, @ReferralDate, @EligibilityStart, @EligibilityEnd, @Address1, @Address2, @City, @StateID, @PostalCode, @PatientPhone, @AdjustorName, @AdjustorPhone, @PersonCode, @GenderID, @InsuranceCarrierName, @UtcNow, @UtcNow;
 END
 GO
