@@ -83,8 +83,22 @@
     </div>
   </div>
 </div>
-<swal #episodeSwal [showCancelButton]="false" [showConfirmButton]="false" customClass="payment-modal" [focusCancel]="false"
+<!-- <swal #episodeSwal [showCancelButton]="false" [showConfirmButton]="false" customClass="payment-modal" [focusCancel]="false"
     title="Episode Entry">
     <app-new-episode *swalPartial [claimId]="claimId" [leafTreeId]="leafTreeId" [rootTreeId]="rootTreeId" [leafText]="leafText" [rootText]="rootText">
     </app-new-episode>
-</swal>
+</swal> -->
+
+
+
+<div class="modal fade" id="newEpisode" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <app-new-episode [claimId]="claimId" [leafTreeId]="leafTreeId" [rootTreeId]="rootTreeId" [leafText]="leafText" [rootText]="rootText">
+        </app-new-episode>
+      </div>
+
+    </div>
+  </div>

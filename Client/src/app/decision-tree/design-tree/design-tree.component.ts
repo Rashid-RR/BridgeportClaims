@@ -35,9 +35,9 @@ export class DesignTreeComponent implements OnInit, AfterViewInit {
 
   }
   episode() {
-    this.episodeSwal.show().then((r) => {
-
-    });
+    $("#newEpisode").modal('show');
+    // this.episodeSwal.show().then((r) => {
+    // });
   }
   collapse(d) {
     if (d.children) {
