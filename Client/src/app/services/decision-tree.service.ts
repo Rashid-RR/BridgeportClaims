@@ -47,24 +47,24 @@ export class DecisionTreeService {
   activeToastId: number;
   episodeForm: FormGroup;
   episodeNoteTypes: Array<EpisodeNoteType> = [];
-  onExperienceEnd = new Subject<{root: ITreeNode, leaf: ITreeNode}>();
+  onExperienceEnd = new Subject<{ root: ITreeNode, leaf: ITreeNode }>();
   saveEpisode() {
     const pharmacyNabp = $('#ePayorsSelection').val() || null;
     this.episodeForm.controls['pharmacyNabp'].setValue(pharmacyNabp);
     if (this.episodeForm.controls['pharmacyNabp'].value == null && this.pharmacyName) {
       this.toast.warning('Incorrect Pharmacy name, Correct it to a valid value, or delete the value and leave it blank');
     } else if (this.episodeForm.valid) {
-      swal({ title: '', html: 'Saving Episode... <br/> <img src=\'assets/1.gif\'>', showConfirmButton: false }).catch(() => {});
+      swal({ title: '', html: 'Saving Episode... <br/> <img src=\'assets/1.gif\'>', showConfirmButton: false }).catch(() => { });
       // this.episodeForm.value.episodeId = this.episodeForm.value.episodeId ? Number(this.episodeForm.value.episodeId) : null;
       this.episodeForm.value.episodeTypeId = this.episodeForm.value.episodeTypeId ? Number(this.episodeForm.value.episodeTypeId) : null;
       const form = this.episodeForm.value;
       this.http.saveTreeExperience(form.leafTreeId, this.claimId, form.pharmacyNabp, form.rxNumber,
         form.episodeText, form.episodeTypeId).subscribe(res => {
-        this.closeModal();
-        this.toast.success(res.message);
-      }, err => {
+          this.closeModal();
+          this.toast.success(res.message);
+        }, err => {
 
-      });
+        });
     } else {
       if (this.episodeForm.controls['episodeText'].errors && this.episodeForm.controls['episodeText'].errors.required) {
         this.toast.warning('Episode Note is required');
@@ -81,7 +81,7 @@ export class DecisionTreeService {
 
   closeModal() {
     // tslint:disable-next-line:max-line-length
-    setTimeout(function(){ console.log('length: ' , $('.modal.in').length); if ( $('.modal.in').length > 0 ) { $('.modal.in').modal('hide'); } else { console.log('-'); } }, 100);
+    setTimeout(function () { console.log('length: ', $('.modal.in').length); if ($('.modal.in').length > 0) { $('.modal.in').modal('hide'); } else { console.log('-'); } }, 100);
     swal.clickCancel();
 
   }
@@ -243,15 +243,15 @@ export class DecisionTreeService {
     }
   }
   setDescription(d) {
-    this.episodeForm.patchValue({rootTreeId: this.root.data.treeId, leafTreeId: d.data.treeId});
-    console.log("Show button",new Date())
-    this.onExperienceEnd.next({root: this.root.data, leaf: d.data});
+    this.episodeForm.patchValue({ rootTreeId: this.root.data.treeId, leafTreeId: d.data.treeId });
+    this.onExperienceEnd.next({ root: this.root.data, leaf: d.data });
   }
   selectNode(d): any {
     if (!d.children && !d._children) {
+      $(`#tree_node${d.id} circle`).addClass('tracked');
       this.setDescription(d);
     } else if (d._children && d._children.length === 1) {
-      this.callTreePathApi(d, undefined, true);
+      this.callTreePathApi(d, true);
     } else {
       this.callTreePathApi(d);
     }
@@ -287,7 +287,6 @@ export class DecisionTreeService {
       .filter(function (d) {
         return d.data.treeLevel <= n.data.treeLevel;
       }).data().map(d => d.data.treeId);
-    // console.log(newSelection);
     const newData = JSON.stringify(this.treeData).replace(/,"picked":true/g, '');
     this.treeData = JSON.parse(newData);
     this.root = d3.hierarchy(this.treeData, (d) => { if (newSelection.indexOf(d.treeId) > -1) { d.picked = true; } return d.children; });
@@ -303,17 +302,11 @@ export class DecisionTreeService {
     this.update(this.root);
     this.expandSelection(this.root, newSelection);
   }
-  callTreePathApi(d, newNodeDescription?: string, next?: boolean) {
+  callTreePathApi(d, next?: boolean) {
     this.loading = true;
     if (!d.children) {
       d.children = d._children;
       d._children = null;
-    }
-    if (newNodeDescription) {
-      this.toast.info(
-        `Thank you for completing the ${d.data.nodeName} Tree, you will now be redirected to the Episodes page were your work will be saved...`,
-        null, { timeOut: 15000 });
-      this.router.navigate(['/main/episode']);
     }
     d.data.picked = true;
     this.update(d);
@@ -345,13 +338,14 @@ export class DecisionTreeService {
     if (this.claimRoute && !n.data.picked) {
       items.select = {
         name: 'Select Choice',
-        icon: 'fa-plus',
+        icon: 'fa-hand-pointer-o',
         callback: () => {
           this.selectNode(n);
           return true;
         }
-      };
+      }
     } else if (this.claimRoute && n.data.picked) {
+      return this.deSelectNode(n);
       if (n.children.find(ch => ch.data.picked)) {
         items.select = {
           name: 'Start Again From Here',
@@ -478,7 +472,7 @@ export class DecisionTreeService {
             } catch (e) { }
           });
       }
-    }).catch(() => {});
+    }).catch(() => { });
   }
   removeNode(d) {
     // this is the links target node which you want to remove
@@ -541,14 +535,20 @@ export class DecisionTreeService {
             x: _offset.left + 10,
             y: _offset.top + 10
           };
-        $.contextMenu('destroy');
-        $.contextMenu({
-          selector: `#tree_node${n.id}`,
-          trigger: 'none',
-          callback: (key, options) => { },
-          items: this.treeNodeItems(n)
-        });
-        setTimeout(function () { $(`#tree_node${n.id}`).contextMenu(position); }, 10);
+        if (this.claimRoute && n.data.picked) {
+          return this.deSelectNode(n);
+        } else if (this.claimRoute && !n.data.picked && !n._children) {
+          return this.selectNode(n);
+        } else {
+          $.contextMenu('destroy');
+          $.contextMenu({
+            selector: `#tree_node${n.id}`,
+            trigger: 'none',
+            callback: (key, options) => { },
+            items: this.treeNodeItems(n)
+          });
+          setTimeout(function () { $(`#tree_node${n.id}`).contextMenu(position); }, 10);
+        }
       });
 
     // Add Circle for the nodes
@@ -728,7 +728,7 @@ export class DecisionTreeService {
       onOpen: function () {
         $('#treeNodeName').focus();
       }
-    }).catch(() => {});
+    }).catch(() => { });
     $('#treeNodeName').on('keypress', function (e) {
       if (e.which === 13) {
         $('button.save-tree-node').click();
