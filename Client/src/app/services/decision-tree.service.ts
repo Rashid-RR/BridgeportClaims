@@ -80,6 +80,8 @@ export class DecisionTreeService {
   }
 
   closeModal() {
+    // tslint:disable-next-line:max-line-length
+    setTimeout(function(){ console.log('length: ' , $('.modal.in').length); if ( $('.modal.in').length > 0 ) { $('.modal.in').modal('hide'); } else { console.log('-'); } }, 100);
     swal.clickCancel();
 
   }
