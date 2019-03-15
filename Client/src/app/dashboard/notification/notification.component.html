@@ -27,10 +27,10 @@
               </div>
           </ng-container>
             <tr *ngFor="let n of notifications">
-              <ng-container *ngIf="editingNotificationId==n.notificationId">
+              <ng-container *ngIf="editingNotificationId === n.notificationId">
                 <td>{{n.messageText}}</td>
                 <td>{{n.notificationType}}</td>
-                <td> 
+                <td>
                     <textarea class="form-control"  name="letterName" formControlName="letterName"
                       (focus)="submitted=false" placeholder="Letter Name"></textarea>
                   <button type="button" class="btn  bg-darkRed btn-xs" (click)="saveNotification(n)" id="saveNotificationButton">
@@ -41,13 +41,13 @@
                   </button>
                 </td>
               </ng-container>
-              <ng-container *ngIf="editingNotificationId!=n.notificationId">
+              <ng-container *ngIf="editingNotificationId !== n.notificationId">
                 <td>{{n.messageText}}</td>
-                <td>{{n.notificationType}}</td> 
+                <td>{{n.notificationType}}</td>
                 <td >
                   <button type="button" class="btn  bg-darkRed btn-xs" (click)="update(n)">
                       <span class="glyphicon glyphicon-edit"></span> Set Letter Name
-                  </button> 
+                  </button>
                 </td>
               </ng-container>
             </tr>

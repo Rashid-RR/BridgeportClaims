@@ -79,7 +79,7 @@ export class EpisodeService {
     this.episodeForm.controls['pharmacyNabp'].setValue(pharmacyNabp);
     if (this.episodeForm.controls['pharmacyNabp'].value == null && this.pharmacyName) {
       this.toast.warning('Incorrect Pharmacy name, Correct it to a valid value, or delete the value and leave it blank');
-    } else if (this.episodeForm.valid) {      
+    } else if (this.episodeForm.valid) {
       swal({ title: '', html: 'Saving Episode... <br/> <img src=\'assets/1.gif\'>', showConfirmButton: false }).catch(()=>{});
       // this.episodeForm.value.episodeId = this.episodeForm.value.episodeId ? Number(this.episodeForm.value.episodeId) : null;
       this.episodeForm.value.episodeTypeId = this.episodeForm.value.episodeTypeId ? Number(this.episodeForm.value.episodeTypeId) : null;
@@ -128,6 +128,8 @@ export class EpisodeService {
     this.search();
   }
   closeModal() {
+    // tslint:disable-next-line:max-line-length
+    setTimeout(function(){ console.log('length: ' , $('.modal.in').length); if ( $('.modal.in').length > 0 ) { $('.modal.in').modal('hide'); } else { console.log('-'); } }, 100);
     swal.clickCancel();
   }
   search(next: Boolean = false, prev: Boolean = false, page: number = undefined) {

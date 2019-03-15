@@ -954,3 +954,17 @@ button.mat-button.mat-warn {
   position: relative;
   top: 2px;
 }
+app-new-episode .close-button {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -o-border-radius: 50%;
+  position: fixed;
+  right: -4px;
+  top: -4px;
+  z-index: 4;
+  background: red;
+  color: white;
+}

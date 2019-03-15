@@ -48,7 +48,7 @@ export class ReferralDefaultComponent implements OnInit, AfterViewInit {
       personCode: [null],
       genderId: [null, Validators.compose([Validators.required])],
       genderName: [null],
-      groupName: [null, Validators.compose([Validators.required, Validators.minLength(2)])],
+      insuranceCarrierName: [null, Validators.compose([Validators.required, Validators.minLength(2)])],
     });
   }
 

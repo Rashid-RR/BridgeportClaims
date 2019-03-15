@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, NgZone } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import * as d3 from 'd3';
 import swal from 'sweetalert2';
@@ -27,16 +27,16 @@ export class DesignTreeComponent implements OnInit, AfterViewInit {
   rootText: string;
   @ViewChild('episodeSwal') private episodeSwal: SwalComponent;
   constructor(
-    public readonly swalTargets: SwalPartialTargets, private route: ActivatedRoute,
-      public ds: DecisionTreeService, private profileManager: ProfileManager, private http: HttpService) {
+    public readonly swalTargets: SwalPartialTargets, private route: ActivatedRoute, private zone: NgZone,
+    public ds: DecisionTreeService, private profileManager: ProfileManager, private http: HttpService) {
     this.over = new Array(1);
     this.over.fill(false);
 
 
   }
   episode() {
+    //$("#newEpisode").modal('show');
     this.episodeSwal.show().then((r) => {
-
     });
   }
   collapse(d) {
@@ -91,21 +91,23 @@ export class DesignTreeComponent implements OnInit, AfterViewInit {
       }
     });
     try { swal.clickCancel(); } catch (e) { }
-    this.ds.onExperienceEnd.subscribe(exp => {
-      this.rootText = exp.root.nodeName;
-      this.rootTreeId = exp.root.treeId;
-      this.leafText = exp.leaf.nodeName;
-      this.leafTreeId = exp.leaf.treeId;
-      this.ds.episodeForm.reset();
-      this.ds.episodeForm.patchValue({
-        claimId: this.claimId,
-        episodeText: '',
-        pharmacyNabp: null,
-        episodeTypeId: null,
-        rootTreeId : exp.root.treeId,
-        leafTreeId : exp.leaf.treeId
-      });
+    this.ds.onExperienceEnd.subscribe(async (exp) => {
       this.episode();
+      this.zone.run(() => {
+        this.rootText = exp.root.nodeName;
+        this.rootTreeId = exp.root.treeId;
+        this.leafText = exp.leaf.nodeName;
+        this.leafTreeId = exp.leaf.treeId;
+        this.ds.episodeForm.reset();
+        this.ds.episodeForm.patchValue({
+          claimId: this.claimId,
+          episodeText: '',
+          pharmacyNabp: null,
+          episodeTypeId: null,
+          rootTreeId: exp.root.treeId,
+          leafTreeId: exp.leaf.treeId
+        });
+      });
     });
   }
   get allowed(): boolean {

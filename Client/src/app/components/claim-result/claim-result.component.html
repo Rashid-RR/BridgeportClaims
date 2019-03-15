@@ -104,6 +104,17 @@
               </ng-container>
             </div>
           </div>
+          <div [class.editing]="editing" class="form-group">
+            <label class="col-sm-4">Zip: </label>
+            <div class="col-sm-8">
+              <ng-container *ngIf="!editing">
+                {{claim.postalCode}}
+              </ng-container>
+              <ng-container *ngIf="editing">
+                <input class="form-control" formControlName="postalCode" id="postalCode" type="text" />
+              </ng-container>
+            </div>
+          </div>
           <br>
           <br>
         </address>
@@ -154,7 +165,7 @@
           <div [class.editing]="editing" class="form-group">
             <label class="col-sm-4"> Attorney : </label>
             <div *ngIf="!editing" class="col-sm-8">
-              <a class="bold-carrier" (click)="openAttorneyDialog()">   {{claim.attorney}}</a>
+              <a class="bold-carrier" (click)="openAttorneyDialog()">{{claim.attorney}}</a>
             </div>
             <div *ngIf="editing" class="col-sm-8">
               <select class="form-control select2" data-placeholder="Start typing to search Attorney..."

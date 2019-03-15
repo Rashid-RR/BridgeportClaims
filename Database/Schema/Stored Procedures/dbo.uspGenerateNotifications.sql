@@ -76,16 +76,17 @@ AS BEGIN
 				, @UtcNow
 				, @UtcNow
 				FROM client.Referral AS r;
-				
-				SELECT @MaxReferralID = MAX(r.ReferralID) FROM client.Referral AS r;
+				IF (@@ROWCOUNT > 0)
+					BEGIN
+						SELECT @MaxReferralID = MAX(r.ReferralID) FROM client.Referral AS r;
 
-				UPDATE  [dbo].[NotificationConfig]
-				SET     [NotificationValue] = @MaxReferralID,	
-						[EffectiveDate] = @RealNow,
-						[UpdatedOnUTC] = @UtcNow
-				WHERE   [NotificationTypeID] = @NotificationTypeID
+						UPDATE  [dbo].[NotificationConfig]
+						SET     [NotificationValue] = @MaxReferralID,	
+								[EffectiveDate] = @RealNow,
+								[UpdatedOnUTC] = @UtcNow
+						WHERE   [NotificationTypeID] = @NotificationTypeID;
+					END
 			END
-			
 		IF (@@TRANCOUNT > 0)
 			COMMIT;
     END TRY
@@ -98,4 +99,5 @@ AS BEGIN
 		THROW 50000, @Msg, 0;
     END CATCH
 END
+
 GO
