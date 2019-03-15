@@ -23,6 +23,7 @@ AS BEGIN
     SET NOCOUNT ON;
     SET XACT_ABORT ON;
     BEGIN TRY
+			DECLARE @StartTime DATETIME2 = SYSUTCDATETIME();
 			CREATE TABLE #IndexRebuildScript
 			(
 				TableName sysname NOT NULL
@@ -58,10 +59,9 @@ AS BEGIN
 
 			FETCH NEXT FROM RebuildIdx INTO @RebuildIndexScript;
 
-			WHILE @@FETCH_STATUS = 0
+			WHILE (@@FETCH_STATUS = 0)
 			BEGIN
-				EXEC sys.sp_executesql @RebuildIndexScript;
-
+				EXEC [sys].[sp_executesql] @RebuildIndexScript;
 				FETCH NEXT FROM RebuildIdx INTO @RebuildIndexScript;
 			END
 
@@ -81,17 +81,17 @@ AS BEGIN
 			DBCC CHECKDB;
 
 			CHECKPOINT;
-    END TRY
-    BEGIN CATCH     
-                
-        DECLARE @ErrSeverity INT = ERROR_SEVERITY()
-            , @ErrState INT = ERROR_STATE()
-            , @ErrProc NVARCHAR(MAX) = ERROR_PROCEDURE()
-            , @ErrLine INT = ERROR_LINE()
-            , @ErrMsg NVARCHAR(MAX) = ERROR_MESSAGE();
 
-		RAISERROR(N'%s (line %d): %s', @ErrSeverity, @ErrState, @ErrProc, @ErrLine, @ErrMsg);
-        
+			DECLARE @EndTime DATETIME2 = SYSUTCDATETIME();
+			DECLARE @RunTimeInMilliseconds INT = DATEDIFF(MILLISECOND, @StartTime, @EndTime);
+			INSERT INTO [util].[MaintenanceSchedule] ([RunTimeMilliseconds], [CreatedOnUTC], [UpdatedOnUTC])
+			VALUES (@RunTimeInMilliseconds, @EndTime, @EndTime);
+    END TRY
+    BEGIN CATCH
+        DECLARE @ErrLine INT = ERROR_LINE()
+                , @ErrMsg NVARCHAR(4000) = ERROR_MESSAGE();
+		DECLARE @Msg NVARCHAR(2000) = FORMATMESSAGE(N'An error occurred: %s Line Number: %u', @ErrMsg, @ErrLine);
+		THROW 50000, @Msg, 0;
     END CATCH
 END
 GO
