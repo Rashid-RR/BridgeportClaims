@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Web.Http;
 using BridgeportClaims.Data.DataProviders.DecisionTrees;
+using BridgeportClaims.Data.Dtos;
 using BridgeportClaims.Data.Trees;
 using BridgeportClaims.Web.Models;
 using Microsoft.AspNet.Identity;
@@ -44,7 +46,11 @@ namespace BridgeportClaims.Web.Controllers
         {
             try
             {
-                var tree = _decisionTreeDataProvider.Value.GetDecisionTree(parentTreeId);
+                var tree = _decisionTreeDataProvider.Value.GetDecisionTree(parentTreeId)?.ToList() ?? new List<DecisionTreeDto>();
+                if (!tree.Any())
+                {
+                    return Ok(new Tree());
+                }
                 var hierarchy = tree.ToHierarchy(parentTreeId);
                 return Ok(hierarchy);
             }
