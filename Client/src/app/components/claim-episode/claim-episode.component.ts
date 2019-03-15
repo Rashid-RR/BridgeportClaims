@@ -1,17 +1,21 @@
-import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
-import { EpisodeNoteModalComponent } from '../components-barrel';
-import { WindowsInjetor, CustomPosition, Size, WindowConfig } from '../ng-window';
-import { ClaimManager } from '../../services/claim-manager';
-import { EventsService } from '../../services/events-service';
-import { Episode } from '../../interfaces/episode';
-import { SortColumnInfo } from '../../directives/table-sort.directive';
-import { HttpService } from '../../services/http-service';
-import { EpisodeService } from '../../services/episode.service';
-import { DialogService } from 'ng2-bootstrap-modal';
-import { ToastrService } from 'ngx-toastr';
+import {Component, ViewChild, ElementRef, OnInit} from '@angular/core';
+import {EpisodeNoteModalComponent} from '../components-barrel';
+import {WindowsInjetor, CustomPosition, Size, WindowConfig} from '../ng-window';
+import {ClaimManager} from '../../services/claim-manager';
+import {EventsService} from '../../services/events-service';
+import {Episode} from '../../interfaces/episode';
+import {SortColumnInfo} from '../../directives/table-sort.directive';
+import {HttpService} from '../../services/http-service';
+import {EpisodeService} from '../../services/episode.service';
+import {DialogService} from 'ng2-bootstrap-modal';
+import {ToastrService} from 'ngx-toastr';
 
-import { ConfirmComponent } from '../confirm.component';
-import { SwalComponent } from '@toverux/ngx-sweetalert2';
+import {ConfirmComponent} from '../confirm.component';
+import {SwalComponent} from '@toverux/ngx-sweetalert2';
+import {MatDialog, MatDialogConfig} from '@angular/material';
+import {AdjustorModalComponent} from '../adjustor-modal/adjustor-modal.component';
+import {DecesiontreeModalComponent} from '../decesiontree-modal/decesiontree-modal.component';
+
 @Component({
   selector: 'app-claim-episode',
   templateUrl: './claim-episode.component.html',
@@ -23,7 +27,13 @@ export class ClaimEpisodeComponent implements OnInit {
   @ViewChild('prescriptionTable') table: ElementRef;
   @ViewChild('episodeActionSwal') private episodeSwal: SwalComponent;
   sortColumn: SortColumnInfo;
-  constructor(public episodeService: EpisodeService, private myInjector: WindowsInjetor, private dialogService: DialogService, public claimManager: ClaimManager, private events: EventsService, private http: HttpService, private toast: ToastrService) { }
+
+  constructor(public episodeService: EpisodeService,
+              private myInjector: WindowsInjetor, private dialogService: DialogService,
+              public claimManager: ClaimManager, private events: EventsService,
+              public dialog: MatDialog,
+              private http: HttpService, private toast: ToastrService) {
+  }
 
   ngOnInit() {
     this.events.on('episode-note-updated', (episode: Episode) => {
@@ -34,6 +44,17 @@ export class ClaimEpisodeComponent implements OnInit {
         }
       });
     });
+  }
+
+  openDialogue(id) {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.width='900px'
+    dialogConfig.data = {
+      epId: id,
+
+
+    };
+    this.dialog.open(DecesiontreeModalComponent, dialogConfig);
   }
 
   getTypeName(id: number): string {
@@ -47,6 +68,7 @@ export class ClaimEpisodeComponent implements OnInit {
     }
     return 'not specified';
   }
+
   showNoteWindow(episode: Episode) {
     if (!episode.episodeId && episode['id']) {
       episode.episodeId = episode['id'];
@@ -66,13 +88,16 @@ export class ClaimEpisodeComponent implements OnInit {
         win.showNote(episode);
       });
   }
+
   edit(episode: Episode) {
     this.events.broadcast('edit-episode', episode);
   }
+
   onSortColumn(info: SortColumnInfo) {
     this.sortColumn = info;
     this.fetchData();
   }
+
   fetchData() {
     this.claimManager.loadingEpisodes = true;
     const page = 1;
@@ -85,19 +110,21 @@ export class ClaimEpisodeComponent implements OnInit {
     }
     this.http.sortEpisodes(this.claimManager.selectedClaim.claimId, sort, sort_dir,
       page, page_size)
-      .subscribe((results:any) => {
+      .subscribe((results: any) => {
         this.claimManager.selectedClaim.setEpisodes(results);
         this.claimManager.loadingEpisodes = false;
       }, err => {
         this.claimManager.loadingEpisodes = false;
       });
   }
+
   assign(episode: Episode) {
     this.episodeService.episodetoAssign = episode;
     this.episodeSwal.show().then((r) => {
 
     });
   }
+
   markAsResolved($event, episode) {
     this.dialogService.addDialog(ConfirmComponent, {
       title: 'Mark Episode as Resolved',
