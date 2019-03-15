@@ -70,7 +70,7 @@ namespace BridgeportClaims.Web.Controllers
                 var ofBirth = model.DateOfBirth;
                 var ofBirthParam = null == ofBirth ? (DateTime?) null
                     : "NULL" == ofBirth ? new DateTime(1901, 1, 1)
-                    : DateTime.TryParse(ofBirth, out DateTime dt) ? dt
+                    : DateTime.TryParse(ofBirth, out var dt) ? dt
                     : throw new Exception($"Could not parse Date Time value {ofBirth}");
                 var genderId = model.GenderId;
 		        var payorId = model.PayorId;
