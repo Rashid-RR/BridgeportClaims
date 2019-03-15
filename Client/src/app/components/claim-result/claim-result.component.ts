@@ -320,6 +320,45 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
   }
 
   enableSelect2() {
+    const editAttorneySelection = $('#editAttorneySelection').select2({
+      ajax: {
+        headers: {'Authorization': this.auth},
+        url: function (params) {
+          return '/api/attorney/attorney-names/?attorneyName=' + (params.term || '');
+        },
+        type: 'POST',
+        processResults:  (data) => {
+          const content = data.filter(d => d.attorneyId !== (this.claimManager.selectedClaim.attorneyId || 'null'));
+          content.forEach(d => {
+            d.id = d.attorneyId,
+            d.text = d.attorneyName;
+          });
+          content.unshift({
+            id: 'null',
+            text: '-- No Attorney --'
+          });
+          if (this.claimManager.selectedClaim.attorneyId) {
+            content.unshift({
+              id: this.claimManager.selectedClaim.attorneyId,
+              text: this.claimManager.selectedClaim.attorney
+            });
+          }
+          return {
+            results: (content || [])
+          };
+        }
+      }
+    }).on('change', (e) => {
+      const data = $('#editAttorneySelection option:selected').val();
+      this.attorneyId = $('#editAttorneySelection option:selected').text();
+      const val = data === 'null' ? null : data;
+      this.form.controls['attorneyId'].setValue(val);
+    });
+    const attorneyOption = new Option(this.claimManager.selectedClaim.attorney as string, this.claimManager.selectedClaim.attorneyId as any, true, true);
+    if (this.claimManager.selectedClaim.attorneyId) {
+      editAttorneySelection.append(attorneyOption).trigger('change');
+    }
+
     const editAdjustorSelection = $('#editAdjustorSelection').select2({
       ajax: {
         headers: {'Authorization': this.auth},
@@ -331,7 +370,7 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
           const content = data.filter(d => d.adjustorId !== (this.claimManager.selectedClaim.adjustorId || 'null'));
           content.forEach(d => {
             d.id = d.adjustorId,
-              d.text = d.adjustorName;
+            d.text = d.adjustorName;
           });
           content.unshift({
             id: 'null',
@@ -354,8 +393,10 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
       const val = data === 'null' ? null : data;
       this.form.controls['adjustorId'].setValue(val);
     });
-    const option = new Option(this.claimManager.selectedClaim.adjustor as string, this.claimManager.selectedClaim.adjustorId as any, true, true);
-    editAdjustorSelection.append(option).trigger('change');
+    const adjustorOption = new Option(this.claimManager.selectedClaim.adjustor as string, this.claimManager.selectedClaim.adjustorId as any, true, true);
+    if (this.claimManager.selectedClaim.adjustorId) {
+      editAdjustorSelection.append(adjustorOption).trigger('change');
+    }
     const eCarrierSelection = $('#eCarrierSelection').select2({
       ajax: {
         headers: {'Authorization': this.auth},
@@ -392,8 +433,10 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
       this.form.controls['payorId'].setValue(val);
     });
     if (this.claimManager.selectedClaim.carrier) {
-    const thisOption = new Option(this.claimManager.selectedClaim.carrier as string, this.claimManager.selectedClaim.payorId as any, true, true);
-    eCarrierSelection.append(thisOption).trigger('change');
+    const payorOption = new Option(this.claimManager.selectedClaim.carrier as string, this.claimManager.selectedClaim.payorId as any, true, true);
+    if (this.claimManager.selectedClaim.payorId) {
+      eCarrierSelection.append(payorOption).trigger('change');
+    }
     }
   }
 
@@ -428,13 +471,13 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
           String(this.form.value[key]).trim() === '') ? null : this.form.value[key];
       }
     }
-    if (this.form.value.claimId === this.lastForm.claimId && this.form.value.dateOfBirth === this.lastForm.dateOfBirth &&
-      this.form.value.genderId === this.lastForm.genderId && this.form.value.payorId === this.lastForm.payorId &&
-      this.form.value.adjustorId === this.lastForm.adjustorId && this.form.value.dateOfInjury === this.lastForm.dateOfInjury &&
-      this.form.value.claimFlex2Id === this.lastForm.claimFlex2Id && this.form.value.address1 === this.lastForm.address1 &&
-      this.form.value.address2 === this.lastForm.address2 && this.form.value.city === this.lastForm.city &&
-      this.form.value.postalCode === this.lastForm.postalCode && this.form.value.postalCode === this.lastForm.postalCode &&
-      this.form.value.stateId === this.lastForm.stateId && this.form.value.attorneyId === this.lastForm.attorneyId) {
+    if (this.form.value.claimId === this.lastForm.claimId && this.form.value.dateOfBirth == this.lastForm.dateOfBirth &&
+      this.form.value.genderId == this.lastForm.genderId && this.form.value.payorId == this.lastForm.payorId &&
+      this.form.value.adjustorId == this.lastForm.adjustorId && this.form.value.dateOfInjury == this.lastForm.dateOfInjury &&
+      this.form.value.claimFlex2Id == this.lastForm.claimFlex2Id && this.form.value.address1 == this.lastForm.address1 &&
+      this.form.value.address2 == this.lastForm.address2 && this.form.value.city == this.lastForm.city &&
+      this.form.value.postalCode == this.lastForm.postalCode && this.form.value.postalCode == this.lastForm.postalCode &&
+      this.form.value.stateId == this.lastForm.stateId && this.form.value.attorneyId == this.lastForm.attorneyId) {
       this.toast.warning('No changes were made.', 'Not saved');
     } else if (!this.form.controls['payorId'].value) { // Check for the required payorId
       this.toast.warning('Please link a Carrier');

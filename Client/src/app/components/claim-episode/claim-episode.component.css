@@ -6,6 +6,11 @@
   overflow-x: hidden;
 }
 
+.custom-width {
+  width: 50px;
+  cursor: pointer
+}
+
 table {
   table-layout: fixed;
   width: 99% !important;
@@ -53,21 +58,22 @@ th {
   flex-direction: column;
   flex-shrink: 1;
   flex-grow: 1;
-} 
-
-tr>th:first-child,
-tr>td:first-child{
-  width:6%;
 }
-tr>th:nth-child(7),
-tr>td:nth-child(7),
-tr>th:nth-child(8),
-tr>td:nth-child(8),
-tr>th:nth-child(9),
-tr>td:nth-child(9),
-tr>th:nth-child(10),
-tr>td:nth-child(10)  {
-  width: 10%; 
+
+tr > th:first-child,
+tr > td:first-child {
+  width: 6%;
+}
+
+tr > th:nth-child(7),
+tr > td:nth-child(7),
+tr > th:nth-child(8),
+tr > td:nth-child(8),
+tr > th:nth-child(9),
+tr > td:nth-child(9),
+tr > th:nth-child(10),
+tr > td:nth-child(10) {
+  width: 10%;
 }
 
 /*ROW COLOR CHANGE*/
@@ -81,16 +87,16 @@ tr:nth-of-type(even) {
 }
 
 
-tr>th:nth-child(2),
-tr>td:nth-child(2),
-tr>th:nth-child(3),
-tr>td:nth-child(3),
-tr>th:nth-child(4),
-tr>td:nth-child(4),
-tr>th:nth-child(5),
-tr>td:nth-child(5),
-tr>th:nth-child(6),
-tr>td:nth-child(6) {
+tr > th:nth-child(2),
+tr > td:nth-child(2),
+tr > th:nth-child(3),
+tr > td:nth-child(3),
+tr > th:nth-child(4),
+tr > td:nth-child(4),
+tr > th:nth-child(5),
+tr > td:nth-child(5),
+tr > th:nth-child(6),
+tr > td:nth-child(6) {
   width: 11.2%;
 }
 
@@ -99,7 +105,7 @@ tr>td:nth-child(6) {
   border-radius: 4px;
 }
 
-.edit-btn>i {
+.edit-btn > i {
   top: 1px;
   position: relative;
 }

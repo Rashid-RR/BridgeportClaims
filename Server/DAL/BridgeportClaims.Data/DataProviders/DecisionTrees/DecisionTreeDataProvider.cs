@@ -12,6 +12,26 @@ namespace BridgeportClaims.Data.DataProviders.DecisionTrees
 {
     public class DecisionTreeDataProvider : IDecisionTreeDataProvider
     {
+        public DecisionTreeChoiceModalDto GetDecisionTreeChoiceModal(int episodeId) =>
+            DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+            {
+                const string sp = "[dbo].[uspGetDecisionTreeEpisodeNote]";
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                }
+                var param = new {EpisodeID = episodeId};
+                var multiObj = conn.QueryMultiple(sp, param, commandType: CommandType.StoredProcedure);
+                var modal = new DecisionTreeChoiceModalDto
+                {
+                    DecisionTreeChoiceModalHeader =
+                        multiObj.Read<DecisionTreeChoiceModalHeaderDto>()?.SingleOrDefault(),
+                    DecisionTreeChoiceModalPaths =
+                        multiObj.Read<DecisionTreeChoiceModalPathDto>()?.OrderBy(o => o.TreeLevel)
+                };
+                return modal;
+            });
+
         public Guid DecisionTreeHeaderInsert(string userId, int treeRootId, int claimId)
             => DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()),
             conn =>
