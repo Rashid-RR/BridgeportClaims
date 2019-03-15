@@ -17,9 +17,9 @@ tr:nth-of-type(even) {
 
 .table-body {
   width: 98%;
-  max-height:117px;
+  /* max-height:117px; */
   overflow:hidden;
-  overflow-y:auto;
+  /* overflow-y:auto; */
   margin-top: 37px;
   margin-left:1.2%;
 }
