@@ -201,6 +201,9 @@
     <Compile Include="Dtos\CollectionsBonusResultsDto.cs" />
     <Compile Include="Dtos\DashboardDto.cs" />
     <Compile Include="Dtos\DbccUserOptionsResults.cs" />
+    <Compile Include="Dtos\DecisionTreeChoiceModalDto.cs" />
+    <Compile Include="Dtos\DecisionTreeChoiceModalHeaderDto.cs" />
+    <Compile Include="Dtos\DecisionTreeChoiceModalPathDto.cs" />
     <Compile Include="Dtos\DecisionTreeDto.cs" />
     <Compile Include="Dtos\DecisionTreeListDto.cs" />
     <Compile Include="Dtos\DecisionTreeListResultDto.cs" />

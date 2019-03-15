@@ -6,6 +6,7 @@ namespace BridgeportClaims.Data.DataProviders.DecisionTrees
 {
     public interface IDecisionTreeDataProvider
     {
+        DecisionTreeChoiceModalDto GetDecisionTreeChoiceModal(int episodeId);
         Guid DecisionTreeHeaderInsert(string userId, int treeRootId, int claimId);
         void DecisionTreeUserPathInsert(Guid sessionId, int parentTreeId, int selectedTreeId, string userId, string description);
         DecisionTreeDto InsertDecisionTree(int parentTreeId, string nodeName, string modifiedByUserId);

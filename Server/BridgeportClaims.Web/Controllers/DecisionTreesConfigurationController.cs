@@ -23,6 +23,22 @@ namespace BridgeportClaims.Web.Controllers
         }
 
         [HttpPost]
+        [Route("get-tree-modal")]
+        public IHttpActionResult GetDecisionTreeModal(int episodeId)
+        {
+            try
+            {
+                var tree = _decisionTreeDataProvider.Value.GetDecisionTreeChoiceModal(episodeId);
+                return Ok(tree);
+            }
+            catch (Exception ex)
+            {
+                Logger.Value.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+            }
+        }
+
+        [HttpPost]
         [Route("get-tree")]
         public IHttpActionResult GetDecisionTree(int parentTreeId)
         {
