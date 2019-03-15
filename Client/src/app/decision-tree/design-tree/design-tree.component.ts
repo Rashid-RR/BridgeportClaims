@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ViewChild, NgZone } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, NgZone,OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import * as d3 from 'd3';
 import swal from 'sweetalert2';
@@ -16,7 +16,7 @@ let zoomX = 0, zoomY = 0, zoomZ = 1, clickOriginX = null, clickOriginY = null;
   templateUrl: './design-tree.component.html',
   styleUrls: ['./design-tree.component.css']
 })
-export class DesignTreeComponent implements OnInit, AfterViewInit {
+export class DesignTreeComponent implements OnInit, AfterViewInit,OnDestroy {
   zoomLevel = 1;
   over: boolean[];
   claimId: string;
@@ -47,6 +47,9 @@ export class DesignTreeComponent implements OnInit, AfterViewInit {
     }
   }
 
+  ngOnDestroy(){
+    $('body, html, .wrapper').css('height', 'auto');
+  }
   ngAfterViewInit() {
     $('body, html, .wrapper').css('height', '100%');
     if (this.ds.parentTreeId) {
