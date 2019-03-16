@@ -1,5 +1,5 @@
-import { Component, OnInit, AfterViewInit, ViewChild, NgZone,OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit, AfterViewInit, ViewChild, NgZone, OnDestroy } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import * as d3 from 'd3';
 import swal from 'sweetalert2';
 import { HttpService } from '../../services/http-service';
@@ -16,7 +16,7 @@ let zoomX = 0, zoomY = 0, zoomZ = 1, clickOriginX = null, clickOriginY = null;
   templateUrl: './design-tree.component.html',
   styleUrls: ['./design-tree.component.css']
 })
-export class DesignTreeComponent implements OnInit, AfterViewInit,OnDestroy {
+export class DesignTreeComponent implements OnInit, AfterViewInit, OnDestroy {
   zoomLevel = 1;
   over: boolean[];
   claimId: string;
@@ -27,15 +27,13 @@ export class DesignTreeComponent implements OnInit, AfterViewInit,OnDestroy {
   rootText: string;
   @ViewChild('episodeSwal') private episodeSwal: SwalComponent;
   constructor(
-    public readonly swalTargets: SwalPartialTargets, private route: ActivatedRoute, private zone: NgZone,
+    public readonly swalTargets: SwalPartialTargets, private router: Router, private route: ActivatedRoute, private zone: NgZone,
     public ds: DecisionTreeService, private profileManager: ProfileManager, private http: HttpService) {
     this.over = new Array(1);
     this.over.fill(false);
-
-
   }
   episode() {
-    //$("#newEpisode").modal('show');
+    // $("#newEpisode").modal('show');
     this.episodeSwal.show().then((r) => {
     });
   }
@@ -47,7 +45,16 @@ export class DesignTreeComponent implements OnInit, AfterViewInit,OnDestroy {
     }
   }
 
-  ngOnDestroy(){
+  get isExperience(): boolean {
+    const url = this.router.url;
+    if (url.indexOf('experience') > -1) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  ngOnDestroy(): void {
     $('body, html, .wrapper').css('height', 'auto');
   }
   ngAfterViewInit() {
@@ -113,8 +120,10 @@ export class DesignTreeComponent implements OnInit, AfterViewInit,OnDestroy {
       });
     });
   }
+
   get allowed(): boolean {
-    return (this.profileManager.profile.roles && (this.profileManager.profile.roles instanceof Array) && this.profileManager.profile.roles.indexOf('Admin') > -1);
+    return (this.profileManager.profile.roles && (this.profileManager.profile.roles
+      instanceof Array) && this.profileManager.profile.roles.indexOf('Admin') > -1);
   }
 
   startDragging() {

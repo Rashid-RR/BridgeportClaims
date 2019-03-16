@@ -2,7 +2,7 @@
   <i class="fa fa-times"></i>
 </button>
 <form role="form" autocomplete="off" [formGroup]="episode ? es.episodeForm:(claimId ? ds.episodeForm:claimManager.episodeForm)" autocapitalize="none"
-  autocomplete="off">
+  autocomplete="off" (keyup.enter)="episode ? this.es.saveEpisode():(claimId ? ds.saveEpisode():claimManager.saveEpisode())">
   <div class="row invoice-info">
     <div class="col-sm-12 invoice-col">
       <h2 class="text-center">Episode Entry</h2>
@@ -77,12 +77,16 @@
   <div class="row">
     <div class="col-sm-12">
       <div class="form-group text-center">
-        <button class="btn bg-darkRed btn-flat btn-small search-claims" type="button" (click)="episode ? this.es.saveEpisode():(claimId ? ds.saveEpisode():claimManager.saveEpisode())">
+        <!-- <button class="btn bg-darkRed btn-flat btn-small search-claims" type="button" (click)="episode ? this.es.saveEpisode():(claimId ? ds.saveEpisode():claimManager.saveEpisode())">
           <i class="fa fa-search"></i> Save
         </button>
         <button style="margin-left:15px;" class="btn bg-darkblue btn-flat btn-small clear-inputs" type="button" (click)="closeModal()">
           Cancel
-        </button>
+        </button> -->
+        <button mat-raised-button class="color-palette btn bg-DarkGreen btn-small" style="padding: 2px 14px 0px 13px; height: 36px;" type="button" (click)="episode ? this.es.saveEpisode():(claimId ? ds.saveEpisode():claimManager.saveEpisode())">
+          <i class="fa fa-search" aria-hidden="true"></i> Save</button>
+        <button mat-raised-button class="color-palette btn bg-darkRed btn-small" type="button" style="padding: 2px 14px 0px 13px; height: 36px;" (click)="closeModal()">
+          <i class="fa fa-refresh" aria-hidden="true"></i> Cancel</button>
       </div>
     </div>
   </div>
