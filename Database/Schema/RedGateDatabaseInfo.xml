@@ -70,6 +70,7 @@
     <DataFile>dbo.EpisodeType_Data.sql</DataFile>
     <DataFile>dbo.FileType_Data.sql</DataFile>
     <DataFile>dbo.Gender_Data.sql</DataFile>
+    <DataFile>dbo.NotificationConfig_Data.sql</DataFile>
     <DataFile>dbo.NotificationType_Data.sql</DataFile>
     <DataFile>dbo.PrescriptionNoteType_Data.sql</DataFile>
     <DataFile>dbo.PrescriptionStatus_Data.sql</DataFile>
@@ -78,6 +79,5 @@
     <DataFile>dtme.TimeZone_Data.sql</DataFile>
     <DataFile>util.ExcelColumn_Data.sql</DataFile>
     <DataFile>util.ImportFileType_Data.sql</DataFile>
-    <DataFile>dbo.NotificationConfig_Data.sql</DataFile>
   </DataFileSet>
 </DatabaseInformation>

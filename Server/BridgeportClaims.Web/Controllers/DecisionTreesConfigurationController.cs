@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Web.Http;
 using BridgeportClaims.Data.DataProviders.DecisionTrees;
+using BridgeportClaims.Data.Dtos;
 using BridgeportClaims.Data.Trees;
 using BridgeportClaims.Web.Models;
 using Microsoft.AspNet.Identity;
@@ -23,12 +25,32 @@ namespace BridgeportClaims.Web.Controllers
         }
 
         [HttpPost]
+        [Route("get-tree-modal")]
+        public IHttpActionResult GetDecisionTreeModal(int episodeId)
+        {
+            try
+            {
+                var tree = _decisionTreeDataProvider.Value.GetDecisionTreeChoiceModal(episodeId);
+                return Ok(tree);
+            }
+            catch (Exception ex)
+            {
+                Logger.Value.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+            }
+        }
+
+        [HttpPost]
         [Route("get-tree")]
         public IHttpActionResult GetDecisionTree(int parentTreeId)
         {
             try
             {
-                var tree = _decisionTreeDataProvider.Value.GetDecisionTree(parentTreeId);
+                var tree = _decisionTreeDataProvider.Value.GetDecisionTree(parentTreeId)?.ToList() ?? new List<DecisionTreeDto>();
+                if (!tree.Any())
+                {
+                    return Ok(new Tree());
+                }
                 var hierarchy = tree.ToHierarchy(parentTreeId);
                 return Ok(hierarchy);
             }

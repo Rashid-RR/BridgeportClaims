@@ -247,10 +247,7 @@ export class DecisionTreeService {
     this.onExperienceEnd.next({ root: this.root.data, leaf: d.data });
   }
   selectNode(d): any {
-    if (!d.children && !d._children) {
-      $(`#tree_node${d.id} circle`).addClass('tracked');
-      this.setDescription(d);
-    } else if (d._children && d._children.length === 1) {
+    if (d._children && d._children.length === 1) {
       this.callTreePathApi(d, true);
     } else {
       this.callTreePathApi(d);
@@ -316,7 +313,9 @@ export class DecisionTreeService {
     $(`#tree_node${d.id} circle`).addClass('tracked');
     if (next) {
       this.selectNode(d.children[0]);
-    }
+    }else if (!d.children && !d._children) {
+      this.setDescription(d);
+    } 
     this.loading = false;
   }
   treeNodeItems(n): any {
@@ -345,7 +344,6 @@ export class DecisionTreeService {
         }
       }
     } else if (this.claimRoute && n.data.picked) {
-      return this.deSelectNode(n);
       if (n.children.find(ch => ch.data.picked)) {
         items.select = {
           name: 'Start Again From Here',
@@ -537,7 +535,7 @@ export class DecisionTreeService {
           };
         if (this.claimRoute && n.data.picked) {
           return this.deSelectNode(n);
-        } else if (this.claimRoute && !n.data.picked && !n._children) {
+        } else if (this.claimRoute && !n.data.picked) {
           return this.selectNode(n);
         } else {
           $.contextMenu('destroy');
