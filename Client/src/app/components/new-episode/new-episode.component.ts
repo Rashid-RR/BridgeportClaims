@@ -8,7 +8,6 @@ import {ConfirmComponent} from '../../components/confirm.component';
 import {DialogService} from 'ng2-bootstrap-modal';
 import swal from 'sweetalert2';
 
-declare var treeWin: any;
 declare var $: any;
 
 @Component({

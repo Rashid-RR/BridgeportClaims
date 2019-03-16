@@ -44,7 +44,7 @@ import {
   ShortPayService,
   SignalRService,
   SkippedPaymentService,
-  UnpaidScriptService
+  UnpaidScriptService, WINDOW_PROVIDERS
 } from './services/services.barrel';
 import { PayorsComponent } from './pages/payors/payors.component';
 import { ClaimsComponent } from './pages/claim/claim.component';
@@ -125,6 +125,7 @@ import { DecesiontreeModalComponent } from './components/decesiontree-modal/dece
     BootstrapModalModule
   ],
   providers: [
+    WINDOW_PROVIDERS,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     // { provide: 'SnotifyToastConfig', useValue: ToastDefaults},SnotifyService,
     DecimalPipe, DatePipe, CollectionBonusService, ReferenceManagerService,

@@ -48,6 +48,7 @@ export class DecisionTreeService {
   episodeForm: FormGroup;
   episodeNoteTypes: Array<EpisodeNoteType> = [];
   onExperienceEnd = new Subject<{ root: ITreeNode, leaf: ITreeNode }>();
+  endExperience = new Subject<any>();
   saveEpisode() {
     const pharmacyNabp = $('#ePayorsSelection').val() || null;
     this.episodeForm.controls['pharmacyNabp'].setValue(pharmacyNabp);
@@ -62,6 +63,7 @@ export class DecisionTreeService {
         form.episodeText, form.episodeTypeId).subscribe(res => {
           this.closeModal();
           this.toast.success(res.message);
+          this.endExperience.next(res);
         }, err => {
 
         });
@@ -81,7 +83,7 @@ export class DecisionTreeService {
 
   closeModal() {
     // tslint:disable-next-line:max-line-length
-    setTimeout(function () { console.log('length: ', $('.modal.in').length); if ($('.modal.in').length > 0) { $('.modal.in').modal('hide'); } else { console.log('-'); } }, 100);
+    //setTimeout(function () { console.log('length: ', $('.modal.in').length); if ($('.modal.in').length > 0) { $('.modal.in').modal('hide'); } else { console.log('-'); } }, 100);
     swal.clickCancel();
 
   }
@@ -557,7 +559,8 @@ export class DecisionTreeService {
       })
       .attr('r', 1e-6)
       .style('fill', (d) => {
-        return d._children ? 'lightsteelblue' : '#fff';
+        console.log(d.children, d.children,d.data.nodeName)
+        return d._children && d._children.length>0 ? 'lightsteelblue' : '#fff';
       });
 
     // Add labels for the nodes
@@ -594,7 +597,7 @@ export class DecisionTreeService {
     nodeUpdate.select('circle.node')
       .attr('r', 10)
       .style('fill', (d) => {
-        return d._children ? 'lightsteelblue' : '#fff';
+        return d._children && d._children.length>0 ? 'lightsteelblue' : '#fff';
       })
       .attr('cursor', 'pointer');
     // Remove any exiting nodes

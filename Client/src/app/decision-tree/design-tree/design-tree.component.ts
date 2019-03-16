@@ -3,9 +3,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import * as d3 from 'd3';
 import swal from 'sweetalert2';
 import { HttpService } from '../../services/http-service';
-import { DecisionTreeService } from '../../services/services.barrel';
+import { DecisionTreeService} from '../../services/services.barrel';
 import { ProfileManager } from '../../services/profile-manager';
 import { SwalComponent, SwalPartialTargets } from '@toverux/ngx-sweetalert2';
+import { LocalStorageService } from 'ngx-webstorage';
 
 declare var $: any;
 
@@ -27,6 +28,7 @@ export class DesignTreeComponent implements OnInit, AfterViewInit, OnDestroy {
   rootText: string;
   @ViewChild('episodeSwal') private episodeSwal: SwalComponent;
   constructor(
+    private localSt: LocalStorageService,
     public readonly swalTargets: SwalPartialTargets, private router: Router, private route: ActivatedRoute, private zone: NgZone,
     public ds: DecisionTreeService, private profileManager: ProfileManager, private http: HttpService) {
     this.over = new Array(1);
@@ -90,7 +92,7 @@ export class DesignTreeComponent implements OnInit, AfterViewInit, OnDestroy {
       }, 1000);
     }
   }
-  ngOnInit() {
+  ngOnInit() {    
     this.route.params.subscribe(params => {
       if (params.treeId) {
         this.ds.parentTreeId = params.treeId;
@@ -101,6 +103,9 @@ export class DesignTreeComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     });
     try { swal.clickCancel(); } catch (e) { }
+    this.ds.endExperience.subscribe(async (exp) => {
+      this.localSt.store('treeExperience',{time:(new Date()).getTime(),type:this.claimId ? 'claim':'episode',value:exp});
+    })
     this.ds.onExperienceEnd.subscribe(async (exp) => {
       this.episode();
       this.zone.run(() => {

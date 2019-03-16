@@ -1,6 +1,5 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
 import { ProfileManager } from '../services/profile-manager';
 import { AuthGuard } from '../services/auth.guard';
 import { LocalStorageService } from 'ngx-webstorage';

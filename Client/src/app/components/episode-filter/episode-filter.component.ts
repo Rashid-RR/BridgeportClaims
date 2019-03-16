@@ -1,14 +1,12 @@
-import { Component, ViewChild, OnInit, AfterViewInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
-import { ToastrService } from 'ngx-toastr';
+import { Component, ViewChild, OnInit, AfterViewInit,Inject } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { SwalComponent, SwalPartialTargets } from '@toverux/ngx-sweetalert2';
-
+import { LocalStorageService } from 'ngx-webstorage';
+import { ToastrService } from 'ngx-toastr';
 // Services
 import { HttpService } from '../../services/http-service';
 import { EpisodeService } from '../../services/episode.service';
 declare var $: any;
-declare var treeWin: any;
 
 @Component({
   selector: 'app-episode-filter',
@@ -25,23 +23,24 @@ export class EpisodeFilterComponent implements OnInit, AfterViewInit {
   open = true;
   closed: Boolean = false;
   submitted = false;
-
+  domain:string
   over: boolean[];
   resolved: Boolean = false;
   @ViewChild('episodeSwal') private episodeSwal: SwalComponent;
   constructor(
+    private toast: ToastrService,
+    private localSt: LocalStorageService,
     public ds: EpisodeService,
     private dp: DatePipe,
     public readonly swalTargets: SwalPartialTargets,
-    private http: HttpService,
-    private toast: ToastrService,
-    private fb: FormBuilder
+    private http: HttpService
   ) {
     this.over = new Array(1);
     this.over.fill(false);
   }
   showDecisionTreeWindow() {
-    this.http.treeWin = window.open('#/main/decision-tree/list/episode', '_blank');
+    let win = window.open('#/main/decision-tree/list/episode', '_blank');
+    this.http.documentWindow = this.http.documentWindow.set((new Date()).getTime(),win);
   }
 
   ngOnInit() {
@@ -52,6 +51,12 @@ export class EpisodeFilterComponent implements OnInit, AfterViewInit {
       }, err => {
         this.ds.loading = false;
         const error = err.error;
+      });
+      this.localSt.observe('treeExperience')
+      .subscribe((res) => {
+        console.log(res);
+        this.toast.success(res.value.message);
+        this.http.closeTreeWindows();  
       });
   }
 
@@ -106,6 +111,7 @@ export class EpisodeFilterComponent implements OnInit, AfterViewInit {
     this.ds.search();
   }
   reset() {
+    this.http.closeTreeWindows();
     $('#startDate').val('');
     $('#endDate').val('');
     this.ownerId = null;

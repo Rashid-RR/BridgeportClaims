@@ -4,7 +4,6 @@ import {DatePipe} from '@angular/common';
 // Services
 import {DocumentManagerService} from '../../services/document-manager.service';
 import {EventsService} from '../../services/events-service';
-import {ProfileManager} from '../../services/profile-manager';
 
 declare var $: any;
 
@@ -24,7 +23,6 @@ export class PaymentCheckFilterComponent implements OnInit, AfterViewInit {
     public ds: DocumentManagerService,
     private dp: DatePipe,
     private zone: NgZone,
-    private profileManager: ProfileManager,
     private events: EventsService,
     private route: ActivatedRoute) {
     this.events.on('payment-suspense', () => {

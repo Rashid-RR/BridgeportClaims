@@ -17,8 +17,9 @@ import { ConfirmComponent } from '../../components/confirm.component';
 import { isPlatformBrowser } from '@angular/common';
 import { Prescription } from '../../models/prescription';
 import { MatDialog } from '@angular/material';
+import { LocalStorageService } from 'ngx-webstorage';
+ 
 declare var $: any;
-declare var treeWin: any;
 
 @Component({
   selector: 'app-claim',
@@ -63,6 +64,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
     }
   }
   constructor(
+    private localSt: LocalStorageService,
     @Inject(PLATFORM_ID) private platformId: Object,
     private router: Router,
     public readonly swalTargets: SwalPartialTargets,
@@ -80,7 +82,8 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
   }
 
   showDecisionTreeWindow(claimId: string) {
-    this.http.treeWin = window.open('#/main/decision-tree/list/' + claimId, '_blank');
+    let win = window.open('#/main/decision-tree/list/' + claimId, '_blank');
+    this.http.documentWindow = this.http.documentWindow.set((new Date()).getTime(),win);
   }
 
   expand(expanded: Boolean, expandedBlade: Number, table: string) {
@@ -176,7 +179,12 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
       }
     });
     this.claimManager.dialogListener.subscribe(r => {
-    });
+    });    
+    this.localSt.observe('treeExperience')
+      .subscribe((res) => {
+        this.toast.success(res.value.message);
+        this.http.closeTreeWindows();  
+      });
   }
 
   saveStatus(data) {
