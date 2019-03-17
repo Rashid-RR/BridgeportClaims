@@ -9,7 +9,7 @@ import {HttpService} from '../../services/http-service';
 import {EpisodeService} from '../../services/episode.service';
 import {DialogService} from 'ng2-bootstrap-modal';
 import {ToastrService} from 'ngx-toastr';
-
+declare var $: any;
 import {ConfirmComponent} from '../confirm.component';
 import {SwalComponent} from '@toverux/ngx-sweetalert2';
 import {MatDialog, MatDialogConfig} from '@angular/material';
