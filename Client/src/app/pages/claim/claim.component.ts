@@ -18,7 +18,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { Prescription } from '../../models/prescription';
 import { MatDialog } from '@angular/material';
 import { LocalStorageService } from 'ngx-webstorage';
- 
+
 declare var $: any;
 
 @Component({
@@ -83,7 +83,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
 
   showDecisionTreeWindow(claimId: string) {
     let win = window.open('#/main/decision-tree/list/' + claimId, '_blank');
-    this.http.documentWindow = this.http.documentWindow.set((new Date()).getTime(),win);
+    this.http.documentWindow = this.http.documentWindow.set((new Date()).getTime(), win);
   }
 
   expand(expanded: Boolean, expandedBlade: Number, table: string) {
@@ -179,11 +179,17 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
       }
     });
     this.claimManager.dialogListener.subscribe(r => {
-    });    
-    this.localSt.observe('treeExperience')
+    });
+    this.localSt.observe('treeExperienceClaim')
       .subscribe((res) => {
+        //console.log(res);
+        if (res.value.episode) {
+          let episode: Episode = res.value.episode;
+          episode.justAdded = true;
+          this.claimManager.selectedClaim.episodes.unshift(episode);
+        }
         this.toast.success(res.value.message);
-        this.http.closeTreeWindows();  
+        this.http.closeTreeWindows();
       });
   }
 
@@ -309,7 +315,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
         onOpen: function () {
           $('#prescriptionNoteTypeId').focus();
         }
-      }).catch(()=>{});
+      }).catch(() => { });
       $('#datepicker').datepicker({
         autoclose: true
       });
@@ -342,7 +348,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
         } else {
           swal.close();
           setTimeout(() => {
-            swal({ title: '', html: 'Adding note to Diary... <br/> <img src=\'assets/1.gif\'>', showConfirmButton: false }).catch(()=>{});
+            swal({ title: '', html: 'Adding note to Diary... <br/> <img src=\'assets/1.gif\'>', showConfirmButton: false }).catch(() => { });
           }, 200);
           // let followUpDate = $("#datepicker").val();
           const followUpDate = this.dp.transform($('#datepicker').val(), 'MM/dd/yyyy');
@@ -393,7 +399,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
             $('#noteTextLabel').css({ 'color': 'red' });
           }, 200);
         } else {
-          swal({ title: '', html: 'Saving note... <br/> <img src=\'assets/1.gif\'>', showConfirmButton: false }).catch(()=>{});
+          swal({ title: '', html: 'Saving note... <br/> <img src=\'assets/1.gif\'>', showConfirmButton: false }).catch(() => { });
           this.http.savePrescriptionNote(
             {
               claimId: this.claimManager.selectedClaim.claimId,
@@ -680,8 +686,8 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
             $('#noteTextLabel').css({ 'color': 'red' });
           }, 200);
         } else {
-          swal({ title: '', html: 'Saving note... <br/> <img src=\'assets/1.gif\'>', showConfirmButton: false }).catch(()=>{})
-            .catch(()=>{});
+          swal({ title: '', html: 'Saving note... <br/> <img src=\'assets/1.gif\'>', showConfirmButton: false }).catch(() => { })
+            .catch(() => { });
           let txt = JSON.stringify(result[1]);
           txt = txt.substring(1, txt.length - 1);
           this.http.saveClaimNote({

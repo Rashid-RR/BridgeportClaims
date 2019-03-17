@@ -74,7 +74,7 @@
                             No Episode Found matching your search criteria
                         </td>
                     </tr>
-                    <tr *ngFor="let episode of (episodeService.episodeList | episodePipe : episodeService.episodeNote : episodeService.owner);" (dblclick)="openClaim(episode)">
+                    <tr *ngFor="let episode of (episodeService.episodeList | episodePipe : episodeService.episodeNote : episodeService.owner);" (dblclick)="openClaim(episode)" [class.justAdded]="episode.justAdded">
                         <td class="dropdown">
                              <button type="button" class="btn btn-primary btn-xs" (click)="assign(episode)">
                                 <span class="fa fa-list-ul"></span> Action

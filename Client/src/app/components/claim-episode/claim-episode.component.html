@@ -41,7 +41,7 @@
             </a>
           </div>
         </ng-container>
-        <tr *ngFor="let episode of claimManager.selectedClaim.episodes">
+        <tr *ngFor="let episode of claimManager.selectedClaim.episodes" [class.justAdded]="episode.justAdded">
           <td>{{episode.id}}</td>
           <td>{{episode.created | date:"shortDate"}}</td>
           <td>{{episode.owner}}</td>

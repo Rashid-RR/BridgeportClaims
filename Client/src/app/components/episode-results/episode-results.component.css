@@ -56,10 +56,10 @@ tr:nth-of-type(even) {
 .top-header table{
     height:99%;
 }
-tbody>tr:hover,tbody>tr.no-result {
+tbody>tr:hover,tbody>tr.no-result,tbody>tr.justAdded{
     background: #b6f1ff !important;
     cursor: pointer;
-  }
+}
   /*SORT*/
 
 thead span {

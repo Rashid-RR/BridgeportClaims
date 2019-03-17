@@ -73,6 +73,9 @@ th {
 .fittoSreen .box-body.claims {
   height: 433px;
 }
+.fittoSreen .box-body.episodes {
+  height: 401px;
+}
 
 .swal2-modal {
   width: 900px !important;

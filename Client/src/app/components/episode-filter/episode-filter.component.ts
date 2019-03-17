@@ -3,9 +3,11 @@ import { DatePipe } from '@angular/common';
 import { SwalComponent, SwalPartialTargets } from '@toverux/ngx-sweetalert2';
 import { LocalStorageService } from 'ngx-webstorage';
 import { ToastrService } from 'ngx-toastr';
+import * as Immutable from 'immutable';
 // Services
 import { HttpService } from '../../services/http-service';
 import { EpisodeService } from '../../services/episode.service';
+import { Episode } from '../../interfaces/episode';
 declare var $: any;
 
 @Component({
@@ -52,9 +54,23 @@ export class EpisodeFilterComponent implements OnInit, AfterViewInit {
         this.ds.loading = false;
         const error = err.error;
       });
-      this.localSt.observe('treeExperience')
+      this.localSt.observe('treeExperienceEpisode')
       .subscribe((res) => {
-        console.log(res);
+        if (res.value.episode) {
+          let episode: Episode = res.value.episode;
+          if(!episode.episodeId){
+            episode.episodeId = episode['id'];
+          }
+          episode.justAdded = true;
+          let current = this.ds.episodes.toArray();
+          current.unshift(episode);
+          this.ds.episodes = Immutable.OrderedMap<Number, Episode>();
+          current.forEach((episode: Episode) => {
+            try {
+              this.ds.episodes = this.ds.episodes.set(episode['episodeId'], episode);
+            } catch (e) { }
+          });
+        }
         this.toast.success(res.value.message);
         this.http.closeTreeWindows();  
       });
@@ -70,6 +86,7 @@ export class EpisodeFilterComponent implements OnInit, AfterViewInit {
     });
     $('#datemask').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' });
     $('[data-mask]').inputmask();
+    
   }
 
   setClosed($event, value) {

@@ -109,3 +109,7 @@ tr > td:nth-child(6) {
   top: 1px;
   position: relative;
 }
+tbody>tr.justAdded{
+  background: #b6f1ff !important;
+  cursor: pointer;
+}

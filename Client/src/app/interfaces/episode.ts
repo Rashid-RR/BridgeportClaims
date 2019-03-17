@@ -17,4 +17,5 @@ export interface Episode {
   episodeNoteCount: number;
   noteCount: number;
   resolved: boolean;
+  justAdded: boolean;
 }
