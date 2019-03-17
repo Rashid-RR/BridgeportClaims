@@ -92,7 +92,7 @@ export class DesignTreeComponent implements OnInit, AfterViewInit, OnDestroy {
       }, 1000);
     }
   }
-  ngOnInit() {    
+  ngOnInit() {
     this.route.params.subscribe(params => {
       if (params.treeId) {
         this.ds.parentTreeId = params.treeId;
@@ -104,8 +104,9 @@ export class DesignTreeComponent implements OnInit, AfterViewInit, OnDestroy {
     });
     try { swal.clickCancel(); } catch (e) { }
     this.ds.endExperience.subscribe(async (exp) => {
-      this.localSt.store(`${this.claimId ? 'treeExperienceClaim':'treeExperienceEpisode'}` ,{time:(new Date()).getTime(),type:this.claimId ? 'claim':'episode',value:exp});
-    })
+      this.localSt.store(`${this.claimId ? 'treeExperienceClaim' : 'treeExperienceEpisode'}`
+      , {time: (new Date()).getTime(), type: this.claimId ? 'claim' : 'episode', value: exp});
+    });
     this.ds.onExperienceEnd.subscribe(async (exp) => {
       this.episode();
       this.zone.run(() => {
