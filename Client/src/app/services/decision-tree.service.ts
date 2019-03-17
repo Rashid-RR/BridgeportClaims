@@ -48,6 +48,41 @@ export class DecisionTreeService {
   episodeForm: FormGroup;
   episodeNoteTypes: Array<EpisodeNoteType> = [];
   onExperienceEnd = new Subject<{ root: ITreeNode, leaf: ITreeNode }>();
+
+  constructor(private formBuilder: FormBuilder, private profileManager: ProfileManager,
+    private router: Router, private http: HttpService, private toast: ToastrService) {
+    this.data = {
+      'searchText': null,
+      'sort': 'treeLevel',
+      'sortDirection': 'ASC',
+      'page': 1,
+      'pageSize': 30
+    };
+    this.episodeForm = this.formBuilder.group({
+      rootTreeId: [undefined],
+      leafTreeId: [undefined],
+      claimId: [null],
+      rxNumber: [null],
+      pharmacyNabp: [null],
+      episodeText: [null, Validators.compose([Validators.minLength(5), Validators.required])],
+      episodeTypeId: ['1', Validators.compose([Validators.required])]
+    });
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe((e: NavigationEnd) => {
+      if (e.url.indexOf('/main/decision-tree') === -1) {
+        $.contextMenu('destroy');
+        this.toast.clear();
+      }
+    });
+    this.http.getEpisodesNoteTypes()
+      .subscribe((result: Array<any>) => {
+        this.episodeNoteTypes = result;
+      }, () => {
+        this.loading = false;
+      });
+  }
+
   saveEpisode() {
     const pharmacyNabp = $('#ePayorsSelection').val() || null;
     this.episodeForm.controls['pharmacyNabp'].setValue(pharmacyNabp);
@@ -66,7 +101,9 @@ export class DecisionTreeService {
 
         });
     } else {
-      if (this.episodeForm.controls['episodeText'].errors && this.episodeForm.controls['episodeText'].errors.required) {
+      if (this.episodeForm.controls['episodeTypeId'].errors && this.episodeForm.controls['episodeTypeId'].errors.required) {
+        this.toast.warning('Episode type is required.');
+      } else if (this.episodeForm.controls['episodeText'].errors && this.episodeForm.controls['episodeText'].errors.required) {
         this.toast.warning('Episode Note is required');
       } else if (this.episodeForm.controls['episodeText'].errors && this.episodeForm.controls['episodeText'].errors.minlength) {
         this.toast.warning('Episode Note must be at least 5 characters');
@@ -85,38 +122,7 @@ export class DecisionTreeService {
     swal.clickCancel();
 
   }
-  constructor(private formBuilder: FormBuilder, private profileManager: ProfileManager, private router: Router, private http: HttpService, private toast: ToastrService) {
-    this.data = {
-      'searchText': null,
-      'sort': 'treeLevel',
-      'sortDirection': 'ASC',
-      'page': 1,
-      'pageSize': 30
-    };
-    this.episodeForm = this.formBuilder.group({
-      rootTreeId: [undefined],
-      leafTreeId: [undefined],
-      claimId: [null],
-      rxNumber: [null],
-      pharmacyNabp: [null],
-      episodeText: [null, Validators.compose([Validators.minLength(5), Validators.required])],
-      episodeTypeId: ['1']
-    });
-    this.router.events.pipe(
-      filter(event => event instanceof NavigationEnd)
-    ).subscribe((e: NavigationEnd) => {
-      if (e.url.indexOf('/main/decision-tree') === -1) {
-        $.contextMenu('destroy');
-        this.toast.clear();
-      }
-    });
-    this.http.getEpisodesNoteTypes()
-      .subscribe((result: Array<any>) => {
-        this.episodeNoteTypes = result;
-      }, () => {
-        this.loading = false;
-      });
-  }
+
   get EpisodeNoteTypes(): Array<any> {
     return this.episodeNoteTypes;
   }
@@ -315,7 +321,7 @@ export class DecisionTreeService {
       this.selectNode(d.children[0]);
     }else if (!d.children && !d._children) {
       this.setDescription(d);
-    } 
+    }
     this.loading = false;
   }
   treeNodeItems(n): any {

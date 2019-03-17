@@ -40,6 +40,11 @@ export class NewEpisodeComponent implements OnInit, AfterViewInit {
   ) {
 
   }
+
+  compareFn(c1: any, c2:any): boolean {
+    return c1 && c2 ? c1.id === c2.id : c1 === c2;
+  }
+
   closeModal() {
     if (this.claimId) {
       this.dialogService.addDialog(ConfirmComponent, {

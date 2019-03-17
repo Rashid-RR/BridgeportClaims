@@ -241,7 +241,7 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 				const string query = "SELECT EpisodeTypeId = et.EpisodeTypeID, EpisodeTypeName = et.TypeName, et.SortOrder FROM dbo.EpisodeType AS et;";
 				conn.Open();
 				return conn.Query<EpisodeTypeDto>(query, commandType: CommandType.Text)
-					?.OrderBy(x => x.EpisodeTypeName);
+					?.OrderBy(x => x.SortOrder);
 			});
 
 		public void ResolveEpisode(int episodeId, string modifiedByUserId) =>

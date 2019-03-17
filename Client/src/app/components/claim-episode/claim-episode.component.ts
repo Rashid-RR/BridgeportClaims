@@ -13,7 +13,6 @@ declare var $: any;
 import {ConfirmComponent} from '../confirm.component';
 import {SwalComponent} from '@toverux/ngx-sweetalert2';
 import {MatDialog, MatDialogConfig} from '@angular/material';
-import {AdjustorModalComponent} from '../adjustor-modal/adjustor-modal.component';
 import {DecesiontreeModalComponent} from '../decesiontree-modal/decesiontree-modal.component';
 
 @Component({

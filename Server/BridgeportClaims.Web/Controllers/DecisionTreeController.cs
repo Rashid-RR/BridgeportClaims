@@ -5,6 +5,7 @@ using System.Web.Http;
 using Microsoft.AspNet.Identity;
 using BridgeportClaims.Web.Models;
 using BridgeportClaims.Data.DataProviders.DecisionTrees;
+using BridgeportClaims.Data.Dtos;
 
 namespace BridgeportClaims.Web.Controllers
 {
@@ -27,10 +28,14 @@ namespace BridgeportClaims.Web.Controllers
             try
             {
                 var modifiedByUserId = User.Identity.GetUserId();
-                _decisionTreeDataProvider.Value.SaveDecisionTreeChoice(model.LeafTreeId,
+                var episodeBlade = _decisionTreeDataProvider.Value.SaveDecisionTreeChoice(model.LeafTreeId,
                     model.ClaimId, model.EpisodeTypeId, model.PharmacyNabp,
                     model.RxNumber, model.EpisodeText, modifiedByUserId);
-                return Ok(new {message = "The episode and tree path were saved successfully."});
+                var retVal = new NewEpisodeSaveDto
+                {
+                    Episode = episodeBlade, Message = "The episode and tree path were saved successfully."
+                };
+                return Ok(retVal);
             }
             catch (Exception ex)
             {
