@@ -46,7 +46,7 @@
         <div class="form-group">
           <label id="episodeNoteTypeLabel">Episode type</label>
           <select class="form-control" id="episodeTypeId" formControlName="episodeTypeId" [compareWith]="compareFn">
-            <option *ngFor="let note of (claimId ? ds.EpisodeNoteTypes:claimManager.EpisodeNoteTypes)" [value]="note.episodeTypeId"> {{note.episodeTypeName}} </option>
+            <option *ngFor="let note of (claimId ? ds.EpisodeNoteTypes : claimManager.EpisodeNoteTypes)" [value]="note.episodeTypeId"> {{note.episodeTypeName}} </option>
           </select>
         </div>
         <div class="form-group" style="max-width:275px;">
