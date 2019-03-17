@@ -93,7 +93,7 @@ export class ClaimManager {
       rxNumber: [null],
       pharmacyNabp: [null],
       episodeText: [null, Validators.compose([Validators.minLength(5), Validators.required])],
-      episodeTypeId: ['1']
+      episodeTypeId: [null, Validators.compose([Validators.required])]
     });
     this.events.on('loadHistory', () => {
       if (!this.isClient) {
@@ -139,7 +139,9 @@ export class ClaimManager {
         });
       });
     } else {
-      if (this.episodeForm.controls['episodeText'].errors && this.episodeForm.controls['episodeText'].errors.required) {
+      if (this.episodeForm.controls['episodeTypeId'].errors && this.episodeForm.controls['episodeTypeId'].errors.required) {
+        this.toast.warning('Episode type is required.');
+      } else if (this.episodeForm.controls['episodeText'].errors && this.episodeForm.controls['episodeText'].errors.required) {
         this.toast.warning('Episode Note is required');
       } else if (this.episodeForm.controls['episodeText'].errors && this.episodeForm.controls['episodeText'].errors.minlength) {
         this.toast.warning('Episode Note must be at least 5 characters');

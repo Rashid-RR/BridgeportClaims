@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
@@ -30,41 +29,6 @@ namespace BridgeportClaims.Data.DataProviders.DecisionTrees
                         multiObj.Read<DecisionTreeChoiceModalPathDto>()?.OrderBy(o => o.TreeLevel)
                 };
                 return modal;
-            });
-
-        public Guid DecisionTreeHeaderInsert(string userId, int treeRootId, int claimId)
-            => DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()),
-            conn =>
-            {
-                const string sp = "[dbo].[uspDecisionTreeUserPathHeaderInsert]";
-                if (conn.State != ConnectionState.Open)
-                {
-                    conn.Open();
-                }
-                var guid = Guid.NewGuid();
-                var ps = new DynamicParameters();
-                ps.Add("@UserID", userId, DbType.String, size: 128);
-                ps.Add("@TreeRootID", treeRootId, DbType.Int32);
-                ps.Add("@ClaimID", claimId, DbType.Int32);
-                ps.Add("@SessionID", guid, DbType.Guid);
-                conn.Execute(sp, ps, commandType: CommandType.StoredProcedure);
-                return guid;
-            });
-
-        public void DecisionTreeUserPathInsert(Guid sessionId, int parentTreeId, int selectedTreeId, string userId, string description)
-            => DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
-            {
-                const string sp = "[dbo].[uspDecisionTreeUserPathInsert]";
-                if (conn.State != ConnectionState.Open)
-                {
-                    conn.Open();
-                }
-                var ps = new DynamicParameters();
-                ps.Add("@SessionID", sessionId, DbType.Guid);
-                ps.Add("@ParentTreeID", parentTreeId, DbType.Int32);
-                ps.Add("@SelectedTreeID", selectedTreeId, DbType.Int32);
-                ps.Add("@UserID", userId, DbType.String, size: 128);
-                conn.Execute(sp, ps, commandType: CommandType.StoredProcedure);
             });
 
         public DecisionTreeDto InsertDecisionTree(int parentTreeId, string nodeName,
@@ -154,7 +118,7 @@ namespace BridgeportClaims.Data.DataProviders.DecisionTrees
                 conn.Execute(sp, ps, commandType: CommandType.StoredProcedure);
             });
 
-        public void SaveDecisionTreeChoice(int leafTreeId, int? claimId, byte episodeTypeId,
+        public EpisodeBladeDto SaveDecisionTreeChoice(int leafTreeId, int? claimId, byte episodeTypeId,
             string pharmacyNabp, string rxNumber, string episodeText, string modifiedByUserId) =>
             DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
@@ -171,7 +135,7 @@ namespace BridgeportClaims.Data.DataProviders.DecisionTrees
                 ps.Add("@RxNumber", rxNumber, DbType.AnsiString, size: 100);
                 ps.Add("@EpisodeText", episodeText, DbType.AnsiString, size: 8000);
                 ps.Add("@ModifiedByUserID", modifiedByUserId, DbType.String, size: 128);
-                conn.Execute(sp, ps, commandType: CommandType.StoredProcedure);
+                return conn.Query<EpisodeBladeDto>(sp, ps, commandType: CommandType.StoredProcedure)?.SingleOrDefault();
             });
 
         public IEnumerable<TreeGraphDto> GetUpline(int leafTreeId) =>

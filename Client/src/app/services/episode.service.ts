@@ -55,7 +55,7 @@ export class EpisodeService {
       rxNumber: [null],
       pharmacyNabp: [null],
       episodeText: [null, Validators.compose([Validators.minLength(5), Validators.required])],
-      episodeTypeId: ['1']
+      episodeTypeId: ['1', Validators.compose([Validators.required])]
     });
     this.http.getEpisodesNoteTypes()
       .subscribe((result: Array<any>) => {
@@ -74,13 +74,13 @@ export class EpisodeService {
   get EpisodeNoteTypes(): Array<any> {
     return this.episodeNoteTypes;
   }
-  saveEpisode() {
+  saveEpisode(): void {
     const pharmacyNabp = $('#ePayorsSelection').val() || null;
     this.episodeForm.controls['pharmacyNabp'].setValue(pharmacyNabp);
     if (this.episodeForm.controls['pharmacyNabp'].value == null && this.pharmacyName) {
       this.toast.warning('Incorrect Pharmacy name, Correct it to a valid value, or delete the value and leave it blank');
     } else if (this.episodeForm.valid) {
-      swal({ title: '', html: 'Saving Episode... <br/> <img src=\'assets/1.gif\'>', showConfirmButton: false }).catch(()=>{});
+      swal({ title: '', html: 'Saving Episode... <br/> <img src=\'assets/1.gif\'>', showConfirmButton: false }).catch(() => {});
       // this.episodeForm.value.episodeId = this.episodeForm.value.episodeId ? Number(this.episodeForm.value.episodeId) : null;
       this.episodeForm.value.episodeTypeId = this.episodeForm.value.episodeTypeId ? Number(this.episodeForm.value.episodeTypeId) : null;
       const form = this.episodeForm.value;
@@ -90,20 +90,21 @@ export class EpisodeService {
         this.toast.success(res.message);
         this.search();
       }, () => {
-        this.events.broadcast('edit-episode', { episodeId: this.episodeForm.value.episodeId, type: this.episodeForm.value.episodeTypeId, episodeNote: this.episodeForm.value.episodeText });
+        this.events.broadcast('edit-episode', { episodeId: this.episodeForm.value.episodeId,
+          type: this.episodeForm.value.episodeTypeId, episodeNote: this.episodeForm.value.episodeText });
       });
     } else {
-      if (this.episodeForm.controls['episodeText'].errors && this.episodeForm.controls['episodeText'].errors.required) {
+      if (this.episodeForm.controls['episodeTypeId'].errors && this.episodeForm.controls['episodeTypeId'].errors.required) {
+        this.toast.warning('Episode type is required.');
+      } else if (this.episodeForm.controls['episodeText'].errors && this.episodeForm.controls['episodeText'].errors.required) {
         this.toast.warning('Episode Note is required');
       } else if (this.episodeForm.controls['episodeText'].errors && this.episodeForm.controls['episodeText'].errors.minlength) {
         this.toast.warning('Episode Note must be at least 5 characters');
       } else if (this.episodeForm.controls['pharmacyNabp'].errors && this.episodeForm.controls['pharmacyNabp'].errors.required) {
         this.toast.warning('Pharmacy Name is required');
       } else {
-
       }
     }
-
   }
 
   refresh() {
@@ -129,7 +130,7 @@ export class EpisodeService {
   }
   closeModal() {
     // tslint:disable-next-line:max-line-length
-    setTimeout(function(){ console.log('length: ' , $('.modal.in').length); if ( $('.modal.in').length > 0 ) { $('.modal.in').modal('hide'); } else { console.log('-'); } }, 100);
+    setTimeout(function() { console.log('length: ' , $('.modal.in').length); if ( $('.modal.in').length > 0 ) { $('.modal.in').modal('hide'); } else { console.log('-'); } }, 100);
     swal.clickCancel();
   }
   search(next: Boolean = false, prev: Boolean = false, page: number = undefined) {

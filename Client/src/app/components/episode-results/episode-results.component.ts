@@ -10,6 +10,7 @@ import { ConfirmComponent } from '../confirm.component';
 import { UUID } from 'angular2-uuid';
 import { Episode } from '../../interfaces/episode';
 import { SwalComponent } from '@toverux/ngx-sweetalert2';
+declare var $: any;
 
 @Component({
   selector: 'app-episode-results',
@@ -73,7 +74,14 @@ export class EpisodeResultsComponent implements OnInit {
         }
       });
   }
-  markAsResolved($event, episode) {
+  markAsResolved($event, episode: Episode): void {
+    if (!episode.claimId || !episode.patientName) {
+      this.toast.warning('Sorry, you cannot resolve this Episode because it isn\'t linked to a Claim.');
+      setTimeout(() => {
+        $('#checkbox-h' + episode.episodeId).prop('checked', false);
+      }, 300);
+      return;
+    }
     const disposable = this.dialogService.addDialog(ConfirmComponent, {
       title: 'Mark Episode as Resolved',
       message: 'Are you sure you want to resolve this episode?'

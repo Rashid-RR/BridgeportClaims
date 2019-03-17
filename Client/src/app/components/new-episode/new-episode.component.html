@@ -35,12 +35,6 @@
             <option *ngFor="let note of  es.EpisodeNoteTypes" [value]="note.episodeTypeId"> {{note.episodeTypeName}} </option>
           </select>
         </div>
-        <!-- <div class="form-group">
-          <label id="pharmacyName">Pharmacy Name</label>
-          <input class="form-control" type="text" [z-index]="'99999999'" (valueChanged)="pharmacySelected($event)" auto-complete [(ngModel)]="es.pharmacyName"
-            name="pharmacyName" [source]="autoCompletePharmacyName" [service]="1" [method]="1" min-chars="2" list-formatter="pharmacyName"
-            [http-method]="'post'" [no-match-found-text]="'No Pharmacy Names Found'" [ngModelOptions]="{standalone: true}">
-        </div> -->
         <div class="form-group" style="max-width:275px;">
           <label>Pharmacy</label>
           <select class="form-control select2" id="ePayorsSelection" data-placeholder="Start typing to search pharmacies..."
@@ -51,8 +45,8 @@
       <ng-container *ngIf="!episode">
         <div class="form-group">
           <label id="episodeNoteTypeLabel">Episode type</label>
-          <select class="form-control" id="episodeTypeId" formControlName="episodeTypeId">
-            <option *ngFor="let note of (claimId ? ds.EpisodeNoteTypes:claimManager.EpisodeNoteTypes)" [value]="note.episodeTypeId"> {{note.episodeTypeName}} </option>
+          <select class="form-control" id="episodeTypeId" formControlName="episodeTypeId" [compareWith]="compareFn">
+            <option *ngFor="let note of (claimId ? ds.EpisodeNoteTypes : claimManager.EpisodeNoteTypes)" [value]="note.episodeTypeId"> {{note.episodeTypeName}} </option>
           </select>
         </div>
         <div class="form-group" style="max-width:275px;">
@@ -61,12 +55,6 @@
             size="1" style="width: 100%;">
           </select>
         </div>
-        <!-- <div class="form-group">
-          <label id="pharmacyName">Pharmacy Name</label>
-          <input class="form-control" type="text" [z-index]="'99999999'" (valueChanged)="pharmacySelected($event)" auto-complete [(ngModel)]="claimManager.pharmacyName"
-            name="pharmacyName" [source]="autoCompletePharmacyName" [service]="1" [method]="1" min-chars="2" list-formatter="pharmacyName"
-            [http-method]="'post'" [no-match-found-text]="'No Pharmacy Names Found'" [ngModelOptions]="{standalone: true}">
-        </div> -->
       </ng-container>
       <div class="form-group">
         <label id="rxNumber">Rx Number</label>
@@ -77,13 +65,7 @@
   <div class="row">
     <div class="col-sm-12">
       <div class="form-group text-center">
-        <!-- <button class="btn bg-darkRed btn-flat btn-small search-claims" type="button" (click)="episode ? this.es.saveEpisode():(claimId ? ds.saveEpisode():claimManager.saveEpisode())">
-          <i class="fa fa-search"></i> Save
-        </button>
-        <button style="margin-left:15px;" class="btn bg-darkblue btn-flat btn-small clear-inputs" type="button" (click)="closeModal()">
-          Cancel
-        </button> -->
-        <button mat-raised-button class="color-palette btn bg-DarkGreen btn-small" style="padding: 2px 14px 0px 13px; height: 36px;margin: 0px 15px;" type="button" (click)="episode ? this.es.saveEpisode():(claimId ? ds.saveEpisode():claimManager.saveEpisode())">
+        <button mat-raised-button class="color-palette btn bg-DarkGreen btn-small" style="padding: 2px 14px 0px 13px; height: 36px;" type="button" (click)="episode ? this.es.saveEpisode():(claimId ? ds.saveEpisode():claimManager.saveEpisode())">
           <i class="fa fa-search" aria-hidden="true"></i> Save</button>
         <button mat-raised-button class="color-palette btn bg-darkRed btn-small" type="button" style="padding: 2px 14px 0px 13px; height: 36px;" (click)="closeModal()">
           <i class="fa fa-refresh" aria-hidden="true"></i> Cancel</button>

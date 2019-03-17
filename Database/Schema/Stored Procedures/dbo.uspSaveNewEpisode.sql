@@ -8,7 +8,8 @@ GO
  Create date:		2/11/2018
  Description:		Saves a new Episode and Episode Note
  Example Execute:
-					EXECUTE [dbo].[uspSaveNewEpisode]
+					DECLARE @UserID NVARCHAR(128) = util.udfGetRandomAspNetUserID()
+					EXECUTE [dbo].[uspSaveNewEpisode] 775, 1, NULL, NULL, 'dfdffdfdfdkfjdkfjd', @UserID;
  =============================================
 */
 CREATE PROC [dbo].[uspSaveNewEpisode]
@@ -90,5 +91,6 @@ AS BEGIN
 		THROW 50000, @Msg, 0;
     END CATCH
 END
+
 
 GO
