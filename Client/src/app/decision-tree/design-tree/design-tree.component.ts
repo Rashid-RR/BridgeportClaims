@@ -118,7 +118,7 @@ export class DesignTreeComponent implements OnInit, AfterViewInit, OnDestroy {
           claimId: this.claimId,
           episodeText: '',
           pharmacyNabp: null,
-          episodeTypeId: null,
+          episodeTypeId: 1,
           rootTreeId: exp.root.treeId,
           leafTreeId: exp.leaf.treeId
         });

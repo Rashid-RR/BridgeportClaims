@@ -66,7 +66,7 @@ export class DecisionTreeService {
       rxNumber: [null],
       pharmacyNabp: [null],
       episodeText: [null, Validators.compose([Validators.minLength(5), Validators.required])],
-      episodeTypeId: ['1', Validators.compose([Validators.required])]
+      episodeTypeId: [1, Validators.compose([Validators.required])]
     });
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
@@ -251,7 +251,7 @@ export class DecisionTreeService {
     }
   }
   setDescription(d) {
-    this.episodeForm.patchValue({ rootTreeId: this.root.data.treeId, leafTreeId: d.data.treeId });
+    this.episodeForm.patchValue({ rootTreeId: this.root.data.treeId, leafTreeId: d.data.treeId,episodeTypeId:1 });
     this.onExperienceEnd.next({ root: this.root.data, leaf: d.data });
   }
   selectNode(d): any {
@@ -565,7 +565,6 @@ export class DecisionTreeService {
       })
       .attr('r', 1e-6)
       .style('fill', (d) => {
-        console.log(d.children, d.children,d.data.nodeName)
         return d._children && d._children.length>0 ? 'lightsteelblue' : '#fff';
       });
 
