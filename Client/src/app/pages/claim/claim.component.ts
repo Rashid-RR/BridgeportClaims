@@ -82,7 +82,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
   }
 
   showDecisionTreeWindow(claimId: string) {
-    let win = window.open('#/main/decision-tree/list/' + claimId, '_blank');
+    const win = window.open('#/main/decision-tree/list/' + claimId, '_blank');
     this.http.documentWindow = this.http.documentWindow.set((new Date()).getTime(), win);
   }
 
@@ -108,7 +108,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
       //   data:{
       //     title: 'Delete Claim Note',
       //    message: 'Are you sure you wish to remove this note?'
-      //   }  
+      //   }
       // })
       this.dialogService.addDialog(ConfirmComponent, {
         title: 'Delete Claim Note',
@@ -182,9 +182,9 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
     });
     this.localSt.observe('treeExperienceClaim')
       .subscribe((res) => {
-        //console.log(res);
+        // console.log(res);
         if (res.value.episode) {
-          let episode: Episode = res.value.episode;
+          const episode: Episode = res.value.episode;
           episode.justAdded = true;
           this.claimManager.selectedClaim.episodes.unshift(episode);
         }
@@ -514,7 +514,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
       const prescriptions = this.claimManager.selectedClaim.prescriptions.filter(p => p.selected === true);
       if (prescriptions.length === 0) {
         this.toast.warning('Please select one prescription before generating a letter.', null,
-          { timeOut: 10000, closeButton: true })
+          { timeOut: 10000, closeButton: true });
       } else if (type === 'dr-note' && prescriptions.length > 1) {
         this.toast.warning('You must start the Dr Note Request letter with a single prescription.');
         return;
@@ -522,7 +522,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
         this.exportDrNote(prescriptions[0]);
       } else if (prescriptions.length > 1) {
         this.toast.warning('Please select only one prescription before generating a letter.', null,
-          { timeOut: 10000, closeButton: true })
+          { timeOut: 10000, closeButton: true });
       } else {
         this.claimManager.loading = true;
         this.http.exportLetter({

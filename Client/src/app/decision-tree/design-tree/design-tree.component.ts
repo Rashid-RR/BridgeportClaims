@@ -104,8 +104,11 @@ export class DesignTreeComponent implements OnInit, AfterViewInit, OnDestroy {
     });
     try { swal.clickCancel(); } catch (e) { }
     this.ds.endExperience.subscribe(async (exp) => {
-      this.localSt.store(`${this.claimId ? 'treeExperienceClaim' : 'treeExperienceEpisode'}`
-      , {time: (new Date()).getTime(), type: this.claimId ? 'claim' : 'episode', value: exp});
+      if (!this.claimId || this.claimId === 'episode') {
+        this.localSt.store('treeExperienceEpisode', {time: (new Date()).getTime(), type: 'episode', value: exp});
+      } else {
+        this.localSt.store('treeExperienceClaim', {time: (new Date()).getTime(), type: 'claim', value: exp});
+      }
     });
     this.ds.onExperienceEnd.subscribe(async (exp) => {
       this.episode();

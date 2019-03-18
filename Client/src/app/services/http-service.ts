@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 import * as Immutable from 'immutable';
 import { EventsService } from './events-service';
 import { ToastrService } from 'ngx-toastr';
-import { tap } from 'rxjs/operators'; 
+import { tap } from 'rxjs/operators';
 @Injectable()
 export class HttpService {
   baseUrl = '/api';
@@ -22,12 +22,12 @@ export class HttpService {
       return this.groupNameAutoSuggest(name);
     }
   };
-  documentWindow:Immutable.OrderedMap<number, Window> =  Immutable.OrderedMap<number, Window>();
+  documentWindow: Immutable.OrderedMap<number, Window> =  Immutable.OrderedMap<number, Window>();
   constructor(private router: Router, private http: HttpClient, private events: EventsService, private toast: ToastrService) {
 
   }
-closeTreeWindows(){
-  this.documentWindow.filter(w=>w.location.href.indexOf('/main/decision-tree/')>-1).forEach((win:Window,key:number) => {
+closeTreeWindows() {
+  this.documentWindow.filter(w => w.location.href.indexOf('/main/decision-tree/') > -1).forEach((win: Window, key: number) => {
     win.close();
     this.documentWindow = this.documentWindow.delete(key);
   });

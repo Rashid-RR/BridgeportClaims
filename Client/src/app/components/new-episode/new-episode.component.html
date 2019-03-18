@@ -2,7 +2,7 @@
   <i class="fa fa-times"></i>
 </button>
 <form role="form" autocomplete="off" [formGroup]="episode ? es.episodeForm:(claimId ? ds.episodeForm:claimManager.episodeForm)" autocapitalize="none"
-  autocomplete="off" (keyup.enter)="episode ? this.es.saveEpisode():(claimId ? ds.saveEpisode():claimManager.saveEpisode())">
+  autocomplete="off">
   <div class="row invoice-info">
     <div class="col-sm-12 invoice-col">
       <h2 class="text-center">Episode Entry</h2>

@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit, AfterViewInit,Inject } from '@angular/core';
+import { Component, ViewChild, OnInit, AfterViewInit, Inject } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { SwalComponent, SwalPartialTargets } from '@toverux/ngx-sweetalert2';
 import { LocalStorageService } from 'ngx-webstorage';
@@ -25,7 +25,7 @@ export class EpisodeFilterComponent implements OnInit, AfterViewInit {
   open = true;
   closed: Boolean = false;
   submitted = false;
-  domain:string
+  domain: string;
   over: boolean[];
   resolved: Boolean = false;
   @ViewChild('episodeSwal') private episodeSwal: SwalComponent;
@@ -41,8 +41,8 @@ export class EpisodeFilterComponent implements OnInit, AfterViewInit {
     this.over.fill(false);
   }
   showDecisionTreeWindow() {
-    let win = window.open('#/main/decision-tree/list/episode', '_blank');
-    this.http.documentWindow = this.http.documentWindow.set((new Date()).getTime(),win);
+    const win = window.open('#/main/decision-tree/list/episode', '_blank');
+    this.http.documentWindow = this.http.documentWindow.set((new Date()).getTime(), win);
   }
 
   ngOnInit() {
@@ -57,22 +57,25 @@ export class EpisodeFilterComponent implements OnInit, AfterViewInit {
       this.localSt.observe('treeExperienceEpisode')
       .subscribe((res) => {
         if (res.value.episode) {
-          let episode: Episode = res.value.episode;
-          if(!episode.episodeId){
+          const episode: Episode = res.value.episode;
+          if (!episode.episodeId) {
             episode.episodeId = episode['id'];
           }
+          if (!episode.episodeNoteCount) {
+            episode.episodeNoteCount = episode['noteCount'];
+          }
           episode.justAdded = true;
-          let current = this.ds.episodes.toArray();
+          const current = this.ds.episodes.toArray();
           current.unshift(episode);
           this.ds.episodes = Immutable.OrderedMap<Number, Episode>();
-          current.forEach((episode: Episode) => {
+          current.forEach((ep: Episode) => {
             try {
-              this.ds.episodes = this.ds.episodes.set(episode['episodeId'], episode);
+              this.ds.episodes = this.ds.episodes.set(ep['episodeId'], ep);
             } catch (e) { }
           });
         }
         this.toast.success(res.value.message);
-        this.http.closeTreeWindows();  
+        this.http.closeTreeWindows();
       });
   }
 
@@ -86,7 +89,7 @@ export class EpisodeFilterComponent implements OnInit, AfterViewInit {
     });
     $('#datemask').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' });
     $('[data-mask]').inputmask();
-    
+
   }
 
   setClosed($event, value) {
