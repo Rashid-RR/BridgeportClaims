@@ -34,10 +34,18 @@ AS BEGIN
 
         IF (@ParentNode IS NULL)
             BEGIN
-                IF (@@TRANCOUNT > 0)
-                    ROLLBACK;
-                RAISERROR(N'Error, could not find the Parent Tree ID.', 16, 1) WITH NOWAIT;
-                RETURN -1;
+				IF NOT EXISTS (SELECT * FROM [dbo].[DecisionTree] AS [dt])
+					BEGIN
+						EXEC [util].[uspDecisionTreeInsertRoot];
+						SELECT @ParentNode = [TreeNode] FROM [dbo].[DecisionTree] WHERE [TreeID] = @ParentTreeID;
+					END
+				ELSE
+					BEGIN
+						IF (@@TRANCOUNT > 0)
+							ROLLBACK;
+						RAISERROR(N'Error, could not find the Parent Tree ID.', 16, 1) WITH NOWAIT;
+						RETURN -1;
+					END
             END;
 
         SELECT @LeftChild = MAX([TreeNode])
