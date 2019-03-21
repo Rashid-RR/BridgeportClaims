@@ -7,8 +7,9 @@
 }
 
 .custom-width {
-  width: 50px;
-  cursor: pointer
+  width: auto;
+  cursor: pointer;
+  max-height: 25px;
 }
 
 table {
