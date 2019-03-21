@@ -11,6 +11,7 @@ import * as Immutable from 'immutable';
 import { EventsService } from './events-service';
 import { ToastrService } from 'ngx-toastr';
 import { tap } from 'rxjs/operators';
+import { RootDecisionTreeModal } from '../interfaces/decision-tree-choice';
 @Injectable()
 export class HttpService {
   baseUrl = '/api';
@@ -1514,6 +1515,16 @@ closeTreeWindows() {
 
   getTree(data: any): Observable<any> {
     const s = this.http.post(this.baseUrl + `/tree-config/get-tree/?parentTreeId=${data.parentTreeId}`, data)
+      .pipe(
+        tap(_ => {
+        }, error => {
+          this.handleResponseError(error);
+        })
+      );
+    return s;
+  }
+  getTreeChoice(episodeId: number): Observable<any> {
+    const s = this.http.post<RootDecisionTreeModal>(this.baseUrl + `/tree-config/get-tree-modal/?episodeId=${episodeId}`, {})
       .pipe(
         tap(_ => {
         }, error => {

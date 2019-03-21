@@ -50,9 +50,7 @@ export class ClaimEpisodeComponent implements OnInit {
     dialogConfig.width = '900px'
     dialogConfig.height = '400px'
     dialogConfig.data = {
-      epId: id,
-
-
+      episodeId: id,
     };
     this.dialog.open(DecesiontreeModalComponent, dialogConfig);
   }

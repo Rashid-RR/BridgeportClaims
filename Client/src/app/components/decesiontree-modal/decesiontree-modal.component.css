@@ -29,3 +29,24 @@ h2{
   display: block;
   margin: auto;
 }
+
+div.row div:first-child{
+  padding-right: 0px;
+}
+div.row div:not(:first-child){
+  padding: 0px;
+}
+.box,.box-body{
+  border: none;
+  box-shadow: none;
+}
+h3{
+  padding: 5px 5px 10px;
+  background: #fbeede !important;
+  font-weight: bold;
+  margin:0px;
+}
+div[class^="col-"] p{
+  padding: 5px 5px 10px;
+  background: #fff8ef !important;
+}

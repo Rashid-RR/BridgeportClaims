@@ -515,7 +515,7 @@ export class DecisionTreeService {
     const nodes = treeData.descendants(),
       links = treeData.descendants().slice(1);
     // Normalize for fixed-depth.
-    nodes.forEach((d) => { d.y = d.depth * 180 + 70; });
+    nodes.forEach((d) => { console.log(d.x,d.x0);d.y = d.depth * 180 + 70; });
     // ****************** Nodes section ***************************
     // Update the nodes...
     const node = this.svg.selectAll('g.node')
