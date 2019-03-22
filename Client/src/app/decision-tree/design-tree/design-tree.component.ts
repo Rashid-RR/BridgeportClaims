@@ -59,7 +59,7 @@ export class DesignTreeComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnDestroy(): void {
     $('body, html, .wrapper').css('height', 'auto');
   }
-  ngAfterViewInit() {
+  ngAfterViewInit() {    
     $('body, html, .wrapper').css('height', '100%');
     if (this.ds.parentTreeId) {
       this.ds.loading = true;
@@ -142,14 +142,16 @@ export class DesignTreeComponent implements OnInit, AfterViewInit, OnDestroy {
           .on('start', () => {
             clickOriginX = d3.event.x;
             clickOriginY = d3.event.y;
+            console.log("Starting...",clickOriginX,clickOriginY)
           })
-          .on('drag', function (d) {
-            zoomX = d3.event.x - clickOriginX;
-            zoomY = d3.event.y - clickOriginY;
+          .on('drag',  ()=> {
+            console.log("Stoping...",d3.event);
+            zoomX+= d3.event.dx;// - clickOriginX;
+            zoomY+= d3.event.dy;// - clickOriginY;
+            console.log("Dragging...",clickOriginX,clickOriginY,zoomX,zoomY)
             d3.select('#decisionTree')
-              .attr('transform', function (d) {
-                console.log('d', d);
-                return 'translate(' + [zoomX, zoomY] + ')' + `scale(${zoomZ})`;
+              .attr('transform', () =>{
+                return 'translate(' + [zoomX,zoomY] + ')' + `scale(${zoomZ})`;
               });
           })
       );
