@@ -50,3 +50,25 @@ div[class^="col-"] p{
   padding: 5px 5px 10px;
   background: #fff8ef !important;
 }
+input[type=range][orient=vertical]
+  {
+      writing-mode: bt-lr; /* IE */
+      -webkit-appearance: slider-vertical; /* WebKit */
+      width: 8px;
+      height: 350px;
+      padding: 0 5px;
+      margin-left: 20px;
+  }
+  .relative_div {
+    top: 0px;
+    display: inline-block;
+    z-index: 10001;
+    position: absolute;
+    height: 100%;
+  }
+  .relative_div ~ svg {
+    margin-left: 20px;
+    z-index: 1000;
+    display: inline-block;
+    height: 100%;
+  }

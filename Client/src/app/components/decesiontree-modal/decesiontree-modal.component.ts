@@ -7,6 +7,7 @@ import { DecisionTreeService } from '../../services/services.barrel';
 import { RootDecisionTreeModal, DecisionTreeChoiceModalHeader, DecisionTreeChoiceModalPath } from '../../interfaces/decision-tree-choice';
 import * as d3 from 'd3';
 import { ITreeNode } from '../../decision-tree/tree-node';
+let zoomX = 0, zoomY = 0, zoomZ = 1, clickOriginX = null, clickOriginY = null;
 
 @Component({
   selector: 'app-decesiontree-modal',
@@ -14,7 +15,7 @@ import { ITreeNode } from '../../decision-tree/tree-node';
   styleUrls: ['./decesiontree-modal.component.css']
 })
 export class DecesiontreeModalComponent implements OnInit,OnDestroy {
-
+  zoomLevel = 1;
   treeChoiceHeader: DecisionTreeChoiceModalHeader
   treeChoicePaths: DecisionTreeChoiceModalPath[];
   loading: boolean = false;
@@ -29,6 +30,7 @@ export class DecesiontreeModalComponent implements OnInit,OnDestroy {
 
   ngOnInit() {
     this.loading = true;
+    this.ds.readonly = true;
     this.http.getTreeChoice(this.data.episodeId).subscribe((tree: RootDecisionTreeModal) => {
       this.loading = false;
       this.treeChoiceHeader = tree.decisionTreeChoiceModalHeader
@@ -53,6 +55,9 @@ export class DecesiontreeModalComponent implements OnInit,OnDestroy {
       .attr('transform', 'translate('
         + this.ds.margin.left + ',' + this.ds.margin.top + ')');
     this.ds.update(this.ds.root);
+    setTimeout(() => {
+      this.startDragging();
+    }, 1000);
   }
   attachChildren(tree: ITreeNode, child: DecisionTreeChoiceModalPath, pos: number, length: number) {
     tree['children'] = [child as ITreeNode];
@@ -68,10 +73,32 @@ export class DecesiontreeModalComponent implements OnInit,OnDestroy {
     this.dialogRef.close();
   }
   ngOnDestroy(){
+    this.ds.readonly = false;
     this.ds.height = 500 - this.ds.margin.top - this.ds.margin.bottom;
     this.ds.root.x0 = this.ds.height/2;
     this.ds.tree = d3.tree().size([this.ds.height, this.ds.width]);
   }
-
+  startDragging() {
+    d3.select('#decisionTree')
+      .call(
+        d3.drag()
+          .on('start', () => {
+            clickOriginX = d3.event.x;
+            clickOriginY = d3.event.y;
+          })
+          .on('drag',  ()=> {
+            zoomX+= d3.event.dx;// - clickOriginX;
+            zoomY+= d3.event.dy;// - clickOriginY;
+            d3.select('#decisionTree')
+              .attr('transform', () =>{
+                return 'translate(' + [zoomX,zoomY] + ')' + `scale(${zoomZ})`;
+              });
+          })
+      );
+  }
+  handleZoomLevel(x) {
+    zoomZ = x;
+    d3.select('#decisionTree').attr('transform', `translate(${zoomX},${zoomY})scale(${zoomZ})`);
+  }
 
 }

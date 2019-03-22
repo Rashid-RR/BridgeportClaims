@@ -58,8 +58,10 @@ export class DesignTreeComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnDestroy(): void {
     $('body, html, .wrapper').css('height', 'auto');
+    this.ds.readonly = false;
   }
   ngAfterViewInit() {    
+    this.ds.readonly = false;
     $('body, html, .wrapper').css('height', '100%');
     if (this.ds.parentTreeId) {
       this.ds.loading = true;

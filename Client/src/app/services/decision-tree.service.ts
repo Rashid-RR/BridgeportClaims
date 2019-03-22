@@ -26,6 +26,7 @@ export class DecisionTreeService {
   treeList: Immutable.OrderedMap<Number, ITreeNode> = Immutable.OrderedMap<Number, ITreeNode>();
   data: any = {};
   decisionTreeSVG: any;
+  readonly: boolean = false;
   margin = { top: 20, right: 90, bottom: 30, left: 30 };
   get width(): number {
     return (this.treeDepth + 1) + 60;
@@ -251,7 +252,7 @@ export class DecisionTreeService {
     }
   }
   setDescription(d) {
-    this.episodeForm.patchValue({ rootTreeId: this.root.data.treeId, leafTreeId: d.data.treeId,episodeTypeId:1 });
+    this.episodeForm.patchValue({ rootTreeId: this.root.data.treeId, leafTreeId: d.data.treeId, episodeTypeId: 1 });
     this.onExperienceEnd.next({ root: this.root.data, leaf: d.data });
   }
   selectNode(d): any {
@@ -321,7 +322,7 @@ export class DecisionTreeService {
     $(`#tree_node${d.id} circle`).addClass('tracked');
     if (next) {
       this.selectNode(d.children[0]);
-    }else if (!d.children && !d._children) {
+    } else if (!d.children && !d._children) {
       this.setDescription(d);
     }
     this.loading = false;
@@ -515,7 +516,7 @@ export class DecisionTreeService {
     const nodes = treeData.descendants(),
       links = treeData.descendants().slice(1);
     // Normalize for fixed-depth.
-    nodes.forEach((d) => { console.log(d.x,d.x0);d.y = d.depth * 180 + 70; });
+    nodes.forEach((d) => { console.log(d.x, d.x0); d.y = d.depth * 180 + 70; });
     // ****************** Nodes section ***************************
     // Update the nodes...
     const node = this.svg.selectAll('g.node')
@@ -536,24 +537,27 @@ export class DecisionTreeService {
       })
       .on('click', (n) => {
         // if (d3.event.defaultPrevented) return;
-        const _offset = $(`#tree_node${n.id}`).offset(),
-          position = {
-            x: _offset.left + 10,
-            y: _offset.top + 10
-          };
-        if (this.claimRoute && n.data.picked) {
-          return this.deSelectNode(n);
-        } else if (this.claimRoute && !n.data.picked) {
-          return this.selectNode(n);
-        } else {
-          $.contextMenu('destroy');
-          $.contextMenu({
-            selector: `#tree_node${n.id}`,
-            trigger: 'none',
-            callback: (key, options) => { },
-            items: this.treeNodeItems(n)
-          });
-          setTimeout(function () { $(`#tree_node${n.id}`).contextMenu(position); }, 10);
+        console.log("Readonly...",this.readonly);
+        if (!this.readonly) {
+          const _offset = $(`#tree_node${n.id}`).offset(),
+            position = {
+              x: _offset.left + 10,
+              y: _offset.top + 10
+            };
+          if (this.claimRoute && n.data.picked) {
+            return this.deSelectNode(n);
+          } else if (this.claimRoute && !n.data.picked) {
+            return this.selectNode(n);
+          } else {
+            $.contextMenu('destroy');
+            $.contextMenu({
+              selector: `#tree_node${n.id}`,
+              trigger: 'none',
+              callback: (key, options) => { },
+              items: this.treeNodeItems(n)
+            });
+            setTimeout(function () { $(`#tree_node${n.id}`).contextMenu(position); }, 10);
+          }
         }
       });
 
@@ -565,7 +569,7 @@ export class DecisionTreeService {
       })
       .attr('r', 1e-6)
       .style('fill', (d) => {
-        return d._children && d._children.length>0 ? 'lightsteelblue' : '#fff';
+        return d._children && d._children.length > 0 ? 'lightsteelblue' : '#fff';
       });
 
     // Add labels for the nodes
@@ -602,7 +606,7 @@ export class DecisionTreeService {
     nodeUpdate.select('circle.node')
       .attr('r', 10)
       .style('fill', (d) => {
-        return d._children && d._children.length>0 ? 'lightsteelblue' : '#fff';
+        return d._children && d._children.length > 0 ? 'lightsteelblue' : '#fff';
       })
       .attr('cursor', 'pointer');
     // Remove any exiting nodes

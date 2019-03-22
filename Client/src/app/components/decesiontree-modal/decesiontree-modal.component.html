@@ -27,6 +27,9 @@
 <mat-dialog-content class="mat-typography" style="margin-top: 2vh">
   <div class="box">
     <div class="box-body">
+        <div class="relative_div">
+          <input type="range" orient="vertical" name="zoomLevel" [(ngModel)]="zoomLevel" (change)="handleZoomLevel(zoomLevel)" step="0.1" min="0" max="2"/>
+        </div>
         <svg  #decisionTree id="decisionTree"></svg>
     </div>
     <div class="overlay text-center" *ngIf="loading">
