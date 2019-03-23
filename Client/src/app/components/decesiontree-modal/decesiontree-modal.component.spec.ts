@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DecesiontreeModalComponent } from './decesiontree-modal.component';
+import { DecisionTreeModalComponent } from './decesiontree-modal.component';
 
-describe('DecesiontreeModalComponent', () => {
-  let component: DecesiontreeModalComponent;
-  let fixture: ComponentFixture<DecesiontreeModalComponent>;
+describe('DecisionTreeModalComponent', () => {
+  let component: DecisionTreeModalComponent;
+  let fixture: ComponentFixture<DecisionTreeModalComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DecesiontreeModalComponent ]
+      declarations: [ DecisionTreeModalComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DecesiontreeModalComponent);
+    fixture = TestBed.createComponent(DecisionTreeModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

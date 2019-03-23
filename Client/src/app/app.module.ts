@@ -83,7 +83,7 @@ import { CarrierModalComponent } from './components/carrier-modal/carrier-modal.
 import { AdjustorModalComponent } from './components/adjustor-modal/adjustor-modal.component';
 import { AttorneyModalComponent } from './components/attorney-modal/attorney-modal.component';
 import { FormsModule } from '@angular/forms';
-import { DecesiontreeModalComponent } from './components/decesiontree-modal/decesiontree-modal.component';
+import { DecisionTreeModalComponent } from './components/decesiontree-modal/decesiontree-modal.component';
 
 
 @NgModule({
@@ -106,7 +106,7 @@ import { DecesiontreeModalComponent } from './components/decesiontree-modal/dece
     EpisodeResultsComponent, EpisodeFilterComponent, FirewallSettingsComponent, FirewallFilterComponent,
     FirewallGridComponent, AcquireEpisodeComponent, TestComponent, OutstandingFilterComponent, OutstandingResultComponent,
     ClaimOutstandingComponent,
-    CarrierModalComponent, AdjustorModalComponent, AttorneyModalComponent, DecesiontreeModalComponent
+    CarrierModalComponent, AdjustorModalComponent, AttorneyModalComponent, DecisionTreeModalComponent
   ],
   imports: [
     BrowserModule,
@@ -140,7 +140,7 @@ import { DecesiontreeModalComponent } from './components/decesiontree-modal/dece
   ],
   entryComponents: [
     UnindexedImageFileComponent,
-    CarrierModalComponent, AdjustorModalComponent, AttorneyModalComponent,DecesiontreeModalComponent, AppComponent
+    CarrierModalComponent, AdjustorModalComponent, AttorneyModalComponent,DecisionTreeModalComponent, AppComponent
   ],
   bootstrap: [AppComponent]
 })

@@ -14,12 +14,12 @@ let zoomX = 0, zoomY = 0, zoomZ = 1, clickOriginX = null, clickOriginY = null;
   templateUrl: './decesiontree-modal.component.html',
   styleUrls: ['./decesiontree-modal.component.css']
 })
-export class DecesiontreeModalComponent implements OnInit,OnDestroy {
+export class DecisionTreeModalComponent implements OnInit,OnDestroy {
   zoomLevel = 1;
   treeChoiceHeader: DecisionTreeChoiceModalHeader
   treeChoicePaths: DecisionTreeChoiceModalPath[];
   loading: boolean = false;
-  constructor(public dialogRef: MatDialogRef<DecesiontreeModalComponent>,
+  constructor(public dialogRef: MatDialogRef<DecisionTreeModalComponent>,
     private http: HttpService,
     public ds: DecisionTreeService,
     public rs: ReferenceManagerService,

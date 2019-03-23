@@ -13,7 +13,7 @@ declare var $: any;
 import { ConfirmComponent } from '../confirm.component';
 import { SwalComponent } from '@toverux/ngx-sweetalert2';
 import { MatDialog, MatDialogConfig } from '@angular/material';
-import { DecesiontreeModalComponent } from '../decesiontree-modal/decesiontree-modal.component';
+import { DecisionTreeModalComponent } from '../decesiontree-modal/decesiontree-modal.component';
 
 @Component({
   selector: 'app-claim-episode',
@@ -52,7 +52,7 @@ export class ClaimEpisodeComponent implements OnInit {
     dialogConfig.data = {
       episodeId: id,
     };
-    this.dialog.open(DecesiontreeModalComponent, dialogConfig);
+    this.dialog.open(DecisionTreeModalComponent, dialogConfig);
   }
 
   getTypeName(id: number): string {

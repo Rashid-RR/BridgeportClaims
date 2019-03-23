@@ -2,14 +2,15 @@ import { Component, OnInit, ViewContainerRef, ViewChild } from '@angular/core';
 import { EpisodeService, HttpService } from '../../services/services.barrel';
 import { EpisodeNoteModalComponent } from '../components-barrel';
 import { WindowsInjetor, CustomPosition, Size, WindowConfig } from '../ng-window';
-import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { DialogService } from 'ng2-bootstrap-modal';
-
+import { MatDialog, MatDialogConfig } from '@angular/material';
 import { ConfirmComponent } from '../confirm.component';
 import { UUID } from 'angular2-uuid';
 import { Episode } from '../../interfaces/episode';
 import { SwalComponent } from '@toverux/ngx-sweetalert2';
+import { DecisionTreeModalComponent } from '../decesiontree-modal/decesiontree-modal.component';
+
 declare var $: any;
 
 @Component({
@@ -23,13 +24,24 @@ export class EpisodeResultsComponent implements OnInit {
 
   @ViewChild('episodeActionSwal') private episodeSwal: SwalComponent;
   constructor(
-    private dialogService: DialogService, private _router: Router, public episodeService: EpisodeService, private http: HttpService,
+    public dialog: MatDialog,
+    private dialogService: DialogService, public episodeService: EpisodeService, private http: HttpService,
     private myInjector: WindowsInjetor, public viewContainerRef: ViewContainerRef, private toast: ToastrService) {
 
   }
 
   ngOnInit() {
     this.episodeService.search();
+  }
+
+  openDialogue(id) {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.width = '900px'
+    dialogConfig.height = '400px'
+    dialogConfig.data = {
+      episodeId: id,
+    };
+    this.dialog.open(DecisionTreeModalComponent, dialogConfig);
   }
   showNoteWindow(episode: Episode) {
     const config = new WindowConfig('Episode Note(s)', new Size(400, 700));  // height, width

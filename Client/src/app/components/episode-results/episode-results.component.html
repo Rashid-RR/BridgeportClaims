@@ -61,6 +61,9 @@
                                 Note Count
                             </span>
                         </th>
+                        <th>
+                          <span [sort-table]="myTable" columnSort="hasTree">Has Tree</span>
+                        </th>
                     </tr>
                 </thead>
             </table>
@@ -100,6 +103,9 @@
                         </td>
                         <td [class.resolved]="episodeService.data.resolved">
                             <a class="label label-info bg-vdarkgrey" (click)="showNoteWindow(episode)">{{episode.episodeNoteCount}}</a>
+                        </td>
+                        <td>
+                          <img *ngIf="episode.hasTree===true" (click)="openDialogue(episode.episodeId)" src="assets/img/b-tree.png" class="custom-width">
                         </td>
                     </tr>
                 </tbody>

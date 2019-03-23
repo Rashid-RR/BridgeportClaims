@@ -629,10 +629,6 @@ app-claim-result *:not(.fa):not(.btn) {
 .swal2-modal.prescription-modal .swal2-buttonswrapper .button-on-top {
   z-index: 10;
 }
-.row{
-  display: flex;
-  flex-wrap:wrap;
-}
 /*   .sidebar-menu{
     text-align:left
   } */

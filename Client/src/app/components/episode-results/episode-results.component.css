@@ -194,10 +194,20 @@ thead span {
     tr>th:not(.resolved):nth-child(12),
     tr>td:not(.resolved):nth-child(12)
     {
-        width: 12%;
+        width: calc(12% - 52px);
     }
     tr>th.resolved:nth-child(12),
     tr>td.resolved:nth-child(12)
     {
-        width: 19%;
+        width: calc(19% - 52px);
     }
+    tr>th.resolved:nth-child(13),
+    tr>td.resolved:nth-child(13)
+    {
+        width: 52px;
+    }
+    .custom-width {
+        width: auto;
+        cursor: pointer;
+        max-height: 25px;
+      }
