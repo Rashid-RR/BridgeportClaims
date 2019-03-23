@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 // Services
-import { IShContextMenuItem, BeforeMenuEvent } from 'ng2-right-click-menu/src/sh-context-menu.models';
+import { IShContextMenuItem, BeforeMenuEvent } from 'ng2-right-click-menu';
 import { ITreeNode } from '../tree-node';
 import { DecisionTreeService } from '../../services/decision-tree.service';
 import { ProfileManager } from '../../services/profile-manager';
