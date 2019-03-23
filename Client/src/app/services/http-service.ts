@@ -1491,6 +1491,15 @@ closeTreeWindows() {
         })
       );
   }
+  dismissNotification(id: number): Observable<any> {
+    return this.http.post(this.baseUrl + `notifications/dismiss/?notificationId=${id}`, {})
+      .pipe(
+        tap(_ => {
+        }, error => {
+          this.handleResponseError(error);
+        })
+      );
+  }
 
   multipageInvoices(data: any): Observable<HttpResponse<Blob>> {
     return this.http.post(this.baseUrl + '/prescriptions/multi-page-invoices', data, { observe: 'response', responseType: 'blob' })

@@ -74,6 +74,23 @@ export class NotificationComponent implements OnInit {
       this.toast.warning('You must fill amount paid, check Number and date posted to continue');
     }
   }
+  dismissNotification(n: any) {
+      this.loadingNotification = true;
+      this.http.dismissNotification(n.notificationId).subscribe(res => {
+          this.toast.success(res.message||'Notification dismissed');
+          this.loadingNotification = false;
+          for (let i = 0; i < this.notifications.length; i++) {
+            if (this.notifications[i].notificationId === n.notificationId) {
+              this.notifications.splice(i, 1);
+            }
+          }
+          this.cancel();
+      }, (error) => {
+        const err = error.error || ({ 'Message': 'Could not dismiss notification!' });
+        this.toast.error(err.Message||'Could not dismiss notification!');
+        this.loadingNotification = false;
+      });
+  }
 
   get allowed(): Boolean {
     return (this.profileManager.profile.roles && (this.profileManager.profile.roles
