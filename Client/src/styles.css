@@ -604,6 +604,11 @@ app-claim-result *:not(.fa):not(.btn) {
   color: #fff;
 }
 
+.bg-darkRed, .bg-darkRed:hover, .bg-darkRed:focus {
+  background: #992727;
+  color: #fff;
+}
+
 .bg-DarkGreen, .bg-DarkGreen:hover, .bg-DarkGreen:focus {
   background: #084205;
   color: #fff;
