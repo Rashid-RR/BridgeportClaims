@@ -148,7 +148,7 @@ tr > td:nth-child(1) {
 
 tr > th:not(.resolved):nth-child(2),
 tr > td:not(.resolved):nth-child(2) {
-  width: 6%;
+  width: 3%;
 }
 
 tr > th.resolved:nth-child(2),

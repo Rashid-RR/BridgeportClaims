@@ -86,7 +86,7 @@
             </button>
           </td>
           <td [class.resolved]="episodeService.data.resolved">
-            <div class="">
+            <div class="commonCheckBox" style="text-align: center !important;">
               <input type="checkbox" name="check" value="None" [id]="'checkbox-h'+episode.episodeId" #inv
                      (change)="markAsResolved($event,episode)"
                      [checked]="episodeService.data.resolved" [disabled]="episodeService.data.resolved">
