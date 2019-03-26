@@ -84,6 +84,7 @@ import { AdjustorModalComponent } from './components/adjustor-modal/adjustor-mod
 import { AttorneyModalComponent } from './components/attorney-modal/attorney-modal.component';
 import { FormsModule } from '@angular/forms';
 import { DecisionTreeModalComponent } from './components/decesiontree-modal/decesiontree-modal.component';
+import { MatSlideToggleModule } from '@angular/material';
 
 
 @NgModule({
@@ -122,7 +123,8 @@ import { DecisionTreeModalComponent } from './components/decesiontree-modal/dece
       positionClass: 'toast-bottom-center',
       timeOut: 15000
     }),
-    BootstrapModalModule
+    BootstrapModalModule,
+    MatSlideToggleModule
   ],
   providers: [
     WINDOW_PROVIDERS,

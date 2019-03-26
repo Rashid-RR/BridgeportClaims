@@ -47,7 +47,7 @@ label.check-label{
     color: rgb(54, 102, 75);
     font-weight: 700;
   }
-  
+
   span.red:hover .check,span.red input[type=radio]:checked ~ .check {
     border: 5px solid #832121;
   }
@@ -113,7 +113,7 @@ label.check-label{
     padding:10px;
   }
 
-    
+
   .field-lg:not(.field-lgr) .form-group,.field-lgr{
     width: fit-content;
     padding-top:17px;
@@ -130,9 +130,9 @@ label.check-label{
     margin:5px 2px;
     height:34px;
   }
-  @media (max-width: 1020px){ 
+  @media (max-width: 1020px){
     .search-container{
-      flex-wrap: wrap; 
+      flex-wrap: wrap;
     }
   }
   @media (min-width: 800px){
@@ -155,7 +155,7 @@ label.check-label{
       .col-md-3,
       .field-lg {
         width: fit-content;
-      } 
+      }
     }
     .commonCheckBox label {
       line-height:17px;
@@ -166,3 +166,12 @@ label.check-label{
       margin-right: 1px;
       top:0px
     }
+
+mat-form-field.mat-form-field {
+  min-width: 50px;
+  display: block;
+}
+
+tbody td {
+  text-align: center;
+}
