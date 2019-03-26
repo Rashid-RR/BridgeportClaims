@@ -123,7 +123,7 @@ import { MatSlideToggleModule } from '@angular/material';
       positionClass: 'toast-bottom-center',
       timeOut: 15000
     }),
-    BootstrapModalModule,
+    BootstrapModalModule.forRoot({container:document.body}),
     MatSlideToggleModule
   ],
   providers: [

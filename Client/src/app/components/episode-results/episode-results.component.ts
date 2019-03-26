@@ -36,8 +36,8 @@ export class EpisodeResultsComponent implements OnInit {
 
   openDialogue(id) {
     const dialogConfig = new MatDialogConfig();
-    dialogConfig.width = '900px'
-    dialogConfig.height = '400px'
+    dialogConfig.minWidth = '900px'
+    dialogConfig.minHeight = '500px'
     dialogConfig.data = {
       episodeId: id,
     };
@@ -185,5 +185,6 @@ export class EpisodeResultsComponent implements OnInit {
   isNumeric(n) {
     return !isNaN(parseFloat(n)) && isFinite(n);
   }
+
 
 }

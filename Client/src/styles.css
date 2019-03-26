@@ -604,6 +604,11 @@ app-claim-result *:not(.fa):not(.btn) {
   color: #fff;
 }
 
+.bg-darkRed, .bg-darkRed:hover, .bg-darkRed:focus {
+  background: #992727;
+  color: #fff;
+}
+
 .bg-DarkGreen, .bg-DarkGreen:hover, .bg-DarkGreen:focus {
   background: #084205;
   color: #fff;
@@ -654,6 +659,7 @@ Check Boxes Styles
 .commonCheckBox {
   position: relative;
   margin: -2px 5px;
+  left:45%;
 }
 
 .commonCheckBox label:first-of-type {
