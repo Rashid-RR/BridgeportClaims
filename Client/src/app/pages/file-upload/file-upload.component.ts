@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterViewChecked } from '@angular/core';
 
-import { FileSelectDirective, FileItem, FileDropDirective, ParsedResponseHeaders, FileUploader } from 'ng2-file-upload/ng2-file-upload';
+import {  FileItem,ParsedResponseHeaders, FileUploader } from 'ng2-file-upload/ng2-file-upload';
 import { HttpService } from '../../services/http-service';
 import { ImportFile } from '../../models/import-file';
 import { ToastrService } from 'ngx-toastr';
@@ -87,7 +87,7 @@ export class FileUploadComponent implements OnInit, AfterViewChecked {
   }
 
   deleteFile(file: ImportFile) {
-    const disposable = this.dialogService.addDialog(ConfirmComponent, {
+    this.dialogService.addDialog(ConfirmComponent, {
       title: 'Delete File',
       message: 'Do you want to delete ' + file.fileName + '?'
     })

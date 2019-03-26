@@ -122,7 +122,7 @@ import { DecisionTreeModalComponent } from './components/decesiontree-modal/dece
       positionClass: 'toast-bottom-center',
       timeOut: 15000
     }),
-    BootstrapModalModule
+    BootstrapModalModule.forRoot({container:document.body})
   ],
   providers: [
     WINDOW_PROVIDERS,
