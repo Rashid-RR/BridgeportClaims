@@ -7,8 +7,9 @@ GO
 	Create Date:	11/29/2017
 	Description:	Gets the Episodes for the Episodes page.
 	Sample Execute:
+					DECLARE @UserID NVARCHAR(128) = util.udfGetRandomAspNetUserID();
 					DECLARE @TotalPageSize INT
-					EXEC [dbo].[uspGetEpisodes] NULL,NULL,0,NULL,1,NULL,'Created','ASC',1,50000,  @TotalPageSize OUTPUT
+					EXEC [dbo].[uspGetEpisodes] NULL,NULL,0,@UserID,1,NULL,'Created','ASC',1,50000,@UserID,0,  @TotalPageSize OUTPUT
 */
 CREATE PROC [dbo].[uspGetEpisodes]
 (
@@ -62,12 +63,13 @@ AS BEGIN
 			[Pharmacy] [varchar](60) NULL,
 			[Carrier] [varchar](255) NULL,
 			EpisodeNoteCount INT NOT NULL,
-			[FileUrl] [nvarchar] (500) NULL
+			[FileUrl] [nvarchar] (500) NULL,
+			HasTree BIT NOT NULL
 		);
 
-		DECLARE @Spacing NVARCHAR(2) = N', ';
+		DECLARE @Spacing NCHAR(2) = N', ';
 		INSERT INTO [#Episodes] ([EpisodeId],[Owner],[Created],[PatientName],[ClaimNumber],[ClaimId],
-				[Type],[Pharmacy],[Carrier],[EpisodeNoteCount], [FileUrl])
+				[Type],[Pharmacy],[Carrier],[EpisodeNoteCount], [FileUrl], HasTree)
 		SELECT          EpisodeId     = [ep].[EpisodeID]
 					  ,	[Owner]       = CONCAT([u].[LastName], @Spacing, [u].[FirstName])
 					  , [Created]     = ep.Created
@@ -79,6 +81,9 @@ AS BEGIN
 					  , [Carrier]     = py.GroupName
 					  , EpisodeNoteCount = (SELECT COUNT(*) FROM [dbo].[EpisodeNote] AS [en] WHERE [en].[EpisodeID] = [ep].[EpisodeID])
 					  , [d].[FileUrl]
+					  , HasTree = CAST(CASE WHEN EXISTS (SELECT * FROM dbo.EpisodeNote AS ien WHERE ien.EpisodeID = ep.EpisodeID AND ien.DecisionTreeChoiceID IS NOT NULL)
+									   THEN 1 ELSE 0
+								  END AS BIT)
 		FROM            dbo.Episode         AS ep
 			INNER JOIN  dbo.EpisodeType     AS et ON ep.EpisodeTypeID = et.EpisodeTypeID
 			INNER JOIN  dbo.EpisodeTypeUsersMapping AS m ON m.EpisodeTypeID = et.[EpisodeTypeID]
@@ -112,6 +117,7 @@ AS BEGIN
              , [e].[Carrier]
              , [e].EpisodeNoteCount
 			 , [e].[FileUrl]
+			 , e.HasTree
 		FROM [#Episodes] AS [e]
 		ORDER BY CASE WHEN @iSortColumn = 'EpisodeId' AND @iSortDirection = 'ASC'
 				THEN [e].[EpisodeID] END ASC,
@@ -152,7 +158,11 @@ AS BEGIN
 			 CASE WHEN @iSortColumn = 'FileUrl' AND @iSortDirection = 'ASC'
 				THEN [e].[FileUrl] END ASC,
 			 CASE WHEN @iSortColumn = 'FileUrl' AND @iSortDirection = 'DESC'
-				THEN [e].[FileUrl] END DESC
+				THEN [e].[FileUrl] END DESC,
+			 CASE WHEN @iSortColumn = 'HasTree' AND @iSortDirection = 'ASC'
+				THEN [e].[HasTree] END ASC,
+			 CASE WHEN @iSortColumn = 'HasTree' AND @iSortDirection = 'DESC'
+				THEN [e].[HasTree] END DESC
 		OFFSET @iPageSize * (@iPageNumber - 1) ROWS
 		FETCH NEXT @iPageSize ROWS ONLY;
 
@@ -160,21 +170,11 @@ AS BEGIN
 			COMMIT;
 	END TRY
 	BEGIN CATCH
-		IF (@@TRANCOUNT > 0)
+        IF (@@TRANCOUNT > 0)
 			ROLLBACK;
-				
-        DECLARE @ErrSeverity INT = ERROR_SEVERITY()
-            , @ErrState INT = ERROR_STATE()
-            , @ErrProc NVARCHAR(MAX) = ERROR_PROCEDURE()
-            , @ErrLine INT = ERROR_LINE()
-            , @ErrMsg NVARCHAR(MAX) = ERROR_MESSAGE();
-
-        RAISERROR(N'%s (line %d): %s',	-- Message text w formatting
-			@ErrSeverity,		-- Severity
-			@ErrState,			-- State
-			@ErrProc,			-- First argument (string)
-			@ErrLine,			-- Second argument (int)
-			@ErrMsg);			-- First argument (string)
+		DECLARE @Msg NVARCHAR(4000) = FORMATMESSAGE(N'An error has occurred: %s Line number: %u', ERROR_MESSAGE(), ERROR_LINE());
+        THROW 50000, @Msg, 0;
 	END CATCH
 END
+
 GO

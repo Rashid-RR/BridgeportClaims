@@ -28,5 +28,7 @@ namespace BridgeportClaims.Data.Dtos
         public int EpisodeNoteCount { get; set; }
         [StringLength(500)]
         public string FileUrl { get; set; }
+        [Required]
+        public bool HasTree { get; set; }
     }
 }
