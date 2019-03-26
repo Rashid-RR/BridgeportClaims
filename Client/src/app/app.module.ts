@@ -142,7 +142,7 @@ import { MatSlideToggleModule } from '@angular/material';
   ],
   entryComponents: [
     UnindexedImageFileComponent,
-    CarrierModalComponent, AdjustorModalComponent, AttorneyModalComponent,DecisionTreeModalComponent, AppComponent
+    CarrierModalComponent, AdjustorModalComponent, AttorneyModalComponent, DecisionTreeModalComponent, AppComponent
   ],
   bootstrap: [AppComponent]
 })
