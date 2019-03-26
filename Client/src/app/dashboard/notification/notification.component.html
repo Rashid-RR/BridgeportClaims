@@ -32,7 +32,7 @@
             <td>{{n.messageText}}</td>
             <td>{{n.notificationType}}</td>
             <td>
-              <ng-container *ngIf="n.notificationTypeId != 2">
+              <ng-container *ngIf="n.notificationType != 'New Client Referral'">
                 <textarea class="form-control" name="letterName" formControlName="letterName" (focus)="submitted=false"
                   placeholder="Letter Name"></textarea>
                 <button type="button" class="btn  bg-darkRed btn-xs" (click)="saveNotification(n)"
@@ -43,7 +43,7 @@
                   <span class="fa fa-chevron-left"></span> Cancel
                 </button> 
               </ng-container>
-              <ng-container *ngIf="n.notificationTypeId == 2">
+              <ng-container *ngIf="n.notificationType == 'New Client Referral'">
                 <button type="button" class="btn btn-primary btn-xs" (click)="dismissNotification(n)"
                   id="dismissNotificationButton">
                   <span class="glyphicon glyphicon-trash"></span> Dismiss
@@ -55,8 +55,12 @@
             <td>{{n.messageText}}</td>
             <td>{{n.notificationType}}</td>
             <td>
-              <button type="button" class="btn  bg-darkRed btn-xs" (click)="update(n)">
+              <button type="button" *ngIf="n.notificationType != 'New Client Referral'" class="btn  bg-darkRed btn-xs" (click)="update(n)">
                 <span class="glyphicon glyphicon-edit"></span> Set Letter Name
+              </button>
+              <button *ngIf="n.notificationType == 'New Client Referral'" type="button" class="btn btn-primary btn-xs" (click)="dismissNotification(n)"
+                id="dismissNotificationButton">
+                <span class="glyphicon glyphicon-trash"></span> Dismiss
               </button>
             </td>
           </ng-container>

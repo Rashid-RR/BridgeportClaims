@@ -149,6 +149,7 @@ tr > td:nth-child(1) {
 tr > th:not(.resolved):nth-child(2),
 tr > td:not(.resolved):nth-child(2) {
   width: 3%;
+  padding: 8px 0px;
 }
 
 tr > th.resolved:nth-child(2),

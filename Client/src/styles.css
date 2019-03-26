@@ -659,7 +659,6 @@ Check Boxes Styles
 .commonCheckBox {
   position: relative;
   margin: -2px 5px;
-  left:45%;
 }
 
 .commonCheckBox label:first-of-type {

@@ -1492,7 +1492,7 @@ closeTreeWindows() {
       );
   }
   dismissNotification(id: number): Observable<any> {
-    return this.http.post(this.baseUrl + `notifications/dismiss/?notificationId=${id}`, {})
+    return this.http.post(this.baseUrl + `/notifications/dismiss/?notificationId=${id}`, {})
       .pipe(
         tap(_ => {
         }, error => {
