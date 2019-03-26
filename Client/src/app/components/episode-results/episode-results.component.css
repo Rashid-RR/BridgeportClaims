@@ -148,7 +148,7 @@ tr > td:nth-child(1) {
 
 tr > th:not(.resolved):nth-child(2),
 tr > td:not(.resolved):nth-child(2) {
-  width: 3%;
+  width: 36px;
   padding: 8px 0px;
 }
 
@@ -214,7 +214,7 @@ tr > td:nth-child(11) {
 /**Use this to adjust the width for the nineth column*/
 tr > th:not(.resolved):nth-child(12),
 tr > td:not(.resolved):nth-child(12) {
-  width: calc(12% - 52px);
+  width: calc(12% - 88px);
 }
 
 tr > th.resolved:nth-child(12),
@@ -233,3 +233,7 @@ tr > td.resolved:nth-child(13) {
   max-height: 25px;
 }
 
+
+.commonCheckBox label:first-of-type{
+  left:unset;
+}

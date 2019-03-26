@@ -85,7 +85,7 @@
               <span class="fa fa-list-ul"></span> Action
             </button>
           </td>
-          <td [class.resolved]="episodeService.data.resolved">
+          <td class="text-center" [class.resolved]="episodeService.data.resolved">
             <div class="commonCheckBox" style="text-align: center !important;">
               <input type="checkbox" name="check" value="None" [id]="'checkbox-h'+episode.episodeId" #inv
                      (change)="markAsResolved($event,episode)"
