@@ -124,7 +124,7 @@ export class ClaimEpisodeComponent implements OnInit {
   }
 
   markAsResolved($event, episode) {
-    this.dialogService.addDialog(ConfirmComponent, {
+    const disposable = this.dialogService.addDialog(ConfirmComponent, {
       title: 'Mark Episode as Resolved',
       message: 'Are you sure you want to resolve this episode?'
     })

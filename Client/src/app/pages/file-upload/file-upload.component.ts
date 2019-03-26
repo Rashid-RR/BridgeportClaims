@@ -87,7 +87,7 @@ export class FileUploadComponent implements OnInit, AfterViewChecked {
   }
 
   deleteFile(file: ImportFile) {
-    this.dialogService.addDialog(ConfirmComponent, {
+    const disposable = this.dialogService.addDialog(ConfirmComponent, {
       title: 'Delete File',
       message: 'Do you want to delete ' + file.fileName + '?'
     })
