@@ -24,7 +24,8 @@ AS
              , [t].[NodeName]
              , [t].[ParentTreeID]
         FROM   [dbo].[DecisionTree] AS [t]
-        WHERE  [t].[TreeID] = @LeafTreeID;
+        WHERE  [t].[TreeID] = @LeafTreeID
+			   AND t.IsDeleted = 0;
 
         WHILE @@ROWCOUNT > 0
             BEGIN
@@ -36,7 +37,8 @@ AS
                      , [t].[ParentTreeID]
                 FROM   [dbo].[DecisionTree] AS [t]
                 WHERE  @TreeNode.[GetAncestor](1) = [t].[TreeNode]
-					   AND [t].[TreeLevel] <> 0;
+					   AND [t].[TreeLevel] <> 0
+					   AND t.IsDeleted = 0;
 
                 SELECT @TreeNode = [t].[TreeNode]
                 FROM   [dbo].[DecisionTree] AS [t]

@@ -15,6 +15,10 @@ DATA_COMPRESSION = ROW
 GO
 ALTER TABLE [dbo].[DecisionTreeChoice] ADD CONSTRAINT [pkDecisionTreeChoice] PRIMARY KEY CLUSTERED  ([DecisionTreeChoiceID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = ROW) ON [PRIMARY]
 GO
+CREATE NONCLUSTERED INDEX [idxDecisionTreeChoiceClaimID] ON [dbo].[DecisionTreeChoice] ([ClaimID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
+GO
+CREATE NONCLUSTERED INDEX [idxDecisionTreeChoiceLeafTreeID] ON [dbo].[DecisionTreeChoice] ([LeafTreeID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
+GO
 ALTER TABLE [dbo].[DecisionTreeChoice] ADD CONSTRAINT [fkDecisionTreeChoiceClaimIDClaimClaimID] FOREIGN KEY ([ClaimID]) REFERENCES [dbo].[Claim] ([ClaimID])
 GO
 ALTER TABLE [dbo].[DecisionTreeChoice] ADD CONSTRAINT [fkDecisionTreeChoiceLeafTreeIDDecisionTreeTreeID] FOREIGN KEY ([LeafTreeID]) REFERENCES [dbo].[DecisionTree] ([TreeID])

@@ -21,6 +21,7 @@ AS
         SELECT  @RootNode = [dt].[TreeNode]
         FROM    [dbo].[DecisionTree] AS [dt]
         WHERE   [dt].[TreeID] = @ParentTreeID
+				AND dt.IsDeleted = 0;
 
         SELECT  [d].[TreePath]
                ,[d].[TreeLevel]
@@ -29,6 +30,7 @@ AS
                ,[d].[NodeDescription]
                ,[ParentTreeId] = [d].[ParentTreeID]
         FROM    [dbo].[DecisionTree] AS [d]
-        WHERE   [d].[TreeNode].[IsDescendantOf](@RootNode) = 1;
+        WHERE   [d].[TreeNode].[IsDescendantOf](@RootNode) = 1
+				AND d.IsDeleted = 0;
     END
 GO

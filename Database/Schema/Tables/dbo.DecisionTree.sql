@@ -8,6 +8,7 @@ CREATE TABLE [dbo].[DecisionTree]
 [NodeDescription] [varchar] (4000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [ParentTreeID] [int] NOT NULL,
 [ModifiedByUserID] [nvarchar] (128) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[IsDeleted] [bit] NOT NULL CONSTRAINT [dfDecisionTreeIsDeleted] DEFAULT ((0)),
 [CreatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfDecisionTreeCreatedOnUTC] DEFAULT (sysutcdatetime()),
 [UpdatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfDecisionTreeUpdatedOnUTC] DEFAULT (sysutcdatetime()),
 [DataVersion] [timestamp] NOT NULL

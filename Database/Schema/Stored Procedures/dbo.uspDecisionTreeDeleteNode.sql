@@ -9,7 +9,7 @@ GO
  Description:       Deletes a node, and all of it's children (if applicable)
  Example Execute:
 					DECLARE @I INT
-                    EXECUTE [dbo].[uspDecisionTreeDeleteNode] 40, @RowCount = @I OUTPUT;
+                    EXECUTE [dbo].[uspDecisionTreeDeleteNode] 3, @RowCount = @I OUTPUT;
  =============================================
 */
 CREATE PROC [dbo].[uspDecisionTreeDeleteNode] @TreeID INT, @RowCount INT OUTPUT
@@ -35,8 +35,22 @@ AS BEGIN
 		DECLARE @NodeToDelete HIERARCHYID;
         SELECT @NodeToDelete = [dt].[TreeNode] FROM [dbo].[DecisionTree] AS [dt] WHERE [dt].[TreeID] = @TreeID;
 
-		DELETE [dt] FROM [dbo].[DecisionTree] AS [dt]
+		DECLARE @NodesToDelete table (TreeNode hierarchyid NOT NULL PRIMARY KEY);
+		INSERT @NodesToDelete (TreeNode)
+		SELECT [dt].TreeNode FROM [dbo].[DecisionTree] AS [dt]
 		WHERE [dt].[TreeNode].IsDescendantOf(@NodeToDelete) = 1;
+
+		IF EXISTS (
+			SELECT * FROM dbo.DecisionTree AS DT INNER JOIN @NodesToDelete AS N ON N.TreeNode = DT.TreeNode
+			INNER JOIN dbo.DecisionTreeChoice AS DTC ON DTC.LeafTreeID = DT.TreeID
+		)
+			BEGIN
+				UPDATE DT SET DT.IsDeleted = 1 FROM dbo.DecisionTree AS DT INNER JOIN @NodesToDelete AS NTD ON NTD.TreeNode = DT.TreeNode
+			END
+		ELSE
+			BEGIN
+				DELETE DT FROM dbo.DecisionTree AS DT INNER JOIN @NodesToDelete AS NTD ON NTD.TreeNode = DT.TreeNode
+			END
 
 		SET @RowCount = @@ROWCOUNT;
 
@@ -45,17 +59,11 @@ AS BEGIN
     END TRY
     BEGIN CATCH     
         IF (@@TRANCOUNT > 0)
-            ROLLBACK;
-
-		SET @RowCount = 0;
-                
-        DECLARE @ErrSeverity INT = ERROR_SEVERITY()
-            , @ErrState INT = ERROR_STATE()
-            , @ErrProc NVARCHAR(4000) = ERROR_PROCEDURE()
-            , @ErrLine INT = ERROR_LINE()
-            , @ErrMsg NVARCHAR(4000) = ERROR_MESSAGE();
-
-        RAISERROR(N'%s (line %d): %s', @ErrSeverity, @ErrState, @ErrProc, @ErrLine, @ErrMsg);
+			ROLLBACK;	
+		DECLARE @ErrLine INT = ERROR_LINE()
+              , @ErrMsg NVARCHAR(4000) = ERROR_MESSAGE();
+		DECLARE @Msg NVARCHAR(2000) = FORMATMESSAGE(N'An error occurred: %s Line Number: %u', @ErrMsg, @ErrLine);
+		THROW 50000, @Msg, 0;
     END CATCH
 END
 GO
