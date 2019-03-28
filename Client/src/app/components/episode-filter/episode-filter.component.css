@@ -175,3 +175,22 @@ mat-form-field.mat-form-field {
 tbody td {
   text-align: center;
 }
+.f-width-1 {
+  width: 135px;
+}
+.f-width-2 {
+  width: 100px;
+}
+.f-width-3 {
+  width: 75px;
+}
+.f-margin-adjust-1{
+  margin-top: -6px !important;
+}
+.f-margin-adjust-2{
+  margin-top: -10px !important;
+}
+
+.search-container .form-group {
+  display: inline-block;
+}
