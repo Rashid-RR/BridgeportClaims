@@ -184,6 +184,9 @@ tbody td {
 .f-width-3 {
   width: 75px;
 }
+.f-width-4 {
+  width: 100px;
+}
 .f-margin-adjust-1{
   margin-top: -6px !important;
 }
@@ -193,4 +196,40 @@ tbody td {
 
 .search-container .form-group {
   display: inline-block;
+}
+.f-width-3 .fa {
+  margin-top: -4px;
+}
+
+
+
+@media (min-width:1024px){
+
+  .f-width-1 {
+    width: 115px;
+  }
+  .f-width-2 {
+    width: 115px;
+  }
+  .f-width-3 {
+    width: 85px;
+  }
+  .f-width-4 {
+    width: 100px;
+  }
+}
+
+@media (min-width: 1441px){
+  .f-width-1 {
+    width: 220px;
+  }
+  .f-width-2 {
+    width: 220px;
+  }
+  .f-width-3 {
+    width: 160px;
+  }
+  .f-width-4 {
+    width: 100px;
+  }
 }
