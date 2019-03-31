@@ -12,10 +12,9 @@ GO
 CREATE FUNCTION [dtme].[udfGetLocalDateTime] (@UTCDate DATETIME2)
 RETURNS DATETIME2
 WITH SCHEMABINDING
-AS
-    BEGIN
-        DECLARE @DateTime DATETIMEOFFSET;
-        SELECT @DateTime = @UTCDate AT TIME ZONE 'Mountain Standard Time';
-        RETURN CAST(DATEADD(MINUTE, DATEPART(tz, @DateTime), @DateTime) AS DATETIME2);
-    END;
+AS BEGIN
+	RETURN (
+		SELECT CAST(DATEADD(MINUTE, DATEPART(tz, @UTCDate AT TIME ZONE 'Mountain Standard Time'), @UTCDate AT TIME ZONE 'Mountain Standard Time') AS DATETIME2)
+	)
+END
 GO
