@@ -1286,3 +1286,6 @@ app-new-episode .close-button {
   margin-left: auto !important;
 }
 /* B4 Margin/Padding Classes Ends*/
+.datepicker {
+  z-index: 100000000 !important;
+}
