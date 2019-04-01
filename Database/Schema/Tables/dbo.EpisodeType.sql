@@ -14,17 +14,31 @@ WITH
 DATA_COMPRESSION = ROW
 )
 GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_NULLS ON
+GO
+CREATE TRIGGER [dbo].[utEpisodeTypeSortOrder] ON [dbo].[EpisodeType] FOR INSERT, UPDATE, DELETE
+AS BEGIN
+	SET NOCOUNT ON;
+	WITH CTE
+	AS (
+		SELECT ET.EpisodeTypeID
+			  ,ET.TypeName
+			  ,ET.SortOrder
+			  ,Sort = Row_Number() OVER (ORDER BY ET.TypeName ASC) + 1
+		FROM   dbo.EpisodeType AS ET
+		WHERE  ET.SortOrder <> 1
+	)
+	UPDATE ET
+	SET    ET.SortOrder = C.Sort
+	FROM   dbo.EpisodeType AS ET
+		   INNER JOIN CTE AS C ON C.EpisodeTypeID = ET.EpisodeTypeID;
+END
+GO
 ALTER TABLE [dbo].[EpisodeType] ADD CONSTRAINT [pkEpisodeType] PRIMARY KEY CLUSTERED  ([EpisodeTypeID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = ROW) ON [PRIMARY]
 GO
 ALTER TABLE [dbo].[EpisodeType] ADD CONSTRAINT [idxUqEpisodeTypeCode] UNIQUE NONCLUSTERED  ([Code]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
 ALTER TABLE [dbo].[EpisodeType] ADD CONSTRAINT [idxUqEpisodeTypeSortOrder] UNIQUE NONCLUSTERED  ([SortOrder]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
-GO
-GRANT DELETE ON  [dbo].[EpisodeType] TO [acondie]
-GO
-GRANT INSERT ON  [dbo].[EpisodeType] TO [acondie]
-GO
-GRANT SELECT ON  [dbo].[EpisodeType] TO [acondie]
-GO
-GRANT UPDATE ON  [dbo].[EpisodeType] TO [acondie]
 GO
