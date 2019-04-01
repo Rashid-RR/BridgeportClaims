@@ -162,9 +162,14 @@ label.check-label{
       margin-left:2px;
     }
     .commonCheckBox label:first-of-type {
-      position: relative;
+      position: absolute;
       margin-right: 1px;
-      top:0px
+
+      top:0px;
+      z-index: 100000;
+    }
+    .commonCheckBox label:first-of-type ~ label{
+      padding-left: 18px;
     }
 
 mat-form-field.mat-form-field {
