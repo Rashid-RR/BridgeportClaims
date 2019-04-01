@@ -103,8 +103,6 @@ CREATE NONCLUSTERED INDEX [idxClaimCreatedOnUTCUpdatedOnUTC] ON [dbo].[Claim] ([
 GO
 CREATE NONCLUSTERED INDEX [idxClaimPatientIDPatientPatientID] ON [dbo].[Claim] ([PatientID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
-CREATE NONCLUSTERED INDEX [idxClaimPayorIDIncludes] ON [dbo].[Claim] ([PayorID]) INCLUDE ([ClaimID], [ClaimNumber]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
-GO
 CREATE NONCLUSTERED INDEX [idxClaimPayorIDIncludeClaimNumberPatientID] ON [dbo].[Claim] ([PayorID]) INCLUDE ([ClaimNumber], [PatientID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
 ALTER TABLE [dbo].[Claim] ADD CONSTRAINT [fkClaimAdjustorIDAdjustorAdjustorID] FOREIGN KEY ([AdjustorID]) REFERENCES [dbo].[Adjustor] ([AdjustorID])

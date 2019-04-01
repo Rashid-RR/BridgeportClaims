@@ -31,4 +31,8 @@ WHERE
    OBJECTPROPERTY(iu.[object_id], 'IsUserTable') = 1
    AND iu.database_id = DB_ID()
    AND [i].[is_primary_key] = 0
+   AND i.is_unique = 0
+   AND iu.user_seeks = 0
+   AND iu.user_scans = 0
+   AND iu.user_lookups = 0
 GO

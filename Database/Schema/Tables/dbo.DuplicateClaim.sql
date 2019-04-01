@@ -14,8 +14,6 @@ DATA_COMPRESSION = ROW
 GO
 ALTER TABLE [dbo].[DuplicateClaim] ADD CONSTRAINT [pkDuplicateClaim] PRIMARY KEY CLUSTERED  ([DuplicateClaimID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = ROW) ON [PRIMARY]
 GO
-CREATE NONCLUSTERED INDEX [idxDuplicateClaimCreatedByUserID] ON [dbo].[DuplicateClaim] ([CreatedByUserID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
-GO
 CREATE NONCLUSTERED INDEX [idxDuplicateClaimReplacementClaimID] ON [dbo].[DuplicateClaim] ([ReplacementClaimID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
 ALTER TABLE [dbo].[DuplicateClaim] ADD CONSTRAINT [fkDuplicateClaimCreatedByUserIDAspNetUsersID] FOREIGN KEY ([CreatedByUserID]) REFERENCES [dbo].[AspNetUsers] ([ID])

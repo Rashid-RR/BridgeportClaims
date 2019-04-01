@@ -15,8 +15,6 @@ DATA_COMPRESSION = ROW
 GO
 ALTER TABLE [dbo].[CollectionAssignment] ADD CONSTRAINT [pkCollectionAssignment] PRIMARY KEY CLUSTERED  ([UserID], [PayorID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = ROW) ON [PRIMARY]
 GO
-CREATE NONCLUSTERED INDEX [idxCollectionAssignmentModifiedByUserIDIncludes] ON [dbo].[CollectionAssignment] ([ModifiedByUserID]) INCLUDE ([CreatedOnUTC], [PayorID], [StateID], [UpdatedOnUTC], [UserID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
-GO
 CREATE NONCLUSTERED INDEX [idxCollectionAssignmentStateIDIncludes] ON [dbo].[CollectionAssignment] ([StateID]) INCLUDE ([CreatedOnUTC], [ModifiedByUserID], [PayorID], [UpdatedOnUTC], [UserID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
 ALTER TABLE [dbo].[CollectionAssignment] ADD CONSTRAINT [fkCollectionAssignmentModifiedByUserIDAspNetUsersID] FOREIGN KEY ([ModifiedByUserID]) REFERENCES [dbo].[AspNetUsers] ([ID])

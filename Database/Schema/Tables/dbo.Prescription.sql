@@ -46,6 +46,7 @@ CREATE TABLE [dbo].[Prescription]
 [BilledAmountOriginal] [money] NULL,
 [PayableAmountOriginal] [money] NULL,
 [ModifiedByUserID] [nvarchar] (128) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[ImportTypeID] [tinyint] NOT NULL CONSTRAINT [dfPrescriptionImportTypeID] DEFAULT ((1)),
 [CreatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfPrescriptionCreatedOnUTC] DEFAULT (sysutcdatetime()),
 [UpdatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfPrescriptionUpdatedOnUTC] DEFAULT (sysutcdatetime()),
 [DataVersion] [timestamp] NOT NULL
@@ -80,6 +81,8 @@ GO
 CREATE NONCLUSTERED INDEX [idxPrescriptionUpdatedOnUTC] ON [dbo].[Prescription] ([UpdatedOnUTC]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
 ALTER TABLE [dbo].[Prescription] ADD CONSTRAINT [fkPrescriptionClaimIDClaimClaimID] FOREIGN KEY ([ClaimID]) REFERENCES [dbo].[Claim] ([ClaimID])
+GO
+ALTER TABLE [dbo].[Prescription] ADD CONSTRAINT [fkPrescriptionImportTypeIDImportTypeImportTypeID] FOREIGN KEY ([ImportTypeID]) REFERENCES [etl].[ImportType] ([ImportTypeID])
 GO
 ALTER TABLE [dbo].[Prescription] ADD CONSTRAINT [fkPrescriptionInvoiceIDInvoiceInvoiceID] FOREIGN KEY ([InvoiceID]) REFERENCES [dbo].[Invoice] ([InvoiceID])
 GO
