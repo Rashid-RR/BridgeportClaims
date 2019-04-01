@@ -73,20 +73,20 @@
                   </div>
               </div>
           </div>
-          <div class="form-group p-0 m-0">
+          <div class="form-group p-0 m-0 f-width-5">
               <label >&nbsp;</label>
               <div class="col-md-12 p-0 m-0 f-margin-adjust-2">
-                <button mat-raised-button class="p-0 m-0 mr-1 f-width-3 pt-1 btn bg-darkRed" type="button" (click)="search()" id="claimSearchBtn">
+                <button mat-raised-button class="p-0 m-0 mr-1 f-width-3 pt-1 btn bg-darkRed" style="width: 15%" type="button" (click)="search()" id="claimSearchBtn">
                     <i class="fa fa-search" aria-hidden="true"></i> Search</button>
-                <button mat-raised-button class="p-0 m-0 mr-1 f-width-3 pt-1 btn bg-darkblue" type="button" (click)="reset()">
+                <button mat-raised-button class="p-0 m-0 mr-1 f-width-3 pt-1 btn bg-darkblue" style="width: 15%" type="button" (click)="reset()">
                     <i class="fa fa-eraser" aria-hidden="true"></i> Clear</button>
-                <button mat-raised-button class="color-palette p-0 m-0 mr-1 f-width-3 pt-1 btn bg-DarkGreen btn-small" type="button" (click)="refresh()">
+                <button mat-raised-button class="color-palette p-0 m-0 mr-1 f-width-3 pt-1 btn bg-DarkGreen btn-small" style="width: 15%" type="button" (click)="refresh()">
                     <i class="fa fa-refresh" aria-hidden="true"></i> Refresh</button>
-                <button mat-raised-button class="p-0 m-0 mr-1 f-width-2 btn bg-darkRed pt-1" type="button" (click)="episode()" id="claimSearchBtn">
+                <button mat-raised-button class="p-0 m-0 mr-1 f-width-2 btn bg-darkRed pt-1" style="width: 24%" type="button" (click)="episode()" id="claimSearchBtn">
                     <i class="fa fa-search" aria-hidden="true"></i> Add Episode</button>
-                <div style="display: inline-block;" >
+                <div style="display: inline-block;" class="f-width-6" >
                   <img type="button" [src]="over[0] ? 'assets/img/decision-tree-hover.png' : 'assets/img/decision-tree.png'"
-                    (mouseover)="over[0] = true" (mouseout)="over[0] = false" height="55px"
+                    (mouseover)="over[0] = true" (mouseout)="over[0] = false"
                     style="cursor: pointer;margin-top: 0px;" title="Decision Trees" (click)="showDecisionTreeWindow()" />
                 </div>
               </div>
