@@ -72,7 +72,7 @@ namespace BridgeportClaims.Excel.Factories
                 excelWorksheet.Column(colCount).Style.Numberformat.Format = CurrencyFormat;
                 excelWorksheet.Column(colCount).Style.HorizontalAlignment = ExcelHorizontalAlignment.Right;
                 excelWorksheet.Column(colCount).AutoFit();
-                excelWorksheet.Cells[rowCount + 2, colCount - 1].Value = "Total Outstanding";
+                excelWorksheet.Cells[rowCount + 2, colCount - 1].Value = "Total";
                 excelWorksheet.Cells[rowCount + 2, colCount - 1].Style.Font.Bold = true;
                 excelWorksheet.Cells[rowCount + 2, colCount].Formula = $"=SUM(I6:I{rowCount})";
                 excelWorksheet.Cells[rowCount + 2, colCount].Calculate();
