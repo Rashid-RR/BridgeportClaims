@@ -72,16 +72,19 @@ namespace BridgeportClaims.Excel.Factories
                 excelWorksheet.Column(colCount).Style.Numberformat.Format = CurrencyFormat;
                 excelWorksheet.Column(colCount).Style.HorizontalAlignment = ExcelHorizontalAlignment.Right;
                 excelWorksheet.Column(colCount).AutoFit();
-                excelWorksheet.Cells[rowCount + 2, colCount - 1].Value = "Total";
-                excelWorksheet.Cells[rowCount + 2, colCount - 1].Style.Font.Bold = true;
-                excelWorksheet.Cells[rowCount + 2, colCount].Formula = $"=SUM(I6:I{rowCount})";
-                excelWorksheet.Cells[rowCount + 2, colCount].Calculate();
-                excelWorksheet.Cells[rowCount + 2, colCount].Style.Font.Bold = true;
-                excelWorksheet.Cells[rowCount + 2, colCount].Style.Border.Top.Style = ExcelBorderStyle.Medium;
-                excelWorksheet.Cells[rowCount + 2, colCount].Style.Border.Bottom.Style = ExcelBorderStyle.Double; 
-                excelWorksheet.Cells[rowCount + 2, colCount].Style.Border.Bottom.Style = ExcelBorderStyle.Thick;
-                excelWorksheet.Cells[rowCount + 2, colCount].Style.Border.Top.Color.SetColor(Color.Black);
-                excelWorksheet.Cells[rowCount + 2, colCount].Style.Border.Bottom.Color.SetColor(Color.Black);
+                var totalCell = excelWorksheet.Cells[rowCount + 2, colCount - 3];
+                totalCell.Value = "Total:";
+                totalCell.Style.Font.Bold = true;
+                totalCell.Style.HorizontalAlignment = ExcelHorizontalAlignment.Right;
+                var invAmtTotalCell = excelWorksheet.Cells[rowCount + 2, colCount - 2];
+                invAmtTotalCell.Formula = $"=SUM(G6:G{rowCount})";
+                AddStyleToTotalCell(invAmtTotalCell);
+                var amtPaidTotalCell = excelWorksheet.Cells[rowCount + 2, colCount - 1];
+                amtPaidTotalCell.Formula = $"=SUM(H6:H{rowCount})";
+                AddStyleToTotalCell(amtPaidTotalCell);
+                var outstandingTotalCell = excelWorksheet.Cells[rowCount + 2, colCount];
+                outstandingTotalCell.Formula = $"=SUM(I6:I{rowCount})";
+                AddStyleToTotalCell(outstandingTotalCell);
                 excelWorksheet.Cells[1, 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
                 excelWorksheet.Cells[2, 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
                 excelWorksheet.Cells[3, 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
@@ -102,5 +105,16 @@ namespace BridgeportClaims.Excel.Factories
                     return fullFilePath;
                 });
             });
+
+        private static void AddStyleToTotalCell(ExcelRangeBase cell)
+        {
+            cell.Calculate();
+            cell.Style.Font.Bold = true;
+            cell.Style.Border.Top.Style = ExcelBorderStyle.Medium;
+            cell.Style.Border.Bottom.Style = ExcelBorderStyle.Double;
+            cell.Style.Border.Bottom.Style = ExcelBorderStyle.Thick;
+            cell.Style.Border.Top.Color.SetColor(Color.Black);
+            cell.Style.Border.Bottom.Color.SetColor(Color.Black);
+        }
     }
 }

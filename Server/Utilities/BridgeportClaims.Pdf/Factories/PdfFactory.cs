@@ -28,7 +28,7 @@ namespace BridgeportClaims.Pdf.Factories
             return fullFilePath;
         }
 
-        public bool MergePdfs(IEnumerable<Uri> fileUrls, string targetPdf)
+        public bool MergePdf(IEnumerable<Uri> fileUrls, string targetPdf)
         {
             var merged = true;
             DisposableService.Using(() => new FileStream(targetPdf, FileMode.Create), stream =>
@@ -40,7 +40,10 @@ namespace BridgeportClaims.Pdf.Factories
                         PdfReader reader = null;
                         try
                         {
-                            doc.Open();
+                            if (!doc.IsOpen())
+                            {
+                                doc.Open();
+                            }
                             fileUrls.ForEach(url =>
                             {
                                 reader = new PdfReader(url);
@@ -77,11 +80,11 @@ namespace BridgeportClaims.Pdf.Factories
                         doc.NewPage();
 
                         // Report Header.
-                        var btntHead = BaseFont.CreateFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
-                        var fHead = new Font(btntHead, DefaultFontSize, DefaultFontStyle, BaseColor.BLACK);
-                        var bParagrapsh = new Paragraph {Alignment = Element.ALIGN_LEFT, IndentationLeft = 80, PaddingTop = -100};
-                        bParagrapsh.Add(new Chunk(header.ToUpper(), fHead));
-                        doc.Add(bParagrapsh);
+                        var ebtnHead = BaseFont.CreateFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
+                        var fHead = new Font(ebtnHead, DefaultFontSize, DefaultFontStyle, BaseColor.BLACK);
+                        var bParagraphs = new Paragraph {Alignment = Element.ALIGN_LEFT, IndentationLeft = 80, PaddingTop = -100};
+                        bParagraphs.Add(new Chunk(header.ToUpper(), fHead));
+                        doc.Add(bParagraphs);
 
 
                         // Author
@@ -94,7 +97,7 @@ namespace BridgeportClaims.Pdf.Factories
                         aParagraph.Add(new Chunk($"\nDOB: {dateOfBirth:M/d/yyyy}", fntAuthor));
                         doc.Add(aParagraph);
 
-                        // Add a line seperation
+                        // Add a line separation
                         var p = new Paragraph(new Chunk(new LineSeparator(0.0F, 00.0F, BaseColor.BLACK, Element.ALIGN_CENTER, Element.ALIGN_CENTER))); 
                         doc.Add(p);
 
@@ -121,7 +124,10 @@ namespace BridgeportClaims.Pdf.Factories
                         {
                             for (var j = 0; j < dt.Columns.Count; j++)
                             {
-                                if (dt.Rows[i][j].ToString().IsNullOrWhiteSpace()) continue;
+                                if (dt.Rows[i][j].ToString().IsNullOrWhiteSpace())
+                                {
+                                    continue;
+                                }
                                 var row = dt.Rows[i][j].ToString();
                                 table.AddCell(row);
                             }

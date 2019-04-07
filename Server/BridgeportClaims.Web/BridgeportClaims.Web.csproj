@@ -414,6 +414,7 @@
     <Compile Include="Controllers\FileUploadController.cs" />
     <Compile Include="Controllers\HistoryController.cs" />
     <Compile Include="Controllers\ImagesController.cs" />
+    <Compile Include="Controllers\InvoicesController.cs" />
     <Compile Include="Controllers\KpiController.cs" />
     <Compile Include="Controllers\LakerAutomationController.cs" />
     <Compile Include="Controllers\LettersController.cs" />

@@ -125,7 +125,7 @@ namespace BridgeportClaims.Web.Controllers
                 var fileUrls = _prescriptionsDataProvider.Value.GetFileUrlsFromPrescriptionIds(dto);
                 var fileName = "Invoices_" + $"{DateTime.Now:yyyy-MM-dd_hh-mm-ss-tt}.pdf";
                 var targetPdf = Path.Combine(Path.GetTempPath(), fileName);
-                if (_pdfFactory.Value.MergePdfs(fileUrls.ForEach(x => x.ToAbsoluteUri()), targetPdf))
+                if (_pdfFactory.Value.MergePdf(fileUrls.ForEach(x => x.ToAbsoluteUri()), targetPdf))
                 {
                     return new DisplayFileResult(targetPdf, fileName, "application/pdf");
                 }
