@@ -16,85 +16,34 @@ namespace BridgeportClaims.Pdf.InvoiceProviders
 
         public void ProcessInvoice(InvoicePdfDto data)
         {
-            DisposableService.Using(
-                () => Assembly.GetExecutingAssembly()
-                    .GetManifestResourceStream("BridgeportClaims.Pdf.EmbeddedResources.Invoice.pdf"),
-                resourceStream =>
+            DisposableService.Using(() => Assembly.GetExecutingAssembly()
+                    .GetManifestResourceStream("BridgeportClaims.Pdf.EmbeddedResources.Invoice.pdf"), resourceStream =>
                 {
                     var reader = new PdfReader(resourceStream.ToBytes());
                     var file = _outputFile;
-                    // Select 1 page from the original document
                     reader.SelectPages("1");
-                    // Create PdfStamper object to copy the contents of the reader into the new PDF.
-
                     var stamper = new PdfStamper(reader, new FileStream(file, FileMode.Create));
-                    // PdfContentByte from stamper to add content to the pages over the original content
                     var contentByte = stamper.GetOverContent(1);
-                    //add content to the page using ColumnText
-                    var baseFont = BaseFont.CreateFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
-                    var font = new Font(baseFont);
-                    var smallerFont = new Font(baseFont, 8, DefaultFontStyle, BaseColor.BLACK);
-                    var phrase = new Phrase(new Chunk($"\nDOB: {data.DateFilledDay}"));
-                    phrase.Add(new Chunk("bar"));
-                    ColumnText.ShowTextAligned(contentByte, Element.ALIGN_LEFT, new Phrase("MANOR PHARMACY", font), 300, 750.50f, 0);
-                    ColumnText.ShowTextAligned(contentByte, Element.ALIGN_LEFT, new Phrase("MANOR PHARMACY", smallerFont), 300, 740, 0);
-                    // PdfContentByte from stamper to add content to the pages under the original content
-                    //add the image under the original content
+                    StampText(data.BillToName, 341, 770, contentByte);
+                    StampText(data.BillToAddress1, 341, 759.75f, contentByte);
+                    if (data.BillToAddress2.IsNotNullOrWhiteSpace())
+                    {
+                        StampText(data.BillToAddress2, 341, 749.5f, contentByte);
+                        StampText($"{data.BillToCity}, {data.BillToStateCode} {data.BillToPostalCode}", 341, 739.25f, contentByte);
+                    }
+                    else
+                    {
+                        StampText($"{data.BillToCity}, {data.BillToStateCode} {data.BillToPostalCode}", 341, 749.5f, contentByte);
+                    }
                     stamper.Close();
                 });
         }
 
-        public void ProcessInvoice(InvoicePdfDto data, int i)
+        private static void StampText(string text, float x, float y, PdfContentByte contentByte)
         {
-            DisposableService.Using(
-                () => Assembly.GetExecutingAssembly()
-                    .GetManifestResourceStream("BridgeportClaims.Pdf.EmbeddedResources.Invoice.pdf"), resourceStream =>
-                {
-                    if (null != resourceStream)
-                    {
-                        DisposableService.Using(() => new PdfReader(resourceStream.ToBytes()), reader =>
-                        {
-                            DisposableService.Using(() => new Document(reader.GetPageSizeWithRotation(1)), doc =>
-                            {
-                                DisposableService.Using(() => new FileStream(_outputFile, FileMode.Create, FileAccess.ReadWrite), fs =>
-                                    {
-                                        DisposableService.Using(() => PdfWriter.GetInstance(doc, fs), writer =>
-                                        {
-                                            if (!doc.IsOpen())
-                                            {
-                                                doc.Open();
-                                            }
-                                            var baseFont = BaseFont.CreateFont(BaseFont.HELVETICA_BOLD, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
-                                            doc.NewPage();
-                                            var cb = writer.DirectContent;
-                                            cb.BeginText();
-                                            try
-                                            {
-                                                cb.SetFontAndSize(baseFont, 12);
-                                                const string line = "Hello, Fucker";
-                                                cb.ShowTextAligned(PdfContentByte.ALIGN_LEFT, line, 200, 200, 0);
-                                            }
-                                            finally
-                                            {
-                                                cb.EndText();
-                                            }
-                                            var pageSize = doc.PageSize;
-                                            var template = cb.CreateTemplate(pageSize.Width, pageSize.Height);
-                                            cb.AddTemplate(template, 0, 0);
-                                            if (doc.IsOpen())
-                                            {
-                                                doc.Close();
-                                            }
-                                            reader.Close();
-                                            fs.Close();
-                                            writer.Close();
-                                            resourceStream.Close();
-                                        });
-                                    });
-                            });
-                        });
-                    }
-                });
+            var baseFont = BaseFont.CreateFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
+            var font = new Font(baseFont, 9, DefaultFontStyle, BaseColor.BLACK);
+            ColumnText.ShowTextAligned(contentByte, Element.ALIGN_LEFT, new Phrase(text, font), x, y, 0);
         }
     }
 }
