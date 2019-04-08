@@ -543,9 +543,21 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
     }
   }
 
+  downloadInvoice(): void {
+    this.claimManager.loading = true;
+    this.http.downloadInvoice().subscribe((result) => {
+      this.claimManager.loading = false;
+      this.ar.downloadFile(result);
+    }, err => {
+      this.toast.error(err.statusText);
+      this.claimManager.loading = false;
+      try {
+        const error = err.error;
+      } catch (e) { }
+    });
+  }
 
-
-  exportDenial(type) {
+  exportDenial(type): void {
     if (!this.claimManager.selectedClaim) {
       this.toast.warning('No claim loaded.');
     } else {

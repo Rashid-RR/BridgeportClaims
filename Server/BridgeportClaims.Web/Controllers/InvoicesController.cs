@@ -1,8 +1,10 @@
 ﻿using System;
+using System.IO;
 using System.Net;
 using System.Web.Http;
 using BridgeportClaims.Data.DataProviders.InvoicePdfDocuments;
 using BridgeportClaims.Pdf.InvoiceProviders;
+using BridgeportClaims.Web.CustomActionResults;
 using NLog;
 
 namespace BridgeportClaims.Web.Controllers
@@ -22,15 +24,19 @@ namespace BridgeportClaims.Web.Controllers
             _invoicePdfDocumentProvider = invoicePdfDocumentProvider;
         }
 
-        [HttpGet]
-        [AllowAnonymous]
+        [HttpPost]
         [Route("process-invoice")]
         public IHttpActionResult ProcessInvoice()
         {
             try
             {
                 var data = _invoicePdfDocumentProvider.Value.GetInvoicePdfDocument();
-                _invoiceProvider.Value.ProcessInvoice(data);
+                var fileName = "Invoice_" + $"{DateTime.Now:yyyy-MM-dd_hh-mm-ss-tt}.pdf";
+                var targetPath = Path.Combine(Path.GetTempPath(), fileName);
+                if (_invoiceProvider.Value.ProcessInvoice(data, targetPath))
+                {
+                    return new FileResult(targetPath, fileName, "application/pdf");
+                }
                 return Ok();
             }
             catch (Exception ex)

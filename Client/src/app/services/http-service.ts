@@ -1445,6 +1445,18 @@ closeTreeWindows() {
       );
   }
 
+  downloadInvoice(): Observable<HttpResponse<Blob>> {
+    return this.http.post(this.baseUrl + '/invoices/process-invoice', {},  {
+      observe: 'response',
+      responseType: 'blob'
+    }).pipe(
+      tap(_ => {
+      }, error => {
+        this.handleResponseError(error);
+      })
+    );
+  }
+
   downloadDrLetter(data: any): Observable<HttpResponse<Blob>> {
     return this.http.post(this.baseUrl + '/letters/download-dr-letter', data, {
       observe: 'response',

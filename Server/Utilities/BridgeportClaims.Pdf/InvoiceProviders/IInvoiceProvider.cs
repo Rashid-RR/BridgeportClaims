@@ -4,6 +4,6 @@ namespace BridgeportClaims.Pdf.InvoiceProviders
 {
     public interface IInvoiceProvider
     {
-        void ProcessInvoice(InvoicePdfDto data);
+        bool ProcessInvoice(InvoicePdfDto data, string targetPath);
     }
 }
