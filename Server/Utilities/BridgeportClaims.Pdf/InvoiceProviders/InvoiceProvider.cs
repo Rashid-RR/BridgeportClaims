@@ -11,11 +11,12 @@ namespace BridgeportClaims.Pdf.InvoiceProviders
     public class InvoiceProvider : IInvoiceProvider
     {
         private const int DefaultFontStyle = 0;
+        private static readonly BaseFont BaseFont = BaseFont.CreateFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
+        private static readonly Font Font = new Font(BaseFont, 9, DefaultFontStyle, BaseColor.BLACK);
 
         public bool ProcessInvoice(InvoicePdfDto data, string targetPath)
         {
             var success = true;
-            
             DisposableService.Using(() => Assembly.GetExecutingAssembly()
                     .GetManifestResourceStream("BridgeportClaims.Pdf.EmbeddedResources.Invoice.pdf"), resourceStream =>
                 {
@@ -53,9 +54,7 @@ namespace BridgeportClaims.Pdf.InvoiceProviders
 
         private static void StampText(string text, float x, float y, PdfContentByte contentByte)
         {
-            var baseFont = BaseFont.CreateFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
-            var font = new Font(baseFont, 9, DefaultFontStyle, BaseColor.BLACK);
-            ColumnText.ShowTextAligned(contentByte, Element.ALIGN_LEFT, new Phrase(text, font), x, y, 0);
+            ColumnText.ShowTextAligned(contentByte, Element.ALIGN_LEFT, new Phrase(text, Font), x, y, 0);
         }
     }
 }
