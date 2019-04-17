@@ -1,7 +1,7 @@
 import { Component, ElementRef, Renderer2, AfterViewInit } from '@angular/core';
 import { DialogComponent, DialogService } from 'ng2-bootstrap-modal';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Subject } from 'rxjs';
+declare var $: any;
 export interface ConfirmModel {
   title: string;
   buttonText?: string;
@@ -17,7 +17,6 @@ export interface ConfirmModel {
   template: `<div class="modal-dialog">
   <div class="modal-content">
      <div class="modal-header">
-       
        <button mat-raised-button color="warn" class="btn close" (click)="close()"><span style="font-size:41px">&times;</span></button>
        <h4 class="modal-title">{{title || 'Confirm'}}</h4>
      </div>
@@ -48,6 +47,7 @@ export class ConfirmComponent extends DialogComponent<ConfirmModel, boolean> imp
     if (this.listener) {
       this.buttonDisabled = true;
       this.renderer.setStyle(this.elRef.nativeElement.parentElement, 'height', 'fit-content');
+      $('.modal').css({'background': 'rgba(0,0,0,0)'});
       this.listener.subscribe(r => {
         this.prescriptions = r.prescriptions;
         this.buttonDisabled = r.buttonDisabled;
