@@ -27,12 +27,12 @@ namespace BridgeportClaims.Web.Controllers
 
         [HttpPost]
         [Route("update-claim-attorney-managed")]
-        public IHttpActionResult UpdateClaimAttorneyManaged(int claimId)
+        public IHttpActionResult UpdateClaimAttorneyManaged(int claimId, bool isAttorneyManaged)
         {
             try
             {
                 var userId = User.Identity.GetUserId();
-                _claimsEditProvider.Value.UpdateClaimAttorneyManaged(claimId, userId);
+                _claimsEditProvider.Value.UpdateClaimAttorneyManaged(claimId, isAttorneyManaged, userId);
                 return Ok(new { message = "Attorney managed was updated successfully." });
             }
             catch (Exception ex)

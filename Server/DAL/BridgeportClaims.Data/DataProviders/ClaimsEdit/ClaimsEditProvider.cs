@@ -13,7 +13,7 @@ namespace BridgeportClaims.Data.DataProviders.ClaimsEdit
         private const int DefaultInt = -1;
         private const string DefaultString = "NULL";
 
-        public void UpdateClaimAttorneyManaged(int claimId, string modifiedByUserId) => DisposableService.Using(() =>
+        public void UpdateClaimAttorneyManaged(int claimId, bool isAttorneyManaged, string modifiedByUserId) => DisposableService.Using(() =>
         new SqlConnection(cs.GetDbConnStr()), conn =>
         {
             const string sp = "[dbo].[uspClaimUpdateIsAttorneyManagedDate]";
@@ -24,6 +24,7 @@ namespace BridgeportClaims.Data.DataProviders.ClaimsEdit
             var ps = new DynamicParameters();
             ps.Add("@ClaimID", claimId, DbType.Int32);
             ps.Add("@ModifiedByUserID", modifiedByUserId, DbType.String, size: 128);
+            ps.Add("@IsAttorneyManaged", isAttorneyManaged, DbType.Boolean);
             conn.Execute(sp, ps, commandType: CommandType.StoredProcedure);
         });
 
