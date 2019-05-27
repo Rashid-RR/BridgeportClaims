@@ -13,6 +13,20 @@ namespace BridgeportClaims.Data.DataProviders.ClaimsEdit
         private const int DefaultInt = -1;
         private const string DefaultString = "NULL";
 
+        public void UpdateClaimAttorneyManaged(int claimId, string modifiedByUserId) => DisposableService.Using(() =>
+        new SqlConnection(cs.GetDbConnStr()), conn =>
+        {
+            const string sp = "[dbo].[uspClaimUpdateIsAttorneyManagedDate]";
+            if (conn.State != ConnectionState.Open)
+            {
+                conn.Open();
+            }
+            var ps = new DynamicParameters();
+            ps.Add("@ClaimID", claimId, DbType.Int32);
+            ps.Add("@ModifiedByUserID", modifiedByUserId, DbType.String, size: 128);
+            conn.Execute(sp, ps, commandType: CommandType.StoredProcedure);
+        });
+
         public void EditClaim(int claimId, string modifiedByUserId, DateTime? ofBirth, int genderId, int payorId,
             int? adjustorId, int? attorneyId,
             DateTime? ofInjury, string address1, string address2, string city, int? stateId, string postalCode,

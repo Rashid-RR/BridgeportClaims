@@ -19,11 +19,28 @@ namespace BridgeportClaims.Web.Controllers
 		private readonly Lazy<IClaimsDataProvider> _claimsDataProvider;
 		private readonly Lazy<IClaimsEditProvider> _claimsEditProvider;
 
-		public ClaimsController(Lazy<IClaimsDataProvider> claimsDataProvider, Lazy<IClaimsEditProvider> claimsEditProvider)
+        public ClaimsController(Lazy<IClaimsDataProvider> claimsDataProvider, Lazy<IClaimsEditProvider> claimsEditProvider)
 		{
 			_claimsDataProvider = claimsDataProvider;
 			_claimsEditProvider = claimsEditProvider;
 		}
+
+        [HttpPost]
+        [Route("update-claim-attorney-managed")]
+        public IHttpActionResult UpdateClaimAttorneyManaged(int claimId)
+        {
+            try
+            {
+                var userId = User.Identity.GetUserId();
+                _claimsEditProvider.Value.UpdateClaimAttorneyManaged(claimId, userId);
+                return Ok(new { message = "Attorney managed was updated successfully." });
+            }
+            catch (Exception ex)
+            {
+                Logger.Value.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+            }
+        }
 
 	    [HttpPost]
 	    [Route("outstanding")]
