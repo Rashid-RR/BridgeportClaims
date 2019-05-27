@@ -9,6 +9,7 @@
   <IsAzure>False</IsAzure>
   <ScriptFolderType>Default</ScriptFolderType>
   <MaxDataFileSize>10485760</MaxDataFileSize>
+  <ProjectGuid>f849213e-ddde-40fc-b87d-e9731936a55e</ProjectGuid>
   <WriteToFileOptions>
     <Prefixes>
       <None>
@@ -77,8 +78,8 @@
     <DataFile>dbo.UsState_Data.sql</DataFile>
     <DataFile>dtme.Calendar_Data.sql</DataFile>
     <DataFile>dtme.TimeZone_Data.sql</DataFile>
+    <DataFile>etl.ImportType_Data.sql</DataFile>
     <DataFile>util.ExcelColumn_Data.sql</DataFile>
     <DataFile>util.ImportFileType_Data.sql</DataFile>
-    <DataFile>etl.ImportType_Data.sql</DataFile>
   </DataFileSet>
 </DatabaseInformation>

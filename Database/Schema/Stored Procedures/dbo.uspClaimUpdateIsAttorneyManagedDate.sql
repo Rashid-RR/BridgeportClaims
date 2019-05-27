@@ -12,7 +12,12 @@ GO
                     EXECUTE [dbo].[uspClaimUpdateIsAttorneyManagedDate] 7, @ID;
  =============================================
 */
-CREATE PROCEDURE [dbo].[uspClaimUpdateIsAttorneyManagedDate] @ClaimID INT, @ModifiedByUserID NVARCHAR(128)
+CREATE PROCEDURE [dbo].[uspClaimUpdateIsAttorneyManagedDate]
+(
+	@ClaimID INT,
+	@IsAttorneyManaged BIT,
+	@ModifiedByUserID NVARCHAR(128)
+)
 AS
 BEGIN
     SET NOCOUNT ON;
@@ -22,7 +27,7 @@ BEGIN
 			@UtcNow DATETIME2 = dtme.udfGetDate();
 
     UPDATE c
-    SET c.IsAttorneyManagedDate = @Today, c.UpdatedOnUTC = @UtcNow, c.ModifiedByUserID = @ModifiedByUserID
+    SET c.IsAttorneyManagedDate = CASE @IsAttorneyManaged WHEN 1 THEN @Today ELSE NULL END, c.UpdatedOnUTC = @UtcNow, c.ModifiedByUserID = @ModifiedByUserID
     FROM dbo.Claim AS c
     WHERE c.ClaimID = @ClaimID;
 
