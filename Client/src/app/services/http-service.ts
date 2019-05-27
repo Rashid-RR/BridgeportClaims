@@ -2,16 +2,17 @@
 /**
  * This service will serve to facilitate communication between app views and the web services
  */
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
-import { UUID } from 'angular2-uuid';
-import { Router } from '@angular/router';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs';
+import {HttpClient, HttpHeaders, HttpParams, HttpResponse} from '@angular/common/http';
+import {UUID} from 'angular2-uuid';
+import {Router} from '@angular/router';
 import * as Immutable from 'immutable';
-import { EventsService } from './events-service';
-import { ToastrService } from 'ngx-toastr';
-import { tap } from 'rxjs/operators';
-import { RootDecisionTreeModal } from '../interfaces/decision-tree-choice';
+import {EventsService} from './events-service';
+import {ToastrService} from 'ngx-toastr';
+import {tap} from 'rxjs/operators';
+import {RootDecisionTreeModal} from '../interfaces/decision-tree-choice';
+
 @Injectable()
 export class HttpService {
   baseUrl = '/api';
@@ -1712,6 +1713,16 @@ closeTreeWindows() {
         })
       );
     return s;
+  }
+
+  updateClaimAttorneyManaged(claimId: number): Observable<any> {
+    return this.http.post(this.baseUrl + `/claims/update-claim-attorney-managed=${claimId}`, {})
+      .pipe(
+        tap(() => {
+        }, error => {
+          this.handleResponseError(error);
+        })
+      );
   }
 
   updatePayor(data: any): Observable<any> {
