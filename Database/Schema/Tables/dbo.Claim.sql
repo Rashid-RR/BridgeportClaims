@@ -19,6 +19,8 @@ CREATE TABLE [dbo].[Claim]
 [IsMaxBalance] [bit] NOT NULL CONSTRAINT [dfClaimIsMaxBalanceFalse] DEFAULT ((0)),
 [ModifiedByUserID] [nvarchar] (128) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [AttorneyID] [int] NULL,
+[IsAttorneyManagedDate] [date] NULL,
+[IsAttorneyManaged] AS (CONVERT([bit],case  when [IsAttorneyManagedDate] IS NOT NULL then (1) else (0) end,(0))),
 [CreatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfClaimCreatedOnUTC] DEFAULT (sysutcdatetime()),
 [UpdatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfClaimUpdatedOnUTC] DEFAULT (sysutcdatetime()),
 [DataVersion] [timestamp] NOT NULL
@@ -75,6 +77,8 @@ AS BEGIN
         END
 END
 GO
+ALTER TABLE [dbo].[Claim] ADD CONSTRAINT [ckClaimIsAttorneyManagedDate] CHECK (((1)=case  when [IsAttorneyManagedDate] IS NOT NULL AND [AttorneyID] IS NOT NULL then (1) when [IsAttorneyManagedDate] IS NULL then (1) else (0) end))
+GO
 ALTER TABLE [dbo].[Claim] ADD CONSTRAINT [ckClaimRelationCode] CHECK (([RelationCode]>=(1) AND [RelationCode]<=(9)))
 GO
 ALTER TABLE [dbo].[Claim] ADD CONSTRAINT [pkClaim] PRIMARY KEY CLUSTERED  ([ClaimID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = ROW) ON [PRIMARY]
@@ -99,7 +103,7 @@ CREATE NONCLUSTERED INDEX [idxClaimAttorneyID] ON [dbo].[Claim] ([AttorneyID]) W
 GO
 CREATE NONCLUSTERED INDEX [idxClaimClaimNumber] ON [dbo].[Claim] ([ClaimNumber]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
-CREATE NONCLUSTERED INDEX [idxClaimCreatedOnUTCUpdatedOnUTC] ON [dbo].[Claim] ([CreatedOnUTC], [UpdatedOnUTC]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
+CREATE NONCLUSTERED INDEX [idxClaimCreatedOnUTCUpdatedOnUTC] ON [dbo].[Claim] ([CreatedOnUTC], [UpdatedOnUTC]) WITH (FILLFACTOR=90) ON [PRIMARY]
 GO
 CREATE NONCLUSTERED INDEX [idxClaimPatientIDPatientPatientID] ON [dbo].[Claim] ([PatientID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
@@ -118,4 +122,18 @@ GO
 ALTER TABLE [dbo].[Claim] ADD CONSTRAINT [fkClaimPatientIDPatientPatientID] FOREIGN KEY ([PatientID]) REFERENCES [dbo].[Patient] ([PatientID])
 GO
 ALTER TABLE [dbo].[Claim] ADD CONSTRAINT [fkClaimPayorIDPayorPayorID] FOREIGN KEY ([PayorID]) REFERENCES [dbo].[Payor] ([PayorID])
+GO
+SET NUMERIC_ROUNDABORT OFF
+GO
+SET ANSI_PADDING ON
+GO
+SET ANSI_WARNINGS ON
+GO
+SET CONCAT_NULL_YIELDS_NULL ON
+GO
+SET ARITHABORT ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_NULLS ON
 GO

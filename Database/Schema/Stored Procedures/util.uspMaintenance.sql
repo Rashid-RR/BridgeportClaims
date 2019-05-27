@@ -17,7 +17,7 @@ GO
 */
 CREATE PROCEDURE [util].[uspMaintenance]
 (
-	@PageCountLimitation INT = 0
+	@PageCountLimitation FLOAT = 2.5
 )
 AS BEGIN
     SET NOCOUNT ON;
@@ -45,9 +45,10 @@ AS BEGIN
 													   AND ind.index_id = indexstats.index_id
 					INNER JOIN sys.objects AS [o] ON o.object_id = ind.object_id
 					INNER JOIN sys.schemas AS [s] ON o.schema_id = s.schema_id
-			WHERE   indexstats.page_count >= @PageCountLimitation
-					AND indexstats.index_type_desc != 'HEAP'
-					AND indexstats.avg_fragmentation_in_percent > 0
+			WHERE   indexstats.page_count >= 0
+					AND indexstats.index_type_desc <> 'HEAP'
+					AND indexstats.avg_fragmentation_in_percent > @PageCountLimitation
+					AND OBJECT_NAME(ind.object_id) <> 'Prescriber'
 			ORDER BY indexstats.avg_fragmentation_in_percent DESC;
 
 			DECLARE @RebuildIndexScript NVARCHAR(4000);
@@ -94,4 +95,5 @@ AS BEGIN
 		THROW 50000, @Msg, 0;
     END CATCH
 END
+
 GO
