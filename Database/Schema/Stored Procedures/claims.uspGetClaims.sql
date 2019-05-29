@@ -19,6 +19,7 @@ AS
         SELECT  ClaimId = c.ClaimID
                ,Name = p.FirstName + ' ' + p.LastName
 			   ,c.IsMaxBalance
+			   ,c.IsAttorneyManaged
                ,ClaimNumber = c.ClaimNumber
                ,DateOfBirth = p.DateOfBirth
                ,DateOfInjury = c.DateOfInjury
