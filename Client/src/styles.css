@@ -5,7 +5,8 @@
 @import url(//fonts.googleapis.com/css?family=Aladin);
 @import url(//fonts.googleapis.com/css?family=Nova%20Flat);
 @import url(//fonts.googleapis.com/css?family=Atomic%20Age);
-
+@import "~ag-grid-community/dist/styles/ag-grid.css";
+@import "~ag-grid-community/dist/styles/ag-theme-balham.css";
 
 .cdk-overlay-container {
   z-index: 1000000000 !important;
@@ -781,8 +782,8 @@ thead {
   z-index: 1070 !important;
 }
 
-.isVip .box-header:not(.isMaxBalance),
-.isVip .bg-head-box:not(.isMaxBalance) {
+.isVip .box-header:not(.isMaxBalance):not(.isAttorneyManaged),
+.isVip .bg-head-box:not(.isMaxBalance):not(.isAttorneyManaged) {
   background: #002f58 !important;
 }
 
@@ -790,6 +791,13 @@ thead {
 .bg-head-box.isMaxBalance {
   background: #e07500 !important;
 }
+
+.box-header.isAttorneyManaged,
+.bg-head-box.isAttorneyManaged {
+  background: rgb(228, 228, 15) !important;
+  color: black !important;
+}
+
 
 .box-header button.grey1, .box-header button.grey1:hover {
   box-shadow: inset 0px 0 0 3px #992727, inset 0 0 0 4px white;

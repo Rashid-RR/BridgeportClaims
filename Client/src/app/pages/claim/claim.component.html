@@ -98,9 +98,9 @@
                         <app-claim-search></app-claim-search>
                     </div>
                 </div>
-                <div class="row data" [class.isVip]="isVip" [class.fittoSreen]="claimManager.selected!==undefined && !expanded">
+                <div class="row data" [class.isVip]="isVip" [class.fittoSreen]="claimManager.selected !== undefined && !expanded">
                     <div class="col-sm-12 sticky-claim text-center">
-                        <div class="box-header bg-head-box" *ngIf="claimManager.selectedClaim">
+                        <div class="box-header bg-head-box" *ngIf="claimManager.selectedClaim" [class.isAttorneyManaged]="claimManager.selectedClaim.isAttorneyManaged">
                             <span class="claimNumber">
                                 Claim Number:
                                 <span style="font-size:13pt">
@@ -114,6 +114,16 @@
                                     '+claimManager.selectedClaim.lastName}}
                                 </span>
                             </span>
+                          <span style="flex:1;margin-left:80px;">
+                              <span>
+                                  <input type="checkbox" id="uncheckedtest" class="cbx hidden" [checked]="claimManager.selectedClaim.isAttorneyManaged"
+                                         [(ngModel)]="claimManager.selectedClaim.isAttorneyManaged" (change)="isAttorneyManagedUpdate($event)" />
+                                  <label for="uncheckedtest" class="lbl"></label>
+                                  <span style="line-height: 20px; top: -3px; position: relative; display: inline-block;">
+                                      &nbsp;&nbsp;Attorney Managed
+                                  </span>
+                              </span>
+                          </span>
                         </div>
                     </div>
                     <div [class.col-sm-5]="!expanded" [class.col-sm-12]="expanded && (expandedBlade==1 || expandedBlade==2 || expandedBlade==3)"
@@ -156,7 +166,7 @@
                                 <app-claim-result [expand]="expand" [minimize]="minimize"></app-claim-result>
                             </div>
                         </div>
-                        <div class="box" *ngIf="(claimManager.selected!==undefined && expandedBlade==0) || expandedBlade==2">
+                        <div class="box" *ngIf="(claimManager.selected!==undefined && expandedBlade === 0) || expandedBlade === 2">
                             <div class="box-header bg-head-box" [class.isMaxBalance]="claimManager.selectedClaim.isMaxBalance"
                                 style="display:flex">
                                 <h4 class="box-title text-center panel-head">

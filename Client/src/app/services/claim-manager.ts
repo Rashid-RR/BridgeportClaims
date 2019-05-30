@@ -60,6 +60,7 @@ export class ClaimManager {
   isImagesExpanded: boolean;
   activeToast: Toast;
   episodeForm: FormGroup;
+  isAttorneyManaged: boolean;
 
   get selectedClaims() {
     return this.comparisonClaims.toArray();
@@ -244,6 +245,7 @@ export class ClaimManager {
             c.adjustorId = claim.adjustorId;
             c.isVip = claim.isVip;
             c.isMaxBalance = claim.isMaxBalance;
+            c.isAttorneyManaged = claim.isAttorneyManaged;
             c.payorId = claim.payorId;
             c.genderId = claim.patientGenderId;
             c.stateId = claim.stateId;
@@ -277,6 +279,7 @@ export class ClaimManager {
           c.states = result.states;
           c.isVip = result.isVip;
           c.isMaxBalance = result.isMaxBalance;
+          c.isAttorneyManaged = result.isAttorneyManaged;
           c.adjustorId = result.adjustorId;
           c.attorneyId = result.attorneyId;
           c.payorId = result.payorId;
@@ -422,6 +425,7 @@ export class ClaimManager {
           claim.stateId = result.stateId;
           claim.isVip = result.isVip;
           claim.isMaxBalance = result.isMaxBalance;
+          claim.isAttorneyManaged = result.isAttorneyManaged;
           claim.claimFlex2Id = result.claimFlex2Id;
           claim.setPrescription(result.prescriptions as Array<Prescription>);
           claim.setPayment(result.payments);

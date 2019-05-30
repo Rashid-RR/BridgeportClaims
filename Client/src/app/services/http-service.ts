@@ -1715,7 +1715,7 @@ closeTreeWindows() {
     return s;
   }
 
-  updateClaimAttorneyManaged(claimId: number, isAttorneyManaged: boolean): Observable<any> {
+  updateClaimAttorneyManaged(claimId: Number, isAttorneyManaged: boolean): Observable<any> {
     return this.http.post(this.baseUrl + `/claims/update-claim-attorney-managed/?claimId=${claimId}&isAttorneyManaged=${isAttorneyManaged}`, {})
       .pipe(
         tap(() => {
