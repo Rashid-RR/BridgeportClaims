@@ -781,21 +781,6 @@ thead {
   z-index: 1070 !important;
 }
 
-/*.isAttorneyManaged {*/
-  /*background: #e0de6b !important;*/
-/*}*/
-
-/*.isVip .box-header:not(.isAttorneyManaged),*/
-/*.isVip .bg-head-box:not(.isAttorneyManaged) {*/
-  /*background: #002f58 !important;*/
-/*}*/
-
-/*.box-header.isAttorneyManaged,*/
-/*.bg-head-box.isAttorneyManaged {*/
-  /*background: #e07500 !important;*/
-/*}*/
-
-
 .isVip .box-header:not(.isMaxBalance):not(.isAttorneyManaged),
 .isVip .bg-head-box:not(.isMaxBalance):not(.isAttorneyManaged) {
   background: #002f58 !important;
