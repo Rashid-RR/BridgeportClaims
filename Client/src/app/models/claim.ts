@@ -38,6 +38,7 @@ export class Claim {
     isVip: boolean;
     genderId: number;
     claimFlex2Id: number;
+    isAttorneyManaged: boolean;
     isMaxBalance: boolean;
     totalOutstandingAmount: number;
     numberOutstanding: number;

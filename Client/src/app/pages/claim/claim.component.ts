@@ -102,6 +102,19 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
       this.claimManager.loading = false;
     });
   }
+
+  isAttorneyManagedUpdate($event) {
+    this.claimManager.loading = true;
+    this.http.updateClaimAttorneyManaged(this.claimManager.selectedClaim.claimId, $event.target.checked).subscribe(r => {
+      this.toast.success(r.message, null, { closeButton: true, timeOut: 8000 });
+      this.claimManager.loading = false;
+    }, err => {
+      const result = err.error;
+      this.toast.error(result.Message);
+      this.claimManager.loading = false;
+    });
+  }
+
   deleteNote() {
     if (this.claimManager.selectedClaim && this.claimManager.selectedClaim.claimId) {
       // const dialogRef = this.dialog.open(ConfirmComponent, {

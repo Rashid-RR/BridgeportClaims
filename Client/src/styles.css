@@ -781,8 +781,23 @@ thead {
   z-index: 1070 !important;
 }
 
-.isVip .box-header:not(.isMaxBalance),
-.isVip .bg-head-box:not(.isMaxBalance) {
+/*.isAttorneyManaged {*/
+  /*background: #e0de6b !important;*/
+/*}*/
+
+/*.isVip .box-header:not(.isAttorneyManaged),*/
+/*.isVip .bg-head-box:not(.isAttorneyManaged) {*/
+  /*background: #002f58 !important;*/
+/*}*/
+
+/*.box-header.isAttorneyManaged,*/
+/*.bg-head-box.isAttorneyManaged {*/
+  /*background: #e07500 !important;*/
+/*}*/
+
+
+.isVip .box-header:not(.isMaxBalance):not(.isAttorneyManaged),
+.isVip .bg-head-box:not(.isMaxBalance):not(.isAttorneyManaged) {
   background: #002f58 !important;
 }
 
@@ -790,6 +805,11 @@ thead {
 .bg-head-box.isMaxBalance {
   background: #e07500 !important;
 }
+
+.box-header.isAttorneyManaged, .bg-head-box.isAttorneyManaged {
+  background: #b51be0 !important;
+}
+
 
 .box-header button.grey1, .box-header button.grey1:hover {
   box-shadow: inset 0px 0 0 3px #992727, inset 0 0 0 4px white;
