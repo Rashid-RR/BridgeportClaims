@@ -8,6 +8,7 @@ import { DuplicateClaimManualComponent } from './duplicate-claim-manual/duplicat
 import { ShortPayComponent } from './short-pay/short-pay.component';
 import { SkippedPaymentComponent } from './skipped-payment/skipped-payment.component';
 import { CollectionBonusComponent } from './collection-bonus/collection-bonus.component';
+import { ClaimsDataComponent } from './claims-data/claims-data.component';
 
 export const ReportsRoutes: Routes = [
     {
@@ -20,6 +21,7 @@ export const ReportsRoutes: Routes = [
             { path: 'sample', component: ReportSampleComponent },
             { path: 'shortpay', component: ShortPayComponent },
             { path: 'collection-bonus', component: CollectionBonusComponent },
+            { path: 'claims-data', component: ClaimsDataComponent },
             { path: 'skipped-payment', component: SkippedPaymentComponent },
             {
                 path: 'duplicate-claims',

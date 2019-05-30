@@ -94,7 +94,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
   isMaxBalance($event) {
     this.claimManager.loading = true;
     this.http.setMaxBalance(this.claimManager.selectedClaim.claimId, $event.target.checked).subscribe(r => {
-      this.toast.success(r.message, null, { closeButton: true, timeOut: 8000 });
+      this.toast.success(r.message, null, { closeButton: true });
       this.claimManager.loading = false;
     }, err => {
       const result = err.error;
@@ -103,7 +103,15 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
     });
   }
 
-  isAttorneyManagedUpdate($event) {
+  isAttorneyManagedUpdate($event): void {
+    if (!this.claimManager.selectedClaim.attorneyId) {
+      this.toast.warning('Please associate an Attorney to this Claim first.', null, { closeButton: true });
+      this.claimManager.selectedClaim.isAttorneyManaged = false;
+      setTimeout(() => {
+        $('#uncheckedtest').prop('checked', false);
+      }, 250);
+      return;
+    }
     this.claimManager.loading = true;
     this.http.updateClaimAttorneyManaged(this.claimManager.selectedClaim.claimId, $event.target.checked).subscribe(r => {
       this.toast.success(r.message, null, { closeButton: true, timeOut: 8000 });

@@ -25,6 +25,7 @@ import { MaterialComponentsModule } from '../material/material-components.module
 import { TreeListComponent } from '../decision-tree/tree-list/tree-list.component';
 import { TreeListFilterComponent } from '../decision-tree//tree-list-filter/tree-list-filter.component';
 import { TreeListGridComponent } from '../decision-tree/tree-list-grid/tree-list-grid.component';
+import { AgGridModule } from 'ag-grid-angular';
 
 @Pipe({ name: 'safeStyle' })
 export class SafeStylePipe implements PipeTransform {
@@ -51,6 +52,7 @@ export class SafeUrlPipe implements PipeTransform {
     ShContextMenuModule,
     MaterialComponentsModule,
     SweetAlert2Module.forRoot(),
+    AgGridModule.withComponents([])
   ],
   declarations: [
     ConfirmComponent, BootstrapWindowContainer, WindowBackdrop, ScriptNoteWindowComponent, EpisodeNoteModalComponent,
@@ -76,7 +78,7 @@ export class SafeUrlPipe implements PipeTransform {
     UnpaidScriptResultsComponent, UnpaidScriptSearchComponent,
     EpisodeNoteModalComponent, InvoiceSearchComponent,NewEpisodeComponent,
     UnindexedImageFilterComponent, UnindexedImageListComponent, ScriptNoteWindowComponent,
-    TreeListGridComponent, TreeListFilterComponent, TreeListComponent, MaterialComponentsModule
+    TreeListGridComponent, TreeListFilterComponent, TreeListComponent, MaterialComponentsModule, AgGridModule
   ],
   entryComponents: [
     ConfirmComponent, BootstrapWindowContainer, WindowBackdrop, ScriptNoteWindowComponent,

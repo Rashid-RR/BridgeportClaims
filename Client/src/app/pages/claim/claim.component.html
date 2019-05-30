@@ -98,7 +98,7 @@
                         <app-claim-search></app-claim-search>
                     </div>
                 </div>
-                <div class="row data" [class.isVip]="isVip" [class.fittoSreen]="claimManager.selected!==undefined && !expanded">
+                <div class="row data" [class.isVip]="isVip" [class.fittoSreen]="claimManager.selected !== undefined && !expanded">
                     <div class="col-sm-12 sticky-claim text-center">
                         <div class="box-header bg-head-box" *ngIf="claimManager.selectedClaim" [class.isAttorneyManaged]="claimManager.selectedClaim.isAttorneyManaged">
                             <span class="claimNumber">
@@ -114,13 +114,13 @@
                                     '+claimManager.selectedClaim.lastName}}
                                 </span>
                             </span>
-                          <span style="flex:1;margin-left:8px;">
+                          <span style="flex:1;margin-left:80px;">
                               <span>
                                   <input type="checkbox" id="uncheckedtest" class="cbx hidden" [checked]="claimManager.selectedClaim.isAttorneyManaged"
                                          [(ngModel)]="claimManager.selectedClaim.isAttorneyManaged" (change)="isAttorneyManagedUpdate($event)" />
                                   <label for="uncheckedtest" class="lbl"></label>
-                                  <span style="line-height: 20px;font-size:20px;top: -3px;position: relative;display: inline-block;">
-                                      &nbsp;Attorney Managed {{claimManager.selectedClaim.isAttorneyManaged}}
+                                  <span style="line-height: 20px; top: -3px; position: relative; display: inline-block;">
+                                      &nbsp;&nbsp;Attorney Managed
                                   </span>
                               </span>
                           </span>
