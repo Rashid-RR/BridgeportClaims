@@ -792,7 +792,8 @@ thead {
   background: #e07500 !important;
 }
 
-.box-header.isAttorneyManaged, .bg-head-box.isAttorneyManaged {
+.box-header.isAttorneyManaged,
+.bg-head-box.isAttorneyManaged {
   background: rgb(228, 228, 15) !important;
   color: black !important;
 }
