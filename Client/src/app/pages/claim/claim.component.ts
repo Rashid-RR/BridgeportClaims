@@ -125,12 +125,6 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
 
   deleteNote() {
     if (this.claimManager.selectedClaim && this.claimManager.selectedClaim.claimId) {
-      // const dialogRef = this.dialog.open(ConfirmComponent, {
-      //   data:{
-      //     title: 'Delete Claim Note',
-      //    message: 'Are you sure you wish to remove this note?'
-      //   }
-      // })
       this.dialogService.addDialog(ConfirmComponent, {
         title: 'Delete Claim Note',
         message: 'Are you sure you wish to remove this note?'

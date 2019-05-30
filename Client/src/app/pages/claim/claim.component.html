@@ -166,7 +166,7 @@
                                 <app-claim-result [expand]="expand" [minimize]="minimize"></app-claim-result>
                             </div>
                         </div>
-                        <div class="box" *ngIf="(claimManager.selected!==undefined && expandedBlade==0) || expandedBlade==2">
+                        <div class="box" *ngIf="(claimManager.selected!==undefined && expandedBlade === 0) || expandedBlade === 2">
                             <div class="box-header bg-head-box" [class.isMaxBalance]="claimManager.selectedClaim.isMaxBalance"
                                 style="display:flex">
                                 <h4 class="box-title text-center panel-head">
