@@ -47,6 +47,8 @@ namespace BridgeportClaims.Excel.Factories
                 excelWorksheet.Cells[2, 1].Style.Font.Bold = true;
                 excelWorksheet.Cells[3, 1].Value = dto.DateOfBirth.HasValue ? $"DOB {dto.DateOfBirth.Value:M/d/yyyy}" : string.Empty;
                 excelWorksheet.Cells[3, 1].Style.Font.Bold = true;
+                excelWorksheet.Cells[4, 1].Value = dto.DateOfInjury.HasValue ? $"DOI {dto.DateOfInjury.Value:M/d/yyyy}" : string.Empty;
+                excelWorksheet.Cells[4, 1].Style.Font.Bold = true;
                 excelWorksheet.Cells["A7"].LoadFromDataTable(dt, true);
                 var rowCount = excelWorksheet.Dimension.End.Row;
                 var colCount = excelWorksheet.Dimension.End.Column;

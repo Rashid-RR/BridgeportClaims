@@ -19,10 +19,11 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 {
     public class ClaimsDataProvider : IClaimsDataProvider
     {
-        private const string Query =  @"DECLARE @ClaimID INTEGER = {0};
+        private const string Query = @"DECLARE @ClaimID INTEGER = {0};
                                         SELECT          [p].[FirstName]
                                                       , [p].[LastName]
                                                       , [p].[DateOfBirth]
+                                                      , [c].[DateOfInjury]
                                         FROM            [dbo].[Patient] AS [p]
                                             INNER JOIN  [dbo].[Claim]   AS [c] ON [c].[PatientID] = [p].[PatientID]
                                         WHERE           [c].[ClaimID] = @ClaimID";
@@ -259,13 +260,15 @@ namespace BridgeportClaims.Data.DataProviders.Claims
                         var firstNameOrdinal = reader.GetOrdinal("FirstName");
                         var lastNameOrdinal = reader.GetOrdinal("LastName");
                         var dateOfBirthOrdinal = reader.GetOrdinal("DateOfBirth");
+                        var dateOfInjuryOrdinal = reader.GetOrdinal("DateOfInjury");
                         while (reader.Read())
                         {
                             retVal = new BillingStatementDto
                             {
                                 FirstName = !reader.IsDBNull(firstNameOrdinal) ? reader.GetString(firstNameOrdinal) : string.Empty,
                                 LastName = !reader.IsDBNull(lastNameOrdinal) ? reader.GetString(lastNameOrdinal) : string.Empty,
-                                DateOfBirth = !reader.IsDBNull(dateOfBirthOrdinal) ? reader.GetDateTime(dateOfBirthOrdinal) : (DateTime?) null
+                                DateOfBirth = !reader.IsDBNull(dateOfBirthOrdinal) ? reader.GetDateTime(dateOfBirthOrdinal) : (DateTime?) null,
+                                DateOfInjury = !reader.IsDBNull(dateOfInjuryOrdinal) ? reader.GetDateTime(dateOfInjuryOrdinal) : (DateTime?) null
                             };
                         }
                     });
