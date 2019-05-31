@@ -75,7 +75,8 @@ AS BEGIN
 				, @NotificationTypeID
 				, @UtcNow
 				, @UtcNow
-				FROM client.Referral AS r;
+				FROM client.Referral AS r
+				WHERE r.ReferralID > @MaxReferralID;
 				IF (@@ROWCOUNT > 0)
 					BEGIN
 						SELECT @MaxReferralID = MAX(r.ReferralID) FROM client.Referral AS r;
@@ -99,5 +100,4 @@ AS BEGIN
 		THROW 50000, @Msg, 0;
     END CATCH
 END
-
 GO
