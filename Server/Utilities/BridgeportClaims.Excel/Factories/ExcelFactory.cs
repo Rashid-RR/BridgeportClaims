@@ -36,11 +36,15 @@ namespace BridgeportClaims.Excel.Factories
             DisposableService.Using(() => new ExcelPackage(), pck =>
             {
                 if (null == dto)
+                {
                     throw new ArgumentNullException(nameof(dto));
+                }
                 dt.TableName = "BillingStatementDataTable";
                 var excelWorksheet = pck.Workbook?.Worksheets?.Add(workSheetName);
                 if (null == excelWorksheet)
+                {
                     throw new Exception("Something went wrong, could not create an Excel worksheet.");
+                }
                 excelWorksheet.Cells[1, 1].Value = $"Billing Statement {DateTime.UtcNow.ToMountainTime():M/d/yyyy}";
                 excelWorksheet.Cells[1, 1].Style.Font.Bold = true;
                 excelWorksheet.Cells[2, 1].Value = $"{dto.FirstName} {dto.LastName}";
@@ -87,11 +91,12 @@ namespace BridgeportClaims.Excel.Factories
                 var outstandingTotalCell = excelWorksheet.Cells[rowCount + 2, colCount];
                 outstandingTotalCell.Formula = $"=SUM(I6:I{rowCount})";
                 AddStyleToTotalCell(outstandingTotalCell);
+                var fullFilePath = Path.Combine(Path.GetTempPath(), fileName + ".xlsx");
+                Image img = null;
                 excelWorksheet.Cells[1, 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
                 excelWorksheet.Cells[2, 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
                 excelWorksheet.Cells[3, 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
-                var fullFilePath = Path.Combine(Path.GetTempPath(), fileName + ".xlsx");
-                Image img = null;
+                excelWorksheet.Cells[4, 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
                 DisposableService.Using(
                     () => Assembly.GetExecutingAssembly()
                         .GetManifestResourceStream("BridgeportClaims.Excel.EmbeddedResources.logo.png"),
