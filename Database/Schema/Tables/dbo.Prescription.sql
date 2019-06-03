@@ -72,6 +72,8 @@ CREATE NONCLUSTERED INDEX [idxPrescriptionIsReversedIncludes] ON [dbo].[Prescrip
 GO
 CREATE NONCLUSTERED INDEX [idxPrescriptionModifiedByUserID] ON [dbo].[Prescription] ([ModifiedByUserID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
+CREATE NONCLUSTERED INDEX [idxPrescriptionPharmacyNABPClaimIDPrescriptionIDIncludes] ON [dbo].[Prescription] ([PharmacyNABP], [ClaimID], [PrescriptionID]) INCLUDE ([BilledAmount], [DateSubmitted], [PayableAmount], [Prescriber]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
+GO
 CREATE NONCLUSTERED INDEX [idxPrescriptionPharmacyNABPIsReversedIncludes] ON [dbo].[Prescription] ([PharmacyNABP], [IsReversed]) INCLUDE ([AWP], [DateSubmitted], [MONY], [PayableAmount]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
 CREATE NONCLUSTERED INDEX [idxPrescriptionReversedDateIncludes] ON [dbo].[Prescription] ([ReversedDate]) INCLUDE ([BilledAmount], [ClaimID], [DateFilled], [InvoiceID], [LabelName], [PharmacyNABP], [PrescriptionStatusID], [RxNumber]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
