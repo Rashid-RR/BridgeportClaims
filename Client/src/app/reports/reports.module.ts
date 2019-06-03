@@ -27,6 +27,7 @@ import { ShortPayComponent } from './short-pay/short-pay.component';
 import { SkippedPaymentListComponent } from './skipped-payment-list/skipped-payment-list.component';
 import { SkippedPaymentSearchComponent } from './skipped-payment-search/skipped-payment-search.component';
 import { SkippedPaymentComponent } from './skipped-payment/skipped-payment.component';
+import 'ag-grid-enterprise';
 
 @NgModule({
   imports: [

@@ -11,7 +11,7 @@ import { FilterUserPipe } from '../user/list/filter-user.pipe';
 import { DiariesFilterPipe } from '../diaries/diary-results/diary-filter.pipe';
 import { EpisodesFilterPipe } from '../components/episode-results/episode-filter.pipe';
 import {
-  UnpaidScriptResultsComponent, UnpaidScriptSearchComponent, InvoiceSearchComponent,NewEpisodeComponent,
+  UnpaidScriptResultsComponent, UnpaidScriptSearchComponent, InvoiceSearchComponent, NewEpisodeComponent,
    EpisodeNoteModalComponent, UnindexedImageFilterComponent, UnindexedImageListComponent, ScriptNoteWindowComponent
 } from '../components/components-barrel';
 import { ColumnSortDirective } from '../directives/column-sort.directive';
@@ -25,7 +25,6 @@ import { MaterialComponentsModule } from '../material/material-components.module
 import { TreeListComponent } from '../decision-tree/tree-list/tree-list.component';
 import { TreeListFilterComponent } from '../decision-tree//tree-list-filter/tree-list-filter.component';
 import { TreeListGridComponent } from '../decision-tree/tree-list-grid/tree-list-grid.component';
-import { AgGridModule } from 'ag-grid-angular';
 
 @Pipe({ name: 'safeStyle' })
 export class SafeStylePipe implements PipeTransform {
@@ -51,8 +50,7 @@ export class SafeUrlPipe implements PipeTransform {
     AutoCompleteModule,
     ShContextMenuModule,
     MaterialComponentsModule,
-    SweetAlert2Module.forRoot(),
-    AgGridModule.withComponents([])
+    SweetAlert2Module.forRoot()
   ],
   declarations: [
     ConfirmComponent, BootstrapWindowContainer, WindowBackdrop, ScriptNoteWindowComponent, EpisodeNoteModalComponent,
@@ -60,7 +58,7 @@ export class SafeUrlPipe implements PipeTransform {
     DisplayRolesPipe, ArraySortPipe, PhonePipe, EpisodesFilterPipe, SafeStylePipe, SafeUrlPipe, FilterUserPipe, DiariesFilterPipe,
     UnpaidScriptResultsComponent, UnpaidScriptSearchComponent, InvoiceSearchComponent,
      EpisodeNoteModalComponent, UnindexedImageFilterComponent, UnindexedImageListComponent, ScriptNoteWindowComponent,
-     TreeListGridComponent, TreeListFilterComponent, TreeListComponent,NewEpisodeComponent
+     TreeListGridComponent, TreeListFilterComponent, TreeListComponent, NewEpisodeComponent
   ],
   providers: [
     WindowsInjetor,
@@ -76,13 +74,13 @@ export class SafeUrlPipe implements PipeTransform {
     TableSortDirective, ColumnSortDirective, TextSelectDirective,
     DisplayRolesPipe, ArraySortPipe, PhonePipe, EpisodesFilterPipe, SafeUrlPipe, SafeStylePipe, FilterUserPipe, DiariesFilterPipe,
     UnpaidScriptResultsComponent, UnpaidScriptSearchComponent,
-    EpisodeNoteModalComponent, InvoiceSearchComponent,NewEpisodeComponent,
+    EpisodeNoteModalComponent, InvoiceSearchComponent, NewEpisodeComponent,
     UnindexedImageFilterComponent, UnindexedImageListComponent, ScriptNoteWindowComponent,
-    TreeListGridComponent, TreeListFilterComponent, TreeListComponent, MaterialComponentsModule, AgGridModule
+    TreeListGridComponent, TreeListFilterComponent, TreeListComponent, MaterialComponentsModule
   ],
   entryComponents: [
     ConfirmComponent, BootstrapWindowContainer, WindowBackdrop, ScriptNoteWindowComponent,
-    EpisodeNoteModalComponent, DeleteIndexConfirmationComponent,NewEpisodeComponent,
+    EpisodeNoteModalComponent, DeleteIndexConfirmationComponent, NewEpisodeComponent,
     TreeListGridComponent, TreeListFilterComponent, TreeListComponent
   ]
 })

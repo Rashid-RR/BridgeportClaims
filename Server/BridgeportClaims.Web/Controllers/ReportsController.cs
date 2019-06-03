@@ -9,6 +9,7 @@ using System.Web.Http;
 using BridgeportClaims.Common.Constants;
 using BridgeportClaims.Common.Disposable;
 using BridgeportClaims.Common.Extensions;
+using BridgeportClaims.Data.DataProviders.Claims;
 using BridgeportClaims.Data.DataProviders.Reports;
 using BridgeportClaims.Data.Dtos;
 using BridgeportClaims.Excel.Factories;
@@ -24,11 +25,30 @@ namespace BridgeportClaims.Web.Controllers
     {
         private static readonly Lazy<ILogger> Logger = new Lazy<ILogger>(LogManager.GetCurrentClassLogger);
         private readonly Lazy<IReportsDataProvider> _reportsDataProvider;
+        private readonly Lazy<IClaimsDataProvider> _claimsDataProvider;
         private const string Format = "MMMM_yyyy";
 
-        public ReportsController(Lazy<IReportsDataProvider> reportsDataProvider)
+        public ReportsController(Lazy<IReportsDataProvider> reportsDataProvider,
+            Lazy<IClaimsDataProvider> claimsDataProvider)
         {
             _reportsDataProvider = reportsDataProvider;
+            _claimsDataProvider = claimsDataProvider;
+        }
+
+        [HttpPost]
+        [Route("query-builder")]
+        public IHttpActionResult QueryBuilder()
+        {
+            try
+            {
+                var data = _claimsDataProvider.Value.QueryBuilderReport();
+                return Ok(data);
+            }
+            catch (Exception ex)
+            {
+                Logger.Value.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+            }
         }
 
         [HttpPost]

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { QueryBuilderService } from '../../services/query-builder.service';
 
 @Component({
   selector: 'app-claims-data-list',
@@ -17,7 +18,7 @@ export class ClaimsDataListComponent implements OnInit {
     { make: 'Ford', model: 'Mondeo', price: 32000 },
     { make: 'Porsche', model: 'Boxter', price: 72000 }
   ];
-  constructor() {}
+  constructor(private queryBuilderSvc: QueryBuilderService) {}
 
   ngOnInit() {}
 }

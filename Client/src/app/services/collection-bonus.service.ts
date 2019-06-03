@@ -1,8 +1,7 @@
-
 import { Injectable } from '@angular/core';
-import { HttpService } from './http-service';
-import { SortColumnInfo } from '../directives/table-sort.directive';
 import { ToastrService } from 'ngx-toastr';
+import { SortColumnInfo } from '../directives/table-sort.directive';
+import { HttpService } from './http-service';
 
 export interface CollectionBonus {
     patientName: string;
@@ -14,7 +13,6 @@ export interface CollectionBonus {
 
 @Injectable()
 export class CollectionBonusService {
-
     loading = false;
     deleting = false;
     goToPage: any = '';

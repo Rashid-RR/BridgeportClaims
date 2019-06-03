@@ -1426,6 +1426,17 @@ closeTreeWindows() {
     return s;
   }
 
+  queryBuilderReport(): Observable<any> {
+    const s = this.http.post(this.baseUrl + '/reports/query-builder', {})
+    .pipe(
+      tap(_ => {
+      }, error => {
+        this.handleResponseError(error);
+      })
+    );
+  return s;
+  }
+
   updateMultiplePrescriptionStatus(data: any): Observable<any> {
     return this.http.post(this.baseUrl + '/prescriptions/set-multiple-prescription-statuses', data)
       .pipe(

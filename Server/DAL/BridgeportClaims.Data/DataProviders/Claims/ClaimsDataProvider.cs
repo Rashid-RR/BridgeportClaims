@@ -27,6 +27,7 @@ namespace BridgeportClaims.Data.DataProviders.Claims
                                         FROM            [dbo].[Patient] AS [p]
                                             INNER JOIN  [dbo].[Claim]   AS [c] ON [c].[PatientID] = [p].[PatientID]
                                         WHERE           [c].[ClaimID] = @ClaimID";
+
         private readonly Lazy<IEpisodesDataProvider> _episodesDataProvider;
         private readonly Lazy<IPaymentsDataProvider> _paymentsDataProvider;
         private readonly Lazy<IClaimImageProvider> _claimImageProvider;
@@ -55,6 +56,17 @@ namespace BridgeportClaims.Data.DataProviders.Claims
                 conn.Open();
                 var results = conn.Query<GetClaimsSearchResults>(sp, ps, commandType: CommandType.StoredProcedure);
                 return results?.ToList();
+            });
+
+        public IEnumerable<QueryBuilderDto> QueryBuilderReport() =>
+            DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+            {
+                const string sp = "rpt.uspClaimQueryBuilder";
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                }
+                return conn.Query<QueryBuilderDto>(sp, commandType: CommandType.StoredProcedure);
             });
 
         public IList<PrescriptionDto> GetPrescriptionDataByClaim(int claimId, string sort, string direction, int page,
