@@ -13,13 +13,15 @@ export class ClaimsDataListComponent implements OnInit {
   public rowGroupPanelShow: string;
   public pivotPanelShow: string;
   public sideBar: any;
+  public statusBar: any;
+  public gridApi: any;
 
   @ViewChild('agGrid') agGrid: AgGridNg2;
   columnDefs = [
     // { headerName: 'ClaimId', field: 'claimId', sortable: true, filter: true, checkboxSelection: true, rowDrag: true },
     // { headerName: 'PrescriptionId', field: 'prescriptionId', sortable: true, filter: true },
-    // { headerName: 'PrescriptionPaymentId', field: 'prescriptionPaymentId', sortable: true, filter: true },
-    { headerName: 'Pharmacy', field: 'pharmacy', sortable: true, filter: 'agTextColumnFilter', rowDrag: true, filterParams: { clearButton: true} },
+    { headerName: 'Group Name', field: 'groupName', sortable: true, rowDrag: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true} },
+    { headerName: 'Pharmacy', field: 'pharmacy', sortable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true} },
     { headerName: 'State', field: 'stateCode', sortable: true, filter: true, filterParams: { clearButton: true} },
     { headerName: 'Submitted', field: 'dateSubmitted', sortable: true, filter: 'agDateColumnFilter',
       filterParams: {
@@ -96,6 +98,15 @@ export class ClaimsDataListComponent implements OnInit {
       ],
       defaultToolPanel: 'columns'
     };
+
+    this.statusBar = {
+      statusPanels: [
+        { statusPanel: 'agTotalRowCountComponent', align: 'left' },
+        { statusPanel: 'agFilteredRowCountComponent', align: 'left' },
+        { statusPanel: 'agSelectedRowCountComponent', align: 'left' },
+        { statusPanel: 'agAggregationComponent', align: 'left' }
+      ]
+    };
   }
 
   ngOnInit(): void {
@@ -109,7 +120,7 @@ export class ClaimsDataListComponent implements OnInit {
     console.log(`Selected nodes: ${selectedDataStringPresentation}`);
   }
 
-  onGridReady(params) {
-    // this.gridApi.api.sizeColumnsToFit();
+  onGridReady(params): void {
+    this.gridApi = params.api;
   }
 }

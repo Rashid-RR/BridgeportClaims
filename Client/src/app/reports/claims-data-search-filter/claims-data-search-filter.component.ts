@@ -13,7 +13,7 @@ export class ClaimsDataSearchFilterComponent implements OnInit {
   ngOnInit() {
   }
 
-  // onFilterTextBoxChanged() {
-  //   gridOptions.api.setQuickFilter(document.getElementById('filter-text-box').value);
-  // }
+  clearFilter(): void {
+    this.queryBuilderSvc.filterText = '';
+  }
 }
