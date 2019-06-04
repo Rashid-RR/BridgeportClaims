@@ -23,6 +23,7 @@ export interface QueryBuilder {
 
 @Injectable()
 export class QueryBuilderService {
+  public filterText: string;
   loading = false;
   rows: QueryBuilder[] = [];
 

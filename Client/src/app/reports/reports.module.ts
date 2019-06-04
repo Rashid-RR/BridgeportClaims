@@ -28,6 +28,7 @@ import { SkippedPaymentListComponent } from './skipped-payment-list/skipped-paym
 import { SkippedPaymentSearchComponent } from './skipped-payment-search/skipped-payment-search.component';
 import { SkippedPaymentComponent } from './skipped-payment/skipped-payment.component';
 import 'ag-grid-enterprise';
+import { ClaimsDataSearchFilterComponent } from './claims-data-search-filter/claims-data-search-filter.component';
 
 @NgModule({
   imports: [
@@ -45,7 +46,8 @@ import 'ag-grid-enterprise';
     DuplicateClaimComponent, DuplicateClaimManualComponent, CollectionBonusComponent, CollectionBonusSearchComponent,
     CollectionBonusListComponent,
     ClaimsDataComponent,
-    ClaimsDataListComponent
+    ClaimsDataListComponent,
+    ClaimsDataSearchFilterComponent
   ]
 })
 export class ReportsModule { }
