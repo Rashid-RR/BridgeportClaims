@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from './http-service';
+import { Observable } from 'rxjs';
 
 export interface QueryBuilder {
   claimId: number;
@@ -27,14 +28,15 @@ export class QueryBuilderService {
 
   constructor(private http: HttpService) {}
 
-  fetchQueryBuilderReport() {
-    this.loading = true;
-    this.http.queryBuilderReport().subscribe(r => {
+  fetchQueryBuilderReport(): Observable<QueryBuilder> {
+    // this.loading = true;
+    return this.http.queryBuilderReport();
+    /*.subscribe(r => {
       this.rows = r;
       this.loading = false;
     }, err => {
       this.loading = false;
       this.rows = [{} as any];
-  });
+  });*/
   }
 }

@@ -1,6 +1,8 @@
 <ag-grid-angular
-    style="width: 1000px; height: 200px;"
-    class="ag-theme-balham"
-    [rowData]="rowData"
-    [columnDefs]="columnDefs">
+    style="width: 100%; height: 100%;"
+    class="ag-theme-material"
+    [rowData]="rowData | async"
+    [columnDefs]="columnDefs"
+    rowSelection="multiple"
+    [autoGroupColumnDef]="autoGroupColumnDef">
 </ag-grid-angular>

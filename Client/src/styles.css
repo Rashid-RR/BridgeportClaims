@@ -7,6 +7,7 @@
 @import url(//fonts.googleapis.com/css?family=Atomic%20Age);
 @import "~ag-grid-community/dist/styles/ag-grid.css";
 @import "~ag-grid-community/dist/styles/ag-theme-balham.css";
+@import "~ag-grid-community/dist/styles/ag-theme-material.css";
 
 .cdk-overlay-container {
   z-index: 1000000000 !important;

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { AgGridNg2 } from 'ag-grid-angular/dist/agGridNg2';
 import { QueryBuilderService } from '../../services/query-builder.service';
 
 @Component({
@@ -7,18 +8,32 @@ import { QueryBuilderService } from '../../services/query-builder.service';
   styleUrls: ['./claims-data-list.component.css']
 })
 export class ClaimsDataListComponent implements OnInit {
+  @ViewChild('agGrid') agGrid: AgGridNg2;
   columnDefs = [
-    {headerName: 'Make', field: 'make', sortable: true, filter: true},
-    {headerName: 'Model', field: 'model', sortable: true, filter: true},
-    {headerName: 'Price', field: 'price', sortable: true, filter: true}
+    { headerName: 'Make', field: 'make', sortable: true, filter: true, rowGroup: true, checkboxSelection: true },
+    { headerName: 'Model', field: 'model', sortable: true, filter: true },
+    { headerName: 'Price', field: 'price', sortable: true, filter: true }
   ];
+  autoGroupColumnDef = {
+    headerName: 'Model',
+    field: 'model',
+    cellRenderer: 'agGroupCellRenderer',
+    cellRendererParams: {
+        checkbox: true
+    }
+};
 
-  rowData = [
-    { make: 'Toyota', model: 'Celica', price: 35000 },
-    { make: 'Ford', model: 'Mondeo', price: 32000 },
-    { make: 'Porsche', model: 'Boxter', price: 72000 }
-  ];
+  rowData: any;
   constructor(private queryBuilderSvc: QueryBuilderService) {}
 
-  ngOnInit() {}
+  ngOnInit(): void {
+    this.rowData = this.queryBuilderSvc.fetchQueryBuilderReport();
+  }
+
+  getSelectedRows() {
+    const selectedNodes = this.agGrid.api.getSelectedNodes();
+    const selectedData = selectedNodes.map(node => node.data);
+    const selectedDataStringPresentation = selectedData.map(node => node.make + ' ' + node.model).join(', ');
+    console.log(`Selected nodes: ${selectedDataStringPresentation}`);
+  }
 }
