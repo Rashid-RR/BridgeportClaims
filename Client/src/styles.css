@@ -1298,3 +1298,12 @@ app-new-episode .close-button {
 .datepicker {
   z-index: 100000000 !important;
 }
+
+.ag-row-hover {
+  /* putting in !important so it overrides the theme's styling as it hovers the row also */
+  background-color: #CED2EA !important;
+}
+
+.ag-column-hover {
+  background-color: #EFE2E1;
+}
