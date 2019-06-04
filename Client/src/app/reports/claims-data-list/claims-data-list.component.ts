@@ -19,18 +19,19 @@ export class ClaimsDataListComponent implements OnInit {
     // { headerName: 'ClaimId', field: 'claimId', sortable: true, filter: true, checkboxSelection: true, rowDrag: true },
     // { headerName: 'PrescriptionId', field: 'prescriptionId', sortable: true, filter: true },
     // { headerName: 'PrescriptionPaymentId', field: 'prescriptionPaymentId', sortable: true, filter: true },
-    { headerName: 'Pharmacy', field: 'pharmacy', sortable: true, filter: true, rowDrag: true },
-    { headerName: 'State', field: 'stateCode', sortable: true, filter: true },
+    { headerName: 'Pharmacy', field: 'pharmacy', sortable: true, filter: 'agTextColumnFilter', rowDrag: true, filterParams: { clearButton: true} },
+    { headerName: 'State', field: 'stateCode', sortable: true, filter: true, filterParams: { clearButton: true} },
     { headerName: 'Submitted', field: 'dateSubmitted', sortable: true, filter: 'agDateColumnFilter',
       filterParams: {
+        clearButton: true,
         comparator: function(filterLocalDateAtMidnight, cellValue) {
           const dateAsString = cellValue;
           if (dateAsString == null) {
             return -1;
           }
           const dateParts = dateAsString.split('/');
-          const cellDate = new Date(Number(dateParts[2]), Number(dateParts[1]) - 1, Number(dateParts[0]));
-          if (filterLocalDateAtMidnight.getTime() === cellDate.getTime()) {
+          const cellDate = new Date(Number(dateParts[2]), Number(dateParts[0]) - 1, Number(dateParts[1]));
+          if (filterLocalDateAtMidnight.toString() === cellDate.toString()) {
             return 0;
           }
           if (cellDate < filterLocalDateAtMidnight) {
@@ -43,15 +44,15 @@ export class ClaimsDataListComponent implements OnInit {
         browserDatePicker: true
       }
     },
-    { headerName: 'Billed', field: 'billed', sortable: true, filter: 'agNumberColumnFilter' },
-    { headerName: 'Payable', field: 'payable', sortable: true, filter: 'agNumberColumnFilter' },
-    { headerName: 'Collected', field: 'collected', sortable: true, filter: 'agNumberColumnFilter' },
-    { headerName: 'Prescriber', field: 'prescriber', sortable: true, filter: 'agTextColumnFilter' },
-    { headerName: 'Patient Last', field: 'patientLast', sortable: true, filter: 'agTextColumnFilter' },
-    { headerName: 'Patient First', field: 'patientFirst', sortable: true, filter: 'agTextColumnFilter' },
-    { headerName: 'Claim #', field: 'claimNumber', sortable: true, filter: 'agTextColumnFilter' },
-    { headerName: 'Attorney Managed', field: 'isAttorneyManaged', sortable: true, filter: true },
-    { headerName: 'Attorney Name', field: 'attorneyName', sortable: true, filter: 'agTextColumnFilter' }
+    { headerName: 'Billed', field: 'billed', sortable: true, filter: 'agNumberColumnFilter', filterParams: { clearButton: true} },
+    { headerName: 'Payable', field: 'payable', sortable: true, filter: 'agNumberColumnFilter', filterParams: { clearButton: true} },
+    { headerName: 'Collected', field: 'collected', sortable: true, filter: 'agNumberColumnFilter', filterParams: { clearButton: true} },
+    { headerName: 'Prescriber', field: 'prescriber', sortable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true} },
+    { headerName: 'Patient Last', field: 'patientLast', sortable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true} },
+    { headerName: 'Patient First', field: 'patientFirst', sortable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true} },
+    { headerName: 'Claim #', field: 'claimNumber', sortable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true} },
+    { headerName: 'Attorney Managed', field: 'isAttorneyManaged', sortable: true, filter: true, filterParams: { clearButton: true} },
+    { headerName: 'Attorney Name', field: 'attorneyName', sortable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true} }
   ];
   autoGroupColumnDef = {
     headerName: 'GroupName',
