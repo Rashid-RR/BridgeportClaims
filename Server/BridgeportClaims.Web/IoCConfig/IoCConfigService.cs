@@ -42,6 +42,7 @@ using BridgeportClaims.Data.DataProviders.KPI;
 using BridgeportClaims.Data.DataProviders.LetterGenerations;
 using BridgeportClaims.Data.DataProviders.Notifications;
 using BridgeportClaims.Data.DataProviders.Notifications.PayorLetterName;
+using BridgeportClaims.Data.DataProviders.Patients;
 using BridgeportClaims.Data.DataProviders.PayorSearches;
 using BridgeportClaims.Data.DataProviders.PrescriptionPayments;
 using BridgeportClaims.Data.DataProviders.Prescriptions;
@@ -97,6 +98,7 @@ namespace BridgeportClaims.Web.IoCConfig
             builder.RegisterType<PayorSearchProvider>().As<IPayorSearchProvider>().InstancePerRequest();
             builder.RegisterType<RedisDomain>().As<IRedisDomain>().InstancePerRequest();
             builder.RegisterType<AdjustorDataProvider>().As<IAdjustorDataProvider>().InstancePerRequest();
+            builder.RegisterType<PatientProvider>().As<IPatientProvider>().InstancePerRequest();
             builder.RegisterType<DashboardProvider>().As<IDashboardProvider>().InstancePerRequest();
             builder.RegisterType<EpisodeNoteProvider>().As<IEpisodeNoteProvider>().InstancePerRequest();
             builder.RegisterType<AdminFunctionsProvider>().As<IAdminFunctionsProvider>().InstancePerRequest();
