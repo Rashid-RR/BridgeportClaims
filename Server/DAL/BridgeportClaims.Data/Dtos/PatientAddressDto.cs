@@ -1,6 +1,6 @@
 ﻿namespace BridgeportClaims.Data.Dtos
 {
-    public class PatientAddressDto
+    public sealed class PatientAddressDto
     {
         public int PatientId { get; set; }
         public string LastName { get; set; }

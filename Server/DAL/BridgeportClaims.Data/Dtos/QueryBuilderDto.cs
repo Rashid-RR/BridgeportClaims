@@ -2,7 +2,7 @@
 
 namespace BridgeportClaims.Data.Dtos
 {
-    public class QueryBuilderDto
+    public sealed class QueryBuilderDto
     {
         private DateTime _dt;
         private DateTime _dateSubmitted;
