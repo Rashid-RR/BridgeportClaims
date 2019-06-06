@@ -53,7 +53,57 @@ export class ClaimsDataListComponent implements OnInit {
     { headerName: 'Patient First', field: 'patientFirst', sortable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true} },
     { headerName: 'Claim #', field: 'claimNumber', sortable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true} },
     { headerName: 'Attorney Managed', field: 'isAttorneyManaged', sortable: true, filter: true, filterParams: { clearButton: true} },
-    { headerName: 'Attorney Name', field: 'attorneyName', sortable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true} }
+    { headerName: 'Attorney Name', field: 'attorneyName', sortable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true} },
+    { headerName: 'Label', field: 'labelName', sortable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true} },
+    { headerName: 'Rx #', field: 'rxNumber', sortable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true} },
+    { headerName: 'Rx Date', field: 'dateFilled', sortable: true, filter: 'agDateColumnFilter',
+      filterParams: {
+        clearButton: true,
+        comparator: function(filterLocalDateAtMidnight, cellValue) {
+          const dateAsString = cellValue;
+          if (dateAsString == null) {
+            return -1;
+          }
+          const dateParts = dateAsString.split('/');
+          const cellDate = new Date(Number(dateParts[2]), Number(dateParts[0]) - 1, Number(dateParts[1]));
+          if (filterLocalDateAtMidnight.toString() === cellDate.toString()) {
+            return 0;
+          }
+          if (cellDate < filterLocalDateAtMidnight) {
+            return -1;
+          }
+          if (cellDate > filterLocalDateAtMidnight) {
+            return 1;
+          }
+        },
+        browserDatePicker: true
+      }
+    },
+    { headerName: 'NDC', field: 'ndc', sortable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true} },
+    { headerName: 'Invoice #', field: 'invoiceNumber', sortable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true} },
+    { headerName: 'Invoice Date', field: 'invoiceDate', sortable: true, filter: 'agDateColumnFilter',
+      filterParams: {
+        clearButton: true,
+        comparator: function(filterLocalDateAtMidnight, cellValue) {
+          const dateAsString = cellValue;
+          if (dateAsString == null) {
+            return -1;
+          }
+          const dateParts = dateAsString.split('/');
+          const cellDate = new Date(Number(dateParts[2]), Number(dateParts[0]) - 1, Number(dateParts[1]));
+          if (filterLocalDateAtMidnight.toString() === cellDate.toString()) {
+            return 0;
+          }
+          if (cellDate < filterLocalDateAtMidnight) {
+            return -1;
+          }
+          if (cellDate > filterLocalDateAtMidnight) {
+            return 1;
+          }
+        },
+        browserDatePicker: true
+      }
+    }
   ];
   /*autoGroupColumnDef = {
     headerName: 'GroupName',
