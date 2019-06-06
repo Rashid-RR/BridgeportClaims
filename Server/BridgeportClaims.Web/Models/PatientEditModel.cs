@@ -15,7 +15,7 @@ namespace BridgeportClaims.Web.Models
         public string City { get; set; } = DefaultString;
         public string PostalCode { get; set; } = DefaultString;
         public int? StateId { get; set; } = DefaultInt;
-        public string StateCode { get; set; } = DefaultString;
+        public string StateName { get; set; } = DefaultString;
         public string PhoneNumber { get; set; } = DefaultString;
         public string EmailAddress { get; set; } = DefaultString;
     }

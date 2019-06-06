@@ -1307,3 +1307,7 @@ app-new-episode .close-button {
 .ag-column-hover {
   background-color: #EFE2E1;
 }
+
+.ag-row-editing {
+  background-color: #5bc0de !important;
+}

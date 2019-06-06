@@ -32,6 +32,7 @@ import { ClaimsDataSearchFilterComponent } from './claims-data-search-filter/cla
 import { AddressEditComponent } from './address-edit/address-edit.component';
 import { AddressEditListComponent } from './address-edit-list/address-edit-list.component';
 import { AddressEditSearchFilterComponent } from './address-edit-search-filter/address-edit-search-filter.component';
+import { StateCellRendererComponent } from './address-edit/states-cell-renderer.component';
 
 @NgModule({
   imports: [
@@ -39,7 +40,7 @@ import { AddressEditSearchFilterComponent } from './address-edit-search-filter/a
     SweetAlert2Module.forRoot(),
     SharedModule,
     RouterModule.forChild(ReportsRoutes),
-    AgGridModule.withComponents([])
+    AgGridModule.withComponents([StateCellRendererComponent])
   ],
   declarations: [
     AccountReceivableSearchComponent, AccountReceivableResultComponent,
@@ -53,7 +54,8 @@ import { AddressEditSearchFilterComponent } from './address-edit-search-filter/a
     ClaimsDataSearchFilterComponent,
     AddressEditComponent,
     AddressEditListComponent,
-    AddressEditSearchFilterComponent
+    AddressEditSearchFilterComponent,
+    StateCellRendererComponent
   ]
 })
 export class ReportsModule { }

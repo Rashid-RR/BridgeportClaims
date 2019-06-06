@@ -36,7 +36,7 @@ namespace BridgeportClaims.Web.Controllers
                     throw new Exception("Could not locate the authenticated user.");
                 }
                 _patientProvider.Value.UpdatePatientAddress(model.PatientId, modifiedByUserId, model.LastName, model.FirstName,
-                    model.Address1, model.Address2, model.City, model.PostalCode, model.StateId, model.PhoneNumber, model.EmailAddress);
+                    model.Address1, model.Address2, model.City, model.PostalCode, model.StateName, model.PhoneNumber, model.EmailAddress);
                 return Ok(new { message = "The patient was updated successfully." });
             }
             catch (Exception ex)

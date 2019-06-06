@@ -15,7 +15,6 @@ using BridgeportClaims.Data.DataProviders.Documents;
 using BridgeportClaims.Data.DataProviders.Payments;
 using BridgeportClaims.Data.DataProviders.PrescriptionPayments;
 using Microsoft.AspNet.Identity;
-using cs = BridgeportClaims.Common.Config.ConfigService;
 
 namespace BridgeportClaims.Web.Controllers
 {

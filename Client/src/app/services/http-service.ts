@@ -173,6 +173,17 @@ closeTreeWindows() {
     return s;
   }
 
+  editPatient(data: any): Observable<any> {
+    const s = this.http.post(this.baseUrl + '/patients/edit-patient', data)
+      .pipe(
+        tap(_ => {
+        }, error => {
+          this.handleResponseError(error);
+        })
+      );
+    return s;
+  }
+
   addHistory(id: Number): Observable<any> {
     const s = this.http.post(this.baseUrl + '/history/addclaim?claimId=' + id, {})
       .pipe(
