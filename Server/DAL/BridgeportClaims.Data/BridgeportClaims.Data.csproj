@@ -152,6 +152,8 @@
     <Compile Include="DataProviders\Notifications\NotificationsDataProvider.cs" />
     <Compile Include="DataProviders\Notifications\PayorLetterName\IPayorLetterNameProvider.cs" />
     <Compile Include="DataProviders\Notifications\PayorLetterName\PayorLetterNameProvider.cs" />
+    <Compile Include="DataProviders\Patients\IPatientProvider.cs" />
+    <Compile Include="DataProviders\Patients\PatientProvider.cs" />
     <Compile Include="DataProviders\Payments\IPaymentsDataProvider.cs" />
     <Compile Include="DataProviders\Payments\PaymentsDataProvider.cs" />
     <Compile Include="DataProviders\PayorSearches\IPayorSearchProvider.cs" />
@@ -249,6 +251,7 @@
     <Compile Include="Dtos\OutstandingDto.cs" />
     <Compile Include="Dtos\OutstandingDtoResult.cs" />
     <Compile Include="Dtos\OutstandingDtoTotalsResult.cs" />
+    <Compile Include="Dtos\PatientAddressDto.cs" />
     <Compile Include="Dtos\PaymentPostingDto.cs" />
     <Compile Include="Dtos\PaymentTotalsDto.cs" />
     <Compile Include="Dtos\PayorDto.cs" />

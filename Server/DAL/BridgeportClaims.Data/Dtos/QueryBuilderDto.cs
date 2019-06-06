@@ -2,9 +2,12 @@
 
 namespace BridgeportClaims.Data.Dtos
 {
-    public class QueryBuilderDto
+    public sealed class QueryBuilderDto
     {
-        private DateTime? _dateSubmitted;
+        private DateTime _dt;
+        private DateTime _dateSubmitted;
+        private DateTime _dateFilled;
+        private DateTime? _invoiceDate;
         public int ClaimId { get; set; }
         public int PrescriptionId { get; set; }
         public int? PrescriptionPaymentId { get; set; }
@@ -25,5 +28,29 @@ namespace BridgeportClaims.Data.Dtos
         public string ClaimNumber { get; set; }
         public bool IsAttorneyManaged { get; set; }
         public string AttorneyName { get; set; }
+        public string LabelName { get; set; }
+        public string RxNumber { get; set; }
+        public string DateFilled
+        {
+            get => $"{_dateFilled:MM/dd/yyyy}";
+            set => _dateFilled = Convert.ToDateTime(value);
+        }
+        public string Ndc { get; set; }
+        public string InvoiceNumber { get; set; }
+        public string InvoiceDate
+        {
+            get => _invoiceDate.HasValue ? $"{_invoiceDate:MM/dd/yyyy}" : string.Empty;
+            set
+            {
+                if (DateTime.TryParse(value, out _dt))
+                {
+                    _invoiceDate = _dt;
+                }
+                else
+                {
+                    _invoiceDate = null;
+                }
+            }
+        }
     }
 }

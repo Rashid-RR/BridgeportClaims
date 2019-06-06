@@ -419,6 +419,7 @@
     <Compile Include="Controllers\LakerAutomationController.cs" />
     <Compile Include="Controllers\LettersController.cs" />
     <Compile Include="Controllers\NotificationsController.cs" />
+    <Compile Include="Controllers\PatientsController.cs" />
     <Compile Include="Controllers\PaymentsController.cs" />
     <Compile Include="Controllers\PayorsController.cs" />
     <Compile Include="Controllers\PrescriptionNotesController.cs" />
@@ -468,6 +469,7 @@
     <Compile Include="Models\FollowUpDateModel.cs" />
     <Compile Include="Models\ForgotPasswordViewModel.cs" />
     <Compile Include="Email\Models\EmailViewModel.cs" />
+    <Compile Include="Models\PatientEditModel.cs" />
     <Compile Include="Models\PayorEntityModel.cs" />
     <Compile Include="Models\SmallDocumentViewModel.cs" />
     <Compile Include="Models\InvoiceAmountsModel.cs" />
