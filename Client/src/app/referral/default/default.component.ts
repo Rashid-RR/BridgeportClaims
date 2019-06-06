@@ -87,7 +87,7 @@ export class ReferralDefaultComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.http.states({}).subscribe(res => {
       this.states = res;
-    }, () => { });
+    }, () => {});
   }
   updateDate(field: string) {
     this.form.controls[field].setValue(this.dp.transform($(`#${field}`).val(), 'MM/dd/yyyy'));

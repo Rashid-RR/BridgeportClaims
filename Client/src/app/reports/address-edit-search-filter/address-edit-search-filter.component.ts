@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AddressEditService } from '../app/services/services.barrel';
+import { AddressEditService } from '../../services/services.barrel';
 
 @Component({
   selector: 'app-address-edit-search-filter',

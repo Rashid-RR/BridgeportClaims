@@ -55,14 +55,14 @@ export class ClaimsDataListComponent implements OnInit {
     { headerName: 'Attorney Managed', field: 'isAttorneyManaged', sortable: true, filter: true, filterParams: { clearButton: true} },
     { headerName: 'Attorney Name', field: 'attorneyName', sortable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true} }
   ];
-  autoGroupColumnDef = {
+  /*autoGroupColumnDef = {
     headerName: 'GroupName',
     field: 'groupName',
     cellRenderer: 'agGroupCellRenderer',
     cellRendererParams: {
         checkbox: true
     }
-  };
+  };*/
 
   rowData: any;
   constructor(public queryBuilderSvc: QueryBuilderService) {
@@ -112,12 +112,12 @@ export class ClaimsDataListComponent implements OnInit {
     this.rowData = this.queryBuilderSvc.fetchQueryBuilderReport();
   }
 
-  getSelectedRows() {
+  /*getSelectedRows() {
     const selectedNodes = this.agGrid.api.getSelectedNodes();
     const selectedData = selectedNodes.map(node => node.data);
     const selectedDataStringPresentation = selectedData.map(node => node.make + ' ' + node.model).join(', ');
     console.log(`Selected nodes: ${selectedDataStringPresentation}`);
-  }
+  }*/
 
   onGridReady(params): void {
     this.gridApi = params.api;

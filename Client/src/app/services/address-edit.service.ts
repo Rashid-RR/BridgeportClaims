@@ -16,6 +16,11 @@ export interface AddressEdit {
   emailAddress: string;
 }
 
+export interface AddressEditState {
+  stateId: number;
+  stateName: string;
+}
+
 @Injectable()
 export class AddressEditService {
   public filterText: string;
@@ -25,5 +30,13 @@ export class AddressEditService {
 
   getPatientAddressEdit(): Observable<AddressEdit> {
     return this.http.getPatientAddressEdit();
+  }
+
+  getStates(): AddressEditState[] {
+    let states: AddressEditState[];
+    this.http.states({}).subscribe(res => {
+      states = res;
+    }, () => {});
+    return states;
   }
 }
