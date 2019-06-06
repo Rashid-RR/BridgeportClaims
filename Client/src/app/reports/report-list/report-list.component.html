@@ -18,10 +18,10 @@
   <a class="col-xs-3" routerLink="/main/reports/collection-bonus">
     <img src="assets/img/reports/5.png" class="img-responsive"  style="height:90px;margin:auto" >
   </a>
-  <a class="col-xs-3" routerLink="/main/reports/claims-data">
+  <a class="col-xs-3" routerLink="/main/reports/claims-data" *ngIf="indexerOnly">
     <img src="assets/img/reports/7.png" class="img-responsive"  style="height:90px;margin:auto" >
   </a>
-  <a class="col-xs-3" routerLink="/main/reports/address-edit">
+  <a class="col-xs-3" routerLink="/main/reports/address-edit" *ngIf="indexerOnly">
     <img src="assets/img/reports/8.png" class="img-responsive"  style="height:90px;margin:auto" >
   </a>
 </div>
