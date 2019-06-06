@@ -66,7 +66,7 @@ import { ReferenceManagerService } from './services/reference-manager.service';
 import { AccountReceivableService, AuthGuard, AuthInterceptor, ClaimManager, CollectionBonusService,
   DecisionTreeService, DiaryService, DocumentManagerService, EventsService, FirewallService, HttpService,
   PaymentScriptService, ProfileManager, ReportLoaderService, ShortPayService, SignalRService,
-  SkippedPaymentService, UnpaidScriptService, WINDOW_PROVIDERS, QueryBuilderService } from './services/services.barrel';
+  SkippedPaymentService, UnpaidScriptService, WINDOW_PROVIDERS, QueryBuilderService, AddressEditService } from './services/services.barrel';
 import { StringService } from './services/string.service';
 // import { SnotifyModule, SnotifyService, ToastDefaults } from 'ng-snotify';
 import { SharedModule } from './shared';
@@ -118,7 +118,7 @@ import { SharedModule } from './shared';
     HttpService, ProfileManager, EventsService, AuthGuard, ClaimManager, PaymentService, DocumentManagerService,
     EpisodeService, FirewallService, DecisionTreeService,
     PaymentScriptService, DiaryService, ShortPayService, SkippedPaymentService, UnpaidScriptService,
-    AccountReceivableService, ReportLoaderService, SignalRService, StringService, QueryBuilderService,
+    AccountReceivableService, ReportLoaderService, SignalRService, StringService, QueryBuilderService, AddressEditService,
     {
       provide: LocationStrategy,
       useClass: HashLocationStrategy

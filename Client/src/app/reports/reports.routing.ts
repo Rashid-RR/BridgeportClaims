@@ -1,14 +1,15 @@
 import { Routes } from '@angular/router';
-import { ReportComponent } from './report/report.component';
+import { AddressEditComponent } from './address-edit/address-edit.component';
+import { ClaimsDataComponent } from './claims-data/claims-data.component';
+import { CollectionBonusComponent } from './collection-bonus/collection-bonus.component';
+import { DuplicateClaimManualComponent } from './duplicate-claim-manual/duplicate-claim-manual.component';
+import { DuplicateClaimsComponent } from './duplicate-claims/duplicate-claims.component';
+import { ReportAccountReceivableComponent } from './report-account-receivable/report-account-receivable.component';
 import { ReportListComponent } from './report-list/report-list.component';
 import { ReportSampleComponent } from './report-sample/report-sample.component';
-import { ReportAccountReceivableComponent } from './report-account-receivable/report-account-receivable.component';
-import { DuplicateClaimsComponent } from './duplicate-claims/duplicate-claims.component';
-import { DuplicateClaimManualComponent } from './duplicate-claim-manual/duplicate-claim-manual.component';
+import { ReportComponent } from './report/report.component';
 import { ShortPayComponent } from './short-pay/short-pay.component';
 import { SkippedPaymentComponent } from './skipped-payment/skipped-payment.component';
-import { CollectionBonusComponent } from './collection-bonus/collection-bonus.component';
-import { ClaimsDataComponent } from './claims-data/claims-data.component';
 
 export const ReportsRoutes: Routes = [
     {
@@ -22,6 +23,7 @@ export const ReportsRoutes: Routes = [
             { path: 'shortpay', component: ShortPayComponent },
             { path: 'collection-bonus', component: CollectionBonusComponent },
             { path: 'claims-data', component: ClaimsDataComponent },
+            { path: 'address-edit', component: AddressEditComponent },
             { path: 'skipped-payment', component: SkippedPaymentComponent },
             {
                 path: 'duplicate-claims',

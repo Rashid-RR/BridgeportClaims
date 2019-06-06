@@ -4,8 +4,7 @@ import { QueryBuilderService } from '../../services/query-builder.service';
 
 @Component({
   selector: 'app-claims-data-list',
-  templateUrl: './claims-data-list.component.html',
-  styleUrls: ['./claims-data-list.component.css']
+  templateUrl: './claims-data-list.component.html'
 })
 export class ClaimsDataListComponent implements OnInit {
   public defaultColDef: any;

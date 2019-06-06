@@ -29,6 +29,9 @@ import { SkippedPaymentSearchComponent } from './skipped-payment-search/skipped-
 import { SkippedPaymentComponent } from './skipped-payment/skipped-payment.component';
 import 'ag-grid-enterprise';
 import { ClaimsDataSearchFilterComponent } from './claims-data-search-filter/claims-data-search-filter.component';
+import { AddressEditComponent } from './address-edit/address-edit.component';
+import { AddressEditListComponent } from './address-edit-list/address-edit-list.component';
+import { AddressEditSearchFilterComponent } from './address-edit-search-filter/address-edit-search-filter.component';
 
 @NgModule({
   imports: [
@@ -47,7 +50,10 @@ import { ClaimsDataSearchFilterComponent } from './claims-data-search-filter/cla
     CollectionBonusListComponent,
     ClaimsDataComponent,
     ClaimsDataListComponent,
-    ClaimsDataSearchFilterComponent
+    ClaimsDataSearchFilterComponent,
+    AddressEditComponent,
+    AddressEditListComponent,
+    AddressEditSearchFilterComponent
   ]
 })
 export class ReportsModule { }

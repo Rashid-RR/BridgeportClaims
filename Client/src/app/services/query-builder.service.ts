@@ -24,20 +24,11 @@ export interface QueryBuilder {
 @Injectable()
 export class QueryBuilderService {
   public filterText: string;
-  loading = false;
   rows: QueryBuilder[] = [];
 
   constructor(private http: HttpService) {}
 
   fetchQueryBuilderReport(): Observable<QueryBuilder> {
-    // this.loading = true;
     return this.http.queryBuilderReport();
-    /*.subscribe(r => {
-      this.rows = r;
-      this.loading = false;
-    }, err => {
-      this.loading = false;
-      this.rows = [{} as any];
-  });*/
   }
 }

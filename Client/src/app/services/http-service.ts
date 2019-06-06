@@ -1077,6 +1077,16 @@ closeTreeWindows() {
       );
   }
 
+  getPatientAddressEdit(): Observable<any> {
+    return this.http.post(this.baseUrl + '/patients/get-patient-edit-report', {})
+      .pipe(
+        tap(_ => {
+        }, error => {
+          this.handleResponseError(error);
+        })
+      );
+  }
+
   collectionBonus(data?: any): Observable<any> {
     const params = new HttpParams()
       .set('month', data.month)

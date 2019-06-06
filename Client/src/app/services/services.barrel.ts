@@ -21,3 +21,4 @@ export * from './collection-bonus.service';
 export * from './query-builder.service';
 export * from './decision-tree.service';
 export * from './window-service';
+export * from './address-edit.service';
