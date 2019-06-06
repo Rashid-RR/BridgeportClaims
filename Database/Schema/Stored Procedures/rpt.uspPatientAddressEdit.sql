@@ -19,7 +19,7 @@ AS BEGIN
 			,p.[City]
 			,p.[PostalCode]
 			,p.[StateID] AS StateId
-			,st.StateCode
+			,st.StateName
 			,p.[PhoneNumber]
 			,p.[EmailAddress]
 	FROM [dbo].[Patient] AS p LEFT JOIN dbo.UsState AS st ON st.StateID = p.StateID;

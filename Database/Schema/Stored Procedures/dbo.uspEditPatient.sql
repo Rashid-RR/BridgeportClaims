@@ -18,13 +18,19 @@ CREATE PROCEDURE [dbo].[uspEditPatient] (
    ,@Address2 varchar(255) = '{NULL}'
    ,@City varchar(155) = '{NULL}'
    ,@PostalCode varchar(100) = '{NULL}'
-   ,@StateID int = -1
+   ,@StateName varchar(64) = '{NULL}'
    ,@PhoneNumber varchar(30) = '{NULL}'
    ,@EmailAddress varchar(155) = '{NULL}'
 )
 AS
     BEGIN
         DECLARE @UtcNow datetime2 = dtme.udfGetDate();
+		DECLARE @StateID int;
+		IF (@StateName = '{NULL}')
+			SET @StateID = -1
+		ELSE
+			SELECT @StateID = US.StateID FROM dbo.UsState AS US WHERE US.StateName = @StateName;
+
         UPDATE P
         SET    P.ModifiedByUserID = @ModifiedByUserID
               ,P.UpdatedOnUTC = @UtcNow
