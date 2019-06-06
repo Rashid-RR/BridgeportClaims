@@ -21,7 +21,7 @@ export class AddressEditListComponent implements OnInit {
   public stateNames: string[] = [];
   @ViewChild('agGrid') agGrid: AgGridNg2;
 
-  constructor(private addressEditService: AddressEditService) {
+  constructor(public addressEditService: AddressEditService) {
     this.states = this.addressEditService.getStates();
     for (const st of this.states) {
       this.stateNames.push(st.stateName);
