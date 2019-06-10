@@ -48,10 +48,10 @@ namespace BridgeportClaims.Web.Controllers
                     model.AmountPaid, model.DatePosted.ToNullableFormattedDateTime(), userId);
                 return Ok(new {message = "The prescription payment was updated successfully."});
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Console.WriteLine(e);
-                throw;
+                Logger.Value.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
             }
         }
     }
