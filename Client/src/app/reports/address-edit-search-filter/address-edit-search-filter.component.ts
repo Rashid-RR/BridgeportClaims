@@ -15,8 +15,4 @@ export class AddressEditSearchFilterComponent implements OnInit {
   clearFilter(): void {
     this.addressEditSvc.filterText = '';
   }
-
-  refreshList(): void {
-    this.addressEditSvc.refreshList$.next(true);
-  }
 }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable } from 'rxjs';
 import { UsState } from '../models/us-state';
 import { HttpService } from './http-service';
 
@@ -22,7 +22,6 @@ export class AddressEditService {
   public filterText: string;
   rows: AddressEdit[] = [];
   states: string[];
-  refreshList$ = new BehaviorSubject(false);
 
   constructor(private http: HttpService) {}
 

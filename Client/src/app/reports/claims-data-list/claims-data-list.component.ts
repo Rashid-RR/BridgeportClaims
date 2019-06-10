@@ -14,6 +14,7 @@ export class ClaimsDataListComponent implements OnInit {
   public sideBar: any;
   public statusBar: any;
   public gridApi: any;
+  private gridColumnApi: any;
 
   @ViewChild('agGrid') agGrid: AgGridNg2;
   columnDefs = [
@@ -160,6 +161,7 @@ export class ClaimsDataListComponent implements OnInit {
 
   ngOnInit(): void {
     this.rowData = this.queryBuilderSvc.fetchQueryBuilderReport();
+    this.queryBuilderSvc.refreshList$.subscribe(this.refreshList);
   }
 
   /*getSelectedRows() {
@@ -171,5 +173,13 @@ export class ClaimsDataListComponent implements OnInit {
 
   onGridReady(params): void {
     this.gridApi = params.api;
+    this.gridColumnApi = params.columnApi;
+  }
+
+  refreshList = (action) => {
+    if(!action){return;}
+    this.gridApi.setFilterModel(null);
+    this.gridApi.onFilterChanged();
+    this.gridColumnApi.resetColumnState();
   }
 }

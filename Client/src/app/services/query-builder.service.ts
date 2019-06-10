@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from './http-service';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 
 export interface QueryBuilder {
   claimId: number;
@@ -25,6 +25,7 @@ export interface QueryBuilder {
 export class QueryBuilderService {
   public filterText: string;
   rows: QueryBuilder[] = [];
+  refreshList$ = new BehaviorSubject(false);
 
   constructor(private http: HttpService) {}
 

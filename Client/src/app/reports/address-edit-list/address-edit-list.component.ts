@@ -83,7 +83,6 @@ export class AddressEditListComponent implements OnInit {
         console.error(error);
     });*/
     this.rowData = this.addressEditService.getPatientAddressEdit();
-    this.addressEditService.refreshList$.subscribe(this.refreshList);
     this.columnDefs = [
       // { headerName: 'ClaimId', field: 'claimId', sortable: true, filter: true, checkboxSelection: true, rowDrag: true },
       { headerName: 'Patient ID', field: 'patientId', hide: true },
@@ -141,12 +140,5 @@ export class AddressEditListComponent implements OnInit {
     } else {
       console.log('no cells are editing');
     }
-  }
-
-  refreshList = (action) => {
-    if(!action){return;}
-    this.gridApi.setFilterModel(null);
-    this.gridApi.onFilterChanged();
-    this.gridColumnApi.resetColumnState();
   }
 }
