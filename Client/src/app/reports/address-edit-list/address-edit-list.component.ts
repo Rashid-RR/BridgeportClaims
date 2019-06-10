@@ -113,8 +113,11 @@ export class AddressEditListComponent implements OnInit {
   }
 
   onCellValueChanged(params: any) {
-    const colId = params.column.getId();
-    this.http.editPatient(params.data).subscribe(res => { this.toast.success(res.message); }, err => this.toast.error(err.message));
+    const valueActuallyChanged = (params.oldValue !== params.newValue);
+    if( valueActuallyChanged ) {
+      const colId = params.column.getId();
+      this.http.editPatient(params.data).subscribe(res => { this.toast.success(res.message); }, err => this.toast.error(err.message));
+    }
   }
 
   onBtWhich() {
