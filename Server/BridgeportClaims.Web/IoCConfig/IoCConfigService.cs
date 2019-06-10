@@ -38,6 +38,7 @@ using BridgeportClaims.Data.DataProviders.DocumentIndexes;
 using BridgeportClaims.Data.DataProviders.Documents;
 using BridgeportClaims.Data.DataProviders.EpisodeNotes;
 using BridgeportClaims.Data.DataProviders.InvoicePdfDocuments;
+using BridgeportClaims.Data.DataProviders.InvoicesProvider;
 using BridgeportClaims.Data.DataProviders.KPI;
 using BridgeportClaims.Data.DataProviders.LetterGenerations;
 using BridgeportClaims.Data.DataProviders.Notifications;
@@ -96,6 +97,7 @@ namespace BridgeportClaims.Web.IoCConfig
             builder.RegisterType<ClaimsEditProvider>().As<IClaimsEditProvider>().InstancePerRequest();
             builder.RegisterType<CollectionAssignmentProvider>().As<ICollectionAssignmentProvider>().InstancePerRequest();
             builder.RegisterType<PayorSearchProvider>().As<IPayorSearchProvider>().InstancePerRequest();
+            builder.RegisterType<InvoicesProvider>().As<IInvoicesProvider>().InstancePerRequest();
             builder.RegisterType<RedisDomain>().As<IRedisDomain>().InstancePerRequest();
             builder.RegisterType<AdjustorDataProvider>().As<IAdjustorDataProvider>().InstancePerRequest();
             builder.RegisterType<PatientProvider>().As<IPatientProvider>().InstancePerRequest();

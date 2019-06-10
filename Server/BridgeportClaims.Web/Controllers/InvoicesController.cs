@@ -1,11 +1,12 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.IO;
 using System.Net;
 using System.Web.Http;
 using BridgeportClaims.Data.DataProviders.InvoicePdfDocuments;
+using BridgeportClaims.Data.DataProviders.InvoicesProvider;
 using BridgeportClaims.Pdf.InvoiceProviders;
 using BridgeportClaims.Web.CustomActionResults;
-using NLog;
 
 namespace BridgeportClaims.Web.Controllers
 {
@@ -15,13 +16,31 @@ namespace BridgeportClaims.Web.Controllers
     {
         private static readonly Lazy<ILogger> Logger = new Lazy<ILogger>(LogManager.GetCurrentClassLogger);
         private readonly Lazy<IInvoiceProvider> _invoiceProvider;
+        private readonly Lazy<IInvoicesProvider> _invoicesProvider;
         private readonly Lazy<IInvoicePdfDocumentProvider> _invoicePdfDocumentProvider;
 
         public InvoicesController(Lazy<IInvoiceProvider> invoiceProvider,
-            Lazy<IInvoicePdfDocumentProvider> invoicePdfDocumentProvider)
+            Lazy<IInvoicePdfDocumentProvider> invoicePdfDocumentProvider,
+            Lazy<IInvoicesProvider> invoicesProvider)
         {
             _invoiceProvider = invoiceProvider;
             _invoicePdfDocumentProvider = invoicePdfDocumentProvider;
+            _invoicesProvider = invoicesProvider;
+        }
+
+        [HttpPost]
+        [Route("get-invoices")]
+        public IHttpActionResult GetInvoices()
+        {
+            try
+            {
+                return Ok(_invoicesProvider.Value.GetInvoices());
+            }
+            catch (Exception ex)
+            {
+                Logger.Value.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+            }
         }
 
         [HttpPost]

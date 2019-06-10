@@ -144,6 +144,8 @@
     <Compile Include="DataProviders\ImportFiles\ImportFileProvider.cs" />
     <Compile Include="DataProviders\InvoicePdfDocuments\IInvoicePdfDocumentProvider.cs" />
     <Compile Include="DataProviders\InvoicePdfDocuments\InvoicePdfDocumentProvider.cs" />
+    <Compile Include="DataProviders\InvoicesProvider\IInvoicesProvider.cs" />
+    <Compile Include="DataProviders\InvoicesProvider\InvoicesProvider.cs" />
     <Compile Include="DataProviders\KPI\IKpiProvider.cs" />
     <Compile Include="DataProviders\KPI\KpiProvider.cs" />
     <Compile Include="DataProviders\LetterGenerations\ILetterGenerationProvider.cs" />
@@ -243,6 +245,7 @@
     <Compile Include="Dtos\IndexedChecksResultsDto.cs" />
     <Compile Include="Dtos\IndexedInvoiceDto.cs" />
     <Compile Include="Dtos\InvoiceAmountDto.cs" />
+    <Compile Include="Dtos\InvoiceDto.cs" />
     <Compile Include="Dtos\InvoicePdfDto.cs" />
     <Compile Include="Dtos\LeftRightClaimsDto.cs" />
     <Compile Include="Dtos\LetterGenerationDto.cs" />
