@@ -1790,4 +1790,15 @@ closeTreeWindows() {
     return s;
   }
 
+  getInvoices(): Observable<InvoiceScreen> {
+    const s = this.http.get(this.baseUrl + '/invoices/get-invoices')
+      .pipe(
+        tap(_ => {
+        }, error => {
+          this.handleResponseError(error);
+        })
+      );
+    return s;
+  }
+
 }
