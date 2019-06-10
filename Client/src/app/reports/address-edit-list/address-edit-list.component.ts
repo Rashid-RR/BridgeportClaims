@@ -87,7 +87,10 @@ export class AddressEditListComponent implements OnInit {
       { headerName: 'Address 2', field: 'address2', sortable: true, editable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true} },
       { headerName: 'City', field: 'city', sortable: true, editable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true} },
       { headerName: 'State', field: 'stateName', cellRenderer: 'stateCellRenderer', sortable: true,
-        editable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true}, cellEditor: 'agRichSelectCellEditor',
+        editable: true,
+        // filter: 'agTextColumnFilter',
+        // filterParams: { clearButton: true},
+        cellEditor: 'agRichSelectCellEditor',
         cellEditorParams: {
           values: ['ALABAMA', 'ALASKA', 'ARIZONA', 'ARKANSAS', 'CALIFORNIA', 'COLORADO', 'CONNECTICUT', 'DELAWARE', 'FLORIDA', 'GEORGIA', 'HAWAII', 'IDAHO', 'ILLINOIS', 'INDIANA', 'IOWA', 'KANSAS', 'KENTUCKY', 'LOUISIANA', 'MAINE', 'MARYLAND', 'MASSACHUSETTS', 'MICHIGAN', 'MINNESOTA', 'MISSISSIPPI', 'MISSOURI', 'MONTANA', 'NEBRASKA', 'NEVADA', 'NEW HAMPSHIRE', 'NEW JERSEY', 'NEW MEXICO', 'NEW YORK', 'NORTH CAROLINA', 'NORTH DAKOTA', 'OHIO', 'OKLAHOMA', 'OREGON', 'PENNSYLVANIA', 'RHODE ISLAND', 'SOUTH CAROLINA', 'SOUTH DAKOTA', 'TENNESSEE', 'TEXAS', 'UTAH', 'VERMONT', 'VIRGINIA', 'WASHINGTON', 'WEST VIRGINIA', 'WISCONSIN', 'WYOMING'],
           cellRenderer: 'stateCellRenderer'
