@@ -71,6 +71,11 @@ export class AddressEditListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.http.getInvoices().subscribe(res => {
+      console.log(res);
+    });
+
+
     /*this.http.getStates({}).pipe(take(1)).subscribe(data => {
         this.addressEditService.states = data.map(a => a.stateName);
         console.log(this.addressEditService.states);

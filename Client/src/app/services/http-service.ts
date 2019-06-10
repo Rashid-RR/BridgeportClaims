@@ -12,6 +12,7 @@ import {EventsService} from './events-service';
 import {ToastrService} from 'ngx-toastr';
 import {tap} from 'rxjs/operators';
 import {RootDecisionTreeModal} from '../interfaces/decision-tree-choice';
+import { InvoiceScreen } from '../models/invoice.model';
 
 @Injectable()
 export class HttpService {
@@ -1791,14 +1792,12 @@ closeTreeWindows() {
   }
 
   getInvoices(): Observable<InvoiceScreen> {
-    const s = this.http.get(this.baseUrl + '/invoices/get-invoices')
+    return this.http.post<InvoiceScreen>(this.baseUrl + '/invoices/get-invoices', {})
       .pipe(
         tap(_ => {
         }, error => {
           this.handleResponseError(error);
         })
       );
-    return s;
-  }
-
+    }
 }
