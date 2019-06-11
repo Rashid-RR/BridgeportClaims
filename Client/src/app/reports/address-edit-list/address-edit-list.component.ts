@@ -1,3 +1,4 @@
+import { AgPhoneNumberMaskComponent } from './../../components/ag-phone-number-mask/ag-phone-number-mask.component';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AgGridNg2 } from 'ag-grid-angular/dist/agGridNg2';
 import { AddressEditService } from '../../services/address-edit.service';
@@ -101,7 +102,7 @@ export class AddressEditListComponent implements OnInit {
           cellRenderer: 'stateCellRenderer'
         } },
       { headerName: 'Zip', field: 'postalCode', sortable: true, editable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true} },
-      { headerName: 'Phone #', field: 'phoneNumber', sortable: true, editable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true} },
+      { headerName: 'Phone #', field: 'phoneNumber', sortable: true, editable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true}, cellRendererFramework: AgPhoneNumberMaskComponent },
       { headerName: 'Email', cellEditor: 'agPopupTextCellEditor', field: 'emailAddress', sortable: true, editable: true,
         filter: 'agTextColumnFilter', filterParams: { clearButton: true} }
     ];

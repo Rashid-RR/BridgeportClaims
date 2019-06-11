@@ -70,6 +70,7 @@ import { AccountReceivableService, AuthGuard, AuthInterceptor, ClaimManager, Col
 import { StringService } from './services/string.service';
 // import { SnotifyModule, SnotifyService, ToastDefaults } from 'ng-snotify';
 import { SharedModule } from './shared';
+import { AgPhoneNumberMaskComponent } from './components/ag-phone-number-mask/ag-phone-number-mask.component';
 
 @NgModule({
   declarations: [
@@ -91,7 +92,7 @@ import { SharedModule } from './shared';
     EpisodeResultsComponent, EpisodeFilterComponent, FirewallSettingsComponent, FirewallFilterComponent,
     FirewallGridComponent, AcquireEpisodeComponent, TestComponent, OutstandingFilterComponent, OutstandingResultComponent,
     ClaimOutstandingComponent,
-    CarrierModalComponent, AdjustorModalComponent, AttorneyModalComponent, DecisionTreeModalComponent
+    CarrierModalComponent, AdjustorModalComponent, AttorneyModalComponent, DecisionTreeModalComponent, AgPhoneNumberMaskComponent
   ],
   imports: [
     BrowserModule,
@@ -126,7 +127,7 @@ import { SharedModule } from './shared';
   ],
   entryComponents: [
     UnindexedImageFileComponent,
-    CarrierModalComponent, AdjustorModalComponent, AttorneyModalComponent, DecisionTreeModalComponent, AppComponent
+    CarrierModalComponent, AdjustorModalComponent, AttorneyModalComponent, DecisionTreeModalComponent, AppComponent, AgPhoneNumberMaskComponent
   ],
   bootstrap: [AppComponent]
 })
