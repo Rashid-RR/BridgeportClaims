@@ -87,8 +87,8 @@ export class AddressEditListComponent implements OnInit {
     this.columnDefs = [
       // { headerName: 'ClaimId', field: 'claimId', sortable: true, filter: true, checkboxSelection: true, rowDrag: true },
       { headerName: 'Patient ID', field: 'patientId', hide: true },
-      { headerName: 'Last Name', pinned: 'left', field: 'lastName', sortable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true} },
-      { headerName: 'First Name', pinned: 'left', field: 'firstName', sortable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true} },
+      { headerName: 'Last Name', field: 'lastName', editable: false, sortable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true} },
+      { headerName: 'First Name', editable: false, field: 'firstName', sortable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true} },
       { headerName: 'Address 1', field: 'address1', sortable: true, editable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true} },
       { headerName: 'Address 2', field: 'address2', sortable: true, editable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true} },
       { headerName: 'City', field: 'city', sortable: true, editable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true} },

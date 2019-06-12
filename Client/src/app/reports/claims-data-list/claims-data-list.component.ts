@@ -20,10 +20,11 @@ export class ClaimsDataListComponent implements OnInit {
   columnDefs = [
     // { headerName: 'ClaimId', field: 'claimId', sortable: true, filter: true, checkboxSelection: true, rowDrag: true },
     // { headerName: 'PrescriptionId', field: 'prescriptionId', sortable: true, filter: true },
-    { headerName: 'Group Name', field: 'groupName', sortable: true, rowDrag: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true} },
-    { headerName: 'Pharmacy', field: 'pharmacy', sortable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true} },
-    { headerName: 'State', field: 'stateCode', sortable: true, filter: true, filterParams: { clearButton: true} },
-    { headerName: 'Submitted', field: 'dateSubmitted', sortable: true, filter: 'agDateColumnFilter',
+    { headerName: 'Group Name', field: 'groupName', editable: false, sortable: true, rowDrag: true,
+     filter: 'agTextColumnFilter', filterParams: { clearButton: true} },
+    { headerName: 'Pharmacy', editable: false, field: 'pharmacy', sortable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true} },
+    { headerName: 'State', editable: false, field: 'stateCode', sortable: true, filter: true, filterParams: { clearButton: true} },
+    { headerName: 'Submitted', editable: false, field: 'dateSubmitted', sortable: true, filter: 'agDateColumnFilter',
       filterParams: {
         clearButton: true,
         comparator: function(filterLocalDateAtMidnight, cellValue) {
@@ -46,18 +47,18 @@ export class ClaimsDataListComponent implements OnInit {
         browserDatePicker: true
       }
     },
-    { headerName: 'Billed', field: 'billed', sortable: true, filter: 'agNumberColumnFilter', filterParams: { clearButton: true} },
-    { headerName: 'Payable', field: 'payable', sortable: true, filter: 'agNumberColumnFilter', filterParams: { clearButton: true} },
-    { headerName: 'Collected', field: 'collected', sortable: true, filter: 'agNumberColumnFilter', filterParams: { clearButton: true} },
-    { headerName: 'Prescriber', field: 'prescriber', sortable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true} },
-    { headerName: 'Patient Last', field: 'patientLast', sortable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true} },
-    { headerName: 'Patient First', field: 'patientFirst', sortable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true} },
-    { headerName: 'Claim #', field: 'claimNumber', sortable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true} },
-    { headerName: 'Attorney Managed', field: 'isAttorneyManaged', sortable: true, filter: true, filterParams: { clearButton: true} },
-    { headerName: 'Attorney Name', field: 'attorneyName', sortable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true} },
-    { headerName: 'Label', field: 'labelName', sortable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true} },
-    { headerName: 'Rx #', field: 'rxNumber', sortable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true} },
-    { headerName: 'Rx Date', field: 'dateFilled', sortable: true, filter: 'agDateColumnFilter',
+    { headerName: 'Billed', editable: false, field: 'billed', sortable: true, filter: 'agNumberColumnFilter', filterParams: { clearButton: true} },
+    { headerName: 'Payable', editable: false, field: 'payable', sortable: true, filter: 'agNumberColumnFilter', filterParams: { clearButton: true} },
+    { headerName: 'Collected', editable: false, field: 'collected', sortable: true, filter: 'agNumberColumnFilter', filterParams: { clearButton: true} },
+    { headerName: 'Prescriber', editable: false, field: 'prescriber', sortable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true} },
+    { headerName: 'Patient Last', editable: false, field: 'patientLast', sortable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true} },
+    { headerName: 'Patient First', editable: false, field: 'patientFirst', sortable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true} },
+    { headerName: 'Claim #', field: 'claimNumber', editable: false, sortable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true} },
+    { headerName: 'Attorney Managed', field: 'isAttorneyManaged', editable: false, sortable: true, filter: true, filterParams: { clearButton: true} },
+    { headerName: 'Attorney Name', field: 'attorneyName', sortable: true, editable: false, filter: 'agTextColumnFilter', filterParams: { clearButton: true} },
+    { headerName: 'Label', field: 'labelName', sortable: true, filter: 'agTextColumnFilter', editable: false, filterParams: { clearButton: true} },
+    { headerName: 'Rx #', field: 'rxNumber', editable: false, sortable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true} },
+    { headerName: 'Rx Date', field: 'dateFilled', editable: false, sortable: true, filter: 'agDateColumnFilter',
       filterParams: {
         clearButton: true,
         comparator: function(filterLocalDateAtMidnight, cellValue) {
@@ -80,9 +81,9 @@ export class ClaimsDataListComponent implements OnInit {
         browserDatePicker: true
       }
     },
-    { headerName: 'NDC', field: 'ndc', sortable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true} },
-    { headerName: 'Invoice #', field: 'invoiceNumber', sortable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true} },
-    { headerName: 'Invoice Date', field: 'invoiceDate', sortable: true, filter: 'agDateColumnFilter',
+    { headerName: 'NDC', field: 'ndc', editable: false, sortable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true} },
+    { headerName: 'Invoice #', field: 'invoiceNumber', editable: false, sortable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true} },
+    { headerName: 'Invoice Date', field: 'invoiceDate', sortable: true, editable: false, filter: 'agDateColumnFilter',
       filterParams: {
         clearButton: true,
         comparator: function(filterLocalDateAtMidnight, cellValue) {
