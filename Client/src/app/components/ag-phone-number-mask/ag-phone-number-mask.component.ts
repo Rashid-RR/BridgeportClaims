@@ -1,32 +1,44 @@
-import { Component, OnDestroy } from '@angular/core';
-import { ICellRendererAngularComp } from 'ag-grid-angular';
+import {AfterViewInit, Component, ViewChild, ViewContainerRef} from "@angular/core";
+
+import {ICellEditorAngularComp} from "ag-grid-angular";
 
 @Component({
-    selector: 'app-ag-phone-number-mask',
-    template: `{{valueMasked()}}`
+    selector: 'numeric-cell',
+    template: `<input #input (keyup)="onKeyDown($event)" [(ngModel)]="value" style="width: 100%">`
 })
-export class AgPhoneNumberMaskComponent implements ICellRendererAngularComp, OnDestroy {
+export class AgPhoneNumberMaskComponent implements ICellEditorAngularComp, AfterViewInit {
     private params: any;
+    public value: number;
+    private cancelBeforeStart: boolean = false;
+
+    @ViewChild('input', {read: ViewContainerRef}) public input;
+
 
     agInit(params: any): void {
         this.params = params;
+        this.value = this.params.value;
+
+        // only start edit if key pressed is a number, not a letter
+        this.cancelBeforeStart = params.charPress && ('1234567890'.indexOf(params.charPress) < 0);
     }
 
-    public valueMasked(): number {
-      if (this.params.value) {
-        const x = this.params.value.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
-        this.params.value = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
-        return this.params.value;
-      } else {
-        return null;
-      }
+    getValue(): any {
+        return this.value;
     }
 
-    ngOnDestroy() {
-        // console.log(`Destroying AgPhoneNumberMaskComponent`);
+    isCancelBeforeStart(): boolean {
+        return this.cancelBeforeStart;
     }
 
-    refresh(): boolean {
-        return false;
+    onKeyDown(event): void {
+        const x = this.value.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
+        this.value = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
+    }
+
+    // dont use afterGuiAttached for post gui events - hook into ngAfterViewInit instead for this
+    ngAfterViewInit() {
+        window.setTimeout(() => {
+            this.input.element.nativeElement.focus();
+        })
     }
 }

@@ -1,4 +1,3 @@
-import { AgPhoneNumberMaskComponent } from './../../components/ag-phone-number-mask/ag-phone-number-mask.component';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AgGridNg2 } from 'ag-grid-angular/dist/agGridNg2';
 import { AddressEditService } from '../../services/address-edit.service';
@@ -6,6 +5,7 @@ import { HttpService } from '../../services/http-service';
 import { StateCellRendererComponent } from '../address-edit/states-cell-renderer.component';
 import { ToastrService } from 'ngx-toastr';
 import { GridApi } from 'ag-grid-community';
+import { AgPhoneNumberMaskComponent } from './../../components/ag-phone-number-mask/ag-phone-number-mask.component';
 
 @Component({
   selector: 'app-address-edit-list',
@@ -28,7 +28,7 @@ export class AddressEditListComponent implements OnInit {
 
   constructor(public addressEditService: AddressEditService, private http: HttpService, private toast: ToastrService) {
     this.editType = 'fullRow';
-    this.frameworkComponents = { stateCellRenderer: StateCellRendererComponent };
+    this.frameworkComponents = { stateCellRenderer: StateCellRendererComponent, agPhoneNumberMaskComponent: AgPhoneNumberMaskComponent };
     this.defaultColDef = {
       editable: true,
       enableRowGroup: true,
@@ -102,7 +102,7 @@ export class AddressEditListComponent implements OnInit {
           cellRenderer: 'stateCellRenderer'
         } },
       { headerName: 'Zip', field: 'postalCode', sortable: true, editable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true} },
-      { headerName: 'Phone #', field: 'phoneNumber', sortable: true, editable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true}, cellRendererFramework: AgPhoneNumberMaskComponent },
+      { headerName: 'Phone #', field: 'phoneNumber', sortable: true, editable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true}, cellEditor: "agPhoneNumberMaskComponent" },
       { headerName: 'Email', cellEditor: 'agPopupTextCellEditor', field: 'emailAddress', sortable: true, editable: true,
         filter: 'agTextColumnFilter', filterParams: { clearButton: true} }
     ];
