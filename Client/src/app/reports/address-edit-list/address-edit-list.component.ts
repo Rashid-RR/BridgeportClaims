@@ -106,6 +106,7 @@ export class AddressEditListComponent implements OnInit {
       { headerName: 'Email', cellEditor: 'agPopupTextCellEditor', field: 'emailAddress', sortable: true, editable: true,
         filter: 'agTextColumnFilter', filterParams: { clearButton: true} }
     ];
+    this.addressEditService.refreshList$.subscribe(this.refreshList);
   }
 
   onGridReady(params): void {
@@ -141,5 +142,12 @@ export class AddressEditListComponent implements OnInit {
     } else {
       console.log('no cells are editing');
     }
+  }
+
+  refreshList = (action) => {
+    if(!action){return;}
+    this.gridApi.setFilterModel(null);
+    this.gridApi.onFilterChanged();
+    this.gridColumnApi.resetColumnState();
   }
 }

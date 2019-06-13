@@ -8,7 +8,7 @@ import {ICellEditorAngularComp} from "ag-grid-angular";
 })
 export class AgPhoneNumberMaskComponent implements ICellEditorAngularComp, AfterViewInit {
     private params: any;
-    public value: number;
+    public value: any;
     private cancelBeforeStart: boolean = false;
 
     @ViewChild('input', {read: ViewContainerRef}) public input;
@@ -31,7 +31,7 @@ export class AgPhoneNumberMaskComponent implements ICellEditorAngularComp, After
     }
 
     onKeyDown(event): void {
-        const x = this.value.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
+        const x = (this.value).replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
         this.value = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
     }
 
