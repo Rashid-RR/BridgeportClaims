@@ -81,6 +81,12 @@
             <span>Indexing</span>
           </a>
         </li>
+        <li [class.active]="router.url.indexOf('/main/reports/invoices')>-1">
+          <a [routerLink]="!disableLinks ? '/main/reports/invoices' : []" *ngIf="adminOrAsociate" [class.disabled]="disableLinks">
+            <img src="assets/img/unidex.png">
+            <span>Invoices</span>
+          </a>
+        </li>
         <li class="header" style="color:white;font-size:14pt" *ngIf="allowed">
           <img style='width: 25px;' src="assets/img/Admin.png">
           <span>ADMINISTRATION</span>

@@ -33,6 +33,9 @@ import { AddressEditComponent } from './address-edit/address-edit.component';
 import { AddressEditListComponent } from './address-edit-list/address-edit-list.component';
 import { AddressEditSearchFilterComponent } from './address-edit-search-filter/address-edit-search-filter.component';
 import { StateCellRendererComponent } from './address-edit/states-cell-renderer.component';
+import { InvoicesComponent } from './invoices/invoices.component';
+import { InvoicesSearchFilterComponent } from './invoices-search-filter/invoices-search-filter.component';
+import { InvoicesListComponent } from './invoices-list/invoices-list.component';
 
 @NgModule({
   imports: [
@@ -55,7 +58,10 @@ import { StateCellRendererComponent } from './address-edit/states-cell-renderer.
     AddressEditComponent,
     AddressEditListComponent,
     AddressEditSearchFilterComponent,
-    StateCellRendererComponent
+    StateCellRendererComponent,
+    InvoicesComponent,
+    InvoicesSearchFilterComponent,
+    InvoicesListComponent
   ]
 })
 export class ReportsModule { }

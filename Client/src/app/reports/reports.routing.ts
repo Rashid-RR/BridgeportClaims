@@ -10,6 +10,7 @@ import { ReportSampleComponent } from './report-sample/report-sample.component';
 import { ReportComponent } from './report/report.component';
 import { ShortPayComponent } from './short-pay/short-pay.component';
 import { SkippedPaymentComponent } from './skipped-payment/skipped-payment.component';
+import { InvoicesComponent } from './invoices/invoices.component';
 
 export const ReportsRoutes: Routes = [
     {
@@ -26,13 +27,14 @@ export const ReportsRoutes: Routes = [
             { path: 'address-edit', component: AddressEditComponent },
             { path: 'skipped-payment', component: SkippedPaymentComponent },
             {
-                path: 'duplicate-claims',
-                children: [
-                    { path: '', component: DuplicateClaimsComponent },
-                    { path: 'auto', component: DuplicateClaimsComponent },
-                    { path: 'manual', component: DuplicateClaimManualComponent }
-                ]
-            }
+              path: 'duplicate-claims',
+              children: [
+                { path: '', component: DuplicateClaimsComponent },
+                { path: 'auto', component: DuplicateClaimsComponent },
+                { path: 'manual', component: DuplicateClaimManualComponent }
+              ]
+            },
+            { path: 'invoices', component: InvoicesComponent },
         ]
     }
 ];

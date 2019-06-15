@@ -66,7 +66,7 @@ import { ReferenceManagerService } from './services/reference-manager.service';
 import { AccountReceivableService, AuthGuard, AuthInterceptor, ClaimManager, CollectionBonusService,
   DecisionTreeService, DiaryService, DocumentManagerService, EventsService, FirewallService, HttpService,
   PaymentScriptService, ProfileManager, ReportLoaderService, ShortPayService, SignalRService,
-  SkippedPaymentService, UnpaidScriptService, WINDOW_PROVIDERS, QueryBuilderService, AddressEditService } from './services/services.barrel';
+  SkippedPaymentService, UnpaidScriptService, WINDOW_PROVIDERS, QueryBuilderService, AddressEditService, InvoicesService } from './services/services.barrel';
 import { StringService } from './services/string.service';
 // import { SnotifyModule, SnotifyService, ToastDefaults } from 'ng-snotify';
 import { SharedModule } from './shared';
@@ -119,7 +119,7 @@ import { AgPhoneNumberMaskComponent } from './components/ag-phone-number-mask/ag
     HttpService, ProfileManager, EventsService, AuthGuard, ClaimManager, PaymentService, DocumentManagerService,
     EpisodeService, FirewallService, DecisionTreeService,
     PaymentScriptService, DiaryService, ShortPayService, SkippedPaymentService, UnpaidScriptService,
-    AccountReceivableService, ReportLoaderService, SignalRService, StringService, QueryBuilderService, AddressEditService,
+    AccountReceivableService, ReportLoaderService, SignalRService, StringService, QueryBuilderService, AddressEditService, InvoicesService,
     {
       provide: LocationStrategy,
       useClass: HashLocationStrategy

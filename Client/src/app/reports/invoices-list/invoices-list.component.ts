@@ -1,17 +1,18 @@
+import { map } from 'rxjs/operators';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AgGridNg2 } from 'ag-grid-angular/dist/agGridNg2';
-import { AddressEditService } from '../../services/address-edit.service';
-import { HttpService } from '../../services/http-service';
+import { InvoicesService, HttpService } from '../../services/services.barrel';
 import { StateCellRendererComponent } from '../address-edit/states-cell-renderer.component';
 import { ToastrService } from 'ngx-toastr';
 import { GridApi } from 'ag-grid-community';
 import { AgPhoneNumberMaskComponent } from './../../components/ag-phone-number-mask/ag-phone-number-mask.component';
+import { InvoiceScreen } from './../../models/invoice.model';
 
 @Component({
-  selector: 'app-address-edit-list',
-  templateUrl: './address-edit-list.component.html'
+  selector: 'app-invoices-list',
+  templateUrl: './invoices-list.component.html',
 })
-export class AddressEditListComponent implements OnInit {
+export class InvoicesListComponent implements OnInit {
   private gridColumnApi: any;
   public defaultColDef: any;
   public rowSelection: string;
@@ -26,7 +27,7 @@ export class AddressEditListComponent implements OnInit {
   public frameworkComponents: any;
   @ViewChild('agGrid') agGrid: AgGridNg2;
 
-  constructor(public addressEditService: AddressEditService, private http: HttpService, private toast: ToastrService) {
+  constructor(public invoicesService: InvoicesService, private http: HttpService, private toast: ToastrService) {
     this.editType = 'fullRow';
     this.frameworkComponents = { stateCellRenderer: StateCellRendererComponent, agPhoneNumberMaskComponent: AgPhoneNumberMaskComponent };
     this.defaultColDef = {
@@ -72,36 +73,27 @@ export class AddressEditListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    /*this.http.getStates({}).pipe(take(1)).subscribe(data => {
-        this.addressEditService.states = data.map(a => a.stateName);
-        console.log(this.addressEditService.states);
-      }, error => {
-        console.error(error);
-    });*/
-    this.rowData = this.addressEditService.getPatientAddressEdit();
+
+    this.rowData = this.invoicesService.getInvoices().pipe(
+      map((invoices: any) => {
+        return invoices.map((invoice) => {
+          invoice['invoiceDate'] = (invoice['invoiceDate']||'').substr(0, 8);
+          return invoice;
+        });
+      })
+    );
+
     this.columnDefs = [
-      // { headerName: 'ClaimId', field: 'claimId', sortable: true, filter: true, checkboxSelection: true, rowDrag: true },
-      { headerName: 'Patient ID', field: 'patientId', hide: true },
-      { headerName: 'Last Name', field: 'lastName', editable: false, sortable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true} },
-      { headerName: 'First Name', editable: false, field: 'firstName', sortable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true} },
-      { headerName: 'Address 1', field: 'address1', sortable: true, editable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true} },
-      { headerName: 'Address 2', field: 'address2', sortable: true, editable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true} },
-      { headerName: 'City', field: 'city', sortable: true, editable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true} },
-      { headerName: 'State', field: 'stateName', cellRenderer: 'stateCellRenderer', sortable: true,
-        editable: true,
-        // filter: 'agTextColumnFilter',
-        // filterParams: { clearButton: true},
-        cellEditor: 'agRichSelectCellEditor',
-        cellEditorParams: {
-          values: ['ALABAMA', 'ALASKA', 'ARIZONA', 'ARKANSAS', 'CALIFORNIA', 'COLORADO', 'CONNECTICUT', 'DELAWARE', 'FLORIDA', 'GEORGIA', 'HAWAII', 'IDAHO', 'ILLINOIS', 'INDIANA', 'IOWA', 'KANSAS', 'KENTUCKY', 'LOUISIANA', 'MAINE', 'MARYLAND', 'MASSACHUSETTS', 'MICHIGAN', 'MINNESOTA', 'MISSISSIPPI', 'MISSOURI', 'MONTANA', 'NEBRASKA', 'NEVADA', 'NEW HAMPSHIRE', 'NEW JERSEY', 'NEW MEXICO', 'NEW YORK', 'NORTH CAROLINA', 'NORTH DAKOTA', 'OHIO', 'OKLAHOMA', 'OREGON', 'PENNSYLVANIA', 'RHODE ISLAND', 'SOUTH CAROLINA', 'SOUTH DAKOTA', 'TENNESSEE', 'TEXAS', 'UTAH', 'VERMONT', 'VIRGINIA', 'WASHINGTON', 'WEST VIRGINIA', 'WISCONSIN', 'WYOMING'],
-          cellRenderer: 'stateCellRenderer'
-        } },
-      { headerName: 'Zip', field: 'postalCode', sortable: true, editable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true} },
-      { headerName: 'Phone #', field: 'phoneNumber', sortable: true, editable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true}, cellEditor: "agPhoneNumberMaskComponent" },
-      { headerName: 'Email', cellEditor: 'agPopupTextCellEditor', field: 'emailAddress', sortable: true, editable: true,
-        filter: 'agTextColumnFilter', filterParams: { clearButton: true} }
+      { headerName: 'Inv Date', field: 'invoiceDate', editable: true, sortable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true}, rowGroup: true, width: 120, },
+      { headerName: 'Carrier', field: 'carrier', editable: true, sortable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true}, rowGroup: true, width: 90, },
+      { headerName: 'Patient Name', field: 'patientName', editable: true, sortable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true}, width: 90, },
+      { headerName: 'Claim #', field: 'claimNumber', editable: true, sortable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true}, width: 90, },
+      { headerName: 'Invoice Count', field: 'invoiceCount', editable: true, sortable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true} },
+      { headerName: 'Script Count', field: 'scriptCount', editable: true, sortable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true} },
+      { headerName: 'Printed', field: 'printed', editable: true, sortable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true} },
+      { headerName: 'Total Printed', field: 'totalToPrint', editable: true, sortable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true} },
     ];
-    this.addressEditService.refreshList$.subscribe(this.refreshList);
+    this.invoicesService.refreshList$.subscribe(this.refreshList);
   }
 
   onGridReady(params): void {
