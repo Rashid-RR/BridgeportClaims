@@ -1,12 +1,11 @@
-import { map } from 'rxjs/operators';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AgGridNg2 } from 'ag-grid-angular/dist/agGridNg2';
-import { InvoicesService, HttpService } from '../../services/services.barrel';
-import { StateCellRendererComponent } from '../address-edit/states-cell-renderer.component';
-import { ToastrService } from 'ngx-toastr';
 import { GridApi } from 'ag-grid-community';
+import { ToastrService } from 'ngx-toastr';
+import { map } from 'rxjs/operators';
+import { HttpService, InvoicesService } from '../../services/services.barrel';
+import { StateCellRendererComponent } from '../address-edit/states-cell-renderer.component';
 import { AgPhoneNumberMaskComponent } from './../../components/ag-phone-number-mask/ag-phone-number-mask.component';
-import { InvoiceScreen } from './../../models/invoice.model';
 
 @Component({
   selector: 'app-invoices-list',
