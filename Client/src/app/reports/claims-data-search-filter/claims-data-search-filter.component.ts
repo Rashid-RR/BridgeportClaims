@@ -18,6 +18,7 @@ export class ClaimsDataSearchFilterComponent implements OnInit {
   }
 
   refreshList(): void {
+    this.queryBuilderSvc.filterText = '';
     this.queryBuilderSvc.refreshList$.next(true);
   }
 }

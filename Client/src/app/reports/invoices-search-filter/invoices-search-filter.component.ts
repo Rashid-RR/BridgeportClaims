@@ -18,6 +18,7 @@ export class InvoicesSearchFilterComponent implements OnInit {
   }
 
   refreshList(): void {
+    this.invoicesService.filterText = '';
     this.invoicesService.refreshList$.next(true);
   }
 }
