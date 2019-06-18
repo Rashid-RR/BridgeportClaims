@@ -16,7 +16,7 @@
     display: none !important;
 }
 .example-card .mat-card-header {
-    background: #2a40b2;
+    background: #112695;
     padding: 15px 10px 5px 10px;
 }
 .example-card .mat-card-header .title {
@@ -31,4 +31,11 @@
 }
 .sign-in {
     text-align: center;
+}
+.mat-button-focus-overlay {
+  background-color:#ffffff;
+}
+
+.mat-menu-item:hover {
+   background-color:#ffffff;
 }

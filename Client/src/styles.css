@@ -1315,7 +1315,7 @@ app-new-episode .close-button {
   display: none !important;
 }
 .example-card .mat-raised-button.mat-primary {
-  background-color: #2a40b2;
+  background-color: #112695;
   width: 200px;
   border: none;
   border-radius: 50px;
