@@ -36,6 +36,7 @@ import { StateCellRendererComponent } from './address-edit/states-cell-renderer.
 import { InvoicesComponent } from './invoices/invoices.component';
 import { InvoicesSearchFilterComponent } from './invoices-search-filter/invoices-search-filter.component';
 import { InvoicesListComponent } from './invoices-list/invoices-list.component';
+import { AgDateFilterComponent } from '../components/ag-date-filter/ag-date-filter.component';
 
 @NgModule({
   imports: [
@@ -43,7 +44,7 @@ import { InvoicesListComponent } from './invoices-list/invoices-list.component';
     SweetAlert2Module.forRoot(),
     SharedModule,
     RouterModule.forChild(ReportsRoutes),
-    AgGridModule.withComponents([StateCellRendererComponent])
+    AgGridModule.withComponents([StateCellRendererComponent, AgDateFilterComponent])
   ],
   declarations: [
     AccountReceivableSearchComponent, AccountReceivableResultComponent,
@@ -61,7 +62,8 @@ import { InvoicesListComponent } from './invoices-list/invoices-list.component';
     StateCellRendererComponent,
     InvoicesComponent,
     InvoicesSearchFilterComponent,
-    InvoicesListComponent
+    InvoicesListComponent,
+    AgDateFilterComponent
   ]
 })
 export class ReportsModule { }

@@ -1,3 +1,4 @@
+import { AgDateFilterComponent } from './../../components/ag-date-filter/ag-date-filter.component';
 import { map } from 'rxjs/operators';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AgGridNg2 } from 'ag-grid-angular/dist/agGridNg2';
@@ -29,7 +30,11 @@ export class InvoicesListComponent implements OnInit {
 
   constructor(public invoicesService: InvoicesService, private http: HttpService, private toast: ToastrService) {
     this.editType = 'fullRow';
-    this.frameworkComponents = { stateCellRenderer: StateCellRendererComponent, agPhoneNumberMaskComponent: AgPhoneNumberMaskComponent };
+    this.frameworkComponents = {
+      stateCellRenderer: StateCellRendererComponent,
+      agPhoneNumberMaskComponent: AgPhoneNumberMaskComponent,
+      agDateInput: AgDateFilterComponent
+    };
     this.defaultColDef = {
       editable: true,
       enableRowGroup: true,
@@ -84,7 +89,32 @@ export class InvoicesListComponent implements OnInit {
     );
 
     this.columnDefs = [
-      { headerName: 'Inv Date', field: 'invoiceDate', editable: true, sortable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true}, rowGroup: true, width: 120, },
+      {
+        headerName: 'Inv Date',
+        field: 'invoiceDate',
+        // editable: true, sortable: false,
+        // filter: 'agTextColumnFilter',
+        // filterParams: { clearButton: true},
+        rowGroup: true,
+        width: 150,
+        filter: 'agDateColumnFilter',
+        filterParams: {
+          comparator: function(filterLocalDateAtMidnight, cellValue) {
+            var dateAsString = cellValue;
+            var dateParts = dateAsString.split("/");
+            var cellDate = new Date(Number(dateParts[2]), Number(dateParts[1]) - 1, Number(dateParts[0]));
+            if (filterLocalDateAtMidnight.getTime() === cellDate.getTime()) {
+              return 0;
+            }
+            if (cellDate < filterLocalDateAtMidnight) {
+              return -1;
+            }
+            if (cellDate > filterLocalDateAtMidnight) {
+              return 1;
+            }
+          }
+        }
+      },
       { headerName: 'Carrier', field: 'carrier', editable: true, sortable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true}, rowGroup: true, width: 90, },
       { headerName: 'Patient Name', field: 'patientName', editable: true, sortable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true}, width: 90, },
       { headerName: 'Claim #', field: 'claimNumber', editable: true, sortable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true}, width: 90, },
