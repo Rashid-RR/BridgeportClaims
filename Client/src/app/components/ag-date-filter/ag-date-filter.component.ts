@@ -1,5 +1,6 @@
 import { AfterViewInit, OnDestroy } from '@angular/core';
 import {Component, ElementRef, ViewChild} from '@angular/core';
+declare var flatpickr: any;
 
 @Component({
     selector: 'app-loading-overlay',

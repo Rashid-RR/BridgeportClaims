@@ -1,4 +1,3 @@
-import { map } from 'rxjs/operators';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AgGridNg2 } from 'ag-grid-angular/dist/agGridNg2';
 import { GridApi } from 'ag-grid-community';
