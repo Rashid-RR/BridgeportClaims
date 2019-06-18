@@ -29,16 +29,11 @@ namespace BridgeportClaims.FileWatcherService.Host
                         svcCfg.ConstructUsing(() => container.Resolve<IFileWatcherWindowsService>());
                         svcCfg.WhenStarted(fileWatcherWindowsService => fileWatcherWindowsService.Start());
                         svcCfg.WhenStopped(fileWatcherWindowsService => fileWatcherWindowsService.Stop());
-                        svcCfg.WhenShutdown(fileWatcherWindowsService => fileWatcherWindowsService.Stop());
                     });
                     hostCfg.OnException(ex => { Logger.Value.Error(ex); });
-                    #if DEBUG
                     hostCfg.RunAsLocalSystem();
-                    #else
                     hostCfg.StartAutomatically();
-                    hostCfg.EnableServiceRecovery(rx => { rx.RestartService(1); });
-                    hostCfg.RunAsLocalSystem();
-                    #endif
+                    hostCfg.EnableServiceRecovery(rx => { rx.RestartService(5); });
                     hostCfg.SetDescription("Bridgeport Claims File Watcher Service");
                     hostCfg.SetDisplayName("Bridgeport Claims File Watcher Service");
                     hostCfg.SetServiceName("Bridgeport File Watcher");
@@ -47,7 +42,7 @@ namespace BridgeportClaims.FileWatcherService.Host
             catch (Exception ex)
             {
                 Logger.Value.Error(ex);
-                throw;
+                Console.WriteLine(ex.Message);
             }
         }
 
