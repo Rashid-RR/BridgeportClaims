@@ -6,29 +6,3 @@
 .login-logo{
     margin-bottom:5px;
 }
-.box {
-    height: 100%;
-}
-.example-card {
-    padding: 0px;
-}
-.example-card .mat-card-header .mat-card-header-text{
-    display: none !important;
-}
-.example-card .mat-card-header {
-    background: #2a40b2;
-    padding: 15px 10px 5px 10px;
-}
-.example-card .mat-card-header .title {
-    font-weight: bold;
-    color: #fff;
-    font-size: 20px;
-    width: 100%;
-    text-align: center;
-}
-.example-card .mat-form-field {
-    width: 100%;
-}
-.sign-in {
-    text-align: center;
-}
