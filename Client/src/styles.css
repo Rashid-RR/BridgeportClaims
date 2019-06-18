@@ -1311,3 +1311,12 @@ app-new-episode .close-button {
 .ag-row-editing {
   background-color: #5bc0de !important;
 }
+.example-card .mat-card-header .mat-card-header-text{
+  display: none !important;
+}
+.example-card .mat-raised-button.mat-primary {
+  background-color: #2a40b2;
+  width: 200px;
+  border: none;
+  border-radius: 50px;
+}
