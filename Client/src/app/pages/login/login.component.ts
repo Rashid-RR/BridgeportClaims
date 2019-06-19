@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
     private toast: ToastrService
   ) {
     this.form = this.formBuilder.group({
-      email: ['', Validators.compose([Validators.pattern(this.emailRegex)])],
+      email: ['', Validators.compose([Validators.required, Validators.pattern(this.emailRegex)])],
       password: ['', Validators.compose([Validators.required])],
       grant_type: ['password'],
       rememberMe: [false]

@@ -6,3 +6,52 @@
 .login-logo{
     margin-bottom:5px;
 }
+.box {
+    height: 100%;
+}
+.box-body {
+    padding: 20px !important;
+}
+.example-card {
+    padding: 0px;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.1);
+}
+.example-card .mat-card-header .mat-card-header-text{
+    display: none !important;
+}
+.example-card .mat-card-header {
+    background-image: linear-gradient(to right, #112695 , #2a40b2);
+    padding: 15px 10px 5px 10px;
+    border: none;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+.example-card .mat-card-header .title {
+    font-weight: bold;
+    color: #fff;
+    font-size: 20px;
+    width: 100%;
+    text-align: center;
+}
+.example-card .mat-form-field {
+    width: 100%;
+}
+.sign-in {
+    text-align: center;
+    padding: 10px 0px;
+}
+.center-form {
+    width: 400px;
+}
+.remember-me {
+    margin: 0px -15px 20px -15px !important;
+}
+.remember-me span a {
+    color: #b8bac2;
+    font-size: 13px;
+}
+.remember-me span a:hover {
+    color: #28282a;
+}

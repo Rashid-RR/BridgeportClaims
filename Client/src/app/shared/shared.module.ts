@@ -23,6 +23,7 @@ import { DisplayRolesPipe } from '../pipes/display-roles.pipe';
 import { PhonePipe } from '../pipes/phone-pipe';
 import { ArraySortPipe } from '../pipes/sort.pipe';
 import { FilterUserPipe } from '../user/list/filter-user.pipe';
+import { MaterialModule } from './material.module';
 
 @Pipe({ name: 'safeStyle' })
 export class SafeStylePipe implements PipeTransform {
@@ -48,6 +49,7 @@ export class SafeUrlPipe implements PipeTransform {
     AutoCompleteModule,
     ShContextMenuModule,
     MaterialComponentsModule,
+    MaterialModule,
     SweetAlert2Module.forRoot()
   ],
   declarations: [
@@ -65,6 +67,7 @@ export class SafeUrlPipe implements PipeTransform {
   exports: [
     CommonModule,
     FormsModule,
+    MaterialModule,
     ReactiveFormsModule,
     AutoCompleteModule,
     ShContextMenuModule,
