@@ -664,17 +664,18 @@ Check Boxes Styles
 }
 
 .commonCheckBox label:first-of-type {
-  width: 15px;
+  width: 16px;
   height: 15px;
   cursor: pointer;
   position: absolute;
   top: 2px;
   left: 0;
-  background: #fcfff4;
-  background: -webkit-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
-  background: linear-gradient(to bottom, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
-  border-radius: 4px;
-  box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0, 0, 0, 0.5);
+  border: 1px solid #57e0c2;
+  background: #e4f9f4;
+  /* background: -webkit-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%); */
+  /* background: linear-gradient(to bottom, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%); */
+  border-radius: 2px;
+  /* box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0, 0, 0, 0.5); */
 }
 
 .commonCheckBox label:first-of-type:after {
@@ -682,9 +683,9 @@ Check Boxes Styles
   width: 9px;
   height: 6px;
   position: absolute;
-  top: 4px;
-  left: 3px;
-  border: 2px solid #333;
+  top: 2px;
+  left: 2px;
+  border: 2px solid #3a9493;
   border-top: none;
   border-right: none;
   background: transparent;
@@ -1315,8 +1316,23 @@ app-new-episode .close-button {
   display: none !important;
 }
 .example-card .mat-raised-button.mat-primary {
-  background-color: #2a40b2;
+  background-image: linear-gradient(to right, #112695 , #2a40b2);
   width: 200px;
-  border: none;
-  border-radius: 50px;
+}
+.example-card .mat-raised-button.mat-primary:hover {
+   background-color: #112695;
+}
+.example-card .mat-raised-button.mat-primary .mat-button-wrapper {
+  vertical-align: sub;
+}
+.example-card .mat-form-field-label-wrapper {
+  top: -10px !important;
+}
+.example-card .mat-form-field .mat-icon {
+  font-family: 'Material Icons' !important;
+  font-size: 18px !important;
+  position: relative;
+  top: 7px;
+  color: #818181;
+  width: 24px !important;
 }

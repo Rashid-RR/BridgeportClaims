@@ -33,44 +33,40 @@
                                 <div class="title">LOGIN FORM</div>
                             </mat-card-header>
                         <div class="box-body">
-                            <form role="form" [formGroup]="form" autocomplete="off" autocapitalize="none" autocomplete="off">
-                                <!-- <h3>Please sign in</h3> -->
-                                <mat-form-field>
-                                    <input type="text" matInput name="email" placeholder="Email address" formControlName="email" (focus)="submitted=false"
-                                    required focus-on autofill="off" autocomplete="new-password">
-                                </mat-form-field>
-                                <p class="text-danger form-control-static" *ngIf="form.get('email').value!='' && form.get('email').errors && submitted">Incorrect email</p>
-                                <p class="text-danger form-control-static" *ngIf="form.get('email').value =='' && submitted">Email is required</p>
-                                <!-- <div class="form-group">
-                                    
-                                </div> -->
-                                <mat-form-field>
-                                    <input type="password" matInput name="password" placeholder="Password" formControlName="password" required
-                                    (focus)="submitted=false" autofill="off" autocomplete="new-password">
-                                </mat-form-field>
-                                <p class="text-danger form-control-static" *ngIf="form.get('password').errors && submitted"> {{this.form.get('password').getError('required') ? 'Password is required': 'Incorrect email
-                                        or password'}}</p>
-                                <!-- <div class="form-group">
-                                    
-                                    
-                                </div> -->
-                                <div class="form-group row">
-                                    <div class="col-sm-6" style="display:flex;flex-direction:row;">
-                                        <div style="width:40px" class="commonCheckBox">
-                                            <input type="checkbox" name="check" value="None" id="checkbox-h" #inv value="true" formControlName="rememberMe">
-                                            <label for="checkbox-h"></label>
+                            <div class="form-wrapper">
+                                <form role="form" [formGroup]="form" autocomplete="off" autocapitalize="none" autocomplete="off">
+                                    <mat-form-field>
+                                        <input type="text" matInput name="email" placeholder="ENTER YOUR EMAIL" formControlName="email" (focus)="submitted=false"
+                                        focus-on autofill="off" autocomplete="new-password">
+                                        <mat-icon matPrefix>mail_outline</mat-icon>
+                                        <mat-error *ngIf="form.get('email').value != '' && form.get('email').errors && submitted">Incorrect email</mat-error>
+                                        <mat-error *ngIf="form.get('email').value == '' && submitted">Email is required</mat-error>
+                                    </mat-form-field>
+                                    <mat-form-field>
+                                        <input type="password" matInput name="password" placeholder="PASSWORD" formControlName="password" 
+                                        (focus)="submitted=false" autofill="off" autocomplete="new-password">
+                                        <mat-icon matPrefix>lock_outline</mat-icon>
+                                        <mat-error *ngIf="form.get('password').errors && submitted">{{this.form.get('password').getError('required') ? 'Password is required': 'Incorrect email
+                                                or password'}}</mat-error>
+                                    </mat-form-field>
+                                    <div class="form-group row remember-me">
+                                        <div class="col-sm-6" style="display:flex;flex-direction:row;">
+                                            <div style="width:20px" class="commonCheckBox">
+                                                <input type="checkbox" name="check" value="None" id="checkbox-h" #inv value="true" formControlName="rememberMe">
+                                                <label for="checkbox-h"></label>
+                                            </div>
+                                            <div style="width:calc(100% - 41px);font-size:13px;line-height:20px;cursor:pointer;" (click)="inv.click()">Remember me</div>
                                         </div>
-                                        <div style="width:calc(100% - 41px);font-weight:510;line-height:15px;cursor:pointer;" (click)="inv.click()">Remember me</div>
+                                        <span class="col-sm-6">
+                                            <a [routerLink]="'/recover-lost-password'" class="pull-right">Forgot password?</a>
+                                        </span>
                                     </div>
-                                    <span class="help-block col-sm-6">
-                                        <a [routerLink]="'/recover-lost-password'" class="pull-right">Forgotten password?</a>
-                                    </span>
-                                </div>
-                                <div class="sign-in">
-                                    <button mat-raised-button color="primary" type="submit" (click)="login()">LOGIN</button>
-                                    <!-- <button class="btn btn-primary btn-block" type="submit" (click)="login()">Sign in</button> -->
-                                </div>
-                            </form>
+                                    <div class="sign-in">
+                                        <button mat-raised-button color="primary" type="submit" (click)="login()">LOGIN</button>
+                                        <!-- <button class="btn btn-primary btn-block" type="submit" (click)="login()">Sign in</button> -->
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </mat-card>
                 </div>
