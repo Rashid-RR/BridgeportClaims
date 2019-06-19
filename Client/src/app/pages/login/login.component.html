@@ -52,8 +52,8 @@
                                     <div class="form-group row remember-me">
                                         <div class="col-sm-6" style="display:flex;flex-direction:row;">
                                             <div style="width:20px" class="commonCheckBox">
-                                                <input type="checkbox" name="check" value="None" id="checkbox-h" #inv value="true" formControlName="rememberMe">
-                                                <label for="checkbox-h"></label>
+                                                <input type="checkbox" name="check" value="None" id="checkbox-h" #inv value="false" formControlName="rememberMe">
+                                                <label for="checkbox-h" [class.active] = "form.controls['rememberMe'].value"></label>
                                             </div>
                                             <div style="width:calc(100% - 41px);font-size:13px;line-height:20px;cursor:pointer;" (click)="inv.click()">Remember me</div>
                                         </div>
