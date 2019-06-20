@@ -1336,3 +1336,58 @@ app-new-episode .close-button {
   color: #818181;
   width: 24px !important;
 }
+
+.skin-black .sidebar-menu > li > a {
+  color: #707070;
+  border-left: none;
+  padding: 14px 5px 10px 15px;
+}
+.skin-black .sidebar-menu > li > a > i {
+  font-size: 20px;
+}
+.skin-black .sidebar-menu > li > a > span {
+  font-size: 18px !important;
+  padding-left: 25px;
+}
+.skin-black .sidebar-menu > li:hover > a {
+  color: #253388;
+  cursor: pointer;
+  background-color: #f8f8fa;
+  border: none;
+}
+.skin-black .sidebar-menu > li.active > a {
+  color: #253388;
+  background: #fdfdff;
+  border-radius: 5px;
+  border: 1px solid #a7a6ba;
+}
+.skin-black .sidebar-menu > li.active {
+  padding-bottom: 10px;
+}
+.skin-black .sidebar-menu > li.active > a > span {
+  font-size: 18px;
+  font-weight: 510;
+}
+
+.sidebar-mini.sidebar-collapse .main-header .navbar {
+  margin-left: 50px !important;
+}
+.sidebar-collapse .main-sidebar .sidebar .sidebar-menu {
+  background-color: #fff;
+}
+.sidebar-collapse .main-sidebar .sidebar,
+.sidebar-collapse .main-sidebar .sidebar .sidebar-menu {
+  padding: 0px !important;
+}
+
+.skin-black.sidebar-collapse .sidebar-menu > li.active > a {
+  border: none !important;
+}
+.sidebar-collapse .main-sidebar .sidebar .header {
+  display: none;
+}
+
+.sidebar-collapse  .sidebar-toggle {
+  position: absolute;
+  left: 0;
+}

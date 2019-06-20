@@ -3,19 +3,23 @@
     <a [routerLink]="!disableLinks ?  '/' : []" class="logo" style="background-color: white;"
         [class.disabled]="disableLinks">
         <!-- mini logo for sidebar mini 50x50 pixels -->
-        <span class="logo-mini" style="color:black">
-            <b>BR</b>-C</span>
+        <!-- <span class="logo-mini" style="color:black">
+            <b>BR</b>-C</span> -->
         <!-- logo for regular state and mobile devices -->
         <span class="logo-lg" style="margin-top: -50px;">
             <img src="assets/logo/name.png" style="width: 200px;" alt="Bridgeport Claims" />
         </span>
     </a>
+    <a style="cursor:pointer" (click)="sidebarToggle()" class="sidebar-toggle" data-toggle="offcanvas" role="button"
+        *ngIf="profileManager.profile">
+        <i class="fa fa-align-justify"></i>
+    </a>
     <nav class="navbar navbar-static-top">
         <!-- Sidebar toggle button, check if user is logged in-->
-        <a style="cursor:pointer" (click)="sidebarToggle()" class="sidebar-toggle" data-toggle="offcanvas" role="button"
+        <!-- <a style="cursor:pointer" (click)="sidebarToggle()" class="sidebar-toggle" data-toggle="offcanvas" role="button"
             *ngIf="profileManager.profile">
             <i class="fa fa-align-justify"></i>
-        </a>
+        </a> -->
         <ul *ngIf="isTestDomain" class="nav navbar isTestDomain"
             style="width:  fit-content; clear:  none;display:  flex;  flex-direction: row;margin-right:  0px;float: left;">
             <li>

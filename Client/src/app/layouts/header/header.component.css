@@ -285,3 +285,26 @@ li a {
     top: 35px;
     width: fit-content;
   }
+
+  .main-header .navbar {
+    margin-left: 290px;
+  }
+  .main-header .logo {
+    height: 70px;
+    border-right: none;
+    padding: 10px 15px;
+  }
+
+  .sidebar-toggle {
+    cursor: pointer;
+    color: #9592b0;
+    background: #fff;
+    height: 70px;
+  }
+  .sidebar-toggle i{
+    position: relative;
+    top: 10px;
+  }
+  .sidebar-toggle:hover {
+    color: #9592b0;
+  }

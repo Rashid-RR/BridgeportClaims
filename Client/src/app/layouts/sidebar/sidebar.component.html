@@ -2,19 +2,20 @@
   <!-- sidebar: style can be found in sidebar.less -->
   <section class="sidebar">
     <!-- Sidebar user panel -->
-    <div class="user-panel text-center" style="margin:0;padding:0">
+    <!-- <div class="user-panel text-center" style="margin:0;padding:0">
       <div class="image">
         <img [src]="'assets/logo/sidebar-logo.png'" style="max-width: 70px;" class="img-square" [alt]="userName">
       </div>
       <div class="info" style="position:unset;left:0">
         <p>{{userName}}</p>
       </div>
-    </div>
+    </div> -->
     <!-- sidebar menu: : style can be found in sidebar.less -->
     <ul class="sidebar-menu">
       <li [class.active]="router.url.indexOf('/main/private')>-1">
         <a [routerLink]="!disableLinks ? '/main/private'  : []" [class.disabled]="disableLinks">
-          <img style='width: 25px;' src="assets/img/dashboard.png">
+          <!-- <img style='width: 25px;' src="assets/img/dashboard.png"> -->
+          <i class="fa fa-tachometer" aria-hidden="true"></i>
           <span>Dashboard</span>
         </a>
       </li>
@@ -29,46 +30,56 @@
       <ng-container *ngIf="!isClient">
         <li [class.active]="router.url.indexOf('/main/claims')>-1" (click)="claimsActive()">
           <a [class.disabled]="disableLinks">
-            <img style='width: 25px;' src="assets/img/Claims.png">
+            <!-- <img style='width: 25px;' src="assets/img/Claims.png"> -->
+            <i class="fa fa-tachometer" aria-hidden="true"></i>
             <span>Claims</span>
           </a>
         </li>
         <li [class.active]="router.url.indexOf('/main/diary')>-1">
           <a [routerLink]="!disableLinks ? '/main/diary' : []" [class.disabled]="disableLinks">
-            <img style='width: 25px;' src="assets/img/diaries.png">
+            <!-- <img style='width: 25px;' src="assets/img/diaries.png"> -->
+            <i class="fa fa-tachometer" aria-hidden="true"></i>
             <span>Diaries</span>
           </a>
         </li>
         <li [class.active]="router.url.indexOf('/main/unpaid-scripts')>-1">
           <a [routerLink]="!disableLinks ? '/main/unpaid-scripts' : []" [class.disabled]="disableLinks">
-            <img style='width: 25px;' src="assets/img/unpaid.png">
+            <!-- <img style='width: 25px;' src="assets/img/unpaid.png"> -->
+            <i class="fa fa-tachometer" aria-hidden="true"></i>
             <span>Unpaid Scripts</span>
           </a>
         </li>
         <!--<ng-container *ngIf="!isOnlyUser">-->
         <li [class.active]="router.url.indexOf('/main/payments')>-1">
           <a [routerLink]="!disableLinks ? '/main/payments' : []" [class.disabled]="disableLinks">
-            <img style='width: 25px;' src="assets/img/payments.png">
+            <!-- <img style='width: 25px;' src="assets/img/payments.png"> -->
+            <i class="fa fa-tachometer" aria-hidden="true"></i>
             <span>Payments</span>
           </a>
         </li>
         <!--</ng-container>-->
         <li [class.active]="router.url.indexOf('/main/episodes')>-1">
           <a [routerLink]="!disableLinks ? '/main/episodes' : []" [class.disabled]="disableLinks">
-            <img style='width: 25px;' src="assets/img/episodes.png">
+            <!-- <img style='width: 25px;' src="assets/img/episodes.png"> -->
+            <i class="fa fa-tachometer" aria-hidden="true"></i>
             <span>Episodes</span>
           </a>
         </li>
         <li [class.active]="router.url.indexOf('/main/references')>-1">
           <a [routerLink]="!disableLinks ? '/main/references' : []" [class.disabled]="disableLinks">
-            <img style='width: 25px;' src="assets/img/references.png">
+            <!-- <img style='width: 25px;' src="assets/img/references.png"> -->
+            <i class="fa fa-tachometer" aria-hidden="true"></i>
             <span>References</span>
           </a>
         </li>
-        <li class="header" style="color:white;font-size:14pt" *ngIf="adminOrAsociate">
-          <i class="fa fa-sitemap"></i>
-          <span>INDEXING</span>
-        </li>
+      </ng-container>
+    </ul>
+    <ng-container *ngIf="!isClient">
+    <div class="header"*ngIf="adminOrAsociate">
+      <!-- <i class="fa fa-sitemap"></i> -->
+      <span>INDEXING</span>
+    </div>
+    <ul class="sidebar-menu">
         <!-- <li [class.active]="router.url.indexOf('/main/unindexed-images')>-1">
         <a [routerLink]="!disableLinks ? '/main/unindexed-images' : []" *ngIf="adminOrAsociate" [class.disabled]="disableLinks">
           <img src="assets/img/unidex.png">
@@ -77,20 +88,24 @@
       </li> -->
         <li [class.active]="router.url.indexOf('/main/indexing')>-1">
           <a [routerLink]="!disableLinks ? '/main/indexing' : []" *ngIf="adminOrAsociate" [class.disabled]="disableLinks">
-            <img src="assets/img/unidex.png">
+            <!-- <img src="assets/img/unidex.png"> -->
+            <i class="fa fa-tachometer" aria-hidden="true"></i>
             <span>Indexing</span>
           </a>
         </li>
         <li [class.active]="router.url.indexOf('/main/reports/invoices')>-1">
           <a [routerLink]="!disableLinks ? '/main/reports/invoices' : []" *ngIf="adminOrAsociate" [class.disabled]="disableLinks">
-            <img src="assets/img/unidex.png">
+            <!-- <img src="assets/img/unidex.png"> -->
+            <i class="fa fa-tachometer" aria-hidden="true"></i>
             <span>Invoices</span>
           </a>
         </li>
-        <li class="header" style="color:white;font-size:14pt" *ngIf="allowed">
-          <img style='width: 25px;' src="assets/img/Admin.png">
-          <span>ADMINISTRATION</span>
-        </li>
+    </ul>
+    <div class="header" *ngIf="allowed">
+      <!-- <img style='width: 25px;' src="assets/img/Admin.png"> -->
+      <span>ADMINISTRATION</span>
+    </div>
+    <ul class="sidebar-menu">
         <li [class.active]="router.url.indexOf('/main/reports')>-1">
           <a [routerLink]="'/main/reports'" >
             <i class="fa fa-bar-chart fa-fw"></i>
@@ -99,31 +114,38 @@
         </li>
         <li [class.active]="router.url.indexOf('/main/fileupload')>-1">
           <a [routerLink]="!disableLinks ? '/main/fileupload' : []" *ngIf="allowed" [class.disabled]="disableLinks">
-            <img style='width: 25px;' src="assets/img/upload.png">
+            <!-- <img style='width: 25px;' src="assets/img/upload.png"> -->
+            <i class="fa fa-bar-chart fa-fw"></i>
             <span>File Uploads</span>
           </a>
         </li>
         <li [class.active]="router.url.indexOf('/main/users')>-1">
           <a [routerLink]="!disableLinks ? '/main/users' : []" *ngIf="allowed" [class.disabled]="disableLinks">
-            <img style='width: 25px;' src="assets/img/user.png">
+            <!-- <img style='width: 25px;' src="assets/img/user.png"> -->
+            <i class="fa fa-bar-chart fa-fw"></i>
             <span>User Management</span>
           </a>
         </li>
         <li [class.active]="router.url.indexOf('/main/decision-tree')>-1">
           <a [routerLink]="!disableLinks ? '/main/decision-tree'  : []" *ngIf="allowed" [class.disabled]="disableLinks">
-            <img style='width: 25px;' src="assets/img/decision-tree-icon.png">
+            <!-- <img style='width: 25px;' src="assets/img/decision-tree-icon.png"> -->
+            <i class="fa fa-bar-chart fa-fw"></i>
             <span>Decision Tree</span>
           </a>
         </li>
         <li [class.active]="router.url.indexOf('/main/firewall')>-1">
           <a [routerLink]="!disableLinks ? '/main/firewall'  : []" *ngIf="allowed" [class.disabled]="disableLinks">
-            <img style='width: 25px;' src="assets/img/firewall.png">
+            <!-- <img style='width: 25px;' src="assets/img/firewall.png"> -->
+            <i class="fa fa-bar-chart fa-fw"></i>
             <span>Firewall Settings</span>
           </a>
         </li>
-        <li class="header" style="color:white;font-size:14pt">
-          <img style='width: 25px;' src="assets/img/history.png"> HISTORY
-        </li>
+    </ul>
+    <div class="header">
+      <!-- <img style='width: 25px;' src="assets/img/history.png"> -->
+      <span>HISTORY</span>      
+    </div>
+    <ul class="sidebar-menu">
         <ng-container *ngIf="!claimManager.loadingHistory">
           <li *ngFor="let claim of claimManager.claimHistory" [class.disabled]="disableLinks">
             <a class="history" (click)="goToClaim(claim.claimId)">
@@ -140,8 +162,8 @@
             </a>
           </li>
         </ng-container>
-      </ng-container>
     </ul>
+  </ng-container>
   </section>
   <!-- /.sidebar -->
 </aside>
