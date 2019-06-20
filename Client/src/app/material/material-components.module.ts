@@ -9,8 +9,6 @@ import {
 } from '@angular/material';
 import { NgModule } from '@angular/core';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import {MatCardModule} from '@angular/material/card';
-import {MatIconModule} from '@angular/material/icon';
 
 @NgModule({
   imports: [MatButtonModule,
@@ -20,17 +18,13 @@ import {MatIconModule} from '@angular/material/icon';
     MatDividerModule,
     MatDialogModule,
     MatTooltipModule,
-    MatCardModule,
-    MatAutocompleteModule,
-    MatIconModule
+    MatAutocompleteModule
   ],
   exports: [MatButtonModule,
     MatFormFieldModule,
     MatDividerModule,
     MatSelectModule,
     MatInputModule,
-    MatCardModule,
-    MatIconModule,
     MatDialogModule,
     MatTooltipModule,
     MatAutocompleteModule],
