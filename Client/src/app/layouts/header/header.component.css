@@ -286,25 +286,69 @@ li a {
     width: fit-content;
   }
 
+  .main-header .site-logo {
+    border-bottom: 1px solid #ccc;
+    position: absolute;
+    width: 290px;
+    border-right: 1px solid #ccc;
+  }
   .main-header .navbar {
     margin-left: 290px;
+    height: 60px;
   }
-  .main-header .logo {
-    height: 70px;
+  .main-header .site-logo .logo {
+    height: 60px;
     border-right: none;
-    padding: 10px 15px;
+    padding: 5px 15px;
   }
 
-  .sidebar-toggle {
+  .main-header .site-logo .sidebar-toggle {
     cursor: pointer;
     color: #9592b0;
     background: #fff;
-    height: 70px;
+    height: 60px;
   }
-  .sidebar-toggle i{
-    position: relative;
-    top: 10px;
-  }
-  .sidebar-toggle:hover {
+  .main-header .site-logo .sidebar-toggle:hover {
     color: #9592b0;
+  }
+  .main-header .site-logo .sidebar-toggle i {
+    position: relative;
+    font-size: 24px;
+  }
+  .main-header .navbar {
+    justify-content: flex-end;
+    background-color: #fcfcfc;
+    padding: 0px;
+  }
+  .main-header .navbar ul {
+    display: inline-block;
+  }
+  .main-header .navbar .nav > li > a {
+    color: #000;
+  }
+  .main-header .profile {
+    display: inline-block;
+    padding-right: 40px !important;
+  }
+  .main-header .profile .image{
+    display: inline-block;
+    position: relative;
+    bottom: 4px;
+  }
+  .main-header .profile .info p {
+    font-size: 20px;
+    margin-top: 15px;
+    color: #000;
+    margin-bottom: 0;
+  }
+  .main-header .notification {
+    padding: 20px;
+    display: inline-block;
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    height: 100%;
+    margin-right: 25px;
+  }
+  .main-header .notification i {
+    font-size: 24px;
   }

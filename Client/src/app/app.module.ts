@@ -71,6 +71,7 @@ import { StringService } from './services/string.service';
 // import { SnotifyModule, SnotifyService, ToastDefaults } from 'ng-snotify';
 import { SharedModule } from './shared';
 import { AgPhoneNumberMaskComponent } from './components/ag-phone-number-mask/ag-phone-number-mask.component';
+import { PopoverModule } from 'ngx-bootstrap/popover';
 
 @NgModule({
   declarations: [
@@ -109,7 +110,8 @@ import { AgPhoneNumberMaskComponent } from './components/ag-phone-number-mask/ag
       timeOut: 15000
     }),
     BootstrapModalModule.forRoot({container: document.body}),
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    PopoverModule.forRoot()
   ],
   providers: [
     WINDOW_PROVIDERS,

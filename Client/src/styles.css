@@ -1337,10 +1337,13 @@ app-new-episode .close-button {
   width: 24px !important;
 }
 
+.sidebar-mini .content-wrapper {
+  margin-left: 290px;
+}
 .skin-black .sidebar-menu > li > a {
   color: #707070;
   border-left: none;
-  padding: 14px 5px 10px 15px;
+  padding: 10px 5px 5px 15px;
 }
 .skin-black .sidebar-menu > li > a > i {
   font-size: 20px;
@@ -1362,7 +1365,7 @@ app-new-episode .close-button {
   border: 1px solid #a7a6ba;
 }
 .skin-black .sidebar-menu > li.active {
-  padding-bottom: 10px;
+  padding-bottom: 5px;
 }
 .skin-black .sidebar-menu > li.active > a > span {
   font-size: 18px;
@@ -1377,17 +1380,44 @@ app-new-episode .close-button {
 }
 .sidebar-collapse .main-sidebar .sidebar,
 .sidebar-collapse .main-sidebar .sidebar .sidebar-menu {
-  padding: 0px !important;
+  padding: 10px 5px 5px 5px !important;
 }
 
 .skin-black.sidebar-collapse .sidebar-menu > li.active > a {
   border: none !important;
+  background: #f5f5f7;
+}
+.skin-black.sidebar-collapse .sidebar-menu > li > a {
+  text-align: center;
+  padding: 14px 0 10px 0px;
+}
+.sidebar-collapse .main-sidebar .sidebar .header span,
+.skin-black.sidebar-collapse .sidebar-menu > li > a > span,
+.sidebar-mini.sidebar-collapse .main-sidebar .sidebar-menu > li.active > a > span {
+  display: none;
+  opacity: 0;
 }
 .sidebar-collapse .main-sidebar .sidebar .header {
-  display: none;
+  border: 3px solid #808080;
+  margin: 20px 10px;
+  padding: 0px !important;
 }
-
 .sidebar-collapse  .sidebar-toggle {
   position: absolute;
   left: 0;
+}
+.skin-black.sidebar-collapse .main-sidebar .sidebar-menu .popover {
+  white-space: nowrap;
+}
+.skin-black.sidebar-collapse .main-sidebar .sidebar-menu .popover,
+.skin-black.sidebar-collapse .main-sidebar .sidebar-menu .popover .popover-arrow:before {
+  border: none !important;
+}
+.skin-black.sidebar-collapse .main-sidebar .sidebar-menu .popover .popover-arrow {
+  top: 20px !important;
+}
+.skin-black.sidebar-collapse .main-sidebar .sidebar-menu .popover .popover-content {
+  font-size: 16px;
+  color: #253388;
+  font-weight: bold;
 }

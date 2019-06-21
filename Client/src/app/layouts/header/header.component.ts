@@ -5,6 +5,7 @@ import { HttpService } from '../../services/http-service';
 import { Router } from '@angular/router';
 import { DOCUMENT } from '@angular/platform-browser';
 import { ToastrService } from 'ngx-toastr';
+import { LocalStorageService } from 'ngx-webstorage';
 
 @Component({
   selector: 'app-header',
@@ -21,6 +22,7 @@ export class HeaderComponent implements OnInit {
     public eventservice: EventsService,
     public profileManager: ProfileManager,
     private toast: ToastrService,
+    public localSt: LocalStorageService,
     @Inject(DOCUMENT) private document
   ) { }
 
@@ -29,6 +31,10 @@ export class HeaderComponent implements OnInit {
     this.eventservice.on('disable-links', (status: boolean) => {
       this.disableLinks = status;
     });
+  }
+
+  get userName() {
+    return this.profileManager.profile ? this.profileManager.profile.firstName + ' ' + this.profileManager.profile.lastName : '';
   }
 
   clearCache() {

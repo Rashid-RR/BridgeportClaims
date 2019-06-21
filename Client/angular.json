@@ -22,6 +22,7 @@
               "src/maintenance.html"
             ],
             "styles": [
+              "./node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/admin-lte/bootstrap/css/bootstrap.min.css",
               "src/assets/css/font-awesome.min.css",
               "node_modules/admin-lte/plugins/iCheck/all.css",
@@ -174,6 +175,7 @@
               "node_modules/admin-lte/dist/js/demo.js"
             ],
             "styles": [
+              "./node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/admin-lte/bootstrap/css/bootstrap.min.css",
               "src/assets/css/font-awesome.min.css",
               "node_modules/admin-lte/plugins/iCheck/all.css",

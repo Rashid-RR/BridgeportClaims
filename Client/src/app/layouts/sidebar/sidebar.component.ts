@@ -4,6 +4,7 @@ import { ProfileManager } from '../../services/profile-manager';
 import { ClaimManager } from '../../services/claim-manager';
 import { HttpService } from '../../services/http-service';
 import { Router } from '@angular/router';
+import { LocalStorageService } from 'ngx-webstorage';
 declare var $: any;
 
 @Component({
@@ -12,13 +13,13 @@ declare var $: any;
   styleUrls: ['./sidebar.component.css']
 })
 export class SidebarComponent implements OnInit {
-
   disableLinks = false;
   constructor(
     private events: EventsService,
     public router: Router,
     private profileManager: ProfileManager,
-    public claimManager: ClaimManager
+    public claimManager: ClaimManager,
+    public localSt: LocalStorageService
   ) { }
 
   ngOnInit() {
