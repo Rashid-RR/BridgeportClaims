@@ -16,82 +16,103 @@
             <i class="fa fa-bars"></i>
         </a>
     </div>
-    <nav class="navbar navbar-static-top">
-        <!-- Sidebar toggle button, check if user is logged in-->
-        <!-- <a style="cursor:pointer" (click)="sidebarToggle()" class="sidebar-toggle" data-toggle="offcanvas" role="button"
-            *ngIf="profileManager.profile">
-            <i class="fa fa-align-justify"></i>
-        </a> -->
-        <ul *ngIf="isTestDomain" class="nav navbar isTestDomain"
-            style="width:  fit-content; clear:  none;display:  flex;  flex-direction: row;margin-right:  0px;float: left;">
-            <li>
-                <a>THIS IS A TESTING SITE ONLY</a>
-            </li>
-        </ul>
-        <!-- Top right menu items, also check if user is logged in-->
-        <!-- <div class="navbar-custom-menu cust-nav">
-            <ul class="nav navbar-nav">
-                <ng-container *ngIf="!profileManager.profile">
-                    <li class="display-date">
-                        <i class="fa fa-calendar" aria-hidden="true"></i> {{ date | date }}</li>
-                    <li>
-                        <a [routerLink]="'/register'">
-                            <i class="fa fa-user-plus" aria-hidden="true"></i>Register</a>
-                    </li>
-                    <li>
-                        <a [routerLink]="'/login'">
-                            <i class="fa fa-sign-in" aria-hidden="true"></i>
-                            Login</a>
-                    </li>
-                </ng-container>
-                <ng-container *ngIf="profileManager.profile">
-                    <li class="display-date">
-                        <i class="fa fa-calendar" aria-hidden="true"></i>
-                        {{ date | date }}
-                        <small>Version
-                            <strong>31.0</strong>
-                        </small>
-                    </li>
-                    <li class="display-date" *ngIf="allowed" [class.disabled]="disableLinks">
-                        <a style="cursor:pointer" (click)="!disableLinks ? clearCache() : ''"
-                            [class.disabled]="disableLinks">
-                            <i class="fa fa-refresh" aria-hidden="true"></i>
-                            Clear Cache</a>
-                    </li>
-                    <li routerLinkActive="/main/profile" [class.disabled]="disableLinks">
-                        <a class="navbar-link" [routerLink]="!disableLinks ?  '/main/profile' : []"
-                            [class.disabled]="disableLinks">
-                            <i class="fa fa-user" aria-hidden="true"></i>
-                            My Account</a>
-                    </li>
-                    <li routerLinkActive="active" [class.disabled]="disableLinks">
-                        <a style="cursor:pointer;" (click)="!disableLinks ? logout() : ''" class="navbar-link"
-                            [class.disabled]="disableLinks">
-                            <i class="fa fa-sign-out" aria-hidden="true"></i>
-                            Logout</a>
-                    </li>
-                    <p class="ver2 large">
-                        <img src="assets/img/header_icon.png" style="margin-right:-10px;margin-top: -11px;"
-                            alt="Version #" />
-                    </p>
-                </ng-container>
+    <div class="header-navbar">
+        <ng-container *ngIf="profileManager.profile">
+            <div class="left">
+                <div class="search-icon">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                    <i class="fa fa-chevron-down" aria-hidden="true"></i>
+                </div>
+                <div class="search">Search Here</div>
+            </div>
+        </ng-container>
+        <nav class="navbar navbar-static-top">
+            <!-- Sidebar toggle button, check if user is logged in-->
+            <!-- <a style="cursor:pointer" (click)="sidebarToggle()" class="sidebar-toggle" data-toggle="offcanvas" role="button"
+                *ngIf="profileManager.profile">
+                <i class="fa fa-align-justify"></i>
+            </a> -->
+            <ul *ngIf="isTestDomain" class="nav navbar isTestDomain"
+                style="width:  fit-content; clear:  none;display:  flex;  flex-direction: row;margin-right:  0px;float: left;">
+                <li>
+                    <a>THIS IS A TESTING SITE ONLY</a>
+                </li>
             </ul>
-        </div> -->
-        <!-- <div class="left">
-            <div class="search-icon">
-                <i class="fa fa-search" aria-hidden="true"></i>
+            <!-- Top right menu items, also check if user is logged in-->
+            <div class="navbar-custom-menu cust-nav">
+                <ul class="nav navbar-nav">
+                    <ng-container *ngIf="!profileManager.profile">
+                        <li class="display-date">
+                            <i class="fa fa-calendar" aria-hidden="true"></i> {{ date | date }}</li>
+                        <li>
+                            <a [routerLink]="'/register'">
+                                <i class="fa fa-user-plus" aria-hidden="true"></i>Register</a>
+                        </li>
+                        <li>
+                            <a [routerLink]="'/login'">
+                                <i class="fa fa-sign-in" aria-hidden="true"></i>
+                                Login</a>
+                        </li>
+                    </ng-container>
+                    <!-- <ng-container *ngIf="profileManager.profile">
+                        <li class="display-date">
+                            <i class="fa fa-calendar" aria-hidden="true"></i>
+                            {{ date | date }}
+                            <small>Version
+                                <strong>31.0</strong>
+                            </small>
+                        </li>
+                        <li class="display-date" *ngIf="allowed" [class.disabled]="disableLinks">
+                            <a style="cursor:pointer" (click)="!disableLinks ? clearCache() : ''"
+                                [class.disabled]="disableLinks">
+                                <i class="fa fa-refresh" aria-hidden="true"></i>
+                                Clear Cache</a>
+                        </li>
+                        <li routerLinkActive="/main/profile" [class.disabled]="disableLinks">
+                            <a class="navbar-link" [routerLink]="!disableLinks ?  '/main/profile' : []"
+                                [class.disabled]="disableLinks">
+                                <i class="fa fa-user" aria-hidden="true"></i>
+                                My Account</a>
+                        </li>
+                        <li routerLinkActive="active" [class.disabled]="disableLinks">
+                            <a style="cursor:pointer;" (click)="!disableLinks ? logout() : ''" class="navbar-link"
+                                [class.disabled]="disableLinks">
+                                <i class="fa fa-sign-out" aria-hidden="true"></i>
+                                Logout</a>
+                        </li>
+                        <p class="ver2 large">
+                            <img src="assets/img/header_icon.png" style="margin-right:-10px;margin-top: -11px;"
+                                alt="Version #" />
+                        </p>
+                    </ng-container> -->
+                </ul>
             </div>
-            <div class="search">Search Here</div>
-        </div> -->
-            <div class="notification">
-                <i class="fa fa-bell-o" aria-hidden="true"></i>
-            </div>
-            <div class="profile text-center" style="margin:0;padding:0">
-                <div class="image">
-                    <img [src]="'assets/logo/sidebar-logo.png'" style="width: 40px;" class="img-square" [alt]="userName">
+            <ng-container *ngIf="profileManager.profile">
+                <div class="notification">
+                    <img src="assets/images/notification.png">
                 </div>
-                <div class="info" style="display: inline-block; position:unset;left:0">
-                    <p>{{userName}}</p>
+                <div class="profile text-center" style="margin:0;padding:0">
+                    <div class="image">
+                        <img [src]="'assets/images/profile.png'" style="width: 40px;" class="img-square" [alt]="userName">
+                    </div>
+                    <div class="info">
+                        <p>{{userName}}</p>
+                        <mat-icon aria-hidden="false" [matMenuTriggerFor]="menu">arrow_drop_down</mat-icon>
+                        <mat-menu #menu="matMenu">
+                            <div class="menu-item">
+                                <button mat-menu-item routerLinkActive="/main/profile" [class.disabled]="disableLinks"
+                                [routerLink]="!disableLinks ?  '/main/profile' : []">
+                                    <mat-icon aria-hidden="false">person</mat-icon> My Account
+                                </button>
+                                <button mat-menu-item routerLinkActive="active" [class.disabled]="disableLinks" (click)="!disableLinks ? logout() : ''">
+                                        <mat-icon aria-hidden="false">power_settings_new</mat-icon> Logout
+                                </button>
+                                <div class="ver-info">Version 31.0</div>
+                            </div>
+                        </mat-menu>
+                    </div>
                 </div>
-            </div>
-    </nav>
+            </ng-container>
+        </nav>
+
+    </div>

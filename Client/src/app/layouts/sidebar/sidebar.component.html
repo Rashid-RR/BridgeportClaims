@@ -15,7 +15,7 @@
       <li [class.active]="router.url.indexOf('/main/private')>-1">
         <a [routerLink]="!disableLinks ? '/main/private'  : []" [class.disabled]="disableLinks"
         [popover]="localSt.retrieve('sidebarOpen') ? 'Dashboard' : ''" triggers="mouseenter:mouseleave" placement="right">
-          <!-- <img style='width: 25px;' src="assets/img/dashboard.png"> -->
+          <!-- <img style='width: 25px;' src="assets/images/dashboard.png"> -->
           <i class="fa fa-tachometer" aria-hidden="true"></i>
           <span>Dashboard</span>
         </a>

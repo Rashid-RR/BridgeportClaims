@@ -17,7 +17,9 @@ h6 {
 .box-header {
   padding: 10px 10px 5px 10px;
 }
-
+.row {
+  display: block !important;
+}
 .row.data {
   font-size: 9.6pt;
 }
