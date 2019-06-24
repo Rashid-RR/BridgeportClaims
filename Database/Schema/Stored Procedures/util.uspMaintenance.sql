@@ -81,6 +81,16 @@ AS BEGIN
 				, @Indexes = 'ALL_INDEXES';
 			DBCC CHECKDB;
 
+			-- Remove all Import files except for the last one
+			DECLARE		@LastImportFileID INT;
+			SELECT		@LastImportFileID = MAX(vif.ImportFileID)
+			FROM		util.vwImportFile AS vif;
+
+			DELETE		vif
+			FROM		util.ImportFile AS vif
+			WHERE		vif.ImportFileID < @LastImportFileID;
+
+
 			CHECKPOINT;
 
 			DECLARE @EndTime DATETIME2 = SYSUTCDATETIME();
