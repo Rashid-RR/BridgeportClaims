@@ -1346,7 +1346,7 @@ app-new-episode .close-button {
   position: relative;
   top: 20px;
   border: none;
-  border-radius: 10px;
+  border-radius: 15px !important;
 }
 .mat-icon {
   font-family: 'Material Icons' !important;
@@ -1369,7 +1369,7 @@ app-new-episode .close-button {
   margin-left: 290px;
 }
 .skin-black .sidebar-menu > li > a {
-  color: #707070;
+  color: #808080;
   border-left: none;
   padding: 10px 5px 5px 15px;
 }
@@ -1381,16 +1381,16 @@ app-new-episode .close-button {
   padding-left: 25px;
 }
 .skin-black .sidebar-menu > li:hover > a {
-  color: #253388;
+  color: #353535;
   cursor: pointer;
   background-color: #f8f8fa;
   border: none;
 }
 .skin-black .sidebar-menu > li.active > a {
-  color: #253388;
+  color: #102695;
   background: #fdfdff;
   border-radius: 5px;
-  border: 1px solid #a7a6ba;
+  border: 1px solid #102695;
 }
 .skin-black .sidebar-menu > li.active {
   padding-bottom: 5px;
@@ -1448,7 +1448,7 @@ app-new-episode .close-button {
 }
 .skin-black.sidebar-collapse .main-sidebar .sidebar-menu .popover .popover-content {
   font-size: 16px;
-  color: #253388;
+  color: #102695;
   font-weight: bold;
 }
 .main-header .header-navbar {
@@ -1506,4 +1506,111 @@ app-new-episode .close-button {
   .content-header > .breadcrumb {
     top: 40px !important;
   }
+}
+
+.main-header .header-navbar .search .input-search.mat-form-field {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  max-width: 25rem;
+  height: 100%;
+  color: #fff;
+}
+.main-header .header-navbar .search .input-search .mat-form-field-wrapper {
+  margin: 0px 6px;
+  padding: 0px 8px;
+}
+.main-header .header-navbar .search .mat-form-field .mat-form-field-wrapper .mat-form-field-underline {
+  display: none !important;
+}
+.main-header .header-navbar .search .input-search .mat-form-field-infix {  
+  display: flex;
+  width: 6.57142857rem;
+  padding-top: .57142857rem;
+  padding-bottom: .57142857rem;
+  border-top: 1px solid transparent;
+  border-bottom: 1px solid transparent;
+}
+.search .input-search .input-search__button {
+  width: 2.64285714rem;
+  color: #fff;
+  padding: 0px 5px;
+}
+.search .input-search .input-search__button .toggle-arrow {
+  display: none;
+}
+.main-header .header-navbar .search .input-search.mat-form-field .mat-form-field-infix span {
+  color: #fff;
+  top: 0;
+  padding-top: 0;
+}
+.main-header .header-navbar .search .input-search.mat-form-field .mat-form-field-infix span .mat-form-field-label.mat-empty {
+  top: 15px;
+  display: inline-flex;
+  color: #fff;
+  left: 2.64285714rem;
+  font-weight: 500;
+}
+.main-header .header-navbar .search .input-search.input-search--is-expanded .mat-form-field-infix {
+  border-bottom: 1px solid #dedede;
+}
+.main-header .header-navbar .search .input-search.input-search--is-expanded .mat-form-field-infix span .mat-form-field-label.mat-empty {
+  color: #353535;
+  left: 4.94285714rem;
+}
+.header-navbar .search .input-search.input-search--is-expanded .mat-input-element {
+  margin: 0px 10px;
+}
+.main-header .header-navbar .search .input-search:hover .mat-form-field-wrapper {
+  background: #fff;
+  border-radius: 5px;
+  color: #000;
+}
+.search .input-search:hover .input-search__button,
+.main-header .header-navbar .search .input-search:hover span label,
+.search .input-search.input-search--is-expanded .input-search__button {
+  color: #353535 !important;
+}
+.search .input-search.input-search--is-expanded .input-search__button {
+  width: 4.14285714rem;
+  border-right: 1px solid #dedede;
+  display: flex;
+  cursor: pointer;
+}
+.search .input-search.input-search--is-expanded .input-search__button .toggle-arrow {
+  display: inline-flex;
+}
+.search .input-search.input-search--is-expanded .mat-form-field-wrapper {
+  width: 350px;
+  padding: 0px 5px;
+}
+/* .mat-form-field.input-search--is-expanded.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
+  transform: none;
+  -webkit-transform: none;
+} */
+/* .search .input-search.input-search--is-expanded.mat-form-field-can-float.mat-form-field-should-float span .mat-form-field-label {
+  left: 4.942857rem !important;
+  color: #000 !important;
+  opacity: 1;
+} */
+.main-header .header-navbar .search .input-search.input-search--is-expanded .mat-form-field-wrapper {
+  background: #fff;
+  border-radius: 5px;
+  color: #353535;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.cdk-overlay-pane {
+  width: 338px !important;
+  top: 51px !important;
+  margin-left: 6px;
+}
+@media screen and (max-width: 767px) {
+  .cdk-overlay-pane {
+    top: 102px !important;
+  }
+}
+.cdk-overlay-pane .mat-autocomplete-panel {
+  box-shadow: 0 6px 5px -2px rgba(0,0,0,.2), 0 6px 5px 0 rgba(0,0,0,.14), 0 6px 10px 0 rgba(0,0,0,.12);
 }

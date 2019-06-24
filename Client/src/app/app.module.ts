@@ -72,6 +72,7 @@ import { StringService } from './services/string.service';
 import { SharedModule } from './shared';
 import { AgPhoneNumberMaskComponent } from './components/ag-phone-number-mask/ag-phone-number-mask.component';
 import { PopoverModule } from 'ngx-bootstrap/popover';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 
 @NgModule({
   declarations: [
@@ -110,6 +111,7 @@ import { PopoverModule } from 'ngx-bootstrap/popover';
       timeOut: 15000
     }),
     BootstrapModalModule.forRoot({container: document.body}),
+    BsDropdownModule.forRoot(),
     MatSlideToggleModule,
     PopoverModule.forRoot()
   ],

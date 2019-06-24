@@ -290,6 +290,7 @@ li a {
     border-bottom: 1px solid #ccc;
     position: absolute;
     width: 290px;
+    height: 60px;
     display: flex;
     background: #fff;
     border-right: 1px solid #ccc;
@@ -307,7 +308,7 @@ li a {
   .main-header .site-logo .sidebar-toggle {
     cursor: pointer;
     color: #9592b0;
-    background: #fff;
+    /* background: #fff; */
     height: 60px;
   }
   .main-header .site-logo .sidebar-toggle:hover {
@@ -319,7 +320,7 @@ li a {
   }
   .main-header .navbar {
     justify-content: flex-end;
-    background-color: #fff;
+    background-color: #112794;
     padding: 0px;
   }
   .main-header .navbar ul {
@@ -327,6 +328,7 @@ li a {
   }
   .main-header .navbar .nav > li > a {
     color: #000;
+    background-color: #fff;
   }
   .main-header .profile {
     display: flex;
@@ -336,22 +338,27 @@ li a {
     position: relative;
     bottom: 4px;
     padding-right: 10px;
+    padding-top: 10px;
   }
   .main-header .profile .info {
     display: flex;
     align-items: center;
+    position: relative;
+    top: 4px;
   }
   .main-header .profile .info > .mat-icon {
     position: relative;
-    bottom: 2px;
+    bottom: 7px;
+    color: #fff;
+    font-size: 36px !important;
     cursor: pointer;
   }
   .main-header .profile .info p {
     font-size: 20px;
-    color: #000;
+    color: #fff;
     margin-bottom: 0;
   }
-  .main-header .notification {
+  .main-header .header-navbar .notification {
     padding: 15px 15px 10px 15px;
     display: flex;
     border-left: 1px solid #ccc;
@@ -359,14 +366,14 @@ li a {
     height: 100%;
     margin-right: 25px;
   }
-  .main-header .notification img {
+  .main-header .header-navbar .notification img {
     width: 30px;
     height: 30px;
   }
   .main-header .header-navbar {
     display: flex;
     margin-left: 290px;
-    background-color: #fff;
+    background-color: #112794;
   }
   .main-header .header-navbar .left {
     display: flex;
@@ -375,13 +382,53 @@ li a {
   }
   .main-header .header-navbar .left .search-icon {
     border: 1px solid #ccc;
-    padding: 8px 10px 4px 10px;
+    padding: 4px;
     border-radius: 4px;
+    display: flex;
   }
-  .main-header .header-navbar .left .search-icon i:first-child {
-    padding-right: 10px;
+  .main-header .header-navbar .left .search-icon .mat-icon {
+    color: #fff;
   }
   .main-header .header-navbar .left .search {
     font-size: 18px;
     padding-left: 20px;
+    color: #fff;
+  }
+  .main-header .header-navbar .notification .dropdown-menu {
+    left: -335px !important;
+    padding: 0px !important;
+    width: 400px;
+  }
+  .main-header .header-navbar .notification .dropdown-menu .mat-card {
+    padding-bottom: 10px;
+  }
+  .main-header .header-navbar .notification .dropdown-menu .mat-card .mat-card-content .mat-header,
+  .main-header .header-navbar .notification .dropdown-menu .mat-card .mat-card-content .mat-content {
+    display: flex;
+    flex: 2;
+    border-bottom: 1px solid #ccc;
+    padding: 10px;
+  }
+  .main-header .header-navbar .notification .dropdown-menu .mat-card .mat-card-content .message,
+  .main-header .header-navbar .notification .dropdown-menu .mat-card .mat-card-content .type {
+    display: flex;
+    flex: 1;
+  }
+  .main-header .header-navbar .notification .dropdown-menu .mat-card .mat-card-content .mat-header .message,
+  .main-header .header-navbar .notification .dropdown-menu .mat-card .mat-card-content .mat-header .type {
+    color: #353535
+  }
+  .main-header .header-navbar .notification .dropdown-menu .mat-card .mat-card-content .mat-content .message,
+  .main-header .header-navbar .notification .dropdown-menu .mat-card .mat-card-content .mat-content .type {
+    color: #808080;
+    padding-right: 5px;
+  }
+  .main-header .header-navbar .notification .dropdown-menu .mat-card .mat-card-content .mat-content .type .mat-flat-button {
+    height: 25px;
+    width: 130px;
+    padding: 0;
+    line-height: 28px;
+  }
+  .main-header .header-navbar .notification .dropdown-menu .mat-card .mat-card-content .mat-content .type .mat-flat-button span {
+    font-size: 12px;
   }

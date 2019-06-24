@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { DOCUMENT } from '@angular/platform-browser';
 import { ToastrService } from 'ngx-toastr';
 import { LocalStorageService } from 'ngx-webstorage';
+import {FormControl} from '@angular/forms';
 
 @Component({
   selector: 'app-header',
@@ -16,6 +17,11 @@ export class HeaderComponent implements OnInit {
 
   date: number;
   disableLinks = false;
+  isAutoCompleteOpen = false;
+
+  myControl = new FormControl();
+  options: string[] = ['One', 'Two', 'Three'];
+
   constructor(
     private http: HttpService,
     private router: Router,
@@ -61,5 +67,12 @@ export class HeaderComponent implements OnInit {
       localStorage.removeItem('user');
       this.router.navigate(['/login']);
     }
+  }
+
+  onFocus() {
+    this.isAutoCompleteOpen = true;
+  }
+  onBlur() {
+    this.isAutoCompleteOpen = false;
   }
 }

@@ -18,12 +18,27 @@
     </div>
     <div class="header-navbar">
         <ng-container *ngIf="profileManager.profile">
-            <div class="left">
+            <!-- <div class="left">
                 <div class="search-icon">
-                    <i class="fa fa-search" aria-hidden="true"></i>
-                    <i class="fa fa-chevron-down" aria-hidden="true"></i>
+                    <mat-icon aria-hidden="false">search</mat-icon>
+                    <mat-icon aria-hidden="false">expand_more</mat-icon>
                 </div>
                 <div class="search">Search Here</div>
+            </div> -->
+            <div class="search">
+                <mat-form-field floatLabel="never" class="input-search" matAutocompleteOrigin #origin="matAutocompleteOrigin" [class.input-search--is-expanded]="isAutoCompleteOpen">
+                        <div class="input-search__button">
+                            <mat-icon class="search-i">search</mat-icon>
+                            <mat-icon class="toggle-arrow">expand_more</mat-icon>
+                        </div>
+                    <input type="text" placeholder="Search" aria-label="Number" matInput [formControl]="myControl"
+                    [matAutocompleteConnectedTo]="origin" [matAutocomplete]="auto"/>
+                    <mat-autocomplete #auto="matAutocomplete" (opened)="onFocus()"  (closed)="onBlur()">
+                        <mat-option *ngFor="let option of options" [value]="option">
+                        {{option}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
             </div>
         </ng-container>
         <nav class="navbar navbar-static-top">
@@ -88,12 +103,32 @@
                 </ul>
             </div>
             <ng-container *ngIf="profileManager.profile">
-                <div class="notification">
-                    <img src="assets/images/notification.png">
+                <div class="notification" dropdown>
+                    <img src="assets/images/notification.png" dropdownToggle  class="dropdown-toggle" aria-controls="dropdown-basic">
+                    <div id="dropdown-basic" *dropdownMenu class="dropdown-menu" role="menu">
+                        <mat-card>
+                            <mat-card-content>
+                                <div class="mat-header">
+                                    <div class="message">Message</div>
+                                    <div class="type">Type</div>
+                                </div>
+                                <div class="mat-content">
+                                    <div class="message">
+                                        It is a long established fact that a reader will be distracted by the readab...
+                                    </div>
+                                    <div class="type">
+                                        <span>Payor Lettor Name</span>
+                                        <button mat-flat-button color="primary">Set Letter Name</button>
+                                        <!-- <button type="button">Set Letter Name</button> -->
+                                    </div>
+                                </div>
+                            </mat-card-content>
+                        </mat-card>
+                    </div>
                 </div>
                 <div class="profile text-center" style="margin:0;padding:0">
                     <div class="image">
-                        <img [src]="'assets/images/profile.png'" style="width: 40px;" class="img-square" [alt]="userName">
+                        <img [src]="'assets/images/profile.png'"  style="width: 40px;" class="img-square" [alt]="userName">
                     </div>
                     <div class="info">
                         <p>{{userName}}</p>
