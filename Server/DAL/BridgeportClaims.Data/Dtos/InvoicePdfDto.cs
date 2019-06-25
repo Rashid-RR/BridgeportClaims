@@ -11,12 +11,19 @@
         public string InvoiceNumber { get; set; }
         public string InvoiceDate { get; set; }
         public string ClaimNumber { get; set; }
+        public string PatientLastName { get; set; }
+        public string PatientFirstName { get; set; }
+        public string PatientAddress1 { get; set; }
+        public string PatientAddress2 { get; set; }
+        public string PatientCity { get; set; }
+        public string PatientStateCode { get; set; }
+        public string PatientPostalCode { get; set; }
+        public string PatientPhoneNumber { get; set; }
         public string DateOfBirthDay { get; set; }
         public string DateOfBirthMonth { get; set; }
         public string DateOfBirthYear { get; set; }
         public bool? IsMale { get; set; }
         public bool? IsFemale { get; set; }
-        public string PhoneNumber { get; set; }
         public string DateOfInjuryDay { get; set; }
         public string DateOfInjuryMonth { get; set; }
         public string DateOfInjuryYear { get; set; }
@@ -39,7 +46,5 @@
         public string FederalTin { get; set; }
         public string Npi { get; set; }
         public string Nabp { get; set; }
-        public string PatientLastName { get; set; }
-        public string PatientFirstName { get; set; }
     }
 }
