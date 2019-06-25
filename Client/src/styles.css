@@ -1352,12 +1352,29 @@ app-new-episode .close-button {
   font-family: 'Material Icons' !important;
   font-size: 24px !important;
 }
+.mat-menu-content .menu-item {
+  width: 210px;
+}
 .mat-menu-content .menu-item .mat-icon {
   font-family: 'Material Icons' !important;
   font-size: 24px;
 }
+.mat-menu-content .menu-item button {
+  height: 40px;
+}
 .mat-menu-content .menu-item button:focus {
   outline: none !important;
+}
+.mat-menu-content .menu-item button:hover {
+  background-color: #112796;
+  color: #fff;
+}
+.mat-menu-panel.myClass {
+  top: 15px !important;
+  left: 15px !important;
+}
+.mat-menu-content .menu-item button:hover .mat-icon {
+  color: #fff;
 }
 .mat-menu-content .menu-item .ver-info {
   text-align: center;
@@ -1377,8 +1394,8 @@ app-new-episode .close-button {
   font-size: 20px;
 }
 .skin-black .sidebar-menu > li > a > span {
-  font-size: 18px !important;
-  padding-left: 25px;
+  font-size: 16px !important;
+  padding-left: 18px;
 }
 .skin-black .sidebar-menu > li:hover > a {
   color: #353535;
@@ -1512,7 +1529,7 @@ app-new-episode .close-button {
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  width: 100%;
+  width: 25rem;
   max-width: 25rem;
   height: 100%;
   color: #fff;
@@ -1601,16 +1618,24 @@ app-new-episode .close-button {
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
 }
-.cdk-overlay-pane {
+.cdk-overlay-pane .mat-autocomplete-panel.searchAutoComplete {
   width: 338px !important;
-  top: 51px !important;
+  top: -9px !important;
   margin-left: 6px;
 }
-@media screen and (max-width: 767px) {
-  .cdk-overlay-pane {
-    top: 102px !important;
-  }
-}
-.cdk-overlay-pane .mat-autocomplete-panel {
+.cdk-overlay-pane .mat-autocomplete-panel.searchAutoComplete {
   box-shadow: 0 6px 5px -2px rgba(0,0,0,.2), 0 6px 5px 0 rgba(0,0,0,.14), 0 6px 10px 0 rgba(0,0,0,.12);
+}
+.main-header .header-navbar .notification .dropdown-menu .mat-card .mat-card-content .mat-content .type .mat-flat-button .mat-button-wrapper {
+  font-size: 12px;
+}
+
+
+@media screen and (max-width: 767px) {
+  .main-header .header-navbar .search .input-search.mat-form-field {
+    justify-content: center;   
+  }
+  .cdk-overlay-pane .mat-autocomplete-panel.searchAutoComplete {
+    top: 0px !important;
+  }
 }

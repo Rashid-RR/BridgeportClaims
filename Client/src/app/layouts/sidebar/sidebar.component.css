@@ -39,3 +39,17 @@ li.disabled a.history {
     font-weight: bold;
     vertical-align: sub;
 }
+.main-sidebar .sidebar .sidebar-menu li img {
+    position: relative;
+    bottom: 3px;
+}
+.main-sidebar .sidebar .sidebar-menu li .activeImage,
+.main-sidebar .sidebar .sidebar-menu li.active .normalImage,
+.main-sidebar .sidebar .sidebar-menu li:hover .normalImage {
+    display: none;
+}
+.main-sidebar .sidebar .sidebar-menu li.active .activeImage,
+.main-sidebar .sidebar .sidebar-menu li:hover .activeImage,
+.main-sidebar .sidebar .sidebar-menu li .normalImage {
+    display: inline-block;
+}

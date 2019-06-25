@@ -14,6 +14,7 @@ declare var $: any;
 })
 export class SidebarComponent implements OnInit {
   disableLinks = false;
+  
   constructor(
     private events: EventsService,
     public router: Router,

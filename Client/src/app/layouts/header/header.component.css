@@ -394,41 +394,67 @@ li a {
     padding-left: 20px;
     color: #fff;
   }
+  .main-header .header-navbar .notification i {
+    top: 3px;
+    position: relative;
+    font-size: 24px;
+    cursor: pointer;
+    color: #fff;
+  }
+  .main-header .header-navbar .notification i:after {
+    display: none;
+  }
   .main-header .header-navbar .notification .dropdown-menu {
-    left: -335px !important;
+    left: -370px !important;
+    top: 50px !important;
     padding: 0px !important;
-    width: 400px;
+    width: 431px;
+    border: none;
+    border-radius: 15px;
   }
   .main-header .header-navbar .notification .dropdown-menu .mat-card {
-    padding-bottom: 10px;
+    padding: 0 0 20px 0;
+    border-radius: 15px;
   }
-  .main-header .header-navbar .notification .dropdown-menu .mat-card .mat-card-content .mat-header,
+  .main-header .header-navbar .notification .dropdown-menu .mat-card .mat-card-content .mat-header {
+    display: flex;
+    flex: 2;
+    border-bottom: 1px solid #ccc;
+    padding: 15px 20px 10px 20px;
+  }
+  .main-header .header-navbar .notification .dropdown-menu .mat-card .mat-card-content .mat-header .message,
+  .main-header .header-navbar .notification .dropdown-menu .mat-card .mat-card-content .mat-header .type {
+    color: #353535;
+    font-size: 16px;
+    font-weight: bold;
+  }
+  .main-header .header-navbar .notification .dropdown-menu .mat-card .mat-card-content .mat-header .message,
+  .main-header .header-navbar .notification .dropdown-menu .mat-card .mat-card-content .mat-content .message {
+    padding-right: 15px;
+  }
   .main-header .header-navbar .notification .dropdown-menu .mat-card .mat-card-content .mat-content {
     display: flex;
     flex: 2;
     border-bottom: 1px solid #ccc;
-    padding: 10px;
+    padding: 15px 20px;
   }
   .main-header .header-navbar .notification .dropdown-menu .mat-card .mat-card-content .message,
   .main-header .header-navbar .notification .dropdown-menu .mat-card .mat-card-content .type {
     display: flex;
     flex: 1;
   }
-  .main-header .header-navbar .notification .dropdown-menu .mat-card .mat-card-content .mat-header .message,
-  .main-header .header-navbar .notification .dropdown-menu .mat-card .mat-card-content .mat-header .type {
-    color: #353535
-  }
   .main-header .header-navbar .notification .dropdown-menu .mat-card .mat-card-content .mat-content .message,
   .main-header .header-navbar .notification .dropdown-menu .mat-card .mat-card-content .mat-content .type {
     color: #808080;
-    padding-right: 5px;
+  }
+  .main-header .header-navbar .notification .dropdown-menu .mat-card .mat-card-content .mat-content .type span {
+    padding-right: 10px;
   }
   .main-header .header-navbar .notification .dropdown-menu .mat-card .mat-card-content .mat-content .type .mat-flat-button {
     height: 25px;
     width: 130px;
-    padding: 0;
+    padding: 0 5px;
+    background-color: #495bbc;
+    border-radius: 0;
     line-height: 28px;
-  }
-  .main-header .header-navbar .notification .dropdown-menu .mat-card .mat-card-content .mat-content .type .mat-flat-button span {
-    font-size: 12px;
   }
