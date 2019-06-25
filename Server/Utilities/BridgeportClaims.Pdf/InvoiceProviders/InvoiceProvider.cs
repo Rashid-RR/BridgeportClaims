@@ -1,4 +1,4 @@
-﻿using System.IO;
+using System.IO;
 using System.Reflection;
 using BridgeportClaims.Common.Disposable;
 using BridgeportClaims.Common.Extensions;
