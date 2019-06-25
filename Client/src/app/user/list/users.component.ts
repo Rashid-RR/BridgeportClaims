@@ -238,7 +238,7 @@ export class UsersComponent implements OnInit {
   }
 
   showRoleConfirm(userName: string, role: string, event: any): void {
-    const title = 'Update Role';
+    const title = '';
     let msg = '';
     const action = (event) ? 'Assign ' + role + ' role to ' : 'Revoke ' + role + ' role from ';
     const user = this.users.find(u => u.userName === userName);

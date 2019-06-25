@@ -1,8 +1,15 @@
-﻿namespace BridgeportClaims.Data.Dtos
+﻿using System;
+
+namespace BridgeportClaims.Data.Dtos
 {
     public sealed class InvoiceDto
     {
-        public string InvoiceDate { get; set; }
+        private DateTime _invoiceDate;
+        public string InvoiceDate
+        {
+            get => $"{_invoiceDate:MM/dd/yyyy}";
+            set => _invoiceDate = Convert.ToDateTime(value);
+        }
         public string Carrier { get; set; }
         public string PatientName { get; set; }
         public string ClaimNumber { get; set; }

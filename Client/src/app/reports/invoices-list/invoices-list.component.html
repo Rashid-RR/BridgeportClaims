@@ -6,7 +6,6 @@
     [frameworkComponents]="frameworkComponents"
     [columnDefs]="columnDefs"
     [defaultColDef]="defaultColDef"
-    (cellValueChanged)="onCellValueChanged($event)"
     [rowDragManaged]="true"
     [animateRows]="true"
     [paginationAutoPageSize]="true"
@@ -20,7 +19,6 @@
     [quickFilterText]="invoicesService.filterText"
     [floatingFilter]="true"
     [statusBar]="statusBar"
-    [rowMultiSelectWithClick]="true"
     [enableCellChangeFlash]="true"
     [sideBar]="sideBar">
   </ag-grid-angular>

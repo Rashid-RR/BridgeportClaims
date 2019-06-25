@@ -39,6 +39,11 @@ namespace BridgeportClaims.Pdf.InvoiceProviders
                             StampText($"{data.BillToCity}, {data.BillToStateCode} {data.BillToPostalCode}", 341, 749.5f,
                                 contentByte);
                         }
+                        StampText($"Invoice#-1: {data.InvoiceNumber}", 240, 683, contentByte);
+                        StampText($"Invoice Date: {data.InvoiceDate}", 340, 683, contentByte);
+                        StampText("X", 331.5f, 656.5f, contentByte);
+                        StampText(data.ClaimNumber, 362, 655.8f, contentByte);
+                        StampText(data.DateOfBirthMonth, 270, 630, contentByte);
                     }
                     catch
                     {

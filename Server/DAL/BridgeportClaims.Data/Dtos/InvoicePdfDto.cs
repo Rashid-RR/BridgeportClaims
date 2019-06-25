@@ -39,5 +39,7 @@
         public string FederalTin { get; set; }
         public string Npi { get; set; }
         public string Nabp { get; set; }
+        public string PatientLastName { get; set; }
+        public string PatientFirstName { get; set; }
     }
 }

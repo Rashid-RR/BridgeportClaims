@@ -81,7 +81,7 @@ export class InvoicesListComponent implements OnInit {
     this.rowData = this.invoicesService.getInvoices().pipe(
       map((invoices: any) => {
         return invoices.map((invoice) => {
-          invoice['invoiceDate'] = (invoice['invoiceDate']||'').substr(0, 8);
+          invoice['invoiceDate'] = (invoice['invoiceDate']||'').substr(0, 10);
           return invoice;
         });
       })
