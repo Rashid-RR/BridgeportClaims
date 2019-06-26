@@ -320,18 +320,19 @@ li a {
   }
   .main-header .navbar {
     justify-content: flex-end;
-    background-color: #112794;
+    background-color: #102695;
     padding: 0px;
   }
   .main-header .navbar ul {
     display: inline-block;
   }
-  .main-header .navbar .nav > li > a {
-    color: #000;
+  .main-header .navbar .nav > li > a:hover {
+    color: #102695;
     background-color: #fff;
   }
   .main-header .profile {
     display: flex;
+    cursor: pointer;
     padding-right: 40px !important;
   }
   .main-header .profile .image{
@@ -367,6 +368,7 @@ li a {
     margin-right: 25px;
   }
   .main-header .header-navbar .notification img {
+    cursor: pointer;
     width: 30px;
     height: 30px;
   }

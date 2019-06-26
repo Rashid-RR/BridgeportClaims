@@ -1,7 +1,7 @@
 <ng-container *ngIf="claimManager.dataSize==1 || claimManager.selected!==undefined">
   <div *ngFor="let claim of claimManager.claimsData" class="row invoice-info">
     <form [formGroup]="form" autocapitalize="none" autocomplete="off" autocomplete="off" class="form-horizontal"
-      novalidate style="display:  flex;flex-direction:  row;flex-wrap:  wrap;">
+      novalidate style="display:  flex;flex-direction:  row;flex-wrap:  wrap;background-color: #efecec;">
       <ng-container
         *ngIf="adminOnly && (claimManager.dataSize==1 || claim.claimId==claimManager.selectedClaim.claimId)">
         <div class="col-sm-6 invoice-col">

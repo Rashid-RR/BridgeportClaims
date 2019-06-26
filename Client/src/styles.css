@@ -1370,8 +1370,8 @@ app-new-episode .close-button {
   color: #fff;
 }
 .mat-menu-panel.myClass {
-  top: 15px !important;
-  left: 15px !important;
+  top: -3px !important;
+  right: 10px;
 }
 .mat-menu-content .menu-item button:hover .mat-icon {
   color: #fff;
@@ -1403,6 +1403,11 @@ app-new-episode .close-button {
   background-color: #f8f8fa;
   border: none;
 }
+
+.sidebar-menu.history-list > li > a > span {
+  font-size: 14px !important;
+}
+
 .skin-black .sidebar-menu > li.active > a {
   color: #102695;
   background: #fdfdff;

@@ -123,7 +123,7 @@
       <span>ADMINISTRATION</span>
     </div>
     <ul class="sidebar-menu">
-        <li [class.active]="router.url.indexOf('/main/reports')>-1">
+        <li [class.active]="router.url.indexOf('/main/reports/list')>-1">
           <a [routerLink]="'/main/reports'"
           [popover]="localSt.retrieve('sidebarOpen') ? 'Reports' : ''" triggers="mouseenter:mouseleave" placement="right">
           <img style='width: 20px;' class="activeImage" src="assets/images/active-state/reports.png">
@@ -173,13 +173,20 @@
       <!-- <img style='width: 20px;' src="assets/images/normal-state/history.png"> -->
       <span>HISTORY</span>      
     </div>
-    <ul class="sidebar-menu">
+    <ul class="sidebar-menu history-list">
         <ng-container *ngIf="!claimManager.loadingHistory">
           <li *ngFor="let claim of claimManager.claimHistory" [class.disabled]="disableLinks">
-            <a class="history" (click)="goToClaim(claim.claimId)">
-              <img style='width: 15px;' src="assets/img/check.png">
-              <span *ngIf="claim.name">{{claim.name}}</span>
-              <span *ngIf="!claim.name">{{claim.firstName+" "+claim.lastName}}</span>
+            <a class="history" *ngIf="claim.name" (click)="goToClaim(claim.claimId)"
+            [popover]="localSt.retrieve('sidebarOpen') ? claim.name : ''" triggers="mouseenter:mouseleave" placement="right">
+              <img style='width: 20px;' src="assets/images/normal-state/history.png">
+              <!-- <i class="fa fa-check"></i> -->
+              <span>{{claim.name}}</span>
+            </a>
+            <a class="history" *ngIf="!claim.name" (click)="goToClaim(claim.claimId)"
+            [popover]="localSt.retrieve('sidebarOpen') ? claim.firstName+' '+claim.lastName : ''" triggers="mouseenter:mouseleave" placement="right">
+              <img style='width: 20px;' src="assets/images/normal-state/history.png">
+              <!-- <i class="fa fa-check"></i> -->
+              <span>{{claim.firstName+" "+claim.lastName}}</span>
             </a>
           </li>
         </ng-container>

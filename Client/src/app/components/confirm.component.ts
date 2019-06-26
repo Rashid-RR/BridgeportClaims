@@ -15,17 +15,17 @@ export interface ConfirmModel {
 @Component({
   selector: 'confirm',
   template: `<div class="modal-dialog">
-  <div class="modal-content">
-     <div class="modal-header">
-       <button mat-raised-button color="warn" class="btn close" (click)="close()"><span style="font-size:41px">&times;</span></button>
-       <h4 class="modal-title">{{title || 'Confirm'}}</h4>
+  <div class="modal-content" style="padding: 0;">
+     <div class="modal-header" style="display: block;padding:0 0 15px 15px;">
+       <button style="margin: 0px;" mat-raised-button color="warn" class="btn close" (click)="close()"><span style="font-size:41px">&times;</span></button>
+       <h4 class="modal-title" style="padding-top: 15px;">{{title || 'Confirm'}}</h4>
      </div>
      <div class="modal-body">
        <p [innerHTML]="msg || 'Are you sure?'"></p>
      </div>
      <div class="modal-footer">
-       <button type="button" class="btn" style="height:49px" (click)="confirm()" [disabled]="buttonDisabled" cdkFocusInitial>{{buttonText ||'OK'}}</button>
-       <button type="button" mat-button class="btn btn-default" (click)="close()" >{{cancelText ||'Cancel'}}</button>
+       <button type="button" mat-button class="btn" style="height:49px;background-color:green;color: #fff;" (click)="confirm()" [disabled]="buttonDisabled" cdkFocusInitial>{{buttonText ||'OK'}}</button>
+       <button type="button" mat-button class="btn btn-default" (click)="close()" style="background-color: #ccc;" >{{cancelText ||'Cancel'}}</button>
      </div>
    </div>
 </div>`

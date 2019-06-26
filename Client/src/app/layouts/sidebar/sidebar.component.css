@@ -44,12 +44,13 @@ li.disabled a.history {
     bottom: 3px;
 }
 .main-sidebar .sidebar .sidebar-menu li .activeImage,
-.main-sidebar .sidebar .sidebar-menu li.active .normalImage,
-.main-sidebar .sidebar .sidebar-menu li:hover .normalImage {
+.main-sidebar .sidebar .sidebar-menu li.active .normalImage
+/* .main-sidebar .sidebar .sidebar-menu li:hover .normalImage  */
+{
     display: none;
 }
 .main-sidebar .sidebar .sidebar-menu li.active .activeImage,
-.main-sidebar .sidebar .sidebar-menu li:hover .activeImage,
+/* .main-sidebar .sidebar .sidebar-menu li:hover .activeImage, */
 .main-sidebar .sidebar .sidebar-menu li .normalImage {
     display: inline-block;
 }

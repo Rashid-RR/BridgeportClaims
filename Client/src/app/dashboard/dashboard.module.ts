@@ -6,7 +6,6 @@ import { SharedModule } from '../shared';
 import { DashboardLinksComponent } from './dashboard-links/dashboard-links.component';
 import { ClientViewComponent } from './client-view/client-view.component';
 import { DashboardRoutes } from './dashboard.routing';
-import { NotificationComponent } from './notification/notification.component';
 
 @NgModule({
   imports: [
@@ -14,6 +13,6 @@ import { NotificationComponent } from './notification/notification.component';
       CommonModule,
       RouterModule.forChild(DashboardRoutes),
   ],
-  declarations: [DashboardLinksComponent, ClientViewComponent, NotificationComponent]
+  declarations: [DashboardLinksComponent, ClientViewComponent]
 })
 export class DashboardModule { }
