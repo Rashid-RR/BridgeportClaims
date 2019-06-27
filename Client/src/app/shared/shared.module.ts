@@ -25,6 +25,7 @@ import { ArraySortPipe } from '../pipes/sort.pipe';
 import { FilterUserPipe } from '../user/list/filter-user.pipe';
 import { MaterialModule } from './material.module';
 import { NotificationComponent } from '../dashboard/notification/notification.component';
+import { NotificationDetailsComponent } from '../dashboard/notification-details/notification-details.component';
 
 @Pipe({ name: 'safeStyle' })
 export class SafeStylePipe implements PipeTransform {
@@ -59,7 +60,8 @@ export class SafeUrlPipe implements PipeTransform {
     DisplayRolesPipe, BridgeportDatePipe, ArraySortPipe, PhonePipe, EpisodesFilterPipe, SafeStylePipe, SafeUrlPipe, FilterUserPipe, DiariesFilterPipe,
     UnpaidScriptResultsComponent, UnpaidScriptSearchComponent, InvoiceSearchComponent,
      EpisodeNoteModalComponent, UnindexedImageFilterComponent, UnindexedImageListComponent, ScriptNoteWindowComponent,
-     TreeListGridComponent, TreeListFilterComponent, TreeListComponent, NewEpisodeComponent, NotificationComponent
+     TreeListGridComponent, TreeListFilterComponent, TreeListComponent, NewEpisodeComponent,
+     NotificationComponent, NotificationDetailsComponent
   ],
   providers: [
     WindowsInjetor,
@@ -78,7 +80,8 @@ export class SafeUrlPipe implements PipeTransform {
     UnpaidScriptResultsComponent, UnpaidScriptSearchComponent,
     EpisodeNoteModalComponent, InvoiceSearchComponent, NewEpisodeComponent,
     UnindexedImageFilterComponent, UnindexedImageListComponent, ScriptNoteWindowComponent,
-    TreeListGridComponent, TreeListFilterComponent, TreeListComponent, MaterialComponentsModule, NotificationComponent
+    TreeListGridComponent, TreeListFilterComponent, TreeListComponent, MaterialComponentsModule,
+    NotificationComponent, NotificationDetailsComponent
   ],
   entryComponents: [
     ConfirmComponent, BootstrapWindowContainer, WindowBackdrop, ScriptNoteWindowComponent,

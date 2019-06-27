@@ -407,10 +407,10 @@ li a {
     display: none;
   }
   .main-header .header-navbar .notification .dropdown-menu {
-    left: -370px !important;
+    left: -418px !important;
     top: 50px !important;
     padding: 0px !important;
-    width: 431px;
+    width: 480px;
     border: none;
     border-radius: 15px;
   }

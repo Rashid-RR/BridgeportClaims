@@ -1631,7 +1631,7 @@ app-new-episode .close-button {
 .cdk-overlay-pane .mat-autocomplete-panel.searchAutoComplete {
   box-shadow: 0 6px 5px -2px rgba(0,0,0,.2), 0 6px 5px 0 rgba(0,0,0,.14), 0 6px 10px 0 rgba(0,0,0,.12);
 }
-.main-header .header-navbar .notification .dropdown-menu .mat-card .mat-card-content .mat-content .type .mat-flat-button .mat-button-wrapper {
+.notification-details .btn .mat-button-wrapper {
   font-size: 12px;
 }
 
@@ -1643,4 +1643,8 @@ app-new-episode .close-button {
   .cdk-overlay-pane .mat-autocomplete-panel.searchAutoComplete {
     top: 0px !important;
   }
+}
+
+.notification-details tr {
+  background-color: #fff !important;
 }
