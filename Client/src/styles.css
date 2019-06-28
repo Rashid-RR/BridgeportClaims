@@ -1548,7 +1548,7 @@ app-new-episode .close-button {
 }
 .main-header .header-navbar .search .input-search .mat-form-field-infix {  
   display: flex;
-  width: 120px;
+  width: 80px;
   padding-top: .57142857rem;
   padding-bottom: .57142857rem;
   border-top: 1px solid transparent;

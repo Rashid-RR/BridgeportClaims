@@ -37,17 +37,27 @@
   
   tr>th:first-child,
   tr>td:first-child{
-    width: 50%;
+    width: 47%;
   }
   
   tr>th:nth-child(2),
   tr>td:nth-child(2),
   tr>th:nth-child(3),
   tr>td:nth-child(3) {
-    width: 25%;
+    
     text-align: left;
     word-wrap: normal;
     padding-right: 12px !important
+  }
+
+  tr>th:nth-child(2),
+  tr>td:nth-child(2) {
+    width: 22%;
+  }
+
+  tr>th:nth-child(3),
+  tr>td:nth-child(3) {
+    width: 31%;
   }
   
 .notification-details .btn {

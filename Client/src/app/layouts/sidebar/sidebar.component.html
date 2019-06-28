@@ -123,7 +123,7 @@
       <span>ADMINISTRATION</span>
     </div>
     <ul class="sidebar-menu">
-        <li [class.active]="router.url.indexOf('/main/reports/list')>-1">
+        <li [class.active]="router.url.indexOf('/main/reports')>-1 && router.url.indexOf('/main/reports/invoices') === -1">
           <a [routerLink]="'/main/reports'"
           [popover]="localSt.retrieve('sidebarOpen') ? 'Reports' : ''" triggers="mouseenter:mouseleave" placement="right">
           <img style='width: 20px;' class="activeImage" src="assets/images/active-state/reports.png">

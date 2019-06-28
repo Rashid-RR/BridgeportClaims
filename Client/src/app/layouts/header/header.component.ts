@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, HostListener, ElementRef, ViewChild } from '@angular/core';
 import { EventsService } from '../../services/events-service';
 import { ProfileManager } from '../../services/profile-manager';
 import { HttpService } from '../../services/http-service';
@@ -6,7 +6,8 @@ import { Router } from '@angular/router';
 import { DOCUMENT } from '@angular/platform-browser';
 import { ToastrService } from 'ngx-toastr';
 import { LocalStorageService } from 'ngx-webstorage';
-import {FormControl} from '@angular/forms';
+import { FormControl } from '@angular/forms';
+import { BsDropdownDirective } from 'ngx-bootstrap/dropdown';
 
 @Component({
   selector: 'app-header',
@@ -18,13 +19,22 @@ export class HeaderComponent implements OnInit {
   date: number;
   disableLinks = false;
   isAutoCompleteOpen = false;
-  placeholder: string = 'Customers';
-
+  placeholder: string = 'Search by last name';
+  @ViewChild('dropdown') dropdown: BsDropdownDirective;
   myControl = new FormControl();
   options: string[] = ['One', 'Two', 'Three'];
 
+  // @HostListener('document:click', ['$event'])
+  // clickout(event) {
+  //   if (!this.eRef.nativeElement.contains(event.target)) {
+  //     this.dropdown.isOpen = false;
+  //   }
+
+  // }
+
   constructor(
     private http: HttpService,
+    private eRef: ElementRef,
     private router: Router,
     public eventservice: EventsService,
     public profileManager: ProfileManager,

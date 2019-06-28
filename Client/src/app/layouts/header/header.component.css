@@ -4,6 +4,10 @@
 .nav.navbar-nav {
     float: right;
 }
+
+.nav.navbar-nav li {
+  margin-right: 4px;
+}
 .isTestDomain li:hover,
 .isTestDomain li,
 .isTestDomain li a:hover,
@@ -404,14 +408,17 @@ li a {
     cursor: pointer;
     color: #fff;
   }
+  .border-top-new {
+    border-top : 1PX solid rgb(222, 222, 222);
+  }
   .main-header .header-navbar .notification i:after {
     display: none;
   }
   .main-header .header-navbar .notification .dropdown-menu {
-    left: -418px !important;
+    left: -630px !important;
     top: 50px !important;
     padding: 0px !important;
-    width: 480px;
+    width: 690px;
     border: none;
     border-radius: 15px;
   }

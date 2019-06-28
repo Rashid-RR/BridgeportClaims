@@ -30,11 +30,13 @@
                 <mat-form-field floatLabel="never" class="input-search" matAutocompleteOrigin #origin="matAutocompleteOrigin" [class.input-search--is-expanded]="isAutoCompleteOpen">
                         <div class="input-search__button">
                             <mat-icon class="search-i">search</mat-icon>
-                            <mat-icon class="toggle-arrow" [matMenuTriggerFor]="menu">expand_more</mat-icon>
+                            <mat-icon class="toggle-arrow" #menuTrigger="matMenuTrigger" [matMenuTriggerFor]="menu">expand_more</mat-icon>
                             <mat-menu #menu="matMenu" class="search-dropdown">
-                                <span>Search for</span>
-                                <button [class.active]="placeholder == 'Customers'" (click)="selectItem('Customers')" mat-menu-item>Customers</button>
-                                <button [class.active]="placeholder == 'Orders'" (click)="selectItem('Orders')" mat-menu-item>Orders</button>
+                                <span >Search for</span>
+                                <button class = "border-top-new" [class.active]="placeholder == 'Search by last name'" (click)="selectItem('Search by last name'); $event.stopPropagation(); menuTrigger.closeMenu()" mat-menu-item>Last Name</button>
+                                <button [class.active]="placeholder == 'Search by first name'" (click)="selectItem('Search by first name');$event.stopPropagation(); menuTrigger.closeMenu()" mat-menu-item>First Name</button>
+                                <button [class.active]="placeholder == 'Search by claim #'" (click)="selectItem('Search by claim #');$event.stopPropagation(); menuTrigger.closeMenu()" mat-menu-item>Claim #</button>
+
                             </mat-menu>
                         </div>
                     <input type="text" placeholder="{{placeholder}}" aria-label="Number" matInput [formControl]="myControl"
@@ -109,7 +111,7 @@
                 </ul>
             </div>
             <ng-container *ngIf="profileManager.profile">
-                <div class="notification" dropdown [autoClose]="false">
+                <div class="notification" dropdown #dropdown="bs-dropdown" [insideClick] = "true">
                     <img src="assets/images/normal-state/notification.png" dropdownToggle  class="dropdown-toggle" aria-controls="dropdown-basic">
                     <!-- <mat-icon  dropdownToggle  class="dropdown-toggle" aria-controls="dropdown-basic" aria-hidden="false">notifications_none</mat-icon> -->
                     <!-- <i class="fa fa-bell-o dropdown-toggle" aria-hidden="true" dropdownToggle aria-controls="dropdown-basic"></i> -->
