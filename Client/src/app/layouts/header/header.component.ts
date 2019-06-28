@@ -18,6 +18,7 @@ export class HeaderComponent implements OnInit {
   date: number;
   disableLinks = false;
   isAutoCompleteOpen = false;
+  placeholder: string = 'Customers';
 
   myControl = new FormControl();
   options: string[] = ['One', 'Two', 'Three'];
@@ -37,6 +38,10 @@ export class HeaderComponent implements OnInit {
     this.eventservice.on('disable-links', (status: boolean) => {
       this.disableLinks = status;
     });
+  }
+
+  selectItem(txt) {
+    this.placeholder = txt;
   }
 
   get userName() {

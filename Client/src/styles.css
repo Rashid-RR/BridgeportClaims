@@ -1342,7 +1342,7 @@ app-new-episode .close-button {
   width: 24px !important;
 }
 
-.mat-menu-panel {
+.mat-menu-panel.myClass {
   position: relative;
   top: 20px;
   border: none;
@@ -1548,7 +1548,7 @@ app-new-episode .close-button {
 }
 .main-header .header-navbar .search .input-search .mat-form-field-infix {  
   display: flex;
-  width: 6.57142857rem;
+  width: 120px;
   padding-top: .57142857rem;
   padding-bottom: .57142857rem;
   border-top: 1px solid transparent;
@@ -1647,4 +1647,24 @@ app-new-episode .close-button {
 
 .notification-details tr {
   background-color: #fff !important;
+}
+.search-dropdown.mat-menu-panel {
+  position: relative;
+  top: 6px;
+  left: -37px;
+}
+
+.search-dropdown.mat-menu-panel .mat-menu-content {
+  border: none;
+  width: 130px;
+  border-radius: 4px;
+}
+.search-dropdown.mat-menu-panel .mat-menu-content span {
+  padding: 10px 16px 0px 16px;
+}
+.search-dropdown.mat-menu-panel .mat-menu-content .mat-menu-item {
+  height: 35px;
+}
+.search-dropdown.mat-menu-panel .mat-menu-content .mat-menu-item.active {
+  color: #102695;
 }

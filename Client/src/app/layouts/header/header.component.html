@@ -30,9 +30,14 @@
                 <mat-form-field floatLabel="never" class="input-search" matAutocompleteOrigin #origin="matAutocompleteOrigin" [class.input-search--is-expanded]="isAutoCompleteOpen">
                         <div class="input-search__button">
                             <mat-icon class="search-i">search</mat-icon>
-                            <mat-icon class="toggle-arrow">expand_more</mat-icon>
+                            <mat-icon class="toggle-arrow" [matMenuTriggerFor]="menu">expand_more</mat-icon>
+                            <mat-menu #menu="matMenu" class="search-dropdown">
+                                <span>Search for</span>
+                                <button [class.active]="placeholder == 'Customers'" (click)="selectItem('Customers')" mat-menu-item>Customers</button>
+                                <button [class.active]="placeholder == 'Orders'" (click)="selectItem('Orders')" mat-menu-item>Orders</button>
+                            </mat-menu>
                         </div>
-                    <input type="text" placeholder="Search" aria-label="Number" matInput [formControl]="myControl"
+                    <input type="text" placeholder="{{placeholder}}" aria-label="Number" matInput [formControl]="myControl"
                     [matAutocompleteConnectedTo]="origin" [matAutocomplete]="auto"/>
                     <mat-autocomplete class="searchAutoComplete" #auto="matAutocomplete" (opened)="onFocus()"  (closed)="onBlur()">
                         <mat-option *ngFor="let option of options" [value]="option">
@@ -61,11 +66,11 @@
                         <li class="display-date">
                             <i class="fa fa-calendar" aria-hidden="true"></i> {{ date | date }}</li>
                         <li>
-                            <a [routerLink]="'/register'">
+                            <a [routerLinkActive]="'active'" [routerLink]="'/register'">
                                 <i class="fa fa-user-plus" aria-hidden="true"></i>Register</a>
                         </li>
                         <li>
-                            <a [routerLink]="'/login'">
+                            <a [routerLinkActive]="'active'" [routerLink]="'/login'">
                                 <i class="fa fa-sign-in" aria-hidden="true"></i>
                                 Login</a>
                         </li>

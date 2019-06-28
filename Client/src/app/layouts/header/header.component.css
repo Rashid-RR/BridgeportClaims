@@ -326,7 +326,8 @@ li a {
   .main-header .navbar ul {
     display: inline-block;
   }
-  .main-header .navbar .nav > li > a:hover {
+  .main-header .navbar .nav > li > a:hover,
+  .main-header .navbar .nav > li > a.active {
     color: #102695;
     background-color: #fff;
   }
