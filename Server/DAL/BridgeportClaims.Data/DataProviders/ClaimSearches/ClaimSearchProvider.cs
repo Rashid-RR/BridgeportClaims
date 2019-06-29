@@ -4,12 +4,37 @@ using System.Data;
 using System.Data.SqlClient;
 using BridgeportClaims.Common.Disposable;
 using BridgeportClaims.Data.Dtos;
+using Dapper;
 using cs = BridgeportClaims.Common.Config.ConfigService;
 
 namespace BridgeportClaims.Data.DataProviders.ClaimSearches
 {
     public class ClaimSearchProvider : IClaimSearchProvider
     {
+        public IEnumerable<ClaimResultDto> GetSearchClaimResults(string searchTerm, SearchType searchType) =>
+            DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+            {
+                var sp = string.Empty;
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                }
+                switch (searchType)
+                { 
+                    case SearchType.LastName:
+                        sp = "[claims].[uspClaimSearchByLastName]";
+                        return conn.Query<ClaimResultDto>(sp, commandType: CommandType.StoredProcedure);
+                    case SearchType.FirstName:
+                        sp = "[claims].[uspClaimSearchByFirstName]";
+                        return conn.Query<ClaimResultDto>(sp, commandType: CommandType.StoredProcedure);
+                    case SearchType.ClaimNumber:
+                        sp = "[claims].[uspClaimSearchByClaimNumber]";
+                        return conn.Query<ClaimResultDto>(sp, commandType: CommandType.StoredProcedure);
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(searchType), searchType, null);
+                }
+            });
+
         public IList<DocumentClaimSearchResultDto> GetDocumentClaimSearchResults(string searchText, bool exactMatch, string delimiter) =>
             DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
