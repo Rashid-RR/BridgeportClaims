@@ -67,10 +67,11 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
       postalCode: [undefined] // NULL
     });
 
-    console.log('shitufkc');
-    this.http.getGlobalSearch('john', 'LastName').subscribe(data => {
+    console.log('Here we go...');
+    this.http.getGlobalSearch('1001', 'ClaimNumber').subscribe(data => {
       console.log(data);
     }, error => {
+      console.log(error.message);
     });
   }
 

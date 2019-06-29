@@ -14,22 +14,24 @@ namespace BridgeportClaims.Data.DataProviders.ClaimSearches
         public IEnumerable<ClaimResultDto> GetSearchClaimResults(string searchTerm, SearchType searchType) =>
             DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
-                var sp = string.Empty;
+                string sp;
                 if (conn.State != ConnectionState.Open)
                 {
                     conn.Open();
                 }
+                var ps = new DynamicParameters();
+                ps.Add("@SearchTerm", searchTerm, DbType.AnsiString, size: 100);
                 switch (searchType)
                 { 
                     case SearchType.LastName:
                         sp = "[claims].[uspClaimSearchByLastName]";
-                        return conn.Query<ClaimResultDto>(sp, commandType: CommandType.StoredProcedure);
+                        return conn.Query<ClaimResultDto>(sp, ps, commandType: CommandType.StoredProcedure);
                     case SearchType.FirstName:
                         sp = "[claims].[uspClaimSearchByFirstName]";
-                        return conn.Query<ClaimResultDto>(sp, commandType: CommandType.StoredProcedure);
+                        return conn.Query<ClaimResultDto>(sp, ps, commandType: CommandType.StoredProcedure);
                     case SearchType.ClaimNumber:
                         sp = "[claims].[uspClaimSearchByClaimNumber]";
-                        return conn.Query<ClaimResultDto>(sp, commandType: CommandType.StoredProcedure);
+                        return conn.Query<ClaimResultDto>(sp, ps, commandType: CommandType.StoredProcedure);
                     default:
                         throw new ArgumentOutOfRangeException(nameof(searchType), searchType, null);
                 }
