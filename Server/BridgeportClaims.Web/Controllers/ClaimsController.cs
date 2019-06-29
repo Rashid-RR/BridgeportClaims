@@ -29,6 +29,7 @@ namespace BridgeportClaims.Web.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         [Route("global-search")]
         public IHttpActionResult GetGlobalSearchForClaims(string searchTerm, SearchType searchType)
         {

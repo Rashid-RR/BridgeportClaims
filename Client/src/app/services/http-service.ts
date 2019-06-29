@@ -1800,4 +1800,21 @@ closeTreeWindows() {
         })
       );
     }
+
+  getGlobalSearch(searchTerm: string, searchType: any): Observable<any> {
+    return this.http.post<GlobalSearchResult>(this.baseUrl + `/claims/global-search/?searchTerm=${searchTerm}&searchType=${searchType}`, {})
+      .pipe(
+        tap(_ => {
+        }, error => {
+          this.handleResponseError(error);
+        })
+      );
+  };
+}
+
+export interface GlobalSearchResult {
+  claimId: number;
+  claimNumber: string;
+  lastName: string;
+  firstName: string
 }
