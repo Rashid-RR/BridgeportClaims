@@ -10,7 +10,7 @@ namespace BridgeportClaims.Data.DataProviders.ImportFiles
     {
         void LakerImportFileProcedureCall(DataTable dataTable, bool debugOnly = false);
         string GetLakerFileTemporaryPath(Tuple<string, byte[]> tuple);
-        DataTable RetreiveDataTableFromLatestLakerFile(string fullFilePathOfLatestLakerFile);
+        DataTable RetrieveDataTableFromLatestLakerFile(string fullFilePathOfLatestLakerFile);
         void DeleteImportFile(int importFileId);
         Tuple<string, byte[]> GetOldestLakerFileBytes();
         IList<ImportFileDto> GetImportFileDtos();

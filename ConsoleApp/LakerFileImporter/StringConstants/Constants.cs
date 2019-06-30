@@ -14,9 +14,9 @@
         public const string AuthenticationPasswordKey = "AuthenticationPassword";
         public const string LakerFileProcessingApiUrlKey = "LakerFileProcessingApiUrl";
         public const string MonthFolderFormatKey = "MonthFolderFormat";
-        public const string SftpHostKey = "SftpHost";
-        public const string SftpUserNameKey = "SftpUserName";
-        public const string SftpPasswordKey = "SftpPassword";
+        public const string LakerSftpHostKey = "LakerSftpHost";
+        public const string EnvisionSftpHostKey = "EnvisionSftpHost";
+        public const string LakerSftpUserNameKey = "LakerSftpUserName";
         public const string SftpRemoteSitePathKey = "SftpRemoteSitePath";
         public const string SftpPortKey = "SftpPort";
         public const string ProcessSftpKey = "ProcessSftp";
