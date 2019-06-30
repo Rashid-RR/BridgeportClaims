@@ -66,13 +66,6 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
       stateId: [undefined], // NULL
       postalCode: [undefined] // NULL
     });
-
-    console.log('Here we go...');
-    this.http.getGlobalSearch('1001', 'ClaimNumber').subscribe(data => {
-      console.log(data);
-    }, error => {
-      console.log(error.message);
-    });
   }
 
   get auth() {
