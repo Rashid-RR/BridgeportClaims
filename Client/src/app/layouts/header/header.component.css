@@ -422,6 +422,14 @@ li a {
     border: none;
     border-radius: 15px;
   }
+  .main-header .header-navbar .notification-for-live .dropdown-menu {
+    left: -268px!important;
+    top: 53px!important;
+    padding: 0!important;
+    width: 690px;
+    border: none;
+    border-radius: 15px;
+  }
   .main-header .header-navbar .notification .dropdown-menu .mat-card {
     padding: 0 0 20px 0;
     border-radius: 15px;

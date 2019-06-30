@@ -128,7 +128,7 @@
                 </ul>
             </div>
             <ng-container *ngIf="profileManager.profile">
-                <div class="notification" dropdown #dropdown="bs-dropdown" [insideClick] = "true">
+                <div dropdown #dropdown="bs-dropdown" [insideClick] = "true" [ngClass]="{'notification-for-live': isTestDomain, 'notification': !isTestDomain }">
                     <img src="assets/images/normal-state/notification.png" dropdownToggle  class="dropdown-toggle" aria-controls="dropdown-basic">
                     <!-- <mat-icon  dropdownToggle  class="dropdown-toggle" aria-controls="dropdown-basic" aria-hidden="false">notifications_none</mat-icon> -->
                     <!-- <i class="fa fa-bell-o dropdown-toggle" aria-hidden="true" dropdownToggle aria-controls="dropdown-basic"></i> -->
