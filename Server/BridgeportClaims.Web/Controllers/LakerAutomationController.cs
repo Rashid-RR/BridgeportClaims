@@ -75,7 +75,7 @@ namespace BridgeportClaims.Web.Controllers
             try
             {
                 // Take a third-party CSV reader, and turn that temporarily saved laker file into a Data Table.
-                var dataTable = _importFileProvider.RetreiveDataTableFromLatestLakerFile(fullLakerFileTemporaryPath);
+                var dataTable = _importFileProvider.RetrieveDataTableFromLatestLakerFile(fullLakerFileTemporaryPath);
                 // Import the new file, into the new Staged Laker File that will be imported into the database
                 _importFileProvider.LakerImportFileProcedureCall(dataTable);
                 // Finally, use the newly imported file, to Upsert the database.

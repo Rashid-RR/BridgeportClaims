@@ -101,7 +101,7 @@ namespace BridgeportClaims.Data.DataProviders.ImportFiles
             throw new IOException($"Error. Unable to save the Laker CSV file to {fullFilePath}");
         }
 
-        public DataTable RetreiveDataTableFromLatestLakerFile(string fullFilePathOfLatestLakerFile)
+        public DataTable RetrieveDataTableFromLatestLakerFile(string fullFilePathOfLatestLakerFile)
         {
             if (fullFilePathOfLatestLakerFile.IsNullOrWhiteSpace())
                 throw new Exception("The full file path to the latest Laker CSV doesn't exist.");

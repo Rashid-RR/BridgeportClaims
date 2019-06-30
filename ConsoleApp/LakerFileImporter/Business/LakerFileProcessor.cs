@@ -19,7 +19,7 @@ namespace LakerFileImporter.Business
         private static readonly Logger Logger = LoggingService.Instance.Logger;
 
         /// <summary>
-        /// Boolean returns whether or not the process was even necessary (a asel
+        /// Boolean returns whether or not the process was even necessary (and successful)
         /// </summary>
         /// <returns></returns>
         internal async Task<LakerFileProcessResult> UploadAndProcessLakerFileIfNecessary()
@@ -41,8 +41,8 @@ namespace LakerFileImporter.Business
                
                 // Now, let's prepare any necessary folders in the local directory, in preparation for an SFTP operation.
                 var ioHelper = new IoHelper();
-                var methodSuceeded = ioHelper.CreateMonthAndYearFolderIfNecessary();
-                if (!methodSuceeded)
+                var methodSucceeded = ioHelper.CreateMonthAndYearFolderIfNecessary();
+                if (!methodSucceeded)
                 {
                     if (cs.AppIsInDebugMode)
                         Logger.Error(
@@ -53,7 +53,9 @@ namespace LakerFileImporter.Business
                 var processSftpValue = cs.GetAppSetting(c.ProcessSftpKey)?.ToLower();
                 var processSftp = false;
                 if (!string.IsNullOrWhiteSpace(processSftpValue))
+                {
                     processSftp = Convert.ToBoolean(processSftpValue);
+                }
                 if (!processSftp)
                 {
                     if (cs.AppIsInDebugMode)
@@ -64,11 +66,15 @@ namespace LakerFileImporter.Business
                 {
                     // Do any necessary SFTP downloading...
                     if (cs.AppIsInDebugMode)
+                    {
                         Logger.Info("Ok, beginning SFTP operation(s)...");
+                    }
+                    // First download Laker File(s)
                     var proxyProvider = new SftpProxyProvider();
-                    proxyProvider.ProcessSftpOperation();
+                    proxyProvider.ProcessLakerSftpOperation();
+                    // Next, download any Envision File(s)
+                    proxyProvider.ProcessEnvisionSftpOperation();
                 }
-
                 // Now that we've downloaded all SFTP files, we can simply traverse the local directory for the latest file (as we were originally doing) -
                 var newestFileInLocalDirectory = ioHelper.BrowseDirectoryToLocateFile();
                 if (null == newestFileInLocalDirectory)
