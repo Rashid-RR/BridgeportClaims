@@ -85,10 +85,10 @@ export class HeaderComponent implements OnInit {
         // TODO: if the "val" comes in as a CustomerSearchHit object, hit the API again with the FullName.
         // preferably, I would like to avoid doing this to avoid hitting the API at all if it isn't necessary.
         if(val.length > 2 && this.selectedType.length > 0) {
-          this.cleanSearch = false;
+          this.cleanSearch = true;
           return this.http.getGlobalSearch(val, this.selectedType);
         } else {
-          this.cleanSearch = true;
+          this.cleanSearch = false;
           return of([]);
         }
       }),
@@ -147,7 +147,7 @@ export class HeaderComponent implements OnInit {
     this.cleanSearch = false;
     this.prepareSearchStream();
   }
-
+  
   selectItem(txt) {
     this.selectedType = txt;
     switch (this.selectedType) {
@@ -162,9 +162,11 @@ export class HeaderComponent implements OnInit {
       break;
       default:
         this.placeholder = '';
-      break;
-    }
-    this.prepareSearchStream();
+        break;
+      }
+      this.cleanSearch = false;
+      this.myControl.setValue('');
+      this.prepareSearchStream();
   }
 
   private highlightRows(rows: any[]): string[] {
