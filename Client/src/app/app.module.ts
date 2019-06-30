@@ -73,6 +73,7 @@ import { SharedModule } from './shared';
 import { AgPhoneNumberMaskComponent } from './components/ag-phone-number-mask/ag-phone-number-mask.component';
 import { PopoverModule } from 'ngx-bootstrap/popover';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { NotificationService } from './services/notification.service';
 
 @NgModule({
   declarations: [
@@ -124,6 +125,7 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
     EpisodeService, FirewallService, DecisionTreeService,
     PaymentScriptService, DiaryService, ShortPayService, SkippedPaymentService, UnpaidScriptService,
     AccountReceivableService, ReportLoaderService, SignalRService, StringService, QueryBuilderService, AddressEditService, InvoicesService,
+    NotificationService,
     {
       provide: LocationStrategy,
       useClass: HashLocationStrategy

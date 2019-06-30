@@ -12,6 +12,7 @@ import { Observable, of, merge, Subject, combineLatest } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap, skip, take, mapTo, startWith, map, shareReplay, tap } from 'rxjs/operators';
 import { ClaimManager } from '../../services/claim-manager';
 import { HttpErrorResponse } from '@angular/common/http';
+import { NotificationService } from '../../services/notification.service';
 
 @Component({
   selector: 'app-header',
@@ -36,6 +37,7 @@ export class HeaderComponent implements OnInit {
   isAutocompleteOpened = false;
   isFirstSearchResultReceived = false;
   cleanSearch = true;
+  notificationCount = 0;
 
   private autocompleteOpened$: Subject<boolean> = new Subject<boolean>();
 
@@ -56,7 +58,8 @@ export class HeaderComponent implements OnInit {
     private toast: ToastrService,
     public localSt: LocalStorageService,
     @Inject(DOCUMENT) private document,
-    public claimManager: ClaimManager
+    public claimManager: ClaimManager,
+    public notificationservice: NotificationService,
   ) { }
 
   ngOnInit() {
@@ -67,6 +70,9 @@ export class HeaderComponent implements OnInit {
     this.selectItem('LastName');
     this.prepareSearchStream();
     this.handleAutoCompleteStyles();
+    this.notificationservice.getNotification().subscribe((countParam: number) => {
+      this.notificationCount = countParam;
+    });
   }
 
   prepareSearchStream() {

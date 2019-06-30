@@ -495,3 +495,15 @@ li a {
     left: 6px;
     margin-top: -10px;
   }
+  /deep/span.notification-count {
+    width: 25px;
+    height: 25px;
+    background: #925750;
+    border-radius: 50%;
+    padding: 4px 7px;
+    text-align: center;
+    color: white;
+    position: absolute;
+    top: 0px;
+    left: 32px;
+  }

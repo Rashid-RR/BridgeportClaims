@@ -4,6 +4,7 @@ import { HttpService } from '../../services/http-service';
 import { FormBuilder,  FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { ProfileManager } from '../../services/profile-manager';
+import { NotificationService } from '../../services/notification.service';
 declare var $: any;
 
 @Component({
@@ -22,7 +23,8 @@ export class NotificationDetailsComponent implements OnInit {
     private formBuilder: FormBuilder,
     private profileManager: ProfileManager,
     private toast: ToastrService,
-    private http: HttpService
+    private http: HttpService,
+    public notificationservice: NotificationService,
   ) {
     this.form = this.formBuilder.group({
       letterName: [null],
@@ -66,6 +68,7 @@ export class NotificationDetailsComponent implements OnInit {
             }
           }
           this.cancel();
+          this.notificationservice.updateNotificationCount(this.notifications.length);
       }, () => {
         this.toast.error('Could not update letter name');
         this.loadingNotification = false;
@@ -84,6 +87,7 @@ export class NotificationDetailsComponent implements OnInit {
               this.notifications.splice(i, 1);
             }
           }
+          this.notificationservice.updateNotificationCount(this.notifications.length);
           this.cancel();
       }, (error) => {
         const err = error.error || ({ 'Message': 'Could not dismiss notification!' });
@@ -114,6 +118,7 @@ export class NotificationDetailsComponent implements OnInit {
       .subscribe((result: any) => {
         this.loadingNotification = false;
         this.notifications = result;
+        this.notificationservice.updateNotifications(result);
       }, () => {
           this.loadingNotification = false;
       });
