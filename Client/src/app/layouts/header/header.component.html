@@ -34,8 +34,8 @@
                             <mat-icon class="toggle-arrow" #menuTrigger="matMenuTrigger" [matMenuTriggerFor]="menu">expand_more</mat-icon>
                             <mat-menu #menu="matMenu" class="search-dropdown claim-search-type">
                                 <span >Search for</span>
-                                <button [class.active]="selectedType == 'FirstName'" (click)="selectItem('FirstName');$event.stopPropagation(); menuTrigger.closeMenu()" mat-menu-item>First Name</button>
                                 <button [class.active]="selectedType == 'LastName'" (click)="selectItem('LastName');$event.stopPropagation(); menuTrigger.closeMenu()" mat-menu-item>Last Name</button>
+                                <button [class.active]="selectedType == 'FirstName'" (click)="selectItem('FirstName');$event.stopPropagation(); menuTrigger.closeMenu()" mat-menu-item>First Name</button>
                                 <button [class.active]="selectedType == 'ClaimNumber'" (click)="selectItem('ClaimNumber');$event.stopPropagation(); menuTrigger.closeMenu()" mat-menu-item>Claim Number</button>
                             </mat-menu>
                         </div>
@@ -57,7 +57,7 @@
                             </ng-container>
                 
                             <ng-template #showNoResults>
-                                <mat-option class="mat-option__no-results" [value]="null" [disabled]='true' *ngIf="isFirstSearchResultReceived">
+                                <mat-option class="mat-option__no-results" [value]="''" [disabled]='true' *ngIf="isFirstSearchResultReceived && cleanSearch">
                                     <p>No results...</p>
                                 </mat-option>
                             </ng-template>

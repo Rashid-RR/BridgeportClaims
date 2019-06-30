@@ -28,12 +28,14 @@ export class HeaderComponent implements OnInit {
   myControl = new FormControl();
   options: string[] = [];
   selectedType = '';
+  displayFullName = '';
   highlightedTexts = [];
   rowSearchHits$!: Observable<GlobalSearchResult[]>;
   selectedClaimId = null;
   isSearchInputExpanded = false;
   isAutocompleteOpened = false;
   isFirstSearchResultReceived = false;
+  cleanSearch = true;
 
   private autocompleteOpened$: Subject<boolean> = new Subject<boolean>();
 
@@ -77,7 +79,11 @@ export class HeaderComponent implements OnInit {
         // TODO: if the "val" comes in as a CustomerSearchHit object, hit the API again with the FullName.
         // preferably, I would like to avoid doing this to avoid hitting the API at all if it isn't necessary.
         if(val.length > 2 && this.selectedType.length > 0) {
+          this.cleanSearch = false;
           return this.http.getGlobalSearch(val, this.selectedType);
+        } else {
+          this.cleanSearch = true;
+          return of([]);
         }
       }),
       tap(val => this.highlightedTexts = this.highlightRows(val)),
@@ -131,19 +137,22 @@ export class HeaderComponent implements OnInit {
   onSearchHit(id) {
     this.selectedClaimId = parseInt(id) || null;
     this.selectedClaimId && this.goToClaim(this.selectedClaimId);
+    this.myControl.setValue('');
+    this.cleanSearch = false;
+    this.prepareSearchStream();
   }
 
   selectItem(txt) {
     this.selectedType = txt;
     switch (this.selectedType) {
       case 'FirstName':
-      this.placeholder = 'Search by first name...';
+      this.placeholder = 'Search by First Name...';
       break;
       case 'LastName':
-      this.placeholder = 'Search by last name...';
+      this.placeholder = 'Search by Last Name...';
       break;
       case 'ClaimNumber':
-      this.placeholder = 'Search by claim number...';
+      this.placeholder = 'Search by Claim Number...';
       break;
       default:
         this.placeholder = '';
