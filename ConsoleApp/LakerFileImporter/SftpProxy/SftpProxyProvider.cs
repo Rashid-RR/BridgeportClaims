@@ -81,8 +81,8 @@ namespace LakerFileImporter.SftpProxy
             get
             {
                 var host = cs.GetAppSetting(c.EnvisionSftpHostKey);
-                var userName = cs.GetAppSetting(c.LakerSftpHostKey);
-                var password = new CompiledSecurityProvider().RawLakerSftpPassword;
+                var userName = cs.GetAppSetting(c.EnvisionSftpUserNameKey);
+                var password = new CompiledSecurityProvider().RawEnvisionSftpPassword;
                 var remoteSitePath = cs.GetAppSetting(c.SftpRemoteSitePathKey);
                 var port = cs.GetAppSetting(c.SftpPortKey);
                 var portInt = !string.IsNullOrWhiteSpace(port) ? Convert.ToInt32(port) : (int?) null;
