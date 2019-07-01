@@ -1658,7 +1658,7 @@ app-new-episode .close-button {
 .search-dropdown.mat-menu-panel {
   position: relative;
   top: 6px;
-  left: -37px;
+  left: -6px;
 }
 
 .search-dropdown.mat-menu-panel .mat-menu-content {
@@ -1679,6 +1679,6 @@ app-new-episode .close-button {
   background-color: #d2def3c7;
   border-bottom: 1px solid #112794;
 }
-.search .input-search.input-search--is-expanded .input-search__button:hover {
+.search .input-search.input-search--is-expanded .input-search__button:hover, .search .input-search.input-search--is-expanded .input-search__button.active {
   color: #112794 !important;
 }

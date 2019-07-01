@@ -1,10 +1,10 @@
 <mat-form-field class="input-search" floatLabel="never" [@anim]="isSearchInputExpanded" matAutocompleteOrigin #origin="matAutocompleteOrigin"
     [class.input-search--is-expanded]="isSearchInputExpanded" [class.input-search--is-options-visible]="isAutocompleteOpened">
-    <div class="input-search__button">
-        <mat-icon class="search-i">search</mat-icon>
-        <mat-icon class="toggle-arrow" #menuTrigger="matMenuTrigger" [matMenuTriggerFor]="menu">expand_more</mat-icon>
+    <div class="input-search__button" #menuTrigger="matMenuTrigger" [matMenuTriggerFor]="menu" [class.active] = "menuTrigger.menuOpen">
+        <mat-icon class="search-i" >search</mat-icon>
+        <mat-icon class="toggle-arrow">expand_more</mat-icon>
         <mat-menu #menu="matMenu" class="search-dropdown claim-search-type">
-            <span >Search for</span>
+            <span >Search for </span>
             <button [class.active]="selectedType == 'LastName'" (click)="selectItem('LastName');$event.stopPropagation(); menuTrigger.closeMenu()" mat-menu-item>Last Name</button>
             <button [class.active]="selectedType == 'FirstName'" (click)="selectItem('FirstName');$event.stopPropagation(); menuTrigger.closeMenu()" mat-menu-item>First Name</button>
             <button [class.active]="selectedType == 'ClaimNumber'" (click)="selectItem('ClaimNumber');$event.stopPropagation(); menuTrigger.closeMenu()" mat-menu-item>Claim Number</button>
