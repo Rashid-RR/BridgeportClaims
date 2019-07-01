@@ -346,6 +346,10 @@ li a {
     padding-right: 10px;
     padding-top: 10px;
   }
+  .main-header .profile .image img {
+    border: none;
+    border-radius: 50%;
+  }
   .main-header .profile .info {
     display: flex;
     align-items: center;
