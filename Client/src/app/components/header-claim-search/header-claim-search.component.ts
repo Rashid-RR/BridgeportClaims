@@ -2,7 +2,6 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
-import { untilDestroyed } from 'ngx-take-until-destroy';
 import { combineLatest, merge, Observable, of, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, mapTo, shareReplay, skip, startWith, switchMap, take, tap, filter } from 'rxjs/operators';
 import { HttpService, GlobalSearchResult } from '../../services/http-service';
@@ -142,9 +141,9 @@ export class HeaderClaimSearchComponent implements OnInit, OnDestroy {
             map(([isSearchCtrlValueExist, autocompleteOpened]) => isSearchCtrlValueExist || (!isSearchCtrlValueExist && autocompleteOpened))
         );
 
-        isFirstSearchResultReceived$.pipe(untilDestroyed(this)).subscribe(() => this.isFirstSearchResultReceived = true);
-        isSearchInputExpanded$.pipe(untilDestroyed(this)).subscribe(x => this.isSearchInputExpanded = x);
-        isAutocompleteOpened$.pipe(untilDestroyed(this)).subscribe(x => this.isAutocompleteOpened = x);
+        isFirstSearchResultReceived$.subscribe(() => this.isFirstSearchResultReceived = true);
+        isSearchInputExpanded$.subscribe(x => this.isSearchInputExpanded = x);
+        isAutocompleteOpened$.subscribe(x => this.isAutocompleteOpened = x);
     }
 
     onAutocompleteOpened() {
