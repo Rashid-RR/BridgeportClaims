@@ -7,13 +7,26 @@ import { combineLatest, merge, Observable, of, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, mapTo, shareReplay, skip, startWith, switchMap, take, tap, filter } from 'rxjs/operators';
 import { HttpService, GlobalSearchResult } from '../../services/http-service';
 import { ClaimManager } from '../../services/claim-manager';
+import { trigger, state, style, animate, transition } from '@angular/animations';
 declare var $: any;
 
 
 @Component({
   selector: 'app-header-claim-search',
   templateUrl: './header-claim-search.component.html',
-  styleUrls: ['./header-claim-search.component.css']
+  styleUrls: ['./header-claim-search.component.css'],
+  animations: [
+        trigger('anim', [
+        state('initial', style({
+            width: '80px'
+        })),
+        state('final', style({
+            width: '25rem'
+        })),
+        transition('initial=>final', animate('1500ms')),
+        transition('final=>initial', animate('1000ms'))
+        ]),
+    ]
 })
 export class HeaderClaimSearchComponent implements OnInit, OnDestroy {
     searchCtrl = new FormControl();

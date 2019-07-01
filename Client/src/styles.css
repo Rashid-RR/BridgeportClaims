@@ -1659,13 +1659,20 @@ app-new-episode .close-button {
   border: none;
   width: 130px;
   border-radius: 4px;
+  margin: 5px 12px;
 }
 .search-dropdown.mat-menu-panel .mat-menu-content span {
-  padding: 10px 16px 0px 16px;
+  padding: 10px 16px 0px 0px;
 }
 .search-dropdown.mat-menu-panel .mat-menu-content .mat-menu-item {
   height: 35px;
 }
-.search-dropdown.mat-menu-panel .mat-menu-content .mat-menu-item.active {
-  color: #102695;
+.search-dropdown.mat-menu-panel .mat-menu-content .mat-menu-item.active,
+.search-dropdown.mat-menu-panel .mat-menu-content .mat-menu-item:hover {
+  color: #112794;
+  background-color: #d2def3c7;
+  border-bottom: 1px solid #112794;
+}
+.search .input-search.input-search--is-expanded .input-search__button:hover {
+  color: #112794 !important;
 }
