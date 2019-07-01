@@ -74,6 +74,7 @@ import { AgPhoneNumberMaskComponent } from './components/ag-phone-number-mask/ag
 import { PopoverModule } from 'ngx-bootstrap/popover';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { NotificationService } from './services/notification.service';
+import { HeaderClaimSearchComponent } from './components/header-claim-search/header-claim-search.component';
 
 @NgModule({
   declarations: [
@@ -95,7 +96,7 @@ import { NotificationService } from './services/notification.service';
     EpisodeResultsComponent, EpisodeFilterComponent, FirewallSettingsComponent, FirewallFilterComponent,
     FirewallGridComponent, AcquireEpisodeComponent, TestComponent, OutstandingFilterComponent, OutstandingResultComponent,
     ClaimOutstandingComponent,
-    CarrierModalComponent, AdjustorModalComponent, AttorneyModalComponent, DecisionTreeModalComponent, AgPhoneNumberMaskComponent
+    CarrierModalComponent, AdjustorModalComponent, AttorneyModalComponent, DecisionTreeModalComponent, AgPhoneNumberMaskComponent, HeaderClaimSearchComponent
   ],
   imports: [
     BrowserModule,
