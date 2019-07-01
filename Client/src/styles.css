@@ -1558,6 +1558,7 @@ app-new-episode .close-button {
   width: 2.64285714rem;
   color: #fff;
   padding: 0px 5px;
+  display: flex;
 }
 .search .input-search .input-search__button .toggle-arrow {
   display: none;

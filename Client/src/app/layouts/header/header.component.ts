@@ -13,6 +13,7 @@ import { debounceTime, distinctUntilChanged, switchMap, skip, take, mapTo, start
 import { ClaimManager } from '../../services/claim-manager';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NotificationService } from '../../services/notification.service';
+import { md5 } from '../md5/md5';
 
 @Component({
   selector: 'app-header',
@@ -38,6 +39,7 @@ export class HeaderComponent implements OnInit {
   isFirstSearchResultReceived = false;
   cleanSearch = true;
   notificationCount = 0;
+  avatarHash: any;
 
   private autocompleteOpened$: Subject<boolean> = new Subject<boolean>();
 
@@ -63,6 +65,10 @@ export class HeaderComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+
+    const userDetail = localStorage.getItem('user');
+    this.avatarHash = md5(JSON.parse(userDetail).email);
+
     this.date = Date.now();
     this.eventservice.on('disable-links', (status: boolean) => {
       this.disableLinks = status;
