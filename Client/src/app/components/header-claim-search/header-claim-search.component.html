@@ -21,8 +21,8 @@
     autoActiveFirstOption [displayWith]="displayFullName" 
     (opened)="onAutocompleteOpened()" 
     (closed)="onAutocompleteClosed()" 
-    class="claim-search-basic"
-    [ngClass]="{'claim-search': readyState}"
+    class="claim-search"
+    
     >
         <ng-container *ngIf="rowSearchHits$ | async as customerSearchHits" >
             <ng-container *ngIf="customerSearchHits && customerSearchHits.length > 0; else showNoResults">

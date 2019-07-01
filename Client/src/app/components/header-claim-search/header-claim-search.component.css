@@ -1,9 +1,9 @@
 /deep/span.highlighted {
     font-weight: bold;
   }
-  /deep/.claim-search-basic .mat-option-text:hover,
-  /deep/.claim-search-type .claim-search-basic:hover,
-  /deep/.claim-search-basic mat-option.mat-active {
+  /deep/.claim-search .mat-option-text:hover,
+  /deep/.claim-search-type .claim-search:hover,
+  /deep/.claim-search mat-option.mat-active {
     color: #112794;
   }
   /deep/.claim-search-type .mat-menu-content {
