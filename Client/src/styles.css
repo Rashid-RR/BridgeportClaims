@@ -1635,6 +1635,12 @@ app-new-episode .close-button {
   font-size: 12px;
 }
 
+.input-search.mat-form-field .mat-form-field-wrapper {
+  padding: 0 .3571428571rem!important;
+  border-radius: 5px;
+  transition: flex-grow .2s cubic-bezier(.4,0,.2,1),background-color .2s cubic-bezier(.4,0,.2,1);
+}
+
 
 @media screen and (max-width: 767px) {
   .main-header .header-navbar .search .input-search.mat-form-field {
