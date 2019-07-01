@@ -40,14 +40,14 @@
                             </mat-menu>
                         </div>
 
-                    <input type="text" 
-                    matInput [formControl]="myControl" 
+                    <input type="text"
+                    matInput [formControl]="myControl"
                     [matAutocomplete]="auto"
                     #searchAutocompleteInputCtrl="matInput"
                     [placeholder]="placeholder"
                     [matAutocompleteConnectedTo]="origin"/>
 
-                    <mat-autocomplete #auto="matAutocomplete" autoActiveFirstOption [displayWith]="displayFullName" 
+                    <mat-autocomplete #auto="matAutocomplete" autoActiveFirstOption [displayWith]="displayFullName"
     (opened)="onAutocompleteOpened()" (closed)="onAutocompleteClosed()" class="claim-search">
                         <ng-container *ngIf="rowSearchHits$ | async as customerSearchHits">
                             <ng-container *ngIf="customerSearchHits && customerSearchHits.length > 0; else showNoResults">
@@ -55,7 +55,7 @@
                                     <p [innerHtml]="highlightedTexts[i]" [ngClass]="{'current-customer' : hit.claimId === selectedClaimId}"></p>
                                 </mat-option>
                             </ng-container>
-                
+
                             <ng-template #showNoResults>
                                 <mat-option class="mat-option__no-results" [value]="''" [disabled]='true' *ngIf="isFirstSearchResultReceived && cleanSearch">
                                     <p>No results...</p>
@@ -170,7 +170,7 @@
                                 <button mat-menu-item routerLinkActive="active" [class.disabled]="disableLinks" (click)="!disableLinks ? logout() : ''">
                                         <mat-icon aria-hidden="false">power_settings_new</mat-icon> Logout
                                 </button>
-                                <div class="ver-info">Version 32.0</div>
+                                <div class="ver-info">Version 33.0</div>
                             </div>
                         </mat-menu>
                     </div>
