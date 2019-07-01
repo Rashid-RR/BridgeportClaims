@@ -1,0 +1,19 @@
+/deep/span.highlighted {
+    font-weight: bold;
+  }
+  /deep/.claim-search-basic .mat-option-text:hover,
+  /deep/.claim-search-type .claim-search-basic:hover,
+  /deep/.claim-search-basic mat-option.mat-active {
+    color: #112794;
+  }
+  /deep/.claim-search-type .mat-menu-content {
+    z-index: 5000;
+  }
+  /deep/.claim-search .mat-option {
+    z-index: 4000;
+  }
+  /deep/.claim-search {
+    width: 96.5% !important;
+    left: 6px;
+    margin-top: -10px;
+  }

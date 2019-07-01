@@ -1,0 +1,61 @@
+<mat-form-field class="input-search" floatLabel="never" matAutocompleteOrigin #origin="matAutocompleteOrigin"
+    [class.input-search--is-expanded]="isSearchInputExpanded" [class.input-search--is-options-visible]="isAutocompleteOpened">
+    <div class="input-search__button">
+        <mat-icon class="search-i">search</mat-icon>
+        <mat-icon class="toggle-arrow" #menuTrigger="matMenuTrigger" [matMenuTriggerFor]="menu">expand_more</mat-icon>
+        <mat-menu #menu="matMenu" class="search-dropdown claim-search-type">
+            <span >Search for</span>
+            <button [class.active]="selectedType == 'LastName'" (click)="selectItem('LastName');$event.stopPropagation(); menuTrigger.closeMenu()" mat-menu-item>Last Name</button>
+            <button [class.active]="selectedType == 'FirstName'" (click)="selectItem('FirstName');$event.stopPropagation(); menuTrigger.closeMenu()" mat-menu-item>First Name</button>
+            <button [class.active]="selectedType == 'ClaimNumber'" (click)="selectItem('ClaimNumber');$event.stopPropagation(); menuTrigger.closeMenu()" mat-menu-item>Claim Number</button>
+        </mat-menu>
+    </div>
+
+    <!-- TODO: temporary solution. placeholder logic will be moved into .ts file -->
+    <input type="text" matInput [formControl]="searchCtrl" [matAutocomplete]="auto"
+        #searchAutocompleteInputCtrl="matInput"
+        [placeholder]="placeholder"
+        [matAutocompleteConnectedTo]="origin"/>
+
+    <mat-autocomplete #auto="matAutocomplete" 
+    autoActiveFirstOption [displayWith]="displayFullName" 
+    (opened)="onAutocompleteOpened()" 
+    (closed)="onAutocompleteClosed()" 
+    class="claim-search-basic"
+    [ngClass]="{'claim-search': readyState}"
+    >
+        <ng-container *ngIf="rowSearchHits$ | async as customerSearchHits" >
+            <ng-container *ngIf="customerSearchHits && customerSearchHits.length > 0; else showNoResults">
+                <mat-option 
+                *ngFor="let hit of customerSearchHits; let i = index;" 
+                [value]="''"  [hidden]="!readyState"
+                (onSelectionChange)="onSearchHit(hit.claimId)" 
+                >
+                    <p [innerHtml]="highlightedTexts[i]" [ngClass]="{'current-customer' : hit.claimId === currentCustomerId}"></p>
+                </mat-option>
+
+                <mat-option class="mat-option__add-link" [value]="null" 
+                (onSelectionChange)="createNewCustomer()" [hidden]="true"
+                >
+                    <p>+ Add New Customer</p>
+                </mat-option>
+            </ng-container>
+
+            <ng-template #showNoResults>
+                <mat-option class="mat-option__no-results" 
+                [value]="null" [disabled]='true' 
+                *ngIf="isFirstSearchResultReceived"
+                [hidden]="!readyState">
+                    <p>No results...</p>
+                </mat-option>
+                <mat-option class="mat-option__add-link" 
+                [value]="null" 
+                (onSelectionChange)="createNewCustomer()"
+                [hidden]="true">
+                    <p>+ Add New Customer</p>
+                </mat-option>
+            </ng-template>
+        </ng-container>
+    </mat-autocomplete>
+
+</mat-form-field>
