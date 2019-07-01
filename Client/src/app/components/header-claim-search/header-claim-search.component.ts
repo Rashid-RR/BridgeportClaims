@@ -7,6 +7,7 @@ import { combineLatest, merge, Observable, of, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, mapTo, shareReplay, skip, startWith, switchMap, take, tap, filter } from 'rxjs/operators';
 import { HttpService, GlobalSearchResult } from '../../services/http-service';
 import { ClaimManager } from '../../services/claim-manager';
+declare var $: any;
 
 
 @Component({
@@ -58,11 +59,13 @@ export class HeaderClaimSearchComponent implements OnInit, OnDestroy {
                     // lookup value.
                     // return this.filterCustomerSearchList(val);
                     this.readyState = true;
+                    $('body').addClass('search-completed');
                     return this.http.getGlobalSearch(val, this.selectedType);
                   } else {
                     // if no value is present, return null
                     // TODO: Looking to return of(null) or something here, but that throws an error.
                     // return this.filterCustomerSearchList('');
+                    $('body').removeClass('search-completed');
                     this.readyState = false;
                     return of([]);
                 }
