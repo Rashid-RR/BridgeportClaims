@@ -6,7 +6,7 @@
         public const string AppIsInDebugMode = "ApplicationIsInDebugMode";
         public const string FileProcessorTopNumberKey = "FileProcessorTopNumber";
         public const string FileUploadApiHostNameKey = "FileUploadApiHostName";
-        public const string FileUploadApiUrlKey = "FileUploadApiUrl"
+        public const string FileUploadApiUrlKey = "FileUploadApiUrl";
         public const string AuthenticationApiUrlKey = "AuthenticationApiUrl";
         public const string AuthenticationUserNameKey = "AuthenticationUserName";
         public const string AuthenticationPasswordKey = "AuthenticationPassword";
