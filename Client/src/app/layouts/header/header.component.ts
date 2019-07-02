@@ -23,7 +23,7 @@ export class HeaderComponent implements OnInit {
   date: number;
   disableLinks = false;
   isAutoCompleteOpen = false;
-  placeholder: string = 'Search by last name';
+  placeholder: string = 'Search';
   @ViewChild('dropdown') dropdown: BsDropdownDirective;
   myControl = new FormControl();
   options: string[] = [];
@@ -74,6 +74,8 @@ export class HeaderComponent implements OnInit {
     this.notificationservice.getNotification().subscribe((countParam: number) => {
       this.notificationCount = countParam;
     });
+
+    this.sidebarToggle();
   }
 
   get userName() {

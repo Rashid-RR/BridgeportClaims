@@ -1548,7 +1548,7 @@ app-new-episode .close-button {
 }
 .main-header .header-navbar .search .input-search .mat-form-field-infix {  
   display: flex;
-  width: 80px;
+  width: 82px;
   padding-top: .57142857rem;
   padding-bottom: .57142857rem;
   border-top: 1px solid transparent;
@@ -1569,10 +1569,10 @@ app-new-episode .close-button {
   padding-top: 0;
 }
 .main-header .header-navbar .search .input-search.mat-form-field .mat-form-field-infix span .mat-form-field-label.mat-empty {
-  top: 15px;
+  top: 14px;
   display: inline-flex;
   color: #fff;
-  left: 2.64285714rem;
+  left: 34px;
   font-weight: 500;
 }
 .main-header .header-navbar .search .input-search.input-search--is-expanded .mat-form-field-infix {
@@ -1637,7 +1637,7 @@ app-new-episode .close-button {
 }
 
 .input-search.mat-form-field .mat-form-field-wrapper {
-  padding: 0 .3571428571rem!important;
+  padding: 0 6px !important;
   border-radius: 5px;
   transition: flex-grow .2s cubic-bezier(.4,0,.2,1),background-color .2s cubic-bezier(.4,0,.2,1);
 }

@@ -84,15 +84,27 @@
             <!-- <i class="fa fa-tachometer" aria-hidden="true"></i> -->
             <span>References</span>
           </a>
-        </li>
+        </li>        
+        <ng-container *ngIf="profileManager.profile && profileManager.profile.roles.indexOf('Admin') < 0
+          && profileManager.profile.roles.indexOf('Indexer') < 0 && profileManager.profile.roles.indexOf('User') > -1">
+          <li [class.active]="router.url.indexOf('/main/reports')>-1 && router.url.indexOf('/main/reports/invoices') === -1">
+            <a [routerLink]="'/main/reports'"
+            [popover]="localSt.retrieve('sidebarOpen') ? 'Reports' : ''" triggers="mouseenter:mouseleave" placement="right">
+            <img style='width: 20px;' class="activeImage" src="assets/images/active-state/reports.png">
+            <img style='width: 20px;' class="normalImage" src="assets/images/normal-state/reports.png">
+              <!-- <i class="fa fa-bar-chart fa-fw"></i> -->
+              <span>Reports</span>
+            </a>
+          </li>
+        </ng-container>
       </ng-container>
     </ul>
     <ng-container *ngIf="!isClient">
-    <div class="header"*ngIf="adminOrAsociate">
+    <div class="header" *ngIf="adminOrAsociate">
       <!-- <i class="fa fa-sitemap"></i> -->
       <span>INDEXING</span>
     </div>
-    <ul class="sidebar-menu">
+    <ul class="sidebar-menu" *ngIf="profileManager.profile.roles.indexOf('Indexer') > -1">
         <!-- <li [class.active]="router.url.indexOf('/main/unindexed-images')>-1">
         <a [routerLink]="!disableLinks ? '/main/unindexed-images' : []" *ngIf="adminOrAsociate" [class.disabled]="disableLinks">
           <img src="assets/img/unidex.png">
@@ -117,21 +129,35 @@
             <span>Invoices</span>
           </a>
         </li>
+        <ng-container *ngIf="profileManager.profile && profileManager.profile.roles.indexOf('Admin') < 0 && 
+        ((profileManager.profile.roles.indexOf('User') > -1 && profileManager.profile.roles.indexOf('Indexer') > -1) || profileManager.profile.roles.indexOf('Indexer') > -1)">
+          <li [class.active]="router.url.indexOf('/main/reports')>-1 && router.url.indexOf('/main/reports/invoices') === -1">
+            <a [routerLink]="'/main/reports'"
+            [popover]="localSt.retrieve('sidebarOpen') ? 'Reports' : ''" triggers="mouseenter:mouseleave" placement="right">
+            <img style='width: 20px;' class="activeImage" src="assets/images/active-state/reports.png">
+            <img style='width: 20px;' class="normalImage" src="assets/images/normal-state/reports.png">
+              <!-- <i class="fa fa-bar-chart fa-fw"></i> -->
+              <span>Reports</span>
+            </a>
+          </li>
+        </ng-container>
     </ul>
     <div class="header" *ngIf="allowed">
       <!-- <img style='width: 20px;' src="assets/images/normal-state/Admin.png"> -->
       <span>ADMINISTRATION</span>
     </div>
-    <ul class="sidebar-menu">
-        <li [class.active]="router.url.indexOf('/main/reports')>-1 && router.url.indexOf('/main/reports/invoices') === -1">
-          <a [routerLink]="'/main/reports'"
-          [popover]="localSt.retrieve('sidebarOpen') ? 'Reports' : ''" triggers="mouseenter:mouseleave" placement="right">
-          <img style='width: 20px;' class="activeImage" src="assets/images/active-state/reports.png">
-          <img style='width: 20px;' class="normalImage" src="assets/images/normal-state/reports.png">
-            <!-- <i class="fa fa-bar-chart fa-fw"></i> -->
-            <span>Reports</span>
-          </a>
-        </li>
+    <ul class="sidebar-menu" *ngIf="allowed">
+        <ng-container *ngIf="profileManager.profile && profileManager.profile.roles.indexOf('Admin') > -1">
+          <li [class.active]="router.url.indexOf('/main/reports')>-1 && router.url.indexOf('/main/reports/invoices') === -1">
+            <a [routerLink]="'/main/reports'"
+            [popover]="localSt.retrieve('sidebarOpen') ? 'Reports' : ''" triggers="mouseenter:mouseleave" placement="right">
+            <img style='width: 20px;' class="activeImage" src="assets/images/active-state/reports.png">
+            <img style='width: 20px;' class="normalImage" src="assets/images/normal-state/reports.png">
+              <!-- <i class="fa fa-bar-chart fa-fw"></i> -->
+              <span>Reports</span>
+            </a>
+          </li>
+        </ng-container>
         <li [class.active]="router.url.indexOf('/main/fileupload')>-1">
           <a [routerLink]="!disableLinks ? '/main/fileupload' : []" *ngIf="allowed" [class.disabled]="disableLinks"
           [popover]="localSt.retrieve('sidebarOpen') ? 'File Uploads' : ''" triggers="mouseenter:mouseleave" placement="right">
@@ -173,7 +199,7 @@
       <!-- <img style='width: 20px;' src="assets/images/normal-state/history.png"> -->
       <span>HISTORY</span>      
     </div>
-    <ul class="sidebar-menu history-list">
+    <ul class="sidebar-menu history-list" *ngIf="claimManager.claimHistory.length > 0">
         <ng-container *ngIf="!claimManager.loadingHistory">
           <li *ngFor="let claim of claimManager.claimHistory" [class.disabled]="disableLinks">
             <a class="history" *ngIf="claim.name" (click)="goToClaim(claim.claimId)"

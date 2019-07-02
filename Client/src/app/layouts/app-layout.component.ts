@@ -28,6 +28,12 @@ export class AppLayoutComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     const sideBarStatus = this.localSt.retrieve('sidebarOpen');
     sideBarStatus == null ? true : sideBarStatus;
+    const st = document.body.classList;
+      if (st.contains('sidebar-collapse')) {
+        this.localSt.store('sidebarOpen', false);
+      } else {
+        this.localSt.store('sidebarOpen', true);
+      }
     $('#vegascss').remove();
     this.adjustSideBar(!sideBarStatus);
     this.localSt.observe('sidebarOpen')
