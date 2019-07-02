@@ -14,6 +14,7 @@ declare var $: any;
 })
 export class SidebarComponent implements OnInit {
   disableLinks = false;
+  classList;
   
   constructor(
     private events: EventsService,
@@ -24,6 +25,7 @@ export class SidebarComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.classList = document.body.classList;
     this.events.on('disable-links', (status: boolean) => {
       this.disableLinks = status;
     });
@@ -77,6 +79,15 @@ export class SidebarComponent implements OnInit {
       && this.profileManager.profile.roles.indexOf('User') > -1
       && this.profileManager.profile.roles.indexOf('Admin') === -1
       && this.profileManager.profile.roles.indexOf('Indexer') === -1);
+  }
+
+  isSidebarOpen() {
+    const st = document.body.classList;
+      if (st.contains('sidebar-collapse')) {
+        return true;
+      } else {
+        return false;
+      }
   }
 
 }

@@ -1,4 +1,5 @@
-<aside class="main-sidebar">
+<aside class="main-sidebar" *ngIf = "classList">
+ {{classList}}
   <!-- sidebar: style can be found in sidebar.less -->
   <section class="sidebar">
     <!-- Sidebar user panel -->
@@ -12,9 +13,10 @@
     </div> -->
     <!-- sidebar menu: : style can be found in sidebar.less -->
     <ul class="sidebar-menu">
+        <span></span>
       <li [class.active]="router.url.indexOf('/main/private')>-1">
         <a [routerLink]="!disableLinks ? '/main/private'  : []" [class.disabled]="disableLinks"
-        [popover]="localSt.retrieve('sidebarOpen') ? 'Dashboard' : ''" triggers="mouseenter:mouseleave" placement="right">
+        [popover]="classList.contains('sidebar-collapse') ? 'Dashboard' : ''" triggers="mouseenter:mouseleave" placement="right">
           <img style='width: 20px;' class="activeImage" src="assets/images/active-state/dashboard.png">
           <img style='width: 20px;'  class="normalImage" src="assets/images/normal-state/dashboard.png">
           <span>Dashboard</span>
@@ -23,7 +25,7 @@
       <ng-container *ngIf="isClient">
         <li [class.active]="router.url.indexOf('/main/referral')>-1">
           <a [routerLink]="!disableLinks ? '/main/referral'  : []" [class.disabled]="disableLinks"
-          [popover]="localSt.retrieve('sidebarOpen') ? 'Referrals' : ''" triggers="mouseenter:mouseleave" placement="right">
+          [popover]="classList.contains('sidebar-collapse') ? 'Referrals' : ''" triggers="mouseenter:mouseleave" placement="right">
             <i class="fa fa-share-alt fa-fw"></i>
             <span>Referrals</span>
           </a>
@@ -31,7 +33,7 @@
       </ng-container>
       <ng-container *ngIf="!isClient">
         <li [class.active]="router.url.indexOf('/main/claims')>-1" (click)="claimsActive()">
-          <a [class.disabled]="disableLinks" [popover]="localSt.retrieve('sidebarOpen') ? 'Claims' : ''" triggers="mouseenter:mouseleave" placement="right">
+          <a [class.disabled]="disableLinks" [popover]="classList.contains('sidebar-collapse') ? 'Claims' : ''" triggers="mouseenter:mouseleave" placement="right">
             <img style='width: 20px;' class="activeImage" src="assets/images/active-state/claims.png">
             <img style='width: 20px;' class="normalImage" src="assets/images/normal-state/claims.png">
             <!-- <i class="fa fa-tachometer" aria-hidden="true"></i> -->
@@ -40,7 +42,7 @@
         </li>
         <li [class.active]="router.url.indexOf('/main/diary')>-1">
           <a [routerLink]="!disableLinks ? '/main/diary' : []" [class.disabled]="disableLinks"
-          [popover]="localSt.retrieve('sidebarOpen') ? 'Diaries' : ''" triggers="mouseenter:mouseleave" placement="right">
+          [popover]="classList.contains('sidebar-collapse') ? 'Diaries' : ''" triggers="mouseenter:mouseleave" placement="right">
             <img style='width: 20px;' class="activeImage" src="assets/images/active-state/diaries.png">
             <img style='width: 20px;' class="normalImage" src="assets/images/normal-state/diaries.png">
             <!-- <i class="fa fa-tachometer" aria-hidden="true"></i> -->
@@ -49,7 +51,7 @@
         </li>
         <li [class.active]="router.url.indexOf('/main/unpaid-scripts')>-1">
           <a [routerLink]="!disableLinks ? '/main/unpaid-scripts' : []" [class.disabled]="disableLinks"
-          [popover]="localSt.retrieve('sidebarOpen') ? 'Unpaid Scripts' : ''" triggers="mouseenter:mouseleave" placement="right">
+          [popover]="classList.contains('sidebar-collapse') ? 'Unpaid Scripts' : ''" triggers="mouseenter:mouseleave" placement="right">
             <img style='width: 20px;' class="activeImage" src="assets/images/active-state/unpaid-scripts.png">
             <img style='width: 20px;' class="normalImage" src="assets/images/normal-state/unpaid-scripts.png">
             <!-- <i class="fa fa-tachometer" aria-hidden="true"></i> -->
@@ -59,7 +61,7 @@
         <!--<ng-container *ngIf="!isOnlyUser">-->
         <li [class.active]="router.url.indexOf('/main/payments')>-1">
           <a [routerLink]="!disableLinks ? '/main/payments' : []" [class.disabled]="disableLinks"
-          [popover]="localSt.retrieve('sidebarOpen') ? 'Payments' : ''" triggers="mouseenter:mouseleave" placement="right">
+          [popover]="classList.contains('sidebar-collapse') ? 'Payments' : ''" triggers="mouseenter:mouseleave" placement="right">
             <img style='width: 20px;' class="activeImage" src="assets/images/active-state/payments.png">
             <img style='width: 20px;' class="normalImage" src="assets/images/normal-state/payments.png">
             <!-- <i class="fa fa-tachometer" aria-hidden="true"></i> -->
@@ -69,7 +71,7 @@
         <!--</ng-container>-->
         <li [class.active]="router.url.indexOf('/main/episodes')>-1">
           <a [routerLink]="!disableLinks ? '/main/episodes' : []" [class.disabled]="disableLinks"
-          [popover]="localSt.retrieve('sidebarOpen') ? 'Episodes' : ''" triggers="mouseenter:mouseleave" placement="right">
+          [popover]="classList.contains('sidebar-collapse') ? 'Episodes' : ''" triggers="mouseenter:mouseleave" placement="right">
             <img style='width: 20px;' class="activeImage" src="assets/images/active-state/episodes.png">
             <img style='width: 20px;' class="normalImage" src="assets/images/normal-state/episodes.png">
             <!-- <i class="fa fa-tachometer" aria-hidden="true"></i> -->
@@ -78,7 +80,7 @@
         </li>
         <li [class.active]="router.url.indexOf('/main/references')>-1">
           <a [routerLink]="!disableLinks ? '/main/references' : []" [class.disabled]="disableLinks"
-          [popover]="localSt.retrieve('sidebarOpen') ? 'References' : ''" triggers="mouseenter:mouseleave" placement="right">
+          [popover]="classList.contains('sidebar-collapse') ? 'References' : ''" triggers="mouseenter:mouseleave" placement="right">
             <img style='width: 20px;' class="activeImage" src="assets/images/active-state/reference.png">
             <img style='width: 20px;' class="normalImage" src="assets/images/normal-state/reference.png">
             <!-- <i class="fa fa-tachometer" aria-hidden="true"></i> -->
@@ -89,7 +91,7 @@
           && profileManager.profile.roles.indexOf('Indexer') < 0 && profileManager.profile.roles.indexOf('User') > -1">
           <li [class.active]="router.url.indexOf('/main/reports')>-1 && router.url.indexOf('/main/reports/invoices') === -1">
             <a [routerLink]="'/main/reports'"
-            [popover]="localSt.retrieve('sidebarOpen') ? 'Reports' : ''" triggers="mouseenter:mouseleave" placement="right">
+            [popover]="classList.contains('sidebar-collapse') ? 'Reports' : ''" triggers="mouseenter:mouseleave" placement="right">
             <img style='width: 20px;' class="activeImage" src="assets/images/active-state/reports.png">
             <img style='width: 20px;' class="normalImage" src="assets/images/normal-state/reports.png">
               <!-- <i class="fa fa-bar-chart fa-fw"></i> -->
@@ -113,7 +115,7 @@
       </li> -->
         <li [class.active]="router.url.indexOf('/main/indexing')>-1">
           <a [routerLink]="!disableLinks ? '/main/indexing' : []" *ngIf="adminOrAsociate" [class.disabled]="disableLinks"
-          [popover]="localSt.retrieve('sidebarOpen') ? 'Indexing' : ''" triggers="mouseenter:mouseleave" placement="right">
+          [popover]="classList.contains('sidebar-collapse') ? 'Indexing' : ''" triggers="mouseenter:mouseleave" placement="right">
             <img  style='width: 20px;' class="activeImage" src="assets/images/active-state/indexing.png">
             <img  style='width: 20px;' class="normalImage" src="assets/images/normal-state/indexing.png">
             <!-- <i class="fa fa-tachometer" aria-hidden="true"></i> -->
@@ -122,7 +124,7 @@
         </li>
         <li [class.active]="router.url.indexOf('/main/reports/invoices')>-1">
           <a [routerLink]="!disableLinks ? '/main/reports/invoices' : []" *ngIf="adminOrAsociate" [class.disabled]="disableLinks"
-          [popover]="localSt.retrieve('sidebarOpen') ? 'Invoices' : ''" triggers="mouseenter:mouseleave" placement="right">
+          [popover]="classList.contains('sidebar-collapse') ? 'Invoices' : ''" triggers="mouseenter:mouseleave" placement="right">
             <img  style='width: 20px;' class="activeImage" src="assets/images/active-state/invoice.png">
             <img  style='width: 20px;' class="normalImage" src="assets/images/normal-state/invoice.png">
             <!-- <i class="fa fa-tachometer" aria-hidden="true"></i> -->
@@ -133,7 +135,7 @@
         ((profileManager.profile.roles.indexOf('User') > -1 && profileManager.profile.roles.indexOf('Indexer') > -1) || profileManager.profile.roles.indexOf('Indexer') > -1)">
           <li [class.active]="router.url.indexOf('/main/reports')>-1 && router.url.indexOf('/main/reports/invoices') === -1">
             <a [routerLink]="'/main/reports'"
-            [popover]="localSt.retrieve('sidebarOpen') ? 'Reports' : ''" triggers="mouseenter:mouseleave" placement="right">
+            [popover]="classList.contains('sidebar-collapse') ? 'Reports' : ''" triggers="mouseenter:mouseleave" placement="right">
             <img style='width: 20px;' class="activeImage" src="assets/images/active-state/reports.png">
             <img style='width: 20px;' class="normalImage" src="assets/images/normal-state/reports.png">
               <!-- <i class="fa fa-bar-chart fa-fw"></i> -->
@@ -150,7 +152,7 @@
         <ng-container *ngIf="profileManager.profile && profileManager.profile.roles.indexOf('Admin') > -1">
           <li [class.active]="router.url.indexOf('/main/reports')>-1 && router.url.indexOf('/main/reports/invoices') === -1">
             <a [routerLink]="'/main/reports'"
-            [popover]="localSt.retrieve('sidebarOpen') ? 'Reports' : ''" triggers="mouseenter:mouseleave" placement="right">
+            [popover]="classList.contains('sidebar-collapse') ? 'Reports' : ''" triggers="mouseenter:mouseleave" placement="right">
             <img style='width: 20px;' class="activeImage" src="assets/images/active-state/reports.png">
             <img style='width: 20px;' class="normalImage" src="assets/images/normal-state/reports.png">
               <!-- <i class="fa fa-bar-chart fa-fw"></i> -->
@@ -160,7 +162,7 @@
         </ng-container>
         <li [class.active]="router.url.indexOf('/main/fileupload')>-1">
           <a [routerLink]="!disableLinks ? '/main/fileupload' : []" *ngIf="allowed" [class.disabled]="disableLinks"
-          [popover]="localSt.retrieve('sidebarOpen') ? 'File Uploads' : ''" triggers="mouseenter:mouseleave" placement="right">
+          [popover]="classList.contains('sidebar-collapse') ? 'File Uploads' : ''" triggers="mouseenter:mouseleave" placement="right">
             <img style='width: 20px;' class="activeImage" src="assets/images/active-state/upload.png">
             <img style='width: 20px;' class="normalImage" src="assets/images/normal-state/upload.png">
             <!-- <i class="fa fa-bar-chart fa-fw"></i> -->
@@ -169,7 +171,7 @@
         </li>
         <li [class.active]="router.url.indexOf('/main/users')>-1">
           <a [routerLink]="!disableLinks ? '/main/users' : []" *ngIf="allowed" [class.disabled]="disableLinks"
-          [popover]="localSt.retrieve('sidebarOpen') ? 'User Management' : ''" triggers="mouseenter:mouseleave" placement="right">
+          [popover]="classList.contains('sidebar-collapse') ? 'User Management' : ''" triggers="mouseenter:mouseleave" placement="right">
             <img style='width: 20px;' class="activeImage" src="assets/images/active-state/user-management.png">
             <img style='width: 20px;' class="normalImage" src="assets/images/normal-state/user-management.png">
             <!-- <i class="fa fa-bar-chart fa-fw"></i> -->
@@ -178,7 +180,7 @@
         </li>
         <li [class.active]="router.url.indexOf('/main/decision-tree')>-1">
           <a [routerLink]="!disableLinks ? '/main/decision-tree'  : []" *ngIf="allowed" [class.disabled]="disableLinks"
-          [popover]="localSt.retrieve('sidebarOpen') ? 'Decision Tree' : ''" triggers="mouseenter:mouseleave" placement="right">
+          [popover]="classList.contains('sidebar-collapse') ? 'Decision Tree' : ''" triggers="mouseenter:mouseleave" placement="right">
             <img style='width: 20px;' class="activeImage" src="assets/images/active-state/decision-tree.png">
             <img style='width: 20px;' class="normalImage" src="assets/images/normal-state/decision-tree.png">
             <!-- <i class="fa fa-bar-chart fa-fw"></i> -->
@@ -187,7 +189,7 @@
         </li>
         <li [class.active]="router.url.indexOf('/main/firewall')>-1">
           <a [routerLink]="!disableLinks ? '/main/firewall'  : []" *ngIf="allowed" [class.disabled]="disableLinks"
-          [popover]="localSt.retrieve('sidebarOpen') ? 'Firewall Settings' : ''" triggers="mouseenter:mouseleave" placement="right">
+          [popover]="classList.contains('sidebar-collapse') ? 'Firewall Settings' : ''" triggers="mouseenter:mouseleave" placement="right">
             <img style='width: 20px;' class="activeImage" src="assets/images/active-state/firewall.png">
             <img style='width: 20px;' class="normalImage" src="assets/images/normal-state/firewall.png">
             <!-- <i class="fa fa-bar-chart fa-fw"></i> -->
@@ -203,13 +205,13 @@
         <ng-container *ngIf="!claimManager.loadingHistory">
           <li *ngFor="let claim of claimManager.claimHistory" [class.disabled]="disableLinks">
             <a class="history" *ngIf="claim.name" (click)="goToClaim(claim.claimId)"
-            [popover]="localSt.retrieve('sidebarOpen') ? claim.name : ''" triggers="mouseenter:mouseleave" placement="right">
+            [popover]="classList.contains('sidebar-collapse') ? claim.name : ''" triggers="mouseenter:mouseleave" placement="right">
               <img style='width: 20px;' src="assets/images/normal-state/history.png">
               <!-- <i class="fa fa-check"></i> -->
               <span>{{claim.name}}</span>
             </a>
             <a class="history" *ngIf="!claim.name" (click)="goToClaim(claim.claimId)"
-            [popover]="localSt.retrieve('sidebarOpen') ? claim.firstName+' '+claim.lastName : ''" triggers="mouseenter:mouseleave" placement="right">
+            [popover]="classList.contains('sidebar-collapse') ? claim.firstName+' '+claim.lastName : ''" triggers="mouseenter:mouseleave" placement="right">
               <img style='width: 20px;' src="assets/images/normal-state/history.png">
               <!-- <i class="fa fa-check"></i> -->
               <span>{{claim.firstName+" "+claim.lastName}}</span>
