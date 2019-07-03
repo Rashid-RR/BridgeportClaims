@@ -1542,6 +1542,8 @@ app-new-episode .close-button {
 .main-header .header-navbar .search .input-search .mat-form-field-wrapper {
   margin: 0px 6px;
   padding: 0px 8px;
+  width: 97px;
+  transition: flex-grow 1s cubic-bezier(0.4, 0, 0.2, 1), background-color 1s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .main-header .header-navbar .search .mat-form-field .mat-form-field-wrapper .mat-form-field-underline {
   display: none !important;
@@ -1558,6 +1560,7 @@ app-new-episode .close-button {
   width: 2.64285714rem;
   color: #fff;
   padding: 0px 5px;
+  line-height: 3px;
 }
 .search .input-search .input-search__button .toggle-arrow {
   display: none;
@@ -1604,8 +1607,12 @@ app-new-episode .close-button {
   display: inline-flex;
 }
 .search .input-search.input-search--is-expanded .mat-form-field-wrapper {
-  width: 350px;
+  width: 350px !important;
   padding: 0px 5px;
+  background-color: #fff;
+  /* transition: width .2s; */
+  /* transition: flex-grow 0.4s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1); */
+  /* transition: flex-grow 0.2s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1); */
 }
 /* .mat-form-field.input-search--is-expanded.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
   transform: none;

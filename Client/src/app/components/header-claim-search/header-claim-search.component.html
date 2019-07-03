@@ -14,7 +14,7 @@
     <!-- TODO: temporary solution. placeholder logic will be moved into .ts file -->
     <input type="text" matInput [formControl]="searchCtrl" [matAutocomplete]="auto"
         #searchAutocompleteInputCtrl="matInput"
-        [placeholder]="placeholder"
+        [placeholder]="isSearchInputExpanded ? placeholder: 'Search'"
         [matAutocompleteConnectedTo]="origin"/>
 
     <mat-autocomplete #auto="matAutocomplete" 
