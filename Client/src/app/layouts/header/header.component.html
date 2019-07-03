@@ -120,7 +120,8 @@
                 </div>
                 <div class="profile text-center"  [matMenuTriggerFor]="menu" style="margin:0;padding:0">
                     <div class="image">
-                        <img src="https://www.gravatar.com/avatar/{{avatarHash}}"  style="width: 40px;" class="img-square" [alt]="userName">
+
+                        <img src="{{imgSrc}}"  style="width: 40px;" class="img-square" [alt]="userName">
                     </div>
                     <div class="info">
                         <p>{{userName}}</p>
@@ -134,7 +135,7 @@
                                 <button mat-menu-item routerLinkActive="active" [class.disabled]="disableLinks" (click)="!disableLinks ? logout() : ''">
                                         <mat-icon aria-hidden="false">power_settings_new</mat-icon> Logout
                                 </button>
-                                <div class="ver-info">Version 33.0</div>
+                                <div class="ver-info">Version 35.0</div>
                             </div>
                         </mat-menu>
                     </div>

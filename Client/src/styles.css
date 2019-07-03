@@ -801,8 +801,8 @@ thead {
 
 .box-header.isAttorneyManaged,
 .bg-head-box.isAttorneyManaged {
-  background: rgb(228, 228, 15) !important;
-  color: black !important;
+  background: #2a40b2 !important;
+  color: white !important;
 }
 
 
@@ -1546,7 +1546,7 @@ app-new-episode .close-button {
 .main-header .header-navbar .search .mat-form-field .mat-form-field-wrapper .mat-form-field-underline {
   display: none !important;
 }
-.main-header .header-navbar .search .input-search .mat-form-field-infix {  
+.main-header .header-navbar .search .input-search .mat-form-field-infix {
   display: flex;
   width: 82px;
   padding-top: .57142857rem;
@@ -1645,7 +1645,7 @@ app-new-episode .close-button {
 
 @media screen and (max-width: 767px) {
   .main-header .header-navbar .search .input-search.mat-form-field {
-    justify-content: center;   
+    justify-content: center;
   }
   .cdk-overlay-pane .mat-autocomplete-panel.searchAutoComplete {
     top: 0px !important;

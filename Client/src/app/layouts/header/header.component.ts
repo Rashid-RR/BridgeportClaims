@@ -23,7 +23,8 @@ export class HeaderComponent implements OnInit {
   date: number;
   disableLinks = false;
   isAutoCompleteOpen = false;
-  placeholder: string = 'Search';
+  public imgSrc!: string;
+  placeholder = 'Search';
   @ViewChild('dropdown') dropdown: BsDropdownDirective;
   myControl = new FormControl();
   options: string[] = [];
@@ -66,6 +67,7 @@ export class HeaderComponent implements OnInit {
 
     const userDetail = localStorage.getItem('user');
     this.avatarHash = md5(JSON.parse(userDetail).email);
+    this.imgSrc = `https://www.gravatar.com/avatar/${this.avatarHash}/?random=` + new Date().getTime();
 
     this.date = Date.now();
     this.eventservice.on('disable-links', (status: boolean) => {
