@@ -11,6 +11,7 @@ import { BsDropdownDirective } from 'ngx-bootstrap/dropdown';
 import { Observable, Subject } from 'rxjs';
 import { ClaimManager } from '../../services/claim-manager';
 import { NotificationService } from '../../services/notification.service';
+import { md5 } from '../md5/md5';
 
 @Component({
   selector: 'app-header',
@@ -22,7 +23,8 @@ export class HeaderComponent implements OnInit {
   date: number;
   disableLinks = false;
   isAutoCompleteOpen = false;
-  placeholder: string = 'Search by last name';
+  public imgSrc!: string;
+  placeholder = 'Search';
   @ViewChild('dropdown') dropdown: BsDropdownDirective;
   myControl = new FormControl();
   options: string[] = [];
@@ -36,6 +38,7 @@ export class HeaderComponent implements OnInit {
   isFirstSearchResultReceived = false;
   cleanSearch = true;
   notificationCount = 0;
+  avatarHash: any;
 
   private autocompleteOpened$: Subject<boolean> = new Subject<boolean>();
 
@@ -61,6 +64,11 @@ export class HeaderComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+
+    const userDetail = localStorage.getItem('user');
+    this.avatarHash = md5(JSON.parse(userDetail).email);
+    this.imgSrc = `https://www.gravatar.com/avatar/${this.avatarHash}/?random=` + new Date().getTime();
+
     this.date = Date.now();
     this.eventservice.on('disable-links', (status: boolean) => {
       this.disableLinks = status;
@@ -68,6 +76,8 @@ export class HeaderComponent implements OnInit {
     this.notificationservice.getNotification().subscribe((countParam: number) => {
       this.notificationCount = countParam;
     });
+
+    this.sidebarToggle();
   }
 
   get userName() {

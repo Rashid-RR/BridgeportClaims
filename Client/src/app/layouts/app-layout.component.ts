@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ApplicationRef } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { ProfileManager } from '../services/profile-manager';
 import { AuthGuard } from '../services/auth.guard';
@@ -20,7 +20,8 @@ export class AppLayoutComponent implements OnInit, AfterViewInit {
     private profileManager: ProfileManager,
     private guard: AuthGuard,
     private events: EventsService,
-    private localSt: LocalStorageService
+    private localSt: LocalStorageService,
+    private ref: ApplicationRef
   ) {
 
   }
@@ -28,6 +29,12 @@ export class AppLayoutComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     const sideBarStatus = this.localSt.retrieve('sidebarOpen');
     sideBarStatus == null ? true : sideBarStatus;
+    const st = document.body.classList;
+      if (st.contains('sidebar-collapse')) {
+        this.localSt.store('sidebarOpen', false);
+      } else {
+        this.localSt.store('sidebarOpen', true);
+      }
     $('#vegascss').remove();
     this.adjustSideBar(!sideBarStatus);
     this.localSt.observe('sidebarOpen')
@@ -51,6 +58,7 @@ export class AppLayoutComponent implements OnInit, AfterViewInit {
       } else {
         this.localSt.store('sidebarOpen', true);
       }
+      this.ref.tick();
     });
 
     this.currentURL = this.router.url;

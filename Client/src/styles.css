@@ -801,8 +801,8 @@ thead {
 
 .box-header.isAttorneyManaged,
 .bg-head-box.isAttorneyManaged {
-  background: rgb(228, 228, 15) !important;
-  color: black !important;
+  background: #2a40b2 !important;
+  color: white !important;
 }
 
 
@@ -1548,9 +1548,9 @@ app-new-episode .close-button {
 .main-header .header-navbar .search .mat-form-field .mat-form-field-wrapper .mat-form-field-underline {
   display: none !important;
 }
-.main-header .header-navbar .search .input-search .mat-form-field-infix {  
+.main-header .header-navbar .search .input-search .mat-form-field-infix {
   display: flex;
-  width: 80px;
+  width: 82px;
   padding-top: .57142857rem;
   padding-bottom: .57142857rem;
   border-top: 1px solid transparent;
@@ -1561,6 +1561,7 @@ app-new-episode .close-button {
   color: #fff;
   padding: 0px 5px;
   line-height: 3px;
+  display: flex;
 }
 .search .input-search .input-search__button .toggle-arrow {
   display: none;
@@ -1571,10 +1572,10 @@ app-new-episode .close-button {
   padding-top: 0;
 }
 .main-header .header-navbar .search .input-search.mat-form-field .mat-form-field-infix span .mat-form-field-label.mat-empty {
-  top: 15px;
+  top: 14px;
   display: inline-flex;
   color: #fff;
-  left: 2.64285714rem;
+  left: 34px;
   font-weight: 500;
 }
 .main-header .header-navbar .search .input-search.input-search--is-expanded .mat-form-field-infix {
@@ -1642,10 +1643,16 @@ app-new-episode .close-button {
   font-size: 12px;
 }
 
+.input-search.mat-form-field .mat-form-field-wrapper {
+  padding: 0 6px !important;
+  border-radius: 5px;
+  transition: flex-grow .2s cubic-bezier(.4,0,.2,1),background-color .2s cubic-bezier(.4,0,.2,1);
+}
+
 
 @media screen and (max-width: 767px) {
   .main-header .header-navbar .search .input-search.mat-form-field {
-    justify-content: center;   
+    justify-content: center;
   }
   .cdk-overlay-pane .mat-autocomplete-panel.searchAutoComplete {
     top: 0px !important;
@@ -1658,20 +1665,33 @@ app-new-episode .close-button {
 .search-dropdown.mat-menu-panel {
   position: relative;
   top: 6px;
-  left: -37px;
+  left: -6px;
 }
 
 .search-dropdown.mat-menu-panel .mat-menu-content {
   border: none;
   width: 130px;
   border-radius: 4px;
+  margin: 5px 12px;
 }
 .search-dropdown.mat-menu-panel .mat-menu-content span {
-  padding: 10px 16px 0px 16px;
+  padding: 10px 16px 0px 0px;
 }
 .search-dropdown.mat-menu-panel .mat-menu-content .mat-menu-item {
   height: 35px;
 }
-.search-dropdown.mat-menu-panel .mat-menu-content .mat-menu-item.active {
-  color: #102695;
+.search-dropdown.mat-menu-panel .mat-menu-content .mat-menu-item.active,
+.search-dropdown.mat-menu-panel .mat-menu-content .mat-menu-item:hover {
+  color: #112794;
+  background-color: #d2def3c7;
+  border-bottom: 1px solid #112794;
+}
+.search .input-search.input-search--is-expanded .input-search__button:hover, .search .input-search.input-search--is-expanded .input-search__button.active {
+  color: #112794 !important;
+}
+.notification popover-container .popover-arrow {
+  top: 18px !important;
+}
+.notification popover-container .popover-content {
+  color: #112794;
 }
