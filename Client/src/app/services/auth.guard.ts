@@ -64,7 +64,6 @@ export class AuthGuard implements CanActivate, CanActivateChild, Resolve<UserPro
         state.url.indexOf('/main/reports/shortpay') === -1 &&
         state.url.indexOf('/main/reports/claims-data') === -1 &&
         state.url.indexOf('/main/reports/address-edit') === -1 &&
-        state.url.indexOf('/main/reports/invoices') === -1 &&
         state.url.indexOf('/main/reports/list') === -1)) {
         const allowed = state.url.indexOf('/main/reports/collection-bonus') > -1 ? (us.roles && us.roles instanceof Array
           && us.roles.indexOf('User') > -1) : (us.roles && us.roles instanceof Array && us.roles.indexOf('Admin') > -1);

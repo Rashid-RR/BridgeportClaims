@@ -1682,9 +1682,3 @@ app-new-episode .close-button {
 .search .input-search.input-search--is-expanded .input-search__button:hover, .search .input-search.input-search--is-expanded .input-search__button.active {
   color: #112794 !important;
 }
-.notification popover-container .popover-arrow {
-  top: 18px !important;
-}
-.notification popover-container .popover-content {
-  color: #112794;
-}

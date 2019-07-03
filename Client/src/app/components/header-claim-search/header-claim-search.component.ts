@@ -229,7 +229,6 @@ export class HeaderClaimSearchComponent implements OnInit, OnDestroy {
     }
 
     goToClaim(id: Number) {
-        this.claimManager.getClaimsDataById(id);
         this.claimManager.search({
           claimNumber: null, firstName: null, lastName: null,
           rxNumber: null, invoiceNumber: null, claimId: id
