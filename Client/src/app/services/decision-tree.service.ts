@@ -91,7 +91,7 @@ export class DecisionTreeService {
     if (this.episodeForm.controls['pharmacyNabp'].value == null && this.pharmacyName) {
       this.toast.warning('Incorrect Pharmacy name, Correct it to a valid value, or delete the value and leave it blank');
     } else if (this.episodeForm.valid) {
-      swal({ title: '', html: 'Saving Episode... <br/> <img src=\'assets/1.gif\'>', showConfirmButton: false }).catch(() => { });
+      swal.fire({ title: '', html: 'Saving Episode... <br/> <img src=\'assets/1.gif\'>', showConfirmButton: false }).catch(() => { });
       // this.episodeForm.value.episodeId = this.episodeForm.value.episodeId ? Number(this.episodeForm.value.episodeId) : null;
       this.episodeForm.value.episodeTypeId = this.episodeForm.value.episodeTypeId ? Number(this.episodeForm.value.episodeTypeId) : null;
       const form = this.episodeForm.value;
@@ -456,7 +456,7 @@ export class DecisionTreeService {
   deleteNode(n) {
     const title = `Delete this node - ${n.data.nodeName}`,
       msg = `Are you sure you want to delete this node - ${n.data.nodeName}. This will delete all child nodes (if any)`;
-    swal({
+    swal.fire({
       title: title,
       text: msg,
       showCancelButton: true,
@@ -706,7 +706,7 @@ export class DecisionTreeService {
     this.update(d);
   }
   createUpdateNode(n?: any, title?: any, newTree?: boolean) {
-    swal({
+    swal.fire({
       title: `New ${n ? 'Tree Node' : 'New Tree'}`,
       html: `<div class="form-group">
                 <label id="treeNodeNameLabel">Name</label>

@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule, Pipe, PipeTransform } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
-import { SweetAlert2Module } from '@toverux/ngx-sweetalert2';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { ShContextMenuModule } from 'ng2-right-click-menu';
 import { AutoCompleteModule } from '../auto-complete';
 import { EpisodeNoteModalComponent, InvoiceSearchComponent, NewEpisodeComponent, ScriptNoteWindowComponent, UnindexedImageFilterComponent, UnindexedImageListComponent, UnpaidScriptResultsComponent, UnpaidScriptSearchComponent } from '../components/components-barrel';

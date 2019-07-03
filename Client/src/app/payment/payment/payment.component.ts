@@ -8,7 +8,7 @@ import { DialogService } from 'ng2-bootstrap-modal';
 import { UUID } from 'angular2-uuid';
 import { PaymentPostingPrescription } from '../../models/payment-posting-prescription';
 import { DatePipe } from '@angular/common';
-import { SwalComponent, SwalPartialTargets } from '@toverux/ngx-sweetalert2';
+import { SwalComponent, SwalPartialTargets } from '@sweetalert2/ngx-sweetalert2';
 import swal from 'sweetalert2';
 import { ActivatedRoute } from '@angular/router';
 import { DocumentManagerService } from '../../services/document-manager.service';

@@ -51,7 +51,7 @@ export class PaymentScriptService {
             try {
                 swal.clickCancel();
             } catch (e) { }
-            swal({
+            swal.fire({
                 title: '',
                 html: 'Searching claims... <br/> <img src=\'assets/1.gif\'>',
                 showConfirmButton: false
@@ -63,19 +63,18 @@ export class PaymentScriptService {
     }
     search() {
         const rxDate = this.dp.transform($('#datepicker').val(), 'MM/dd/yyyy');
-        if (
-            this.form.get('claimNumber').value  == null && this.form.get('firstName').value  == null && this.form.get('lastName').value  == null && this.form.get('rxNumber').value  == null && rxDate == null
-        ) {
+        // tslint:disable-next-line: max-line-length
+        if (this.form.get('claimNumber').value  == null && this.form.get('firstName').value  == null && this.form.get('lastName').value  == null && this.form.get('rxNumber').value  == null && rxDate == null ) {
             swal.clickCancel();
             this.toast.warning('Please populate at least one search field.');
             this.events.broadcast('show-payment-script-modal', true);
         } else {
-            swal({
+            swal.fire({
                 title: '',
                 // width: (window.innerWidth - 740) + "px",
                 html: 'Searching claims... <br/> <img src=\'assets/1.gif\'>',
                 showConfirmButton: false
-            }).catch(()=>{});
+            }).catch(() => { });
             const data = JSON.parse(JSON.stringify(this.form.value)); // copy data
             data.rxDate = rxDate || null;
             this.paymentService.search(data, false, true);

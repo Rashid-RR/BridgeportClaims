@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CurrencyPipe, DecimalPipe, CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { SweetAlert2Module } from '@toverux/ngx-sweetalert2';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { SharedModule } from '../shared';
 import { ReferencesRoutes } from './references.routing';
 import { ReferencesfilterComponent } from './referencesfilter/referencesfilter.component';

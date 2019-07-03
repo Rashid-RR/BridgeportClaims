@@ -8,7 +8,7 @@ import { PaymentResultComponent } from './payment-result/payment-result.componen
 import { PaymentClaimResultComponent } from './payment-claim-result/payment-claim-result.component';
 import { PaymentDetailedResultComponent } from './payment-detail-result/payment-detail-result.component';
 import { PaymentComponent } from './payment/payment.component';
-import { SweetAlert2Module } from '@toverux/ngx-sweetalert2';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { AddScriptModalComponent } from './add-script-modal/add-script-modal.component';
 import { SharedModule } from '../shared';
 import { PaymentCheckListComponent } from './unindexed-check-list/unindexed-check-list.component';

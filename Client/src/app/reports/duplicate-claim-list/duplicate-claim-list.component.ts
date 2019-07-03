@@ -1,7 +1,7 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
 import { ReportLoaderService, ComparisonClaim, DuplicateClaim } from '../../services/services.barrel';
 import { Toast, ToastrService } from 'ngx-toastr';
-import { SwalComponent } from '@toverux/ngx-sweetalert2';
+import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
 import swal from 'sweetalert2';
 import { HttpService } from '../../services/http-service';
 import { DatePipe } from '@angular/common';

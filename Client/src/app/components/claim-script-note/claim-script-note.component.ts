@@ -4,7 +4,7 @@ import swal from 'sweetalert2';
 import { ToastrService } from 'ngx-toastr';
 import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
-import { SwalComponent, SwalPartialTargets } from '@toverux/ngx-sweetalert2';
+import { SwalComponent, SwalPartialTargets } from '@sweetalert2/ngx-sweetalert2';
 import { HttpService } from '../../services/http-service';
 import { PrescriptionNote } from '../../models/prescription-note';
 import { WindowsInjetor, CustomPosition, Size, WindowConfig } from '../ng-window';
@@ -46,7 +46,7 @@ export class ClaimScriptNoteComponent implements OnInit {
   saveFollowUpDate() {
     const followupDate = this.dp.transform($('#followupDate').val(), 'MM/dd/yyyy');
     if (followupDate) {
-      swal({ title: '', html: 'Saving changes... <br/> <img src=\'assets/1.gif\'>', showConfirmButton: false }).catch(()=>{})
+      swal.fire({ title: '', html: 'Saving changes... <br/> <img src=\'assets/1.gif\'>', showConfirmButton: false }).catch(()=>{})
         .catch(()=>{});
       this.http.updateDiaryFollowUpDate(this.note.prescriptionNoteId, { diaryId: this.note.diaryId, followUpDate: followupDate })
         .subscribe(res => {
@@ -100,7 +100,7 @@ export class ClaimScriptNoteComponent implements OnInit {
     }
     this.diaryNoteSwal.show().then((result) => {
       if (!result.dismiss) {
-        swal({ title: '', html: 'Saving changes... <br/> <img src=\'assets/1.gif\'>', showConfirmButton: false }).catch(()=>{})
+        swal.fire({ title: '', html: 'Saving changes... <br/> <img src=\'assets/1.gif\'>', showConfirmButton: false }).catch(()=>{})
           .catch(()=>{});
         this.http.removeFromDiary(note.prescriptionNoteId)
           .subscribe(res => {

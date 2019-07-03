@@ -4,7 +4,7 @@ import { ProfileManager } from '../../services/profile-manager';
 import { EventsService } from '../../services/events-service';
 import { DatePipe } from '@angular/common';
 import { DomSanitizer } from '@angular/platform-browser';
-import { SwalComponent, SwalPartialTargets } from '@toverux/ngx-sweetalert2';
+import { SwalComponent, SwalPartialTargets } from '@sweetalert2/ngx-sweetalert2';
 
 @Component({
   selector: 'app-private',

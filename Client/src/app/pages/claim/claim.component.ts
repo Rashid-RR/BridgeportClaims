@@ -9,7 +9,7 @@ import { Episode } from '../../interfaces/episode';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
-import { SwalComponent, SwalPartialTargets } from '@toverux/ngx-sweetalert2';
+import { SwalComponent, SwalPartialTargets } from '@sweetalert2/ngx-sweetalert2';
 import { AccountReceivableService } from '../../services/services.barrel';
 import { UUID } from 'angular2-uuid';
 import { DialogService } from 'ng2-bootstrap-modal';
@@ -276,7 +276,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
     });
     if (selectedNotes.length > 0) {
       const width = window.innerWidth * 1.799 / 3;
-      swal({
+      swal.fire({
         width: width + 'px',
         title: 'New Prescription Note',
         html:
@@ -363,7 +363,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
         } else {
           swal.close();
           setTimeout(() => {
-            swal({ title: '', html: 'Adding note to Diary... <br/> <img src=\'assets/1.gif\'>', showConfirmButton: false }).catch(() => { });
+            swal.fire({ title: '', html: 'Adding note to Diary... <br/> <img src=\'assets/1.gif\'>', showConfirmButton: false }).catch(() => { });
           }, 200);
           // let followUpDate = $("#datepicker").val();
           const followUpDate = this.dp.transform($('#datepicker').val(), 'MM/dd/yyyy');
@@ -414,7 +414,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
             $('#noteTextLabel').css({ 'color': 'red' });
           }, 200);
         } else {
-          swal({ title: '', html: 'Saving note... <br/> <img src=\'assets/1.gif\'>', showConfirmButton: false }).catch(() => { });
+          swal.fire({ title: '', html: 'Saving note... <br/> <img src=\'assets/1.gif\'>', showConfirmButton: false }).catch(() => { });
           this.http.savePrescriptionNote(
             {
               claimId: this.claimManager.selectedClaim.claimId,
@@ -668,7 +668,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
       claimNoteTypeIds = claimNoteTypeIds + '<option value="' + note.key + '"' + (note.value === TypeId ? 'selected' : '') + '>' + note.value + '</option>';
     });
     const width = window.innerWidth * 1.799 / 3;
-    swal({
+    swal.fire({
       title: 'Claim Note',
       width: width + 'px',
       html:
@@ -708,7 +708,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
             $('#noteTextLabel').css({ 'color': 'red' });
           }, 200);
         } else {
-          swal({ title: '', html: 'Saving note... <br/> <img src=\'assets/1.gif\'>', showConfirmButton: false }).catch(() => { })
+          swal.fire({ title: '', html: 'Saving note... <br/> <img src=\'assets/1.gif\'>', showConfirmButton: false }).catch(() => { })
             .catch(() => { });
           let txt = JSON.stringify(result[1]);
           txt = txt.substring(1, txt.length - 1);

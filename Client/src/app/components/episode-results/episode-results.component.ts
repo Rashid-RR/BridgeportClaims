@@ -8,7 +8,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material';
 import { ConfirmComponent } from '../confirm.component';
 import { UUID } from 'angular2-uuid';
 import { Episode } from '../../interfaces/episode';
-import { SwalComponent } from '@toverux/ngx-sweetalert2';
+import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
 import { DecisionTreeModalComponent } from '../decesiontree-modal/decesiontree-modal.component';
 
 declare var $: any;
