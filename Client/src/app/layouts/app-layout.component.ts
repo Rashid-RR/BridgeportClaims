@@ -58,7 +58,9 @@ export class AppLayoutComponent implements OnInit, AfterViewInit {
       } else {
         this.localSt.store('sidebarOpen', true);
       }
-      this.ref.tick();
+      setTimeout(()=>{
+        this.ref.tick();
+      }, 1000)
     });
 
     this.currentURL = this.router.url;

@@ -64,11 +64,8 @@ export class HeaderComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
-    const userDetail = localStorage.getItem('user');
-    this.avatarHash = md5(JSON.parse(userDetail).email);
-    this.imgSrc = `https://www.gravatar.com/avatar/${this.avatarHash}/?random=` + new Date().getTime();
-
+    
+    this.setUserImage();
     this.date = Date.now();
     this.eventservice.on('disable-links', (status: boolean) => {
       this.disableLinks = status;
@@ -81,6 +78,7 @@ export class HeaderComponent implements OnInit {
   }
 
   get userName() {
+    this.setUserImage();
     return this.profileManager.profile ? this.profileManager.profile.firstName + ' ' + this.profileManager.profile.lastName : '';
   }
 
@@ -116,4 +114,11 @@ export class HeaderComponent implements OnInit {
   onBlur() {
     this.isAutoCompleteOpen = false;
   }
+
+  setUserImage() {
+    const userDetail = localStorage.getItem('user');
+    this.avatarHash = md5(JSON.parse(userDetail).email);
+    this.imgSrc = `https://www.gravatar.com/avatar/${this.avatarHash}/?random=` + new Date().getTime();
+  }
+
 }
