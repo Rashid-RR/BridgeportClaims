@@ -6,7 +6,7 @@ import {Claim} from '../../models/claim';
 import {HttpService, ComparisonClaim} from '../../services/services.barrel';
 import {ProfileManager} from '../../services/profile-manager';
 import {DatePipe} from '@angular/common';
-import {SwalComponent} from '@toverux/ngx-sweetalert2';
+import {SwalComponent} from '@sweetalert2/ngx-sweetalert2';
 import {ToastrService} from 'ngx-toastr';
 import swal from 'sweetalert2';
 import {MatDialog} from '@angular/material';

@@ -61,7 +61,7 @@ export class EpisodeNoteModalComponent implements OnInit, AfterViewInit {
     if (!this.noteText) {
       this.toast.warning('Please type in the note text');
     } else {
-      swal({
+      swal.fire({
         title: '',
         html: 'Saving note... <br/> <img src=\'assets/1.gif\'>',
         showConfirmButton: false

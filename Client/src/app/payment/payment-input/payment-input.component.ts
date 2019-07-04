@@ -288,7 +288,7 @@ export class PaymentInputComponent implements OnInit, OnDestroy {
       const amountToSuspend = (form.lastAmountRemaining != null && form.lastAmountRemaining > 0) ? form.lastAmountRemaining : 0;
 
       const amount = this.decimalPipe.transform(Number(amountToSuspend), '1.2-2');
-      swal({
+      swal.fire({
         title: 'Postings To Suspense',
         width: width + 'px',
         html:

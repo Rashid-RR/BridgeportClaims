@@ -8,7 +8,7 @@ import { HttpService } from '../../services/http-service';
 import { ToastrService } from 'ngx-toastr';
 import { DialogService } from 'ng2-bootstrap-modal';
 import { ConfirmComponent } from '../../components/confirm.component';
-import { SwalPartialTargets } from '@toverux/ngx-sweetalert2';
+import { SwalPartialTargets } from '@sweetalert2/ngx-sweetalert2';
 declare var $: any;
 
 
