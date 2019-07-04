@@ -205,7 +205,7 @@ export class BootstrapWindowContainer implements OnDestroy, AfterViewInit {
             }
 
 
-            this.dialogInstance.config.position.top = 53; // this.dialogInstance.config.minusTop;//jQuery('#af-header-0')[0].offsetHeight
+            this.dialogInstance.config.position.top = 103; // this.dialogInstance.config.minusTop;//jQuery('#af-header-0')[0].offsetHeight
             if (win.length === 0) {
                 this.dialogInstance.config.minusLeft = 50;
             } else {
