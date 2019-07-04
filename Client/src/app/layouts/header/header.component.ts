@@ -1,9 +1,9 @@
-import { Component, Inject, OnInit, HostListener, ElementRef, ViewChild } from '@angular/core';
+import { Component, Inject, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { EventsService } from '../../services/events-service';
 import { ProfileManager } from '../../services/profile-manager';
 import { HttpService, GlobalSearchResult } from '../../services/http-service';
 import { Router } from '@angular/router';
-import { DOCUMENT } from '@angular/platform-browser';
+import { DOCUMENT } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
 import { LocalStorageService } from 'ngx-webstorage';
 import { FormControl } from '@angular/forms';
@@ -64,7 +64,7 @@ export class HeaderComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    
+
     this.setUserImage();
     this.date = Date.now();
     this.eventservice.on('disable-links', (status: boolean) => {
@@ -90,9 +90,10 @@ export class HeaderComponent implements OnInit {
     });
   }
   get isTestDomain() {
-    return this.document.location.hostname == 'bridgeportclaims-testing.azurewebsites.net';
+    return this.document.location.hostname === 'bridgeportclaims-testing.azurewebsites.net';
   }
   get allowed(): Boolean {
+// tslint:disable-next-line: max-line-length
     return (this.profileManager.profile.roles && (this.profileManager.profile.roles instanceof Array) && this.profileManager.profile.roles.indexOf('Admin') > -1);
   }
   sidebarToggle() {

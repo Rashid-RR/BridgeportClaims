@@ -5,6 +5,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { ShContextMenuModule } from 'ng2-right-click-menu';
 import { AutoCompleteModule } from '../auto-complete';
+// tslint:disable-next-line: max-line-length
 import { EpisodeNoteModalComponent, InvoiceSearchComponent, NewEpisodeComponent, ScriptNoteWindowComponent, UnindexedImageFilterComponent, UnindexedImageListComponent, UnpaidScriptResultsComponent, UnpaidScriptSearchComponent } from '../components/components-barrel';
 import { ConfirmComponent } from '../components/confirm.component';
 import { EpisodesFilterPipe } from '../components/episode-results/episode-filter.pipe';
