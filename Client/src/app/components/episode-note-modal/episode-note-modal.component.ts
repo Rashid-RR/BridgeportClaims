@@ -65,7 +65,9 @@ export class EpisodeNoteModalComponent implements OnInit, AfterViewInit {
         title: '',
         html: 'Saving note... <br/> <img src=\'assets/1.gif\'>',
         showConfirmButton: false
-      }).catch(()=>{});
+      }).then(_ => {
+
+      }).catch(() => {});
       this.http.saveEpisodeNote({ episodeId: this.episode.episodeId, note: this.noteText }).subscribe(r => {
         const result = Object.prototype.toString.call(r) === '[object Array]' ? r[0] : r;
         this.episodeNotes.splice(0, 0, { episodeId: this.episode.episodeId, writtenBy: result.owner, noteCreated: result.created, noteText: this.noteText });
