@@ -7,6 +7,7 @@ import { HttpService, InvoicesService } from '../../services/services.barrel';
 import { StateCellRendererComponent } from '../address-edit/states-cell-renderer.component';
 import { AgPhoneNumberMaskComponent } from './../../components/ag-phone-number-mask/ag-phone-number-mask.component';
 import { AgDateFilterComponent } from './../../components/ag-date-filter/ag-date-filter.component';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-invoices-list',
@@ -80,10 +81,12 @@ export class InvoicesListComponent implements OnInit {
 
     this.rowData = this.invoicesService.getInvoices().pipe(
       map((invoices: any) => {
-        return invoices.map((invoice) => {
-          invoice['invoiceDate'] = (invoice['invoiceDate']||'').substr(0, 8);
+        const inv = invoices.map((invoice) => {
+          invoice['invoiceDate'] = (invoice['invoiceDate']||'').substr(0, 10);
           return invoice;
         });
+        inv.sort((a,b) => parseInt(moment(b.invoiceDate).format('YYYYMMDD')) - parseInt(moment(a.invoiceDate).format('YYYYMMDD')))
+        return inv;
       })
     );
 

@@ -11,5 +11,7 @@ namespace LakerFileImporter.Security
         internal string RawBridgeportClaimsSiteUserPassword => cs.GetAppSetting(c.AuthenticationPasswordKey);
 
         internal string RawLakerSftpPassword => "B171!or11";
+
+        internal string RawEnvisionSftpPassword = "jvD4EHQ#";
     }
 }

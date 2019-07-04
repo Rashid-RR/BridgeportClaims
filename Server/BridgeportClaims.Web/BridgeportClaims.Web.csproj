@@ -402,6 +402,7 @@
     <Compile Include="Controllers\CacheController.cs" />
     <Compile Include="Controllers\ClaimNotesController.cs" />
     <Compile Include="Controllers\ClaimsController.cs" />
+    <Compile Include="Controllers\ClaimSearchDto.cs" />
     <Compile Include="Controllers\ClientController.cs" />
     <Compile Include="Controllers\CollectionAssignmentController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />

@@ -16,7 +16,8 @@ AS
 BEGIN
     SET NOCOUNT ON;
     SET XACT_ABORT ON;
-    SELECT TOP (1) p2.BillToName,
+	DECLARE @One INT = 1;
+    SELECT TOP (@One) p2.BillToName,
            p2.BillToAddress1,
            p2.BillToAddress2,
            p2.BillToCity,
@@ -25,12 +26,19 @@ BEGIN
            i1.InvoiceNumber,
            InvoiceDate = FORMAT(i1.InvoiceDate, 'MM/dd/yyyy'),
            c1.ClaimNumber,
+		   p3.LastName AS PatientLastName,
+		   p3.FirstName AS PatientFirstName,
+		   p3.Address1 AS PatientAddress1,
+		   p3.Address2 AS PatientAddress2,
+		   p3.City AS PatientCity,
+		   s1.StateCode AS PatientStateCode,
+		   p3.PostalCode AS PatientPostalCode,
+		   p3.PhoneNumber AS PatientPhoneNumber,
            DateOfBirthDay = RIGHT('00' + CONVERT(VARCHAR(2), DATEPART(DAY, p3.DateOfBirth)), 2),
 		   DateOfBirthMonth = RIGHT('00' + CONVERT(VARCHAR(2), DATEPART(MONTH, p3.DateOfBirth)), 2),
 		   DateOfBirthYear = RIGHT(CONVERT(VARCHAR(4), DATEPART(YEAR, p3.DateOfBirth)), 2),
 		   IsMale = CAST(CASE WHEN g.GenderCode = 'M' THEN 1 ELSE 0 END AS BIT),
 		   IsFemale = CAST(CASE WHEN g.GenderCode = 'F' THEN 1 ELSE 0 END AS BIT),
-		   p3.PhoneNumber,
 		   DateOfInjuryDay = RIGHT('00' + CONVERT(VARCHAR(2), DATEPART(DAY, c1.DateOfInjury)), 2),
 		   DateOfInjuryMonth = RIGHT('00' + CONVERT(VARCHAR(2), DATEPART(MONTH, c1.DateOfInjury)), 2),
 		   DateOfInjuryYear = RIGHT(CONVERT(VARCHAR(4), DATEPART(YEAR, c1.DateOfInjury)), 2),

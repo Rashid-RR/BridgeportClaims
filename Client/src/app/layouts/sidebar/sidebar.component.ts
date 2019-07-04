@@ -4,6 +4,7 @@ import { ProfileManager } from '../../services/profile-manager';
 import { ClaimManager } from '../../services/claim-manager';
 import { HttpService } from '../../services/http-service';
 import { Router } from '@angular/router';
+import { LocalStorageService } from 'ngx-webstorage';
 declare var $: any;
 
 @Component({
@@ -12,16 +13,19 @@ declare var $: any;
   styleUrls: ['./sidebar.component.css']
 })
 export class SidebarComponent implements OnInit {
-
   disableLinks = false;
+  classList;
+  
   constructor(
     private events: EventsService,
     public router: Router,
-    private profileManager: ProfileManager,
-    public claimManager: ClaimManager
+    public profileManager: ProfileManager,
+    public claimManager: ClaimManager,
+    public localSt: LocalStorageService
   ) { }
 
   ngOnInit() {
+    this.classList = document.body.classList;
     this.events.on('disable-links', (status: boolean) => {
       this.disableLinks = status;
     });
@@ -75,6 +79,15 @@ export class SidebarComponent implements OnInit {
       && this.profileManager.profile.roles.indexOf('User') > -1
       && this.profileManager.profile.roles.indexOf('Admin') === -1
       && this.profileManager.profile.roles.indexOf('Indexer') === -1);
+  }
+
+  isSidebarOpen() {
+    const st = document.body.classList;
+      if (st.contains('sidebar-collapse')) {
+        return true;
+      } else {
+        return false;
+      }
   }
 
 }

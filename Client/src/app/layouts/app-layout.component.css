@@ -9,3 +9,7 @@
     height: -webkit-calc(100vh - 50px) !important;
     height: -moz-calc(100vh - 50px) !important;
  }
+
+ .content-wrapper {
+     margin-top: 60px;
+ }

@@ -4,6 +4,10 @@
 .nav.navbar-nav {
     float: right;
 }
+
+.nav.navbar-nav li {
+  margin-right: 4px;
+}
 .isTestDomain li:hover,
 .isTestDomain li,
 .isTestDomain li a:hover,
@@ -284,4 +288,207 @@ li a {
     position: absolute;
     top: 35px;
     width: fit-content;
+  }
+
+  .main-header .site-logo {
+    border-bottom: 1px solid #ccc;
+    position: absolute;
+    width: 290px;
+    height: 60px;
+    display: flex;
+    background: #fff;
+    border-right: 1px solid #ccc;
+  }
+  .main-header .navbar {
+    /* margin-left: 290px; */
+    margin-left: 0px;
+    height: 60px;
+  }
+  .main-header .site-logo .logo {
+    border-right: none;
+    padding: 5px 15px;
+  }
+
+  .main-header .site-logo .sidebar-toggle {
+    cursor: pointer;
+    color: #9592b0;
+    /* background: #fff; */
+    height: 60px;
+  }
+  .main-header .site-logo .sidebar-toggle:hover {
+    color: #9592b0;
+  }
+  .main-header .site-logo .sidebar-toggle i {
+    position: relative;
+    font-size: 24px;
+  }
+  .main-header .navbar {
+    justify-content: flex-end;
+    background-color: #102695;
+    padding: 0px;
+  }
+  .main-header .navbar ul {
+    display: inline-block;
+  }
+  .main-header .navbar .nav > li > a:hover,
+  .main-header .navbar .nav > li > a.active {
+    color: #102695;
+    background-color: #fff;
+  }
+  .main-header .profile {
+    display: flex;
+    cursor: pointer;
+    padding-right: 40px !important;
+  }
+  .main-header .profile .image{
+    position: relative;
+    bottom: 4px;
+    padding-right: 10px;
+    padding-top: 10px;
+  }
+  .main-header .profile .image img {
+    border: none;
+    border-radius: 50%;
+  }
+  .main-header .profile .info {
+    display: flex;
+    align-items: center;
+    position: relative;
+    top: 4px;
+  }
+  .main-header .profile .info > .mat-icon {
+    position: relative;
+    bottom: 7px;
+    color: #fff;
+    font-size: 36px !important;
+    cursor: pointer;
+  }
+  .main-header .profile .info p {
+    font-size: 20px;
+    color: #fff;
+    margin-bottom: 0;
+  }
+  .main-header .header-navbar .notification {
+    padding: 15px 15px 10px 15px;
+    display: flex;
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    height: 100%;
+    margin-right: 25px;
+  }
+  .main-header .header-navbar .notification img {
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+  }
+  .main-header .header-navbar {
+    display: flex;
+    margin-left: 290px;
+    background-color: #112794;
+  }
+  .main-header .header-navbar .left {
+    display: flex;
+    align-items: center;
+    padding-left: 30px;
+  }
+  .main-header .header-navbar .left .search-icon {
+    border: 1px solid #ccc;
+    padding: 4px;
+    border-radius: 4px;
+    display: flex;
+  }
+  .main-header .header-navbar .left .search-icon .mat-icon {
+    color: #fff;
+  }
+  .main-header .header-navbar .left .search {
+    font-size: 18px;
+    padding-left: 20px;
+    color: #fff;
+  }
+  .main-header .header-navbar .notification i {
+    top: 3px;
+    position: relative;
+    font-size: 24px;
+    cursor: pointer;
+    color: #fff;
+  }
+  .border-top-new {
+    border-top : 1PX solid rgb(222, 222, 222);
+  }
+  .main-header .header-navbar .notification i:after {
+    display: none;
+  }
+  .main-header .header-navbar .notification .dropdown-menu {
+    left: -630px !important;
+    top: 50px !important;
+    padding: 0px !important;
+    width: 690px;
+    border: none;
+    border-radius: 15px;
+  }
+  .main-header .header-navbar .notification-for-live .dropdown-menu {
+    left: -268px!important;
+    top: 53px!important;
+    padding: 0!important;
+    width: 690px;
+    border: none;
+    border-radius: 15px;
+  }
+  .main-header .header-navbar .notification .dropdown-menu .mat-card {
+    padding: 0 0 20px 0;
+    border-radius: 15px;
+  }
+  .main-header .header-navbar .notification .dropdown-menu .mat-card .mat-card-content .mat-header {
+    display: flex;
+    flex: 2;
+    border-bottom: 1px solid #ccc;
+    padding: 15px 20px 10px 20px;
+  }
+  .main-header .header-navbar .notification .dropdown-menu .mat-card .mat-card-content .mat-header .message,
+  .main-header .header-navbar .notification .dropdown-menu .mat-card .mat-card-content .mat-header .type {
+    color: #353535;
+    font-size: 16px;
+    font-weight: bold;
+  }
+  .main-header .header-navbar .notification .dropdown-menu .mat-card .mat-card-content .mat-header .message,
+  .main-header .header-navbar .notification .dropdown-menu .mat-card .mat-card-content .mat-content .message {
+    padding-right: 15px;
+  }
+  .main-header .header-navbar .notification .dropdown-menu .mat-card .mat-card-content .mat-content {
+    display: flex;
+    flex: 2;
+    border-bottom: 1px solid #ccc;
+    padding: 15px 20px;
+  }
+  .main-header .header-navbar .notification .dropdown-menu .mat-card .mat-card-content .message,
+  .main-header .header-navbar .notification .dropdown-menu .mat-card .mat-card-content .type {
+    display: flex;
+    flex: 1;
+  }
+  .main-header .header-navbar .notification .dropdown-menu .mat-card .mat-card-content .mat-content .message,
+  .main-header .header-navbar .notification .dropdown-menu .mat-card .mat-card-content .mat-content .type {
+    color: #808080;
+  }
+  .main-header .header-navbar .notification .dropdown-menu .mat-card .mat-card-content .mat-content .type span {
+    padding-right: 10px;
+  }
+  .main-header .header-navbar .notification .dropdown-menu .mat-card .mat-card-content .mat-content .type .mat-flat-button {
+    height: 25px;
+    width: 130px;
+    padding: 0 5px;
+    background-color: #495bbc;
+    border-radius: 0;
+    line-height: 28px;
+  }
+  /deep/span.notification-count {
+    width: 25px;
+    height: 25px;
+    background: #925750;
+    border-radius: 50%;
+    padding: 4px 7px;
+    text-align: center;
+    color: white;
+    position: absolute;
+    top: 0px;
+    left: 32px;
   }

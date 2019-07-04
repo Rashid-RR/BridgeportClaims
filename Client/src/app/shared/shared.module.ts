@@ -5,6 +5,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { ShContextMenuModule } from 'ng2-right-click-menu';
 import { AutoCompleteModule } from '../auto-complete';
+// tslint:disable-next-line: max-line-length
 import { EpisodeNoteModalComponent, InvoiceSearchComponent, NewEpisodeComponent, ScriptNoteWindowComponent, UnindexedImageFilterComponent, UnindexedImageListComponent, UnpaidScriptResultsComponent, UnpaidScriptSearchComponent } from '../components/components-barrel';
 import { ConfirmComponent } from '../components/confirm.component';
 import { EpisodesFilterPipe } from '../components/episode-results/episode-filter.pipe';
@@ -24,6 +25,8 @@ import { PhonePipe } from '../pipes/phone-pipe';
 import { ArraySortPipe } from '../pipes/sort.pipe';
 import { FilterUserPipe } from '../user/list/filter-user.pipe';
 import { MaterialModule } from './material.module';
+import { NotificationComponent } from '../dashboard/notification/notification.component';
+import { NotificationDetailsComponent } from '../dashboard/notification-details/notification-details.component';
 
 @Pipe({ name: 'safeStyle' })
 export class SafeStylePipe implements PipeTransform {
@@ -58,7 +61,8 @@ export class SafeUrlPipe implements PipeTransform {
     DisplayRolesPipe, BridgeportDatePipe, ArraySortPipe, PhonePipe, EpisodesFilterPipe, SafeStylePipe, SafeUrlPipe, FilterUserPipe, DiariesFilterPipe,
     UnpaidScriptResultsComponent, UnpaidScriptSearchComponent, InvoiceSearchComponent,
      EpisodeNoteModalComponent, UnindexedImageFilterComponent, UnindexedImageListComponent, ScriptNoteWindowComponent,
-     TreeListGridComponent, TreeListFilterComponent, TreeListComponent, NewEpisodeComponent
+     TreeListGridComponent, TreeListFilterComponent, TreeListComponent, NewEpisodeComponent,
+     NotificationComponent, NotificationDetailsComponent
   ],
   providers: [
     WindowsInjetor,
@@ -77,7 +81,8 @@ export class SafeUrlPipe implements PipeTransform {
     UnpaidScriptResultsComponent, UnpaidScriptSearchComponent,
     EpisodeNoteModalComponent, InvoiceSearchComponent, NewEpisodeComponent,
     UnindexedImageFilterComponent, UnindexedImageListComponent, ScriptNoteWindowComponent,
-    TreeListGridComponent, TreeListFilterComponent, TreeListComponent, MaterialComponentsModule
+    TreeListGridComponent, TreeListFilterComponent, TreeListComponent, MaterialComponentsModule,
+    NotificationComponent, NotificationDetailsComponent
   ],
   entryComponents: [
     ConfirmComponent, BootstrapWindowContainer, WindowBackdrop, ScriptNoteWindowComponent,

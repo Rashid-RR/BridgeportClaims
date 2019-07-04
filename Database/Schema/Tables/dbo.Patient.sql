@@ -74,6 +74,8 @@ ALTER TABLE [dbo].[Patient] ADD CONSTRAINT [pkPaitent] PRIMARY KEY CLUSTERED  ([
 GO
 CREATE NONCLUSTERED INDEX [idxPatientAddress2] ON [dbo].[Patient] ([Address2]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
+CREATE NONCLUSTERED INDEX [idxPatientLastNameFirstNameIncludes] ON [dbo].[Patient] ([LastName], [FirstName]) INCLUDE ([PatientID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
+GO
 ALTER TABLE [dbo].[Patient] ADD CONSTRAINT [fkPatientGenderIDGenderGenderID] FOREIGN KEY ([GenderID]) REFERENCES [dbo].[Gender] ([GenderID])
 GO
 ALTER TABLE [dbo].[Patient] ADD CONSTRAINT [fkPatientModifiedByUserIDAspNetUsersID] FOREIGN KEY ([ModifiedByUserID]) REFERENCES [dbo].[AspNetUsers] ([ID])

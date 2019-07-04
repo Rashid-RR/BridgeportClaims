@@ -1,6 +1,7 @@
 ﻿using NLog;
 using System;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Web.Http;
 using BridgeportClaims.Data.DataProviders.InvoicePdfDocuments;
@@ -34,7 +35,8 @@ namespace BridgeportClaims.Web.Controllers
         {
             try
             {
-                return Ok(_invoicesProvider.Value.GetInvoices());
+                var data = _invoicesProvider.Value.GetInvoices();
+                return Ok(data?.OrderByDescending(x => x.InvoiceDate));
             }
             catch (Exception ex)
             {

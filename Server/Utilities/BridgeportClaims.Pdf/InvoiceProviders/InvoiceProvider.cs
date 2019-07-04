@@ -1,4 +1,4 @@
-﻿using System.IO;
+using System.IO;
 using System.Reflection;
 using BridgeportClaims.Common.Disposable;
 using BridgeportClaims.Common.Extensions;
@@ -10,9 +10,9 @@ namespace BridgeportClaims.Pdf.InvoiceProviders
 {
     public class InvoiceProvider : IInvoiceProvider
     {
+        private const int DefaultFontSize = 9;
         private const int DefaultFontStyle = 0;
         private static readonly BaseFont BaseFont = BaseFont.CreateFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
-        private static readonly Font Font = new Font(BaseFont, 9, DefaultFontStyle, BaseColor.BLACK);
 
         public bool ProcessInvoice(InvoicePdfDto data, string targetPath)
         {
@@ -39,6 +39,11 @@ namespace BridgeportClaims.Pdf.InvoiceProviders
                             StampText($"{data.BillToCity}, {data.BillToStateCode} {data.BillToPostalCode}", 341, 749.5f,
                                 contentByte);
                         }
+                        StampText($"Invoice#-1: {data.InvoiceNumber}", 240, 683, contentByte);
+                        StampText($"Invoice Date: {data.InvoiceDate}", 340, 683, contentByte);
+                        StampText("X", 331.5f, 656.5f, contentByte);
+                        StampText(data.ClaimNumber, 362, 655.8f, contentByte, 7);
+                        StampText(data.DateOfBirthMonth, 248, 635, contentByte, 7);
                     }
                     catch
                     {
@@ -52,9 +57,10 @@ namespace BridgeportClaims.Pdf.InvoiceProviders
             return success;
         }
 
-        private static void StampText(string text, float x, float y, PdfContentByte contentByte)
+        private static void StampText(string text, float x, float y, PdfContentByte contentByte, int fontSize = DefaultFontSize)
         {
-            ColumnText.ShowTextAligned(contentByte, Element.ALIGN_LEFT, new Phrase(text, Font), x, y, 0);
+            ColumnText.ShowTextAligned(contentByte, Element.ALIGN_LEFT,
+                new Phrase(text, new Font(BaseFont, fontSize, DefaultFontStyle, BaseColor.BLACK)), x, y, 0);
         }
     }
 }

@@ -71,6 +71,10 @@ import { StringService } from './services/string.service';
 // import { SnotifyModule, SnotifyService, ToastDefaults } from 'ng-snotify';
 import { SharedModule } from './shared';
 import { AgPhoneNumberMaskComponent } from './components/ag-phone-number-mask/ag-phone-number-mask.component';
+import { PopoverModule } from 'ngx-bootstrap/popover';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { NotificationService } from './services/notification.service';
+import { HeaderClaimSearchComponent } from './components/header-claim-search/header-claim-search.component';
 
 @NgModule({
   declarations: [
@@ -92,7 +96,7 @@ import { AgPhoneNumberMaskComponent } from './components/ag-phone-number-mask/ag
     EpisodeResultsComponent, EpisodeFilterComponent, FirewallSettingsComponent, FirewallFilterComponent,
     FirewallGridComponent, AcquireEpisodeComponent, TestComponent, OutstandingFilterComponent, OutstandingResultComponent,
     ClaimOutstandingComponent,
-    CarrierModalComponent, AdjustorModalComponent, AttorneyModalComponent, DecisionTreeModalComponent, AgPhoneNumberMaskComponent
+    CarrierModalComponent, AdjustorModalComponent, AttorneyModalComponent, DecisionTreeModalComponent, AgPhoneNumberMaskComponent, HeaderClaimSearchComponent
   ],
   imports: [
     BrowserModule,
@@ -109,7 +113,9 @@ import { AgPhoneNumberMaskComponent } from './components/ag-phone-number-mask/ag
       timeOut: 15000
     }),
     BootstrapModalModule.forRoot({container: document.body}),
-    MatSlideToggleModule
+    BsDropdownModule.forRoot(),
+    MatSlideToggleModule,
+    PopoverModule.forRoot()
   ],
   providers: [
     WINDOW_PROVIDERS,
@@ -120,6 +126,7 @@ import { AgPhoneNumberMaskComponent } from './components/ag-phone-number-mask/ag
     EpisodeService, FirewallService, DecisionTreeService,
     PaymentScriptService, DiaryService, ShortPayService, SkippedPaymentService, UnpaidScriptService,
     AccountReceivableService, ReportLoaderService, SignalRService, StringService, QueryBuilderService, AddressEditService, InvoicesService,
+    NotificationService,
     {
       provide: LocationStrategy,
       useClass: HashLocationStrategy

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Web.Http;
 using BridgeportClaims.Data.DataProviders.Claims;
+using BridgeportClaims.Data.DataProviders.ClaimSearches;
 using BridgeportClaims.Data.DataProviders.ClaimsEdit;
 using BridgeportClaims.Data.Enums;
 using BridgeportClaims.Web.Models;
@@ -17,13 +18,46 @@ namespace BridgeportClaims.Web.Controllers
 	{
 		private static readonly Lazy<ILogger> Logger = new Lazy<ILogger>(LogManager.GetCurrentClassLogger);
 		private readonly Lazy<IClaimsDataProvider> _claimsDataProvider;
+        private readonly Lazy<IClaimSearchProvider> _claimSearchProvider;
 		private readonly Lazy<IClaimsEditProvider> _claimsEditProvider;
 
-        public ClaimsController(Lazy<IClaimsDataProvider> claimsDataProvider, Lazy<IClaimsEditProvider> claimsEditProvider)
+        public ClaimsController(Lazy<IClaimsDataProvider> claimsDataProvider, Lazy<IClaimsEditProvider> claimsEditProvider, Lazy<IClaimSearchProvider> claimSearchProvider)
 		{
 			_claimsDataProvider = claimsDataProvider;
 			_claimsEditProvider = claimsEditProvider;
-		}
+            _claimSearchProvider = claimSearchProvider;
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [Route("global-search")]
+        public IHttpActionResult GetGlobalSearchForClaims(string searchTerm, SearchType searchType)
+        {
+            try
+            {
+                switch (searchType)
+                {
+                    case SearchType.ClaimNumber: // Search term provided
+                        searchType = SearchType.ClaimNumber;
+                        break;
+                    case SearchType.LastName:
+                        searchType = SearchType.LastName;
+                        break;
+                    case SearchType.FirstName:
+                        searchType = SearchType.FirstName;
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+                var data = _claimSearchProvider.Value.GetSearchClaimResults(searchTerm, searchType); 
+                return Ok(data);
+            }
+            catch (Exception ex)
+            {
+                Logger.Value.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+            }
+        }
 
         [HttpPost]
         [Route("update-claim-attorney-managed")]
