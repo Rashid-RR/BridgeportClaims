@@ -131,7 +131,7 @@ export class ClaimOutstandingComponent implements OnInit, AfterViewInit {
       html: html
     }).then(_ => {
 
-    }).catch(()=>{});
+    }).catch(() => {});
   }
 
   onSortColumn(info: SortColumnInfo) {

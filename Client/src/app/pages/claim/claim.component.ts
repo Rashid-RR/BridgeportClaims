@@ -330,7 +330,9 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
         onOpen: function () {
           $('#prescriptionNoteTypeId').focus();
         }
-      }).catch(() => { });
+      }).then(_ => {
+
+      }).catch(() => {});
       $('#datepicker').datepicker({
         autoclose: true
       });
@@ -414,7 +416,10 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
             $('#noteTextLabel').css({ 'color': 'red' });
           }, 200);
         } else {
-          swal.fire({ title: '', html: 'Saving note... <br/> <img src=\'assets/1.gif\'>', showConfirmButton: false }).catch(() => { });
+          swal.fire({ title: '', html: 'Saving note... <br/> <img src=\'assets/1.gif\'>', showConfirmButton: false })
+          .then(_ => {
+
+          }).catch(() => {});
           this.http.savePrescriptionNote(
             {
               claimId: this.claimManager.selectedClaim.claimId,
@@ -708,8 +713,10 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
             $('#noteTextLabel').css({ 'color': 'red' });
           }, 200);
         } else {
-          swal.fire({ title: '', html: 'Saving note... <br/> <img src=\'assets/1.gif\'>', showConfirmButton: false }).catch(() => { })
-            .catch(() => { });
+          swal.fire({ title: '', html: 'Saving note... <br/> <img src=\'assets/1.gif\'>', showConfirmButton: false })
+          .then(_ => {
+          }).catch(() => {});
+
           let txt = JSON.stringify(result[1]);
           txt = txt.substring(1, txt.length - 1);
           this.http.saveClaimNote({
@@ -740,6 +747,6 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
           });
         }
       }
-    }); // .catch(()=>{});
+    }).catch(()=>{});
   }
 }

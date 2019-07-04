@@ -196,7 +196,7 @@ export class ClaimPrescriptionsComponent implements OnInit, AfterViewChecked, Af
       html: html
     }).then(success => {
 
-    }).catch(()=>{});
+    }).catch(() => {});
   }
 
   onSortColumn(info: SortColumnInfo) {
