@@ -87,6 +87,7 @@ export class HeaderClaimSearchComponent implements OnInit, OnDestroy {
                     // return this.filterCustomerSearchList('');
                     $('body').removeClass('search-completed');
                     this.isResult = false;
+                    this.isLoading = false;
                     this.readyState = false;
                     return of([]);
                 }

@@ -44,7 +44,7 @@
             <ng-template #showNoResults>
                 <mat-option class="mat-option__no-results" 
                 [value]="null" [disabled]='true' 
-                *ngIf="isFirstSearchResultReceived && isLoading"
+                *ngIf="isLoading"
                 [hidden]="!isLoading">
                     <p>Loading...<mat-spinner class="loading" [diameter]="20"></mat-spinner></p>
                 </mat-option>
