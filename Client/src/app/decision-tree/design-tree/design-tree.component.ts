@@ -5,7 +5,7 @@ import swal from 'sweetalert2';
 import { HttpService } from '../../services/http-service';
 import { DecisionTreeService} from '../../services/services.barrel';
 import { ProfileManager } from '../../services/profile-manager';
-import { SwalComponent, SwalPartialTargets } from '@toverux/ngx-sweetalert2';
+import { SwalComponent, SwalPartialTargets } from '@sweetalert2/ngx-sweetalert2';
 import { LocalStorageService } from 'ngx-webstorage';
 
 declare var $: any;
@@ -60,7 +60,7 @@ export class DesignTreeComponent implements OnInit, AfterViewInit, OnDestroy {
     $('body, html, .wrapper').css('height', 'auto');
     this.ds.readonly = false;
   }
-  ngAfterViewInit() {    
+  ngAfterViewInit() {
     this.ds.readonly = false;
     $('body, html, .wrapper').css('height', '100%');
     if (this.ds.parentTreeId) {

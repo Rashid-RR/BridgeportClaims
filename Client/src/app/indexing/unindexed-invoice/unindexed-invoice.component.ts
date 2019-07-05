@@ -9,7 +9,7 @@ import { Toast, ToastrService } from 'ngx-toastr';
 import { DatePipe } from '@angular/common';
 import { DialogService } from 'ng2-bootstrap-modal';
 import { ConfirmComponent } from '../../components/confirm.component';
-import { SwalComponent, SwalPartialTargets } from '@toverux/ngx-sweetalert2';
+import { SwalComponent, SwalPartialTargets } from '@sweetalert2/ngx-sweetalert2';
 declare var $: any;
 
 

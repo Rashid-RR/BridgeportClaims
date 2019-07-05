@@ -9,7 +9,7 @@ import { Episode } from '../../interfaces/episode';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
-import { SwalComponent, SwalPartialTargets } from '@toverux/ngx-sweetalert2';
+import { SwalComponent, SwalPartialTargets } from '@sweetalert2/ngx-sweetalert2';
 import { AccountReceivableService } from '../../services/services.barrel';
 import { UUID } from 'angular2-uuid';
 import { DialogService } from 'ng2-bootstrap-modal';
@@ -276,7 +276,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
     });
     if (selectedNotes.length > 0) {
       const width = window.innerWidth * 1.799 / 3;
-      swal({
+      swal.fire({
         width: width + 'px',
         title: 'New Prescription Note',
         html:
@@ -330,7 +330,9 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
         onOpen: function () {
           $('#prescriptionNoteTypeId').focus();
         }
-      }).catch(() => { });
+      }).then(_ => {
+
+      }).catch(() => {});
       $('#datepicker').datepicker({
         autoclose: true
       });
@@ -363,7 +365,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
         } else {
           swal.close();
           setTimeout(() => {
-            swal({ title: '', html: 'Adding note to Diary... <br/> <img src=\'assets/1.gif\'>', showConfirmButton: false }).catch(() => { });
+            swal.fire({ title: '', html: 'Adding note to Diary... <br/> <img src=\'assets/1.gif\'>', showConfirmButton: false }).catch(() => { });
           }, 200);
           // let followUpDate = $("#datepicker").val();
           const followUpDate = this.dp.transform($('#datepicker').val(), 'MM/dd/yyyy');
@@ -384,7 +386,8 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
                 c.selected = false;
               });
               swal.close();
-              this.claimManager.getClaimsDataById(this.claimManager.selectedClaim.claimId);
+              const cId = this.claimManager.selectedClaim.claimId as number;
+              this.claimManager.getClaimsDataById(cId);
               this.toast.success(result.message);
             }, () => {
               setTimeout(() => {
@@ -414,7 +417,10 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
             $('#noteTextLabel').css({ 'color': 'red' });
           }, 200);
         } else {
-          swal({ title: '', html: 'Saving note... <br/> <img src=\'assets/1.gif\'>', showConfirmButton: false }).catch(() => { });
+          swal.fire({ title: '', html: 'Saving note... <br/> <img src=\'assets/1.gif\'>', showConfirmButton: false })
+          .then(_ => {
+
+          }).catch(() => {});
           this.http.savePrescriptionNote(
             {
               claimId: this.claimManager.selectedClaim.claimId,
@@ -423,7 +429,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
               prescriptions: selectedNotes,
               prescriptionNoteId: prescriptionNoteId
             }).subscribe(res => {
-              const result = res;
+              const httpResult = res;
               prescriptions.forEach(c => {
                 if (c.selected) {
                   c.noteCount = (c.noteCount || 0) + 1;
@@ -431,8 +437,9 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
                 c.selected = false;
               });
               swal.close();
-              this.claimManager.getClaimsDataById(this.claimManager.selectedClaim.claimId);
-              this.toast.success(result.message);
+              const cId = this.claimManager.selectedClaim.claimId as number;
+              this.claimManager.getClaimsDataById(cId);
+              this.toast.success(httpResult.message);
             }, () => {
               setTimeout(() => {
                 this.addPrescriptionNote(type, result[1], result[0]);
@@ -668,7 +675,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
       claimNoteTypeIds = claimNoteTypeIds + '<option value="' + note.key + '"' + (note.value === TypeId ? 'selected' : '') + '>' + note.value + '</option>';
     });
     const width = window.innerWidth * 1.799 / 3;
-    swal({
+    swal.fire({
       title: 'Claim Note',
       width: width + 'px',
       html:
@@ -708,8 +715,10 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
             $('#noteTextLabel').css({ 'color': 'red' });
           }, 200);
         } else {
-          swal({ title: '', html: 'Saving note... <br/> <img src=\'assets/1.gif\'>', showConfirmButton: false }).catch(() => { })
-            .catch(() => { });
+          swal.fire({ title: '', html: 'Saving note... <br/> <img src=\'assets/1.gif\'>', showConfirmButton: false })
+          .then(_ => {
+          }).catch(() => {});
+
           let txt = JSON.stringify(result[1]);
           txt = txt.substring(1, txt.length - 1);
           this.http.saveClaimNote({
@@ -740,6 +749,6 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
           });
         }
       }
-    }); // .catch(()=>{});
+    }).catch(()=>{});
   }
 }

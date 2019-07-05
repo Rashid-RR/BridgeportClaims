@@ -166,7 +166,7 @@ label.check-label{
       margin-right: 1px;
 
       top:0px;
-      z-index: 100000;
+      z-index: 100;
     }
     .commonCheckBox label:first-of-type ~ label{
       padding-left: 18px;

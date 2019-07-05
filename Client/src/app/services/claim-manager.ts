@@ -20,7 +20,7 @@ import swal from 'sweetalert2';
 import { ProfileManager } from './profile-manager';
 import { PayorDataItem } from '../components/dataItem/payor-data';
 import { AdjustorDataItem } from '../components/dataItem/adjustor-data.model';
-import {AttorneyDataItem} from '../components/dataItem/attorney-data';
+import { AttorneyDataItem } from '../components/dataItem/attorney-data';
 
 declare var $: any;
 
@@ -112,7 +112,7 @@ export class ClaimManager {
 
   closeModal() {
     // tslint:disable-next-line:max-line-length
-    setTimeout(function(){ console.log('length: ' , $('.modal.in').length); if ( $('.modal.in').length > 0 ) { $('.modal.in').modal('hide'); } else { console.log('-'); } }, 100);
+    setTimeout(function () { console.log('length: ', $('.modal.in').length); if ($('.modal.in').length > 0) { $('.modal.in').modal('hide'); } else { console.log('-'); } }, 100);
     swal.clickCancel();
   }
 
@@ -122,7 +122,9 @@ export class ClaimManager {
     if (this.episodeForm.controls['pharmacyNabp'].value == null && this.pharmacyName) {
       this.toast.warning('Incorrect Pharmacy name, Correct it to a valid value, or delete the value and leave it blank');
     } else if (this.episodeForm.valid) {
-      swal({ title: '', html: 'Saving Episode... <br/> <img src=\'assets/1.gif\'>', showConfirmButton: false }).catch(()=>{});
+      swal.fire({ title: '', html: 'Saving Episode... <br/> <img src=\'assets/1.gif\'>', showConfirmButton: false })
+        .then(_ => {
+        }).catch(() => { });
       // this.episodeForm.value.episodeId = this.episodeForm.value.episodeId ? Number(this.episodeForm.value.episodeId) : null;
       this.episodeForm.value.episodeTypeId = this.episodeForm.value.episodeTypeId ? Number(this.episodeForm.value.episodeTypeId) : null;
       const form = this.episodeForm.value;
@@ -222,6 +224,7 @@ export class ClaimManager {
   }
 
   search(data, addHistory = true) {
+    // tslint:disable-next-line: max-line-length
     // let result:any = {"claimId":26957,"name":"Lakisha Krause","claimNumber":"08264","dateOfBirth":"1983-11-08T00:00:00.0000000","gender":"Not Specified","carrier":"AAA - DE","adjustor":"Karrie83","adjustorPhoneNumber":"399843-7211","adjustorFaxNumber":null,"eligibilityTermDate":"2104-12-20T21:28:32.0000000","flex2":"PIP","address1":"82 South Oak St.","address2":"285 West White Clarendon Way","city":"Oklahoma","stateAbbreviation":null,"postalCode":"61993","patientPhoneNumber":"327135-2042","dateEntered":"1984-02-04T17:22:41.0000000","claimFlex2s":[{"claimFlex2Id":2,"flex2":"DR APT"},{"claimFlex2Id":8,"flex2":"PA"},{"claimFlex2Id":1,"flex2":"PIP"},{"claimFlex2Id":12,"flex2":"TFS"},{"claimFlex2Id":11,"flex2":"UFO"},{"claimFlex2Id":9,"flex2":"UI"},{"claimFlex2Id":10,"flex2":"UIO"},{"claimFlex2Id":3,"flex2":"VALUE1"},{"claimFlex2Id":4,"flex2":"VALUE2"},{"claimFlex2Id":5,"flex2":"VALUE3"},{"claimFlex2Id":6,"flex2":"VALUE4"},{"claimFlex2Id":7,"flex2":"VALUE5"}],"claimNotes":[{"noteType":"OTHER","noteText":"Id Tam Id in eudis esset et Id venit. Et apparens Multum in volcans pars travissimantor pladior delerium."}],"episodes":[],"prescriptionStatuses":[{"prescriptionStatusId":1,"statusName":"VALUE1"},{"prescriptionStatusId":10,"statusName":"VALUE10"},{"prescriptionStatusId":2,"statusName":"VALUE2"},{"prescriptionStatusId":3,"statusName":"VALUE3"},{"prescriptionStatusId":4,"statusName":"VALUE4"},{"prescriptionStatusId":5,"statusName":"VALUE5"},{"prescriptionStatusId":6,"statusName":"VALUE6"},{"prescriptionStatusId":7,"statusName":"VALUE7"},{"prescriptionStatusId":8,"statusName":"VALUE8"},{"prescriptionStatusId":9,"statusName":"VALUE9"}],"prescriptions":[{"prescriptionId":15851,"rxDate":"2017-12-03T00:20:04.0000000","rxNumber":"47289","labelName":"Dwayne634","billTo":"Amelia","invoiceNumber":"39731","invoiceAmount":890.4770,"amountPaid":null,"outstanding":null,"invoiceDate":"1990-03-10T00:00:00.0000000","status":"VALUE7","noteCount":0,"isReversed":true},{"prescriptionId":5229,"rxDate":"2017-09-23T21:07:41.0000000","rxNumber":"27981","labelName":"Olga94","billTo":"Amelia","invoiceNumber":"45021","invoiceAmount":927.5000,"amountPaid":494.1700,"outstanding":433.3300,"invoiceDate":"1955-02-14T00:00:00.0000000","status":null,"noteCount":3,"isReversed":false}],"prescriptionNotes":[{"claimId":26957,"prescriptionNoteId":1170,"rxDate":"2017-09-23T21:07:41.0000000","rxNumber":"27981","type":"Denial","enteredBy":"Atiq Masood","note":"fecit. in vobis funem. glavans vobis funem. quartu travissimantor gravis e et bono cognitio, rarendum trepicandor fecit, parte","noteUpdatedOn":"1967-01-31T09:22:51.0000000",hasDiaryEntry:true},{"claimId":26957,"prescriptionNoteId":3416,"rxDate":"2017-09-23T21:07:41.0000000","rxNumber":"27981","type":"Med Records","enteredBy":"Jordan Gurney","note":"new diary entry","noteUpdatedOn":"2017-10-11T23:22:22.0000000",hasDiaryEntry:true},{"claimId":26957,"prescriptionNoteId":3417,"rxDate":"2017-09-23T21:07:41.0000000","rxNumber":"27981","type":"Non Formulary","enteredBy":"Josephat Ogwayi","note":"Test this","noteUpdatedOn":"2017-10-16T18:40:20.0000000",hasDiaryEntry:false}],"acctPayables":[{"date":"1998-01-09T00:00:00.0000000","checkNumber":"83027","rxNumber":"27981","rxDate":"2017-09-23T00:00:00.0000000","checkAmount":494.1700}],"payments":[{"prescriptionPaymentId":5256,"prescriptionId":5229,"postedDate":"1998-01-09T00:00:00.0000000","checkNumber":"83027","checkAmt":494.1700,"rxNumber":"27981","rxDate":"2017-09-23T21:07:41.2513254","invoiceNumber":null,"isReversed":false}]}; //for ofline testing
     this.loading = true;
     this.http.getClaimsData(data)
@@ -391,62 +394,76 @@ export class ClaimManager {
   get EpisodeNoteTypes(): Array<any> {
     return this.episodeNoteTypes;
   }
+  private configureClaim(id: number, result: any, currentClaim?: Claim, ): Claim {
+    const c = currentClaim || new Claim(result.claimId, result.claimNumber, result.date, result.injuryDate || result.dateOfInjury, result.gender,
+      result.carrier, result.adjustor, result.attorney, result.dateEntered, result.name, result.firstName,
+      result.lastName, result.flex2, result.eligibilityTermDate, result.address1, result.address2, result.city,
+      result.stateAbbreviation, result.postalCode, result.genders);
+    c.dateOfBirth = result.dateOfBirth;
+    c.adjustor = result.adjustor;
+    c.attorney = result.attorney;
+    c.eligibilityTermDate = result.eligibilityTermDate;
+    c.dateEntered = result.dateEntered;
+    c.injuryDate = result.injuryDate || result.dateOfInjury;
+    c.gender = result.gender;
+    c.genders = result.genders;
+    c.states = result.states;
+    c.isVip = result.isVip;
+    c.isMaxBalance = result.isMaxBalance;
+    c.isAttorneyManaged = result.isAttorneyManaged;
+    c.adjustorId = result.adjustorId;
+    c.attorneyId = result.attorneyId;
+    c.payorId = result.payorId;
+    c.genderId = result.patientGenderId;
+    c.stateId = result.stateId;
+    c.claimFlex2Id = result.claimFlex2Id;
+    if (result.outstanding) {
+      c.outstanding = result.outstanding.results;
+      c.totalOutstandingAmount = result.outstanding.totalOutstandingAmount;
+      c.numberOutstanding = result.outstanding.totalRows;
+      c.loadingOutstanding = false;
+    }
+    this.claims = this.claims.set(result.claimId, c);
+    const claim = this.claims.get(result.claimId);
+    claim.setPrescription(result.prescriptions as Array<Prescription>);
+    claim.setPayment(result.payments);
+    claim.setEpisodes(result.episodes);
+    claim.setClaimNotes(result.claimNotes && result.claimNotes[0] ? new ClaimNote(result.claimNotes[0].noteText, result.claimNotes[0].noteType) : null);
+    claim.setPrescriptionNotes(result.prescriptionNotes);
+    claim.setFlex2(result.claimFlex2s);
+    claim.setDocumentTypes(result.documentTypes);
+    if (result.images) {
+      claim.setImages(result.images);
+    }
+    this.selected = result.claimId;
+    claim.setPrescriptionStatuses(result.prescriptionStatuses);
+    if (result.episodeTypes) {
+      this.episodeNoteTypes = result.episodeTypes;
+    }
+    return this.claims.get(id) as Claim;
+  }
 
-  getClaimsDataById(id: Number, addHistory = true) {
-    this.selected = id;
-    const claim: Claim = this.claims.get(id) as Claim;
+  getClaimsDataById(id: number, addHistory = true) {
+    let claim: Claim = this.claims.get(id) as Claim;
     if (id !== undefined) {
       this.loading = true;
-      this.history.unshift(claim);
+      if (claim) {
+        this.selected = id;
+        this.history.unshift(claim);
+      }
       this.http.getClaimsData({ claimId: id })
         .subscribe((result: any) => {
           if (Object.keys(result).length === 0) {
             this.toast.warning('Claim not found');
             return;
           }
+          if (!claim) {
+            claim = this.configureClaim(id, result);
+            this.history.unshift(claim);
+          } else {
+            this.configureClaim(id, result, claim);
+          }
           this.loading = false;
-          claim.dateOfBirth = result.dateOfBirth;
-          claim.adjustor = result.adjustor;
-          claim.attorney = result.attorney;
-          claim.eligibilityTermDate = result.eligibilityTermDate;
-          claim.dateEntered = result.dateEntered;
-          claim.gender = result.gender;
-          claim.address1 = result.address1;
-          claim.address2 = result.address2;
-          claim.city = result.city;
-          claim.genders = result.genders;
-          claim.states = result.states;
-          claim.stateAbbreviation = result.stateAbbreviation;
-          claim.postalCode = result.postalCode;
-          claim.adjustorId = result.adjustorId;
-          claim.attorneyId = result.attorneyId;
-          claim.payorId = result.payorId;
-          claim.genderId = result.patientGenderId;
-          claim.stateId = result.stateId;
-          claim.isVip = result.isVip;
-          claim.isMaxBalance = result.isMaxBalance;
-          claim.isAttorneyManaged = result.isAttorneyManaged;
-          claim.claimFlex2Id = result.claimFlex2Id;
-          claim.setPrescription(result.prescriptions as Array<Prescription>);
-          claim.setPayment(result.payments);
-          claim.setEpisodes(result.episodes);
-          claim.setClaimNotes(result.claimNotes && result.claimNotes[0] ? new ClaimNote(result.claimNotes[0].noteText, result.claimNotes[0].noteType) : null);
-          claim.setPrescriptionNotes(result.prescriptionNotes);
-          claim.setFlex2(result.claimFlex2s);
-          claim.setPrescriptionStatuses(result.prescriptionStatuses);
-          claim.setDocumentTypes(result.documentTypes);
-          if (result.images) {
-            claim.setImages(result.images);
-          }
-          if (result.episodeTypes) {
-            this.episodeNoteTypes = result.episodeTypes;
-          }
-          if (result.outstanding) {
-            claim.outstanding = result.outstanding.results;
-            claim.totalOutstandingAmount = result.outstanding.totalOutstandingAmount;
-            claim.numberOutstanding = result.outstanding.totalRows;
-            claim.loadingOutstanding = false;
-          }
           this.onClaimIdChanged.next(this.selected);
         }, err => {
           this.loading = false;

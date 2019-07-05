@@ -1,6 +1,6 @@
 import { Component, ViewChild, OnInit, AfterViewInit, Inject } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { SwalComponent, SwalPartialTargets } from '@toverux/ngx-sweetalert2';
+import { SwalComponent, SwalPartialTargets } from '@sweetalert2/ngx-sweetalert2';
 import { LocalStorageService } from 'ngx-webstorage';
 import { ToastrService } from 'ngx-toastr';
 import * as Immutable from 'immutable';

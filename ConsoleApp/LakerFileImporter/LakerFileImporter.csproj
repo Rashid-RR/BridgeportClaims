@@ -112,6 +112,7 @@
     <Compile Include="DAL\ImportFileProvider\Dtos\ImportFileDto.cs" />
     <Compile Include="DAL\ImportFileProvider\ImportFileProvider.cs" />
     <Compile Include="Disposable\DisposableService.cs" />
+    <Compile Include="Enums\FileSource.cs" />
     <Compile Include="Helpers\FileDateParsingHelper.cs" />
     <Compile Include="IO\IoHelper.cs" />
     <Compile Include="Logging\LoggingConfigurator.cs" />

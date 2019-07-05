@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using LakerFileImporter.IO;
 using LakerFileImporter.ApiClientCaller;
 using LakerFileImporter.DAL.ImportFileProvider;
+using LakerFileImporter.Enums;
 using LakerFileImporter.Logging;
 using LakerFileImporter.SftpProxy;
 using cs = LakerFileImporter.ConfigService.ConfigService;
@@ -41,7 +42,7 @@ namespace LakerFileImporter.Business
                     Logger.Value.Info($"The last processed Laker file in the Database was {lastProcessedFileFromDatabase.FileName}. Recording this from method {methodName} on {now}.");
                 }
                 // Now, let's prepare any necessary folders in the local directory, in preparation for an SFTP operation.
-                var methodSucceeded = new IoHelper().CreateMonthAndYearFolderIfNecessary();
+                var methodSucceeded = new IoHelper().CreateMonthAndYearFolderIfNecessary(FileSource.Laker);
                 if (!methodSucceeded)
                 {
                     if (cs.AppIsInDebugMode)
@@ -73,12 +74,13 @@ namespace LakerFileImporter.Business
                     }
                     var proxyProvider = new SftpProxyProvider();
                     // First download Laker File(s)
-                    proxyProvider.ProcessLakerSftpOperation();
+                    // proxyProvider.ProcessLakerSftpOperation();
                     // Next, download any Envision File(s)
                     proxyProvider.ProcessEnvisionSftpOperation();
                 }
                 // Now that we've downloaded all SFTP files, we can simply traverse the local directory for the latest file (as we were originally doing) -
-                var newestFileInLocalDirectory = new IoHelper().BrowseDirectoryToLocateFile();
+                // TODO: Do this for Envision too.
+                var newestFileInLocalDirectory = new IoHelper().BrowseDirectoryToLocateFile(FileSource.Laker);
                 if (null == newestFileInLocalDirectory)
                 {
                     if (cs.AppIsInDebugMode)

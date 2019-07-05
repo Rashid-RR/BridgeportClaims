@@ -326,6 +326,7 @@ li a {
     justify-content: flex-end;
     background-color: #102695;
     padding: 0px;
+    display: flex;
   }
   .main-header .navbar ul {
     display: inline-block;

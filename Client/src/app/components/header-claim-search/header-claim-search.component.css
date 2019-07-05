@@ -25,3 +25,11 @@
     top: 4px;
     left: 16px;
   }
+  /deep/.search-completed .claim-search {
+    position: relative;
+    bottom: 0px;
+  }
+  /deep/.claim-search {
+    position: relative;
+    bottom: 10px;
+  }
