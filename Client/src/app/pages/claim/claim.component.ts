@@ -429,7 +429,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
               prescriptions: selectedNotes,
               prescriptionNoteId: prescriptionNoteId
             }).subscribe(res => {
-              const result = res;
+              const httpResult = res;
               prescriptions.forEach(c => {
                 if (c.selected) {
                   c.noteCount = (c.noteCount || 0) + 1;
@@ -439,7 +439,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
               swal.close();
               const cId = this.claimManager.selectedClaim.claimId as number;
               this.claimManager.getClaimsDataById(cId);
-              this.toast.success(result.message);
+              this.toast.success(httpResult.message);
             }, () => {
               setTimeout(() => {
                 this.addPrescriptionNote(type, result[1], result[0]);

@@ -54,7 +54,7 @@ export class HeaderClaimSearchComponent implements OnInit, OnDestroy {
         // Search autocomplete.
         this.rowSearchHits$ = this.searchCtrl.valueChanges.pipe(
             // delay emits
-            debounceTime(300),
+            debounceTime(250),
             // filter((val:string) => (val.length > 2)),
             distinctUntilChanged(),
             // use switch map so as to cancel previous subscribed events, before creating new ones

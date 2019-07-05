@@ -1695,3 +1695,6 @@ app-new-episode .close-button {
 .notification popover-container .popover-content {
   color: #112794;
 }
+.navbar-static-top{
+  display: inherit;
+}

@@ -3,6 +3,7 @@ using System;
 using System.Reflection;
 using BridgeportClaims.SSH.Models;
 using BridgeportClaims.SSH.SshService;
+using LakerFileImporter.Enums;
 using LakerFileImporter.IO;
 using LakerFileImporter.Logging;
 using LakerFileImporter.Security;
@@ -27,7 +28,7 @@ namespace LakerFileImporter.SftpProxy
 
             var sftpRemoteSitePath = cs.GetAppSetting(c.LakerSftpRemoteSitePathKey);
             // This includes the month and year folder.
-            var localDirectoryDownloadFullPath = IoHelper.GetFullLocalFilePathPlusMonthYearFolderByDate(DateTime.Now);
+            var localDirectoryDownloadFullPath = IoHelper.GetFullLocalFilePathPlusMonthYearFolderByDate(DateTime.Now, FileSource.Laker);
             // Process SFTP Operation
             var fileProcessorTopNumber =
                 int.TryParse(cs.GetAppSetting(c.FileProcessorTopNumberKey), out var ti) ? ti : 10;
@@ -47,7 +48,7 @@ namespace LakerFileImporter.SftpProxy
 
             var sftpRemoteSitePath = cs.GetAppSetting(c.LakerSftpRemoteSitePathKey);
             // This includes the month and year folder.
-            var localDirectoryDownloadFullPath = IoHelper.GetFullLocalFilePathPlusMonthYearFolderByDate(DateTime.Now);
+            var localDirectoryDownloadFullPath = IoHelper.GetFullLocalFilePathPlusMonthYearFolderByDate(DateTime.Now, FileSource.Envision);
             // Process SFTP Operation
             var fileProcessorTopNumber =
                 int.TryParse(cs.GetAppSetting(c.FileProcessorTopNumberKey), out var ti) ? ti : 10;
@@ -83,7 +84,7 @@ namespace LakerFileImporter.SftpProxy
                 var host = cs.GetAppSetting(c.EnvisionSftpHostKey);
                 var userName = cs.GetAppSetting(c.EnvisionSftpUserNameKey);
                 var password = new CompiledSecurityProvider().RawEnvisionSftpPassword;
-                var remoteSitePath = cs.GetAppSetting(c.LakerSftpRemoteSitePathKey);
+                var remoteSitePath = cs.GetAppSetting(c.EnvisionSftpRemoteSitePathKey);
                 var port = cs.GetAppSetting(c.SftpPortKey);
                 var portInt = !string.IsNullOrWhiteSpace(port) ? Convert.ToInt32(port) : (int?) null;
                 return new SftpConnectionModel

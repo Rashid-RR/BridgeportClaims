@@ -17,18 +17,17 @@ namespace LakerFileImporter.IO
         {
             var monthFolderFormat = cs.GetAppSetting(c.MonthFolderFormatKey);
             var monthFolderDirectory = date.ToString(monthFolderFormat);
-            var filePath = fileSource == FileSource.Envision ? cs.GetAllAppSettings(c.EnvisionFilePathKey) : cs
-                .GetAppSetting(c.LakerFilePathKey);
+            var filePath = fileSource == FileSource.Envision ? cs.GetAppSetting(c.EnvisionSftpRemoteSitePathKey) : cs.GetAppSetting(c.LakerSftpRemoteSitePathKey);
             var pathWithMonthDirectory = Path.Combine(filePath, monthFolderDirectory);
             return pathWithMonthDirectory;
         }
 
-        internal bool CreateMonthAndYearFolderIfNecessary()
+        internal bool CreateMonthAndYearFolderIfNecessary(FileSource fileSource)
         {
             try
             {
                 // Create a folder
-                var pathWithMonthDirectory = GetFullLocalFilePathPlusMonthYearFolderByDate(DateTime.Now);
+                var pathWithMonthDirectory = GetFullLocalFilePathPlusMonthYearFolderByDate(DateTime.Now, fileSource);
                 if (string.IsNullOrWhiteSpace(pathWithMonthDirectory))
                     throw new Exception(
                         "Something went wrong with the month directory path. It was not populated correctly. It is null or empty.");
@@ -43,13 +42,13 @@ namespace LakerFileImporter.IO
                 Logger.Error(ex);
                 return false;
             }
-    }
+        }
 
-        internal FileDateParsingHelper BrowseDirectoryToLocateFile()
+        internal FileDateParsingHelper BrowseDirectoryToLocateFile(FileSource fileSource)
         {
             try
             {
-                var directoryInfo = new DirectoryInfo(GetFullLocalFilePathPlusMonthYearFolderByDate(DateTime.Now));
+                var directoryInfo = new DirectoryInfo(GetFullLocalFilePathPlusMonthYearFolderByDate(DateTime.Now, fileSource));
                 var files = directoryInfo.GetFiles()
                     .Where(x => !string.IsNullOrWhiteSpace(x.Name) && x.Name.StartsWith("Billing_Claim_File_") && x.Name.EndsWith(".csv"))
                     .OrderByDescending(p => p.CreationTime)
