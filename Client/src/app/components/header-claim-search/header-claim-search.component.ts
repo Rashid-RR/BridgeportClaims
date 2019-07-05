@@ -38,6 +38,8 @@ export class HeaderClaimSearchComponent implements OnInit, OnDestroy {
     placeholder: string = '';
     currentCustomerId = null;
     readyState = false;
+    isLoading = false;
+    isResult = false;
     
 
     
@@ -66,18 +68,25 @@ export class HeaderClaimSearchComponent implements OnInit, OnDestroy {
                 // }
                 if(!val) {
                   val = '';
+                  this.isResult = false;
                 }
                 if (val.length > 2) {
                     // lookup value.
                     // return this.filterCustomerSearchList(val);
                     this.readyState = true;
+                    this.isLoading = true;
                     $('body').addClass('search-completed');
-                    return this.http.getGlobalSearch(val, this.selectedType);
+                    let searchResult = this.http.getGlobalSearch(val, this.selectedType);
+                    searchResult.subscribe(val => {
+                        if (val.length > 0) {this.isLoading = false; this.isResult = false;}else { this.isLoading = false; this.isResult = true; }
+                    });
+                    return searchResult;
                   } else {
                     // if no value is present, return null
                     // TODO: Looking to return of(null) or something here, but that throws an error.
                     // return this.filterCustomerSearchList('');
                     $('body').removeClass('search-completed');
+                    this.isResult = false;
                     this.readyState = false;
                     return of([]);
                 }

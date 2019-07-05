@@ -19,3 +19,9 @@
   /deep/.search-completed .claim-search {
     margin-top: -10px;
   }
+  /deep/.claim-search mat-option.mat-active .loading {
+    display: inline-block;
+    position: relative;
+    top: 4px;
+    left: 16px;
+  }
