@@ -73,7 +73,7 @@ namespace LakerFileImporter.Business
                     }
                     var proxyProvider = new SftpProxyProvider();
                     // First download Laker File(s)
-                    proxyProvider.ProcessLakerSftpOperation();
+                    // proxyProvider.ProcessLakerSftpOperation();
                     // Next, download any Envision File(s)
                     proxyProvider.ProcessEnvisionSftpOperation();
                 }

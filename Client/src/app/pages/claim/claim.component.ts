@@ -386,7 +386,8 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
                 c.selected = false;
               });
               swal.close();
-              this.claimManager.getClaimsDataById(this.claimManager.selectedClaim.claimId);
+              const cId = this.claimManager.selectedClaim.claimId as number;
+              this.claimManager.getClaimsDataById(cId);
               this.toast.success(result.message);
             }, () => {
               setTimeout(() => {
@@ -436,7 +437,8 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
                 c.selected = false;
               });
               swal.close();
-              this.claimManager.getClaimsDataById(this.claimManager.selectedClaim.claimId);
+              const cId = this.claimManager.selectedClaim.claimId as number;
+              this.claimManager.getClaimsDataById(cId);
               this.toast.success(result.message);
             }, () => {
               setTimeout(() => {

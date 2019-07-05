@@ -3,6 +3,7 @@ using c = LakerFileImporter.StringConstants.Constants;
 using cs = LakerFileImporter.ConfigService.ConfigService;
 using System.IO;
 using System.Linq;
+using LakerFileImporter.Enums;
 using LakerFileImporter.Helpers;
 using NLog;
 
@@ -12,11 +13,13 @@ namespace LakerFileImporter.IO
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
-        internal static string GetFullLocalFilePathPlusMonthYearFolderByDate(DateTime date)
+        internal static string GetFullLocalFilePathPlusMonthYearFolderByDate(DateTime date, FileSource fileSource)
         {
             var monthFolderFormat = cs.GetAppSetting(c.MonthFolderFormatKey);
             var monthFolderDirectory = date.ToString(monthFolderFormat);
-            var pathWithMonthDirectory = Path.Combine(cs.GetAppSetting(c.LakerFilePathKey), monthFolderDirectory);
+            var filePath = fileSource == FileSource.Envision ? cs.GetAllAppSettings(c.EnvisionFilePathKey) : cs
+                .GetAppSetting(c.LakerFilePathKey);
+            var pathWithMonthDirectory = Path.Combine(filePath, monthFolderDirectory);
             return pathWithMonthDirectory;
         }
 

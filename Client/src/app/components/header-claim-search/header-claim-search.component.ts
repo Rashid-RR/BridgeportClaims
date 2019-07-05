@@ -38,9 +38,9 @@ export class HeaderClaimSearchComponent implements OnInit, OnDestroy {
     placeholder: string = '';
     currentCustomerId = null;
     readyState = false;
-    
 
-    
+
+
 
     private autocompleteOpened$: Subject<boolean> = new Subject<boolean>();
 
@@ -98,7 +98,7 @@ export class HeaderClaimSearchComponent implements OnInit, OnDestroy {
     //     this.router.navigateByUrl(url);
     // }
 
-    
+
 
     private filterCustomerSearchList(val: string): Observable<GlobalSearchResult[]> {
         return this.getSearchHits(val)
@@ -189,7 +189,7 @@ export class HeaderClaimSearchComponent implements OnInit, OnDestroy {
       if (!rows || rows.length === 0) {
           return [];
       }
-  
+
       const searchText: string = this.searchCtrl.value;
       const regexp = new RegExp(searchText, 'gi');
       // Check that prevents an error if the authentication token is expired.
@@ -202,7 +202,7 @@ export class HeaderClaimSearchComponent implements OnInit, OnDestroy {
           return [];
       }
     }
-  
+
 
     selectItem(txt, init = false) {
       this.selectedType = txt;
@@ -228,7 +228,7 @@ export class HeaderClaimSearchComponent implements OnInit, OnDestroy {
         }
     }
 
-    goToClaim(id: Number) {
+    goToClaim(id: number) {
         this.claimManager.getClaimsDataById(id);
         // this.claimManager.search({
         //   claimNumber: null, firstName: null, lastName: null,
@@ -244,7 +244,7 @@ export class HeaderClaimSearchComponent implements OnInit, OnDestroy {
       this.searchCtrl.reset();
       this.selectItem('LastName', true);
       this.currentCustomerId && this.goToClaim(this.currentCustomerId);
-      
+
       // this.myControl.setValue('');
       // this.cleanSearch = false;
       // this.prepareSearchStream();
