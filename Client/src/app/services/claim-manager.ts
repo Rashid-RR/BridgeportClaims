@@ -440,8 +440,9 @@ export class ClaimManager {
     if (result.episodeTypes) {
       this.episodeNoteTypes = result.episodeTypes;
     }
-    return this.claims.get(id) as Claim;;
+    return this.claims.get(id) as Claim;
   }
+
   getClaimsDataById(id: number, addHistory = true) {
     let claim: Claim = this.claims.get(id) as Claim;
     if (id !== undefined) {
