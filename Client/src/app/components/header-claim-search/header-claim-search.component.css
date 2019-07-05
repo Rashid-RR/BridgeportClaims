@@ -19,3 +19,6 @@
   /deep/.search-completed .claim-search {
     margin-top: -10px;
   }
+  [hidden] {
+      display: none !important;
+  }

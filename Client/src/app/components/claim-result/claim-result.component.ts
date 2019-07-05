@@ -440,7 +440,7 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
     }
   }
 
-  view(claimID: Number) {
+  view(claimID: number) {
     this.claimManager.getClaimsDataById(claimID);
     this.events.broadcast('minimize', []);
     // this.minimize();
