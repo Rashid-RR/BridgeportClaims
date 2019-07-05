@@ -88,7 +88,6 @@ namespace BridgeportClaims.SSH.SshService
                     {
                         continue;
                     }
-
                     DisposableService.Using<Stream>(() => File.Create(fullLocalFileName),
                         fileStream => { client.DownloadFile(remoteSftpFilePath + "/" + sftpFile.Name, fileStream); });
                 }

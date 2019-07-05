@@ -11,7 +11,7 @@
         public const string AuthenticationUserNameKey = "AuthenticationUserName";
         public const string AuthenticationPasswordKey = "AuthenticationPassword";
         public const string MonthFolderFormatKey = "MonthFolderFormat";
-        public const string SftpRemoteSitePathKey = "SftpRemoteSitePath";
+        public const string LakerSftpRemoteSitePathKey = "SftpRemoteSitePath";
         public const string SftpPortKey = "SftpPort";
         public const string ProcessSftpKey = "ProcessSftp";
 

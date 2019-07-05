@@ -25,7 +25,7 @@ namespace LakerFileImporter.SftpProxy
                 Logger.Info($"Starting into the {methodName} method, within the {className} class, on {now}.");
             }
 
-            var sftpRemoteSitePath = cs.GetAppSetting(c.SftpRemoteSitePathKey);
+            var sftpRemoteSitePath = cs.GetAppSetting(c.LakerSftpRemoteSitePathKey);
             // This includes the month and year folder.
             var localDirectoryDownloadFullPath = IoHelper.GetFullLocalFilePathPlusMonthYearFolderByDate(DateTime.Now);
             // Process SFTP Operation
@@ -45,7 +45,7 @@ namespace LakerFileImporter.SftpProxy
                 Logger.Info($"Starting into the {methodName} method, within the {className} class, on {now}.");
             }
 
-            var sftpRemoteSitePath = cs.GetAppSetting(c.SftpRemoteSitePathKey);
+            var sftpRemoteSitePath = cs.GetAppSetting(c.LakerSftpRemoteSitePathKey);
             // This includes the month and year folder.
             var localDirectoryDownloadFullPath = IoHelper.GetFullLocalFilePathPlusMonthYearFolderByDate(DateTime.Now);
             // Process SFTP Operation
@@ -62,7 +62,7 @@ namespace LakerFileImporter.SftpProxy
                 var host = cs.GetAppSetting(c.LakerSftpHostKey);
                 var userName = cs.GetAppSetting(c.LakerSftpUserNameKey);
                 var password = new CompiledSecurityProvider().RawLakerSftpPassword;
-                var remoteSitePath = cs.GetAppSetting(c.SftpRemoteSitePathKey);
+                var remoteSitePath = cs.GetAppSetting(c.LakerSftpRemoteSitePathKey);
                 var port = cs.GetAppSetting(c.SftpPortKey);
                 var portInt = !string.IsNullOrWhiteSpace(port) ? Convert.ToInt32(port) : (int?) null;
                 return new SftpConnectionModel
@@ -83,7 +83,7 @@ namespace LakerFileImporter.SftpProxy
                 var host = cs.GetAppSetting(c.EnvisionSftpHostKey);
                 var userName = cs.GetAppSetting(c.EnvisionSftpUserNameKey);
                 var password = new CompiledSecurityProvider().RawEnvisionSftpPassword;
-                var remoteSitePath = cs.GetAppSetting(c.SftpRemoteSitePathKey);
+                var remoteSitePath = cs.GetAppSetting(c.LakerSftpRemoteSitePathKey);
                 var port = cs.GetAppSetting(c.SftpPortKey);
                 var portInt = !string.IsNullOrWhiteSpace(port) ? Convert.ToInt32(port) : (int?) null;
                 return new SftpConnectionModel
