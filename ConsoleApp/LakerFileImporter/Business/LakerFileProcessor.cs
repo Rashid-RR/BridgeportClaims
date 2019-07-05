@@ -23,7 +23,7 @@ namespace LakerFileImporter.Business
         /// Boolean returns whether or not the process was even necessary (and successful)
         /// </summary>
         /// <returns></returns>
-        internal async Task<LakerFileProcessResult> UploadAndProcessLakerFileIfNecessary()
+        internal async Task<LakerAndEnvisionFileProcessResult> UploadAndProcessLakerFileIfNecessary()
         {
             try
             {
@@ -35,21 +35,22 @@ namespace LakerFileImporter.Business
                 // Query the database.
                 var dbFiles = importFileProvider.GetImportFileDtos();
                 // Grab the last, processed file from the database.
-                var lastProcessedFileFromDatabase = dbFiles?.Where(p => p.Processed).OrderByDescending(x => x.LakerFileDate).FirstOrDefault();
+                var lastProcessedLakerFileFromDatabase = dbFiles?.Where(p => p.Processed && p.ImportFileId == (int)ImportFileType.LakerImport).OrderByDescending(x => x.FileDate).FirstOrDefault();
                 // Ok, so now we have the latest file that has been processed in the database.
-                if (null != lastProcessedFileFromDatabase && cs.AppIsInDebugMode)
+                if (null != lastProcessedLakerFileFromDatabase && cs.AppIsInDebugMode)
                 {
-                    Logger.Value.Info($"The last processed Laker file in the Database was {lastProcessedFileFromDatabase.FileName}. Recording this from method {methodName} on {now}.");
+                    Logger.Value.Info($"The last processed Laker file in the Database was {lastProcessedLakerFileFromDatabase.FileName}. Recording this from method {methodName} on {now}.");
                 }
                 // Now, let's prepare any necessary folders in the local directory, in preparation for an SFTP operation.
-                var methodSucceeded = new IoHelper().CreateMonthAndYearFolderIfNecessary(FileSource.Laker);
-                if (!methodSucceeded)
+                var lakerMethodSucceeded = new IoHelper().CreateMonthAndYearFolderIfNecessary(FileSource.Laker);
+                var envisionMethodSucceeded = new IoHelper().CreateMonthAndYearFolderIfNecessary(FileSource.Envision);
+                if (!lakerMethodSucceeded || !envisionMethodSucceeded)
                 {
                     if (cs.AppIsInDebugMode)
                     {
                         Logger.Value.Error("Something wrong happened with the creation of the month and year folder. Please read the previous exception message.");
                     }
-                    return LakerFileProcessResult.MonthYearFolderCouldNotBeCreatedInLocalDirectory;
+                    return LakerAndEnvisionFileProcessResult.MonthYearFolderCouldNotBeCreatedInLocalDirectory;
                 }
                 // Now, work in the SFTP to download any new files (regardless of whether or not we need them at this point). -- For testing purposes, this should have the option of being skipped.
                 var processSftpValue = cs.GetAppSetting(c.ProcessSftpKey)?.ToLower();
@@ -74,44 +75,46 @@ namespace LakerFileImporter.Business
                     }
                     var proxyProvider = new SftpProxyProvider();
                     // First download Laker File(s)
-                    // proxyProvider.ProcessLakerSftpOperation();
+                    proxyProvider.ProcessLakerSftpOperation();
                     // Next, download any Envision File(s)
                     proxyProvider.ProcessEnvisionSftpOperation();
                 }
                 // Now that we've downloaded all SFTP files, we can simply traverse the local directory for the latest file (as we were originally doing) -
                 // TODO: Do this for Envision too.
-                var newestFileInLocalDirectory = new IoHelper().BrowseDirectoryToLocateFile(FileSource.Laker);
-                if (null == newestFileInLocalDirectory)
+                var newestLakerFileInLocalDirectory = new IoHelper().BrowseDirectoryToLocateFile(FileSource.Laker);
+                var newestEnvisionFileInLocalDirectory = new IoHelper().BrowseDirectoryToLocateFile(FileSource.Envision);
+                if (null == newestLakerFileInLocalDirectory || null == newestEnvisionFileInLocalDirectory)
                 {
                     if (cs.AppIsInDebugMode)
                     {
                         Logger.Value.Info("No file was found in the local directory to process. You might want to make sure we're pointing to the right place. " +
                             $"This was recorded in the {methodName} method on {now}.");
                     }
-                    return LakerFileProcessResult.NoFilesFoundInFileDirectory;
+                    return LakerAndEnvisionFileProcessResult.NoFilesFoundInFileDirectory;
                 }
 
                 if (cs.AppIsInDebugMode)
                 {
-                    Logger.Value.Info($"The newest file found in the local directory is {newestFileInLocalDirectory.FullFileName}. This was recorded in the {methodName} method on {now}.");
+                    Logger.Value.Info($"The newest Laker file found in the local directory is {newestLakerFileInLocalDirectory.FullFileName}. This was recorded in the {methodName} method on {now}.");
+                    Logger.Value.Info($"The newest Envision file found in the local directory is {newestEnvisionFileInLocalDirectory.FullFileName}. This was recorded in the {methodName} method on {now}.");
                 }
-                var newLakerFileNeededForProcessing = null == lastProcessedFileFromDatabase || newestFileInLocalDirectory.LakerFileDate > lastProcessedFileFromDatabase.LakerFileDate;
+                var newLakerFileNeededForProcessing = null == lastProcessedLakerFileFromDatabase || newestLakerFileInLocalDirectory.FileDate > lastProcessedLakerFileFromDatabase.FileDate;
                 if (!newLakerFileNeededForProcessing)
                 {
-                    return LakerFileProcessResult.NoLakerFileProcessingNecessary;
+                    return LakerAndEnvisionFileProcessResult.NoLakerFileProcessingNecessary;
                 }
                 // Upload and process Laker File on Server.
                 var apiClient = new ApiClient();
-                var bytes = File.ReadAllBytes(newestFileInLocalDirectory.FullFileName);
+                var bytes = File.ReadAllBytes(newestLakerFileInLocalDirectory.FullFileName);
                 var token = await apiClient.GetAuthenticationBearerTokenAsync();
-                var newLakerFileName = newestFileInLocalDirectory.FileName;
+                var newLakerFileName = newestLakerFileInLocalDirectory.FileName;
                 var succeededUpload = await apiClient.UploadFileToApiAsync(bytes, newLakerFileName, token);
                 if (!succeededUpload)
                 {
-                    return LakerFileProcessResult.LakerFileFailedToUpload;
+                    return LakerAndEnvisionFileProcessResult.LakerFileFailedToUpload;
                 }
                 var succeededProcessing = await apiClient.ProcessLakerFileToApiAsync(newLakerFileName, token);
-                return !succeededProcessing ? LakerFileProcessResult.LakerFileFailedToProcess : LakerFileProcessResult.LakerFileProcessStartedSuccessfully;
+                return !succeededProcessing ? LakerAndEnvisionFileProcessResult.LakerFileFailedToProcess : LakerAndEnvisionFileProcessResult.LakerFileProcessStartedSuccessfully;
             }
             catch (Exception ex)
             {

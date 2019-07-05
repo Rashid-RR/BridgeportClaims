@@ -18,7 +18,7 @@ namespace LakerFileImporter.DAL.ImportFileProvider
     {
         private static readonly Logger Logger = LoggingService.Instance.Logger;
 
-        internal IList<ImportFileDto> GetImportFileDtos()
+        internal IList<LakerImportFileDto> GetImportFileDtos()
         {
             var files = GetImportFileDtosInternal();
             if (!cs.AppIsInDebugMode) return files;
@@ -31,11 +31,11 @@ namespace LakerFileImporter.DAL.ImportFileProvider
             return files;
         }
 
-        private static IList<ImportFileDto> GetImportFileDtosInternal()
+        private static IList<LakerImportFileDto> GetImportFileDtosInternal()
         {
             try
             {
-                var files = new List<ImportFileDto>();
+                var files = new List<LakerImportFileDto>();
                 var connStr = new CompiledSecurityProvider().RawConnectionString;
                 return DisposableService.Using(() => new SqlConnection(connStr), connection =>
                 {
@@ -58,7 +58,7 @@ namespace LakerFileImporter.DAL.ImportFileProvider
 
                                 while (reader.Read())
                                 {
-                                    var file = new ImportFileDto
+                                    var file = new LakerImportFileDto
                                     {
                                         ImportFileId = reader.GetInt32(importFileIdOrdinal),
                                         FileName = reader.GetString(fileNameOrdinal),

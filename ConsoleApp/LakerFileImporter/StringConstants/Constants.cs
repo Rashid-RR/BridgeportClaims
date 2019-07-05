@@ -16,16 +16,16 @@
 
         // Laker
         public const string LakerFileTypeName = "Laker Import";
-        public const string LakerFilePathKey = "LakerFilePath";
-        public const string EnvisionFilePathKey = "EnvisionFilePath";
         public const string LakerFileProcessingApiUrlKey = "LakerFileProcessingApiUrl";
         public const string LakerSftpHostKey = "LakerSftpHost";
         public const string LakerSftpUserNameKey = "LakerSftpUserName";
         public const string LakerSftpRemoteSitePathKey = "LakerSftpRemoteSitePath";
+        public const string LakerFilePathKey = "LakerFilePath";
 
         // Envision
         public const string EnvisionSftpUserNameKey = "SftpEnvisionUserName";
-        public const string EnvisionSftpHostKey = "ftp1.rxoptions.net";
+        public const string EnvisionSftpHostKey = "EnvisionSftpHost";
         public const string EnvisionSftpRemoteSitePathKey = "EnvisionSftpRemoteSitePath";
+        public const string EnvisionFilePathKey = "EnvisionFilePath";
     }
 }
