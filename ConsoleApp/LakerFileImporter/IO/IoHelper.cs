@@ -17,7 +17,7 @@ namespace LakerFileImporter.IO
         {
             var monthFolderFormat = cs.GetAppSetting(c.MonthFolderFormatKey);
             var monthFolderDirectory = date.ToString(monthFolderFormat);
-            var filePath = fileSource == FileSource.Envision ? cs.GetAppSetting(c.EnvisionSftpRemoteSitePathKey) : cs.GetAppSetting(c.LakerSftpRemoteSitePathKey);
+            var filePath = fileSource == FileSource.Envision ? cs.GetAppSetting(c.EnvisionFilePathKey) : cs.GetAppSetting(c.LakerFilePathKey);
             var pathWithMonthDirectory = Path.Combine(filePath, monthFolderDirectory);
             return pathWithMonthDirectory;
         }
@@ -44,7 +44,7 @@ namespace LakerFileImporter.IO
             }
         }
 
-        internal FileDateParsingHelper BrowseDirectoryToLocateFile(FileSource fileSource)
+        internal LakerFileDateParsingHelper BrowseDirectoryToLocateFile(FileSource fileSource)
         {
             try
             {
@@ -54,14 +54,14 @@ namespace LakerFileImporter.IO
                     .OrderByDescending(p => p.CreationTime)
                     .Take(Convert.ToInt32(cs.GetAppSetting(c.FileProcessorTopNumberKey))).ToList();
                 // Now traverse the top, however many files to find the latest.
-                var newFiles = files.Select(s => new FileDateParsingHelper
+                var newFiles = files.Select(s => new LakerFileDateParsingHelper
                 {
                     FileName = s.Name,
                     FullFileName = s.FullName
                 }).ToList();
                 if (newFiles.Count < 1)
                     return null;
-                var newestFullFileName = newFiles.OrderByDescending(x => x.LakerFileDate).FirstOrDefault();
+                var newestFullFileName = newFiles.OrderByDescending(x => x.FileDate).FirstOrDefault();
                 return newestFullFileName;
             }
             catch (Exception ex)

@@ -10,7 +10,7 @@ namespace BridgeportClaims.SSH.SshService
 {
     public static class SshServiceProvider
     {
-        private static readonly string ComparisonString = "ENVexport_BPC_".ToLowerInvariant();
+        private static readonly string ComparisonString = "envexport_bpc_".ToLowerInvariant();
         private static readonly int Count = "ENVexport_BPC_20190622080001.csv".Length;
 
         private static IList<SftpFile> ListLastTenEnvisionSshFiles(ConnectionInfo connectionInfo,
@@ -21,7 +21,6 @@ namespace BridgeportClaims.SSH.SshService
                 {
                     return null;
                 }
-
                 client.Connect();
                 var ftpDirectoryListing = client.ListDirectory(remoteSftpFilePath)?.ToList();
                 return ftpDirectoryListing?.Where(f => !string.IsNullOrWhiteSpace(f.Name) &&
@@ -39,9 +38,7 @@ namespace BridgeportClaims.SSH.SshService
                 {
                     return null;
                 }
-
                 client.Connect();
-
                 var ftpDirectoryListing = client.ListDirectory(remoteSftpFilePath)?.ToList();
                 return ftpDirectoryListing?.Where(f => !string.IsNullOrWhiteSpace(f.Name) &&
                                                        f.Name.ToLower().StartsWith("billing_claim_file_"))
@@ -65,7 +62,6 @@ namespace BridgeportClaims.SSH.SshService
                     {
                         continue;
                     }
-
                     DisposableService.Using<Stream>(() => File.Create(fullLocalFileName),
                         fileStream => { client.DownloadFile(remoteSftpFilePath + "/" + sftpFile.Name, fileStream); });
                 }

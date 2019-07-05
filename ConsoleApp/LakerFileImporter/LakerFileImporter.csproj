@@ -107,13 +107,13 @@
   <ItemGroup>
     <Compile Include="ApiClientCaller\ApiClient.cs" />
     <Compile Include="Business\LakerFileProcessor.cs" />
-    <Compile Include="Business\LakerFileProcessResult.cs" />
+    <Compile Include="Business\LakerAndEnvisionFileProcessResult.cs" />
     <Compile Include="ConfigService\ConfigService.cs" />
-    <Compile Include="DAL\ImportFileProvider\Dtos\ImportFileDto.cs" />
+    <Compile Include="DAL\ImportFileProvider\Dtos\LakerImportFileDto.cs" />
     <Compile Include="DAL\ImportFileProvider\ImportFileProvider.cs" />
     <Compile Include="Disposable\DisposableService.cs" />
     <Compile Include="Enums\FileSource.cs" />
-    <Compile Include="Helpers\FileDateParsingHelper.cs" />
+    <Compile Include="Helpers\LakerFileDateParsingHelper.cs" />
     <Compile Include="IO\IoHelper.cs" />
     <Compile Include="Logging\LoggingConfigurator.cs" />
     <Compile Include="Logging\LoggingService.cs" />

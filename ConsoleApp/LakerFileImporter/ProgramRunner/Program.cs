@@ -26,19 +26,19 @@ namespace LakerFileImporter.ProgramRunner
                 if (!cs.AppIsInDebugMode) return;
                 switch (result)
                 {
-                    case LakerFileProcessResult.NoFilesFoundInFileDirectory:
+                    case LakerAndEnvisionFileProcessResult.NoFilesFoundInFileDirectory:
                         logger.Info("No Laker files where found in the local file directory.");
                         break;
-                    case LakerFileProcessResult.NoLakerFileProcessingNecessary:
+                    case LakerAndEnvisionFileProcessResult.NoLakerFileProcessingNecessary:
                         logger.Info("No Laker file processing is necessary.");
                         break;
-                    case LakerFileProcessResult.LakerFileFailedToUpload:
+                    case LakerAndEnvisionFileProcessResult.LakerFileFailedToUpload:
                         logger.Info("Laker file failed to upload.");
                         break;
-                    case LakerFileProcessResult.LakerFileFailedToProcess:
+                    case LakerAndEnvisionFileProcessResult.LakerFileFailedToProcess:
                         logger.Info("Laker file failed to process.");
                         break;
-                    case LakerFileProcessResult.LakerFileProcessStartedSuccessfully:
+                    case LakerAndEnvisionFileProcessResult.LakerFileProcessStartedSuccessfully:
                         logger.Info("The Laker file process started successfully.");
                         break;
                     default:

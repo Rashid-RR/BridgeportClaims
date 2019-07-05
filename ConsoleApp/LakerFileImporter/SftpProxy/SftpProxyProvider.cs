@@ -46,7 +46,7 @@ namespace LakerFileImporter.SftpProxy
                 Logger.Info($"Starting into the {methodName} method, within the {className} class, on {now}.");
             }
 
-            var sftpRemoteSitePath = cs.GetAppSetting(c.LakerSftpRemoteSitePathKey);
+            var sftpRemoteSitePath = cs.GetAppSetting(c.EnvisionSftpRemoteSitePathKey);
             // This includes the month and year folder.
             var localDirectoryDownloadFullPath = IoHelper.GetFullLocalFilePathPlusMonthYearFolderByDate(DateTime.Now, FileSource.Envision);
             // Process SFTP Operation
