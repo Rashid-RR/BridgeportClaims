@@ -92,7 +92,7 @@
                 </ul>
             </div>
             <ng-container *ngIf="profileManager.profile">
-                <div dropdown #dropdown="bs-dropdown" [insideClick] = "true" [ngClass]="{'notification-for-live': isTestDomain, 'notification': !isTestDomain }">
+                <div dropdown #dropdown="bs-dropdown" [insideClick] = "true" class="notification">
                     <img [popover]="notificationCount == 0 ? 'No new Notifications...' : ''" triggers="mouseenter:mouseleave" placement="left" src="assets/images/normal-state/notification.png" dropdownToggle  class="dropdown-toggle" aria-controls="dropdown-basic">
                     <span class='notification-count' *ngIf="notificationCount>0">{{notificationCount}}</span>
                     <!-- <mat-icon  dropdownToggle  class="dropdown-toggle" aria-controls="dropdown-basic" aria-hidden="false">notifications_none</mat-icon> -->
