@@ -30,6 +30,7 @@
 		public const string CachingProvider = "CachingProvider";
 		public const string LakeFileNameStartsWithString = "Billing_Claim_File_";
 		public const string NoLakerFilesToImportToast = "No Laker Files were found to import.";
+        public const string NoEnvisionFilesFound = "No Envision File was found to process.";
 		public const string LakerImportStatus = "The Laker Import Process has Completed.";
 		public const string SecureDbConnStrName = "BridgeportClaimsSecureConnectionString";
 		public const string ImeLetterName = "IME Letter.docx";

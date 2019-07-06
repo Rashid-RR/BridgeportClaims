@@ -52,6 +52,8 @@
   <ItemGroup>
     <Compile Include="BillingStatement\BillingStatementProvider.cs" />
     <Compile Include="BillingStatement\IBillingStatementProvider.cs" />
+    <Compile Include="EnvisionFileProcess\EnvisionFileProcessor.cs" />
+    <Compile Include="EnvisionFileProcess\IEnvisionFileProcessor.cs" />
     <Compile Include="LakerFileProcess\ILakerFileProcessor.cs" />
     <Compile Include="LakerFileProcess\LakerFileProcessor.cs" />
     <Compile Include="Models\PaymentInputsModel.cs" />

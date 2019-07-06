@@ -3,6 +3,7 @@ using System.Web;
 using System.Reflection;
 using Autofac.Integration.WebApi;
 using BridgeportClaims.Business.BillingStatement;
+using BridgeportClaims.Business.EnvisionFileProcess;
 using BridgeportClaims.Business.LakerFileProcess;
 using BridgeportClaims.Web.Email;
 using BridgeportClaims.Common.Caching;
@@ -90,6 +91,7 @@ namespace BridgeportClaims.Web.IoCConfig
             builder.RegisterType<AttorneyProvider>().As<IAttorneyProvider>().InstancePerRequest();
             builder.RegisterType<DecisionTreeDataProvider>().As<IDecisionTreeDataProvider>().InstancePerRequest();
             builder.RegisterType<InvoicePdfDocumentProvider>().As<IInvoicePdfDocumentProvider>().InstancePerRequest();
+            builder.RegisterType<EnvisionFileProcessor>().As<IEnvisionFileProcessor>().InstancePerRequest();
             builder.RegisterType<CachingClearingService>().As<ICachingClearingService>().InstancePerRequest();
             builder.RegisterType<ClaimImageProvider>().As<IClaimImageProvider>().InstancePerRequest();
             builder.RegisterType<CollectionAssignmentProvider>().As<ICollectionAssignmentProvider>().InstancePerRequest();

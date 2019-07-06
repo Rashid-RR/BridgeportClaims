@@ -115,23 +115,12 @@ namespace LakerFileImporter.Business
                 }
                 var newLakerFileNeededForProcessing = null == lastProcessedLakerFileFromDatabase || newestLakerFileInLocalDirectory.FileDate > lastProcessedLakerFileFromDatabase.FileDate;
                 var newEnvisionFileNeededForProcessing = null == lastProcessedEnvisionFileFromDatabase || newestEnvisionFileInLocalDirectory.FileDate > lastProcessedEnvisionFileFromDatabase.FileDate;
-                if (!newLakerFileNeededForProcessing || !newEnvisionFileNeededForProcessing)
+                if (!newLakerFileNeededForProcessing && !newEnvisionFileNeededForProcessing)
                 {
-                    if (!newLakerFileNeededForProcessing)
-                    {
-                        results.Add(LakerAndEnvisionFileProcessResult.NoLakerFileProcessingNecessary);
-                    }
-                    if (!newEnvisionFileNeededForProcessing)
-                    {
-                        results.Add(LakerAndEnvisionFileProcessResult.NoEnvisionFileProcessingNecessary);
-                    }
-                    return results;
+                    results.Add(LakerAndEnvisionFileProcessResult.NoLakerOrEnvisionFileProcessingNecessary);
                 }
-
-                var envisionResult = await UploadFileToApi(newestEnvisionFileInLocalDirectory.FullFileName,
-                    newestEnvisionFileInLocalDirectory.FileName, FileSource.Envision).ConfigureAwait(false);
-                var lakerResult = await UploadFileToApi(newestLakerFileInLocalDirectory.FullFileName,
-                    newestLakerFileInLocalDirectory.FileName, FileSource.Laker).ConfigureAwait(false);
+                var lakerResult = await UploadFileToApi(newestLakerFileInLocalDirectory.FullFileName, newestLakerFileInLocalDirectory.FileName, FileSource.Laker);
+                var envisionResult = await UploadFileToApi(newestEnvisionFileInLocalDirectory.FullFileName, newestEnvisionFileInLocalDirectory.FileName, FileSource.Envision);
                 results.Add(lakerResult);
                 results.Add(envisionResult);
                 return results;
@@ -148,20 +137,19 @@ namespace LakerFileImporter.Business
             // Upload and process Laker File on Server.
             var apiClient = new ApiClient();
             var bytes = File.ReadAllBytes(fullFileName);
-            var token = await apiClient.GetAuthenticationBearerTokenAsync().ConfigureAwait(false);
+            var token = await apiClient.GetAuthenticationBearerTokenAsync();
             var newFileName = fileName;
-            var succeededUpload = await apiClient.UploadFileToApiAsync(bytes, newFileName, token).ConfigureAwait(false);
+            var succeededUpload = await apiClient.UploadFileToApiAsync(bytes, newFileName, token);
             if (!succeededUpload)
             {
                 return fileSource == FileSource.Laker ? LakerAndEnvisionFileProcessResult.LakerFileFailedToUpload : LakerAndEnvisionFileProcessResult.EnvisionFileFailedToUpload;
             }
-            if (fileSource != FileSource.Laker)
-            {
-                return LakerAndEnvisionFileProcessResult.EnvisionFileFailedToProcess; // TODO: to be expected for now.
-            }
-
-            var succeededProcessing = await apiClient.ProcessLakerFileToApiAsync(token).ConfigureAwait(false);
-            return succeededProcessing ? LakerAndEnvisionFileProcessResult.LakerFileProcessStartedSuccessfully : LakerAndEnvisionFileProcessResult.LakerFileFailedToProcess;
+            var succeededProcessing = await apiClient.ProcessLakerFileToApiAsync(newFileName, token);
+            return !succeededProcessing ? fileSource == FileSource.Laker
+                    ? LakerAndEnvisionFileProcessResult.LakerFileFailedToProcess
+                    : LakerAndEnvisionFileProcessResult.EnvisionFileFailedToProcess
+                : fileSource == FileSource.Laker ? LakerAndEnvisionFileProcessResult.LakerFileProcessStartedSuccessfully
+                : LakerAndEnvisionFileProcessResult.EnvisionFileProcessStartedSuccessfully;
         }
     }
 }

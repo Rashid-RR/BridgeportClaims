@@ -5,7 +5,6 @@
         Unknown,
         WelcomeActivation,
         PasswordReset,
-        LakerImportStatus,
-        EnvisionImportStatus
+        LakerImportStatus
     }
 }
