@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using BridgeportClaims.Business.EnvisionFileProcess;
 using s = BridgeportClaims.Common.Constants.StringConstants;
 using BridgeportClaims.Common.Extensions;
+using BridgeportClaims.Data.DataProviders.ImportFiles;
 using BridgeportClaims.Web.Email.EmailModelGeneration;
 using BridgeportClaims.Web.Email.EmailTemplateProviders;
 using BridgeportClaims.Web.EmailTemplates;
@@ -24,11 +22,13 @@ namespace BridgeportClaims.Web.Controllers
         private static readonly Lazy<ILogger> Logger = new Lazy<ILogger>(LogManager.GetCurrentClassLogger);
         private readonly IEmailService _emailService;
         private readonly IEnvisionFileProcessor _envisionFileProcessor;
+        private readonly IImportFileProvider _importFileProvider;
 
-        public EnvisionAutomationController(IEmailService emailService, IEnvisionFileProcessor envisionFileProcessor)
+        public EnvisionAutomationController(IEmailService emailService, IEnvisionFileProcessor envisionFileProcessor, IImportFileProvider importFileProvider)
         {
             _emailService = emailService;
             _envisionFileProcessor = envisionFileProcessor;
+            _importFileProvider = importFileProvider;
         }
 
         [HttpPost]
@@ -62,13 +62,18 @@ namespace BridgeportClaims.Web.Controllers
             }
         }
 
-        private void StartBackgroundThread(string lakerFileName, string fullLakerFileTemporaryPath, string userEmail)
-            => Task.Factory.StartNew(() => ProcessLakerImport(/*lakerFileName, fullLakerFileTemporaryPath,*/ userEmail),
+        private void StartBackgroundThread(string envisionFileName, string fullEnvisionFileTemporaryPath, string userEmail)
+            => Task.Factory.StartNew(() => ProcessLakerImport(envisionFileName, fullEnvisionFileTemporaryPath, userEmail),
                 TaskCreationOptions.LongRunning);
 
-        private async Task ProcessLakerImport(string userEmail)
+        private async Task ProcessLakerImport(string envisionFileName, string fullEnvisionFileTemporaryPath, string userEmail)
         {
             const string msg = "The Envision File Import Process Ran Successfully!";
+            // Take a third-party CSV reader, and turn that temporarily saved laker file into a Data Table.
+            var dataTable = _importFileProvider.RetrieveDataTableFromFullFilePath(fullEnvisionFileTemporaryPath);
+            // Import the new file, into the new Staged Envision table that will be imported into the database
+            _importFileProvider.ImportDataTableIntoDatabase(dataTable);
+
             await _emailService.SendEmail<EmailTemplateProvider>(userEmail, msg, string.Empty,
                 EmailModelEnum.EnvisionImportStatus).ConfigureAwait(false);
         }
