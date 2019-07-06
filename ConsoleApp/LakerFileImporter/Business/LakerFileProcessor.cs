@@ -162,7 +162,6 @@ namespace LakerFileImporter.Business
             {
                 return LakerAndEnvisionFileProcessResult.EnvisionFileFailedToProcess; // TODO: to be expected for now.
             }
-
             var succeededProcessing = await apiClient.ProcessLakerFileToApiAsync(token).ConfigureAwait(false);
             return succeededProcessing ? LakerAndEnvisionFileProcessResult.LakerFileProcessStartedSuccessfully : LakerAndEnvisionFileProcessResult.LakerFileFailedToProcess;
         }

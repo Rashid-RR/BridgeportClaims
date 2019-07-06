@@ -95,7 +95,8 @@ namespace LakerFileImporter.IO
                     return null;
                 }
                 // Hard-coding the date (per Adam) never to pull any files prior to 6/22/2019.
-                var lastFiles = newFiles.Where(x => x.FileDate >= new DateTime(2019, 6, 22))
+                var firstDate = new DateTime(2019, 6, 22);
+                var lastFiles = newFiles.Where(x => x.FileDate >= firstDate)
                     .OrderByDescending(x => x.FileDate).Take(take).ToList();
                 return lastFiles;
             }

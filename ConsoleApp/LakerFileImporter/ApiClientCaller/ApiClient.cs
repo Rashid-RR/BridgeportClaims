@@ -118,7 +118,6 @@ namespace LakerFileImporter.ApiClientCaller
                 {
                     return false;
                 }
-
                 var jsonString = await result.Content.ReadAsStringAsync().ConfigureAwait(false);
                 var jObj = JsonObject.Parse(jsonString);
                 var message = jObj.Get<string>(Message);
