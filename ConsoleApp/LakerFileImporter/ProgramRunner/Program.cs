@@ -34,7 +34,7 @@ namespace LakerFileImporter.ProgramRunner
                         case LakerAndEnvisionFileProcessResult.NoLakerFilesFoundInFileDirectory:
                             logger.Info("No Laker files where found in the local file directory.");
                             break;
-                        case LakerAndEnvisionFileProcessResult.NoLakerOrEnvisionFileProcessingNecessary:
+                        case LakerAndEnvisionFileProcessResult.NoLakerFileProcessingNecessary:
                             logger.Info("No Laker file processing is necessary.");
                             break;
                         case LakerAndEnvisionFileProcessResult.LakerFileFailedToUpload:
@@ -60,6 +60,9 @@ namespace LakerFileImporter.ProgramRunner
                             break;
                         case LakerAndEnvisionFileProcessResult.EnvisionFileProcessStartedSuccessfully:
                             logger.Info("The Envision file process started successfully.");
+                            break;
+                        case LakerAndEnvisionFileProcessResult.NoEnvisionFileProcessingNecessary:
+                            logger.Info("No Envision file processing is necessary.");
                             break;
                         default:
                             throw new ArgumentOutOfRangeException();

@@ -80,13 +80,16 @@ namespace BridgeportClaims.Web.Controllers
                 _importFileProvider.LakerImportFileProcedureCall(dataTable);
                 // Finally, use the newly imported file, to Upsert the database.
                 if (cs.AppIsInDebugMode)
+                {
                     Logger.Value.Info("About to call EtlLakerFile()...");
+                }
                 _importFileProvider.EtlLakerFile(lakerFileName);
                 // And finally, mark the file processed.
                 _importFileProvider.MarkFileProcessed(lakerFileName);
-
                 if (cs.AppIsInDebugMode)
+                {
                     Logger.Value.Info("The file was marked as completed.");
+                }
                 const string msg = "The Laker File Import Process Ran Successfully!";
                 await _emailService.SendEmail<EmailTemplateProvider>(userEmail, msg, string.Empty,
                     EmailModelEnum.LakerImportStatus).ConfigureAwait(false);

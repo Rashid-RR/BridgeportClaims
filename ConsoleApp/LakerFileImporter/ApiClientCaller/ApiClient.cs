@@ -37,10 +37,10 @@ namespace LakerFileImporter.ApiClientCaller
                     {"grant_type", "password"}
                 };
                 request.Content = new FormUrlEncodedContent(dictionary);
-                var result = await client.SendAsync(request);
+                var result = await client.SendAsync(request).ConfigureAwait(false);
                 if (!result.IsSuccessStatusCode)
                     return null;
-                var jsonString = await result.Content.ReadAsStringAsync();
+                var jsonString = await result.Content.ReadAsStringAsync().ConfigureAwait(false);
                 var jObj = JsonObject.Parse(jsonString);
                 var token = jObj.Get<string>(AccessToken);
                 if (string.IsNullOrWhiteSpace(token) || !cs.AppIsInDebugMode) return token;
@@ -76,9 +76,12 @@ namespace LakerFileImporter.ApiClientCaller
                     new ContentDispositionHeaderValue("attachment") {FileName = fileName};
                 content.Add(fileContent);
                 client.DefaultRequestHeaders.TryAddWithoutValidation("Accept", "application/json");
-                var result = await client.PostAsync($"{_apiHostName}{apiUrlPath}", content);
+                var result = await client.PostAsync($"{_apiHostName}{apiUrlPath}", content).ConfigureAwait(false);
                 var retVal = result.IsSuccessStatusCode;
-                if (!cs.AppIsInDebugMode) return retVal;
+                if (!cs.AppIsInDebugMode)
+                {
+                    return retVal;
+                }
                 var methodName = MethodBase.GetCurrentMethod().Name;
                 var now = DateTime.Now.ToString("G");
                 Logger.Info(retVal
@@ -99,7 +102,7 @@ namespace LakerFileImporter.ApiClientCaller
             }
         }
 
-        internal async Task<bool> ProcessLakerFileToApiAsync(string newLakerFileName, string token)
+        internal async Task<bool> ProcessLakerFileToApiAsync(string token)
         {
             var apiUrlPath = cs.GetAppSetting(c.LakerFileProcessingApiUrlKey);
             var req = new HttpRequestMessage(HttpMethod.Post, $"{_apiHostName}{apiUrlPath}");
@@ -110,14 +113,19 @@ namespace LakerFileImporter.ApiClientCaller
                 var bearerToken = $"Bearer {token}";
                 req.Headers.TryAddWithoutValidation("Accept", "application/json");
                 req.Headers.TryAddWithoutValidation("Authorization", bearerToken);
-                var result = await client.SendAsync(req);
+                var result = await client.SendAsync(req).ConfigureAwait(false);
                 if (!result.IsSuccessStatusCode)
+                {
                     return false;
-                var jsonString = await result.Content.ReadAsStringAsync();
+                }
+
+                var jsonString = await result.Content.ReadAsStringAsync().ConfigureAwait(false);
                 var jObj = JsonObject.Parse(jsonString);
                 var message = jObj.Get<string>(Message);
                 if (cs.AppIsInDebugMode)
+                {
                     Logger.Info(message);
+                }
                 return !string.IsNullOrWhiteSpace(message) && !message.ToLower().Contains("error");
             }
             catch (Exception ex)

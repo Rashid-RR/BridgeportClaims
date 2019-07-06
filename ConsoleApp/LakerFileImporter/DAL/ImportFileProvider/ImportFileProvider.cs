@@ -46,7 +46,7 @@ namespace LakerFileImporter.DAL.ImportFileProvider
                         sqlCommand =>
                         {
                             sqlCommand.CommandType = CommandType.StoredProcedure;
-                            sqlCommand.CommandTimeout = 600;
+                            sqlCommand.CommandTimeout = 900;
                             if (connection.State != ConnectionState.Open)
                                 connection.Open();
                             return DisposableService.Using(sqlCommand.ExecuteReader, reader =>
