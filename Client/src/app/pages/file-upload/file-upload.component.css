@@ -51,3 +51,6 @@ tr:nth-of-type(odd) {
 tr:nth-of-type(even) {
   background: #fff8ef !important;
 }
+.progress{
+  margin-left: 3.5px;
+}

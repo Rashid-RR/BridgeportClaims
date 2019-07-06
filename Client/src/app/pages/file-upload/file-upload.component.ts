@@ -108,14 +108,37 @@ export class FileUploadComponent implements OnInit, AfterViewChecked {
   }
 
   importLaker(file: ImportFile) {
-    const disposable = this.dialogService.addDialog(ConfirmComponent, {
+    this.dialogService.addDialog(ConfirmComponent, {
       title: 'Process Laker File',
       message: 'You are about to import the Laker File ' + file.fileName + ' into the database. Would you like to proceed?'
+    }).subscribe((isConfirmed) => { 
+      if (isConfirmed) {
+        this.loading = true;
+        this.http.importLakerFile(file.fileName).subscribe(res => {
+          if (res.message === noLaker) {
+            this.toast.info(res.message);
+          } else {
+            this.toast.info(res.message, null, { timeOut: 10000 });
+          }
+          this.loading = false;
+          this.getFiles();
+        }, error => {
+          this.toast.info(error.message);
+          this.loading = false;
+        });
+      } else {
+      }
+    });
+  }
+  importEnvision(file: ImportFile) {
+    this.dialogService.addDialog(ConfirmComponent, {
+      title: 'Process Envision File',
+      message: 'You are about to import the Envision File ' + file.fileName + ' into the database. Would you like to proceed?'
     }).subscribe((isConfirmed) => {
       // We get dialog result
       if (isConfirmed) {
         this.loading = true;
-        this.http.importLakerFile(file.fileName).subscribe(res => {
+        this.http.importEnvision(file.importFileId).subscribe(res => {
           if (res.message === noLaker) {
             this.toast.info(res.message);
           } else {

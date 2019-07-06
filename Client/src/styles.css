@@ -1698,3 +1698,48 @@ app-new-episode .close-button {
 /* .navbar-static-top{
   display: inherit;
 } */
+button[color^="purple"],
+button[color^="success"],
+button[color^="warn"],
+button[color^="danger"],
+button[color^="purple"]:disabled,
+button[color^="success"]:disabled,
+button[color^="warn"]:disabled,
+button[color^="danger"]:disabled
+{
+  padding: 2px 14px 0px 13px;
+  height: 28px;
+  line-height: 28px;
+  margin: 1.5px 2.5px;
+}
+
+button[color^="purple"]:disabled,
+button[color^="success"]:disabled,
+button[color^="warn"]:disabled,
+button[color^="danger"]:disabled{
+  cursor:not-allowed;
+  opacity: 0.5
+}
+button[color^="purple"] .glyphicon,
+button[color^="success"] .glyphicon,
+button[color^="warn"] .glyphicon,
+button[color^="danger"] .glyphicon
+{
+  font-size: 15px;
+}
+.mat-success {
+  background-color: #084205;
+  color: #fff;
+}
+.mat-warn {
+  background-color: #f39c12;
+  color: #fff;
+}
+.mat-purple {
+  background-color: #414772;
+  color: #fff;
+}
+.mat-danger {
+  background-color: #f44336;
+  color: #fff;
+}

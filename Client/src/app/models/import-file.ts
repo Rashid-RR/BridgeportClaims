@@ -1,13 +1,13 @@
 export class ImportFile {
     createdOn: Date;
-    fileExtension: String;
-    fileName: String;
-    importFileId: Number;
-    fileSize: String;
-    fileType: String;
+    fileExtension: string;
+    fileName: string;
+    importFileId: number;
+    fileSize: string;
+    fileType: string;
     processed: any;
-    constructor(createdOn: Date, fileExtension: String, importFileId: Number, fileName: String, fileSize: String,
-      fileType: String,
+    constructor(createdOn: Date, fileExtension: string, importFileId: number, fileName: string, fileSize: string,
+      fileType: string,
       processed: any) {
       this.createdOn = createdOn;
       this.fileExtension = fileExtension;

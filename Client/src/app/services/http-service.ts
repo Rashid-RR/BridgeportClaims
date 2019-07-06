@@ -3,7 +3,7 @@
  * This service will serve to facilitate communication between app views and the web services
  */
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
+import {Observable, of } from 'rxjs';
 import {HttpClient, HttpHeaders, HttpParams, HttpResponse} from '@angular/common/http';
 import {UUID} from 'angular2-uuid';
 import {Router} from '@angular/router';
@@ -99,7 +99,7 @@ closeTreeWindows() {
       );
   }
 
-  importFile(id: String): Observable<any> {
+  importFile(id: string): Observable<any> {
     return this.http.post(this.baseUrl + '/ServerEvents/ImportPaymentFile/?fileName=' + id, {})
       .pipe(
         tap(_ => {
@@ -109,7 +109,7 @@ closeTreeWindows() {
       );
   }
 
-  importLakerFile(id: String): Observable<any> {
+  importLakerFile(id: string): Observable<any> {
     return this.http.post(this.baseUrl + '/laker/process?', {})
       .pipe(
         tap(_ => {
@@ -117,6 +117,9 @@ closeTreeWindows() {
           this.handleResponseError(error);
         })
       );
+  }
+  importEnvision(id: number): Observable<any> {
+    return of({message: 'Change this to call API to process envision instead...'});
   }
 
   updateProfile(data): Observable<any> {
@@ -1809,7 +1812,7 @@ closeTreeWindows() {
           this.handleResponseError(error);
         })
       );
-  };
+  }
 }
 
 export interface GlobalSearchResult {
