@@ -1465,9 +1465,9 @@ app-new-episode .close-button {
 .skin-black.sidebar-collapse .main-sidebar .sidebar-menu .popover .popover-arrow:before {
   border: none !important;
 }
-.skin-black.sidebar-collapse .main-sidebar .sidebar-menu .popover .popover-arrow {
+/* .skin-black.sidebar-collapse .main-sidebar .sidebar-menu .popover .popover-arrow {
   top: 20px !important;
-}
+} */
 .skin-black.sidebar-collapse .main-sidebar .sidebar-menu .popover .popover-content {
   font-size: 16px;
   color: #102695;
@@ -1689,9 +1689,9 @@ app-new-episode .close-button {
 .search .input-search.input-search--is-expanded .input-search__button:hover, .search .input-search.input-search--is-expanded .input-search__button.active {
   color: #112794 !important;
 }
-.notification popover-container .popover-arrow {
+/* .notification popover-container .popover-arrow {
   top: 18px !important;
-}
+} */
 .notification popover-container .popover-content {
   color: #112794;
 }

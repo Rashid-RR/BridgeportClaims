@@ -1,16 +1,6 @@
 <aside class="main-sidebar" *ngIf = "classList">
   <!-- sidebar: style can be found in sidebar.less -->
   <section class="sidebar">
-    <!-- Sidebar user panel -->
-    <!-- <div class="user-panel text-center" style="margin:0;padding:0">
-      <div class="image">
-        <img [src]="'assets/logo/sidebar-logo.png'" style="max-width: 70px;" class="img-square" [alt]="userName">
-      </div>
-      <div class="info" style="position:unset;left:0">
-        <p>{{userName}}</p>
-      </div>
-    </div> -->
-    <!-- sidebar menu: : style can be found in sidebar.less -->
     <ul class="sidebar-menu">
         <span></span>
       <li [class.active]="router.url.indexOf('/main/private')>-1">
@@ -85,7 +75,7 @@
             <!-- <i class="fa fa-tachometer" aria-hidden="true"></i> -->
             <span>References</span>
           </a>
-        </li>        
+        </li>
         <ng-container *ngIf="profileManager.profile && profileManager.profile.roles.indexOf('Admin') < 0
           && profileManager.profile.roles.indexOf('Indexer') < 0 && profileManager.profile.roles.indexOf('User') > -1">
           <li [class.active]="router.url.indexOf('/main/reports')>-1 && router.url.indexOf('/main/reports/invoices') === -1">
@@ -130,7 +120,7 @@
             <span>Invoices</span>
           </a>
         </li>
-        <ng-container *ngIf="profileManager.profile && profileManager.profile.roles.indexOf('Admin') < 0 && 
+        <ng-container *ngIf="profileManager.profile && profileManager.profile.roles.indexOf('Admin') < 0 &&
         ((profileManager.profile.roles.indexOf('User') > -1 && profileManager.profile.roles.indexOf('Indexer') > -1) || profileManager.profile.roles.indexOf('Indexer') > -1)">
           <li [class.active]="router.url.indexOf('/main/reports')>-1 && router.url.indexOf('/main/reports/invoices') === -1">
             <a [routerLink]="'/main/reports'"
@@ -198,7 +188,7 @@
     </ul>
     <div class="header">
       <!-- <img style='width: 20px;' src="assets/images/normal-state/history.png"> -->
-      <span>HISTORY</span>      
+      <span>HISTORY</span>
     </div>
     <ul class="sidebar-menu history-list" *ngIf="claimManager.claimHistory.length > 0">
         <ng-container *ngIf="!claimManager.loadingHistory">
