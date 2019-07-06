@@ -3,7 +3,7 @@ using System.Globalization;
 
 namespace LakerFileImporter.Helpers
 {
-    internal class LakerFileDateParsingHelper
+    internal class ImportFilesDateParsingHelper
     {
         private const char Slash = '/';
         internal string FileName { get; set; }

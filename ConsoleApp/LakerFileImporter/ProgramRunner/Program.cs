@@ -22,27 +22,48 @@ namespace LakerFileImporter.ProgramRunner
                     logger.Info($"Entered the {methodName} method on {now}");
                 }
                 var driver = new LakerFileProcessor();
-                var result = driver.UploadAndProcessLakerFileIfNecessary().GetAwaiter().GetResult();
-                if (!cs.AppIsInDebugMode) return;
-                switch (result)
+                var results = driver.UploadAndProcessLakerFileIfNecessary().GetAwaiter().GetResult();
+                if (!cs.AppIsInDebugMode)
                 {
-                    case LakerAndEnvisionFileProcessResult.NoFilesFoundInFileDirectory:
-                        logger.Info("No Laker files where found in the local file directory.");
-                        break;
-                    case LakerAndEnvisionFileProcessResult.NoLakerFileProcessingNecessary:
-                        logger.Info("No Laker file processing is necessary.");
-                        break;
-                    case LakerAndEnvisionFileProcessResult.LakerFileFailedToUpload:
-                        logger.Info("Laker file failed to upload.");
-                        break;
-                    case LakerAndEnvisionFileProcessResult.LakerFileFailedToProcess:
-                        logger.Info("Laker file failed to process.");
-                        break;
-                    case LakerAndEnvisionFileProcessResult.LakerFileProcessStartedSuccessfully:
-                        logger.Info("The Laker file process started successfully.");
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
+                    return;
+                }
+                foreach (var result in results)
+                {
+                    switch (result)
+                    {
+                        case LakerAndEnvisionFileProcessResult.NoLakerFilesFoundInFileDirectory:
+                            logger.Info("No Laker files where found in the local file directory.");
+                            break;
+                        case LakerAndEnvisionFileProcessResult.NoLakerOrEnvisionFileProcessingNecessary:
+                            logger.Info("No Laker file processing is necessary.");
+                            break;
+                        case LakerAndEnvisionFileProcessResult.LakerFileFailedToUpload:
+                            logger.Info("Laker file failed to upload.");
+                            break;
+                        case LakerAndEnvisionFileProcessResult.LakerFileFailedToProcess:
+                            logger.Info("Laker file failed to process.");
+                            break;
+                        case LakerAndEnvisionFileProcessResult.LakerFileProcessStartedSuccessfully:
+                            logger.Info("The Laker file process started successfully.");
+                            break;
+                        case LakerAndEnvisionFileProcessResult.NoEnvisionFilesFoundInFileDirectory:
+                            logger.Info("No Envision files where found in the local file directory.");
+                            break;
+                        case LakerAndEnvisionFileProcessResult.MonthYearFolderCouldNotBeCreatedInLocalDirectory:
+                            logger.Info("The month and year folder for either file type could not be created successfully.");
+                            break;
+                        case LakerAndEnvisionFileProcessResult.EnvisionFileFailedToUpload:
+                            logger.Info("Envision file failed to upload.");
+                            break;
+                        case LakerAndEnvisionFileProcessResult.EnvisionFileFailedToProcess:
+                            logger.Info("Envision file failed to process.");
+                            break;
+                        case LakerAndEnvisionFileProcessResult.EnvisionFileProcessStartedSuccessfully:
+                            logger.Info("The Envision file process started successfully.");
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException();
+                    }
                 }
             }
             catch (TaskCanceledException ex)

@@ -75,7 +75,7 @@ namespace LakerFileImporter.ApiClientCaller
                 fileContent.Headers.ContentDisposition =
                     new ContentDispositionHeaderValue("attachment") {FileName = fileName};
                 content.Add(fileContent);
-                client.DefaultRequestHeaders.TryAddWithoutValidation("Accept", "appplication/json");
+                client.DefaultRequestHeaders.TryAddWithoutValidation("Accept", "application/json");
                 var result = await client.PostAsync($"{_apiHostName}{apiUrlPath}", content);
                 var retVal = result.IsSuccessStatusCode;
                 if (!cs.AppIsInDebugMode) return retVal;

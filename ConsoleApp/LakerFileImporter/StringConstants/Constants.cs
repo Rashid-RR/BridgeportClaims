@@ -27,5 +27,6 @@
         public const string EnvisionSftpHostKey = "EnvisionSftpHost";
         public const string EnvisionSftpRemoteSitePathKey = "EnvisionSftpRemoteSitePath";
         public const string EnvisionFilePathKey = "EnvisionFilePath";
+        public const string EnvisionFileTypeName = "Envision Import";
     }
 }

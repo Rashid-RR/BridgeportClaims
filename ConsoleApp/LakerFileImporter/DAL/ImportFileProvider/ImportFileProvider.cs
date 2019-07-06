@@ -18,10 +18,13 @@ namespace LakerFileImporter.DAL.ImportFileProvider
     {
         private static readonly Logger Logger = LoggingService.Instance.Logger;
 
-        internal IList<LakerImportFileDto> GetImportFileDtos()
+        internal IList<LakerImportFileDto> GetImportFiles()
         {
-            var files = GetImportFileDtosInternal();
-            if (!cs.AppIsInDebugMode) return files;
+            var files = GetImportFilesFromDatabase();
+            if (!cs.AppIsInDebugMode)
+            {
+                return files;
+            }
             var methodName = MethodBase.GetCurrentMethod().Name;
             var now = DateTime.Now.ToString("G");
             var fileCount = files?.Count;
@@ -31,7 +34,7 @@ namespace LakerFileImporter.DAL.ImportFileProvider
             return files;
         }
 
-        private static IList<LakerImportFileDto> GetImportFileDtosInternal()
+        private static IList<LakerImportFileDto> GetImportFilesFromDatabase()
         {
             try
             {
@@ -65,14 +68,16 @@ namespace LakerFileImporter.DAL.ImportFileProvider
                                         FileSize = reader.GetString(fileSizeOrdinal),
                                         FileType = reader.GetString(fileTypeOrdinal),
                                         Processed = reader.GetBoolean(processedOrdinal),
-                                        CreatedOn = !reader.IsDBNull(createdOnLocalOrdinal)
-                                            ? reader.GetDateTime(createdOnLocalOrdinal)
-                                            : DateTime.Now
+                                        CreatedOn = !reader.IsDBNull(createdOnLocalOrdinal) ? reader.GetDateTime(createdOnLocalOrdinal) : DateTime.Now
                                     };
                                     if (!reader.IsDBNull(fileExtensionOrdinal))
+                                    {
                                         file.FileExtension = reader.GetString(fileExtensionOrdinal);
-                                    if (file.FileType == c.LakerFileTypeName)
+                                    }
+                                    if (file.FileType == c.LakerFileTypeName || file.FileType == c.EnvisionFileTypeName)
+                                    {
                                         files.Add(file);
+                                    }
                                 }
                                 var retList = files.ToList();
                                 return retList;

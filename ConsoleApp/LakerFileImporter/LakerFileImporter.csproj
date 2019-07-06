@@ -113,7 +113,7 @@
     <Compile Include="DAL\ImportFileProvider\ImportFileProvider.cs" />
     <Compile Include="Disposable\DisposableService.cs" />
     <Compile Include="Enums\FileSource.cs" />
-    <Compile Include="Helpers\LakerFileDateParsingHelper.cs" />
+    <Compile Include="Helpers\ImportFilesDateParsingHelper.cs" />
     <Compile Include="IO\IoHelper.cs" />
     <Compile Include="Logging\LoggingConfigurator.cs" />
     <Compile Include="Logging\LoggingService.cs" />

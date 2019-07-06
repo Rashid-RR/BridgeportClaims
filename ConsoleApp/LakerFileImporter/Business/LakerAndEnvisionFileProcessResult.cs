@@ -2,12 +2,16 @@
 {
     internal enum LakerAndEnvisionFileProcessResult
     {
-        NoFilesFoundInFileDirectory,
+        NoLakerFilesFoundInFileDirectory,
+        NoEnvisionFilesFoundInFileDirectory,
         MonthYearFolderCouldNotBeCreatedInLocalDirectory,
-        NoLakerFileProcessingNecessary,
+        NoLakerOrEnvisionFileProcessingNecessary,
         LakerFileFailedToUpload,
         LakerFileFailedToProcess,
-        LakerFileProcessStartedSuccessfully
+        EnvisionFileFailedToProcess,
+        LakerFileProcessStartedSuccessfully,
+        EnvisionFileProcessStartedSuccessfully,
+        EnvisionFileFailedToUpload
     }
 
     internal enum ImportFileType

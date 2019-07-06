@@ -44,23 +44,25 @@ namespace LakerFileImporter.IO
             }
         }
 
-        internal LakerFileDateParsingHelper BrowseDirectoryToLocateFile(FileSource fileSource)
+        internal ImportFilesDateParsingHelper BrowseDirectoryToLocateFile(FileSource fileSource)
         {
             try
             {
                 var directoryInfo = new DirectoryInfo(GetFullLocalFilePathPlusMonthYearFolderByDate(DateTime.Now, fileSource));
                 var files = directoryInfo.GetFiles()
-                    .Where(x => !string.IsNullOrWhiteSpace(x.Name) && x.Name.StartsWith("Billing_Claim_File_") && x.Name.EndsWith(".csv"))
+                    .Where(x => !string.IsNullOrWhiteSpace(x.Name) && (x.Name.StartsWith("Billing_Claim_File_") || x.Name.StartsWith("ENVexport_BPC_")) && x.Name.EndsWith(".csv"))
                     .OrderByDescending(p => p.CreationTime)
                     .Take(Convert.ToInt32(cs.GetAppSetting(c.FileProcessorTopNumberKey))).ToList();
                 // Now traverse the top, however many files to find the latest.
-                var newFiles = files.Select(s => new LakerFileDateParsingHelper
+                var newFiles = files.Select(s => new ImportFilesDateParsingHelper
                 {
                     FileName = s.Name,
                     FullFileName = s.FullName
                 }).ToList();
                 if (newFiles.Count < 1)
+                {
                     return null;
+                }
                 var newestFullFileName = newFiles.OrderByDescending(x => x.FileDate).FirstOrDefault();
                 return newestFullFileName;
             }
