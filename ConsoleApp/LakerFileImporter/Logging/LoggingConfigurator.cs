@@ -1,8 +1,8 @@
 ﻿using System.Data;
-using LakerFileImporter.Security;
 using NLog;
 using NLog.Targets;
 using NLog.Config;
+using cs = LakerFileImporter.ConfigService.ConfigService;
 
 namespace LakerFileImporter.Logging
 {
@@ -17,7 +17,7 @@ namespace LakerFileImporter.Logging
             var dbTarget = new DatabaseTarget();
             config.AddTarget("Database", dbTarget);
 
-            dbTarget.ConnectionString = new CompiledSecurityProvider().RawConnectionString;
+            dbTarget.ConnectionString = cs.GetDbConnStr();
             dbTarget.CommandType = CommandType.StoredProcedure;
             dbTarget.CommandText = "[dbo].[uspNLogInsert]";
             dbTarget.Name = "db";

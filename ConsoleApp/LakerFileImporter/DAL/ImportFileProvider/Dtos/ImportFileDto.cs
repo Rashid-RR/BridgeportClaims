@@ -4,7 +4,7 @@ using LakerFileImporter.Helpers;
 
 namespace LakerFileImporter.DAL.ImportFileProvider.Dtos
 {
-	internal sealed class LakerImportFileDto
+	internal sealed class ImportFileDto
 	{
 		[Required]
 		public int ImportFileId { get; set; }
@@ -23,6 +23,6 @@ namespace LakerFileImporter.DAL.ImportFileProvider.Dtos
 		[Required]
 		public DateTime? CreatedOn { get; set; }
 
-		public DateTime FileDate => ImportFilesDateParsingHelper.GetDateTimeParsedFromFileName(FileName);
+		public DateTime FileDate => ImportFileModel.GetDateTimeParsedFromFileName(FileName);
 	}
 }

@@ -32,6 +32,7 @@ namespace BridgeportClaims.Web.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         [Route("process")]
         public IHttpActionResult ProcessEnvisionFile(int importFileId)
         {
@@ -63,10 +64,10 @@ namespace BridgeportClaims.Web.Controllers
         }
 
         private void StartBackgroundThread(string envisionFileName, string fullEnvisionFileTemporaryPath, string userEmail)
-            => Task.Factory.StartNew(() => ProcessLakerImport(envisionFileName, fullEnvisionFileTemporaryPath, userEmail),
+            => Task.Factory.StartNew(() => ProcessEnvisionImport(envisionFileName, fullEnvisionFileTemporaryPath, userEmail),
                 TaskCreationOptions.LongRunning);
 
-        private async Task ProcessLakerImport(string envisionFileName, string fullEnvisionFileTemporaryPath, string userEmail)
+        private async Task ProcessEnvisionImport(string envisionFileName, string fullEnvisionFileTemporaryPath, string userEmail)
         {
             const string msg = "The Envision File Import Process Ran Successfully!";
             // Take a third-party CSV reader, and turn that temporarily saved laker file into a Data Table.

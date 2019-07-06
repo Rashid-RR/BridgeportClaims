@@ -386,7 +386,7 @@ namespace BridgeportClaims.Data.DataProviders.ImportFiles
                 }
                 importFileTypeId = conn.QuerySingleOrDefault<int>(query, commandType: CommandType.Text);
             });
-            if (default(int) == importFileTypeId)
+            if (default == importFileTypeId)
             {
                 throw new Exception(
                     "Error. The util.ImportFileType table does not have any records WHERE Code == 'OT'.");

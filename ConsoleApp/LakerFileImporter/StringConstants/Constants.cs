@@ -2,7 +2,6 @@
 {
     public static class Constants
     {
-        public const string DbConnStrName = "BridgeportClaimsConnectionString";
         public const string AppIsInDebugMode = "ApplicationIsInDebugMode";
         public const string FileProcessorTopNumberKey = "FileProcessorTopNumber";
         public const string FileUploadApiHostNameKey = "FileUploadApiHostName";
@@ -28,5 +27,7 @@
         public const string EnvisionSftpRemoteSitePathKey = "EnvisionSftpRemoteSitePath";
         public const string EnvisionFilePathKey = "EnvisionFilePath";
         public const string EnvisionFileTypeName = "Envision Import";
+        public const string EnvisionFileProcessingCountKey = "EnvisionFileProcessingCount";
+        public const string EmptyEnvisionFileByteSizeKey = "EmptyEnvisionFileByteSize";
     }
 }

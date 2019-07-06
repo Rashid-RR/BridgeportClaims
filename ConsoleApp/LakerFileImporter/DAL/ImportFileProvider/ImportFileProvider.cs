@@ -7,7 +7,6 @@ using System.Reflection;
 using LakerFileImporter.DAL.ImportFileProvider.Dtos;
 using LakerFileImporter.Disposable;
 using LakerFileImporter.Logging;
-using LakerFileImporter.Security;
 using cs = LakerFileImporter.ConfigService.ConfigService;
 using c = LakerFileImporter.StringConstants.Constants;
 using NLog;
@@ -18,7 +17,7 @@ namespace LakerFileImporter.DAL.ImportFileProvider
     {
         private static readonly Logger Logger = LoggingService.Instance.Logger;
 
-        internal IList<LakerImportFileDto> GetImportFiles()
+        internal IList<ImportFileDto> GetImportFiles()
         {
             var files = GetImportFilesFromDatabase();
             if (!cs.AppIsInDebugMode)
@@ -34,13 +33,12 @@ namespace LakerFileImporter.DAL.ImportFileProvider
             return files;
         }
 
-        private static IList<LakerImportFileDto> GetImportFilesFromDatabase()
+        private static IList<ImportFileDto> GetImportFilesFromDatabase()
         {
             try
             {
-                var files = new List<LakerImportFileDto>();
-                var connStr = new CompiledSecurityProvider().RawConnectionString;
-                return DisposableService.Using(() => new SqlConnection(connStr), connection =>
+                var files = new List<ImportFileDto>();
+                return DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), connection =>
                 {
                     return DisposableService.Using(() => new SqlCommand("dbo.uspGetImportFile", connection),
                         sqlCommand =>
@@ -61,7 +59,7 @@ namespace LakerFileImporter.DAL.ImportFileProvider
 
                                 while (reader.Read())
                                 {
-                                    var file = new LakerImportFileDto
+                                    var file = new ImportFileDto
                                     {
                                         ImportFileId = reader.GetInt32(importFileIdOrdinal),
                                         FileName = reader.GetString(fileNameOrdinal),

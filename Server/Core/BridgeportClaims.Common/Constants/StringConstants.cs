@@ -11,7 +11,8 @@
 		public const string GetUserByIdAction = "GetUserById";
 		public const string EmailWelcomeActivationTemplateEmailSubject =
 			"Thank you for Registering to BridgeportClaims.com, Please Activate your Email Address";
-		public const string PasswordResetTemplateEmailSubject =
+        public const string EnvisionImportStatus = "The Envision Import Process has Completed.";
+        public const string PasswordResetTemplateEmailSubject =
 			"Forgotten Password Assistance from BridgeportClaims.com";
 		public const string AspNetIdentity = "ASP.NET Identity";
 		public const string ConfirmEmailRouteAction = "ConfirmEmailRoute";

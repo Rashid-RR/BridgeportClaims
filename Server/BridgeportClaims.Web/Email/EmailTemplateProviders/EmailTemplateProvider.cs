@@ -17,18 +17,28 @@ namespace BridgeportClaims.Web.Email.EmailTemplateProviders
             var emailViewModel = model as EmailViewModel;
             if (null == emailViewModel)
                 throw new ArgumentNullException(nameof(emailViewModel));
-            var templateKeyInternal =
-                emailViewModel.EmailModelEnum == EmailModelEnum.WelcomeActivation
-                    ? "WelcomeActivation"
-                    : "PasswordReset";
-            var razorFile = emailViewModel.EmailModelEnum == EmailModelEnum.WelcomeActivation
-                ? "WelcomeActivation.cshtml"
-                : emailViewModel.EmailModelEnum == EmailModelEnum.LakerImportStatus
-                    ? "LakerImportStatus.cshtml"
-                    : emailViewModel.EmailModelEnum == EmailModelEnum.PasswordReset
-                        ? "PasswordReset.cshtml"
-                        : throw new Exception("Could not find valid email model");
-
+            var templateKeyInternal = emailViewModel.EmailModelEnum == EmailModelEnum.WelcomeActivation ? "WelcomeActivation" : "PasswordReset";
+            string razorFile;
+            switch (emailViewModel.EmailModelEnum)
+            {
+                case EmailModelEnum.WelcomeActivation:
+                    razorFile = "WelcomeActivation.cshtml";
+                    break;
+                case EmailModelEnum.LakerImportStatus:
+                    razorFile = "LakerImportStatus.cshtml";
+                    break;
+                case EmailModelEnum.PasswordReset:
+                    razorFile = "PasswordReset.cshtml";
+                    break;
+                case EmailModelEnum.EnvisionImportStatus:
+                    razorFile = "EnvisionImportStatus.cshtml";
+                    break;
+                case EmailModelEnum.Unknown:
+                    razorFile = string.Empty;
+                    break;
+                default:
+                    throw new Exception("Could not find valid email model");
+            }
             var config = new TemplateServiceConfiguration
             {
                 Language = Language.CSharp,

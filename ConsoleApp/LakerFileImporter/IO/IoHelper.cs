@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using c = LakerFileImporter.StringConstants.Constants;
 using cs = LakerFileImporter.ConfigService.ConfigService;
 using System.IO;
@@ -22,7 +23,7 @@ namespace LakerFileImporter.IO
             return pathWithMonthDirectory;
         }
 
-        internal bool CreateMonthAndYearFolderIfNecessary(FileSource fileSource)
+        internal static bool CreateMonthAndYearFolderIfNecessary(FileSource fileSource)
         {
             try
             {
@@ -44,17 +45,17 @@ namespace LakerFileImporter.IO
             }
         }
 
-        internal ImportFilesDateParsingHelper BrowseDirectoryToLocateFile(FileSource fileSource)
+        internal static ImportFileModel BrowseDirectoryToLocateFile()
         {
             try
             {
-                var directoryInfo = new DirectoryInfo(GetFullLocalFilePathPlusMonthYearFolderByDate(DateTime.Now, fileSource));
+                var directoryInfo = new DirectoryInfo(GetFullLocalFilePathPlusMonthYearFolderByDate(DateTime.Now, FileSource.Laker));
                 var files = directoryInfo.GetFiles()
-                    .Where(x => !string.IsNullOrWhiteSpace(x.Name) && (x.Name.StartsWith("Billing_Claim_File_") || x.Name.StartsWith("ENVexport_BPC_")) && x.Name.EndsWith(".csv"))
+                    .Where(x => !string.IsNullOrWhiteSpace(x.Name) && x.Name.StartsWith("Billing_Claim_File_") && x.Name.EndsWith(".csv"))
                     .OrderByDescending(p => p.CreationTime)
                     .Take(Convert.ToInt32(cs.GetAppSetting(c.FileProcessorTopNumberKey))).ToList();
                 // Now traverse the top, however many files to find the latest.
-                var newFiles = files.Select(s => new ImportFilesDateParsingHelper
+                var newFiles = files.Select(s => new ImportFileModel
                 {
                     FileName = s.Name,
                     FullFileName = s.FullName
@@ -65,6 +66,38 @@ namespace LakerFileImporter.IO
                 }
                 var newestFullFileName = newFiles.OrderByDescending(x => x.FileDate).FirstOrDefault();
                 return newestFullFileName;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                throw;
+            }
+        }
+
+        internal static IList<ImportFileModel> BrowseDirectoryForTenEnvisionFiles()
+        {
+            try
+            {
+                var take = Convert.ToInt32(cs.GetAppSetting(c.EnvisionFileProcessingCountKey));
+                var directoryInfo = new DirectoryInfo(GetFullLocalFilePathPlusMonthYearFolderByDate(DateTime.Now, FileSource.Envision));
+                var files = directoryInfo.GetFiles().Where(x =>
+                        !string.IsNullOrWhiteSpace(x.Name) && x.Name.StartsWith("ENVexport_BPC_") &&
+                        x.Name.EndsWith(".csv"))
+                    .OrderByDescending(p => p.CreationTime)
+                    .Take(take).ToList();
+                var newFiles = files.Select(x => new ImportFileModel
+                {
+                    FileName = x.Name,
+                    FullFileName = x.FullName
+                }).ToList();
+                if (newFiles.Count < 1)
+                {
+                    return null;
+                }
+                // Hard-coding the date (per Adam) never to pull any files prior to 6/22/2019.
+                var lastFiles = newFiles.Where(x => x.FileDate >= new DateTime(2019, 6, 22))
+                    .OrderByDescending(x => x.FileDate).Take(take).ToList();
+                return lastFiles;
             }
             catch (Exception ex)
             {
