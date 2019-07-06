@@ -5,20 +5,13 @@
         NoLakerFilesFoundInFileDirectory,
         NoEnvisionFilesFoundInFileDirectory,
         MonthYearFolderCouldNotBeCreatedInLocalDirectory,
-        NoLakerOrEnvisionFileProcessingNecessary,
+        NoLakerFileProcessingNecessary,
+        NoEnvisionFileProcessingNecessary,
         LakerFileFailedToUpload,
         LakerFileFailedToProcess,
         EnvisionFileFailedToProcess,
         LakerFileProcessStartedSuccessfully,
         EnvisionFileProcessStartedSuccessfully,
         EnvisionFileFailedToUpload
-    }
-
-    internal enum ImportFileType
-    {
-        LakerImport = 1,
-        PaymentImport = 2,
-        Other = 3,
-        EnvisionImport = 4
     }
 }

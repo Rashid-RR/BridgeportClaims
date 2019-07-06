@@ -115,12 +115,23 @@ namespace LakerFileImporter.Business
                 }
                 var newLakerFileNeededForProcessing = null == lastProcessedLakerFileFromDatabase || newestLakerFileInLocalDirectory.FileDate > lastProcessedLakerFileFromDatabase.FileDate;
                 var newEnvisionFileNeededForProcessing = null == lastProcessedEnvisionFileFromDatabase || newestEnvisionFileInLocalDirectory.FileDate > lastProcessedEnvisionFileFromDatabase.FileDate;
-                if (!newLakerFileNeededForProcessing && !newEnvisionFileNeededForProcessing)
+                if (!newLakerFileNeededForProcessing || !newEnvisionFileNeededForProcessing)
                 {
-                    results.Add(LakerAndEnvisionFileProcessResult.NoLakerOrEnvisionFileProcessingNecessary);
+                    if (!newLakerFileNeededForProcessing)
+                    {
+                        results.Add(LakerAndEnvisionFileProcessResult.NoLakerFileProcessingNecessary);
+                    }
+                    if (!newEnvisionFileNeededForProcessing)
+                    {
+                        results.Add(LakerAndEnvisionFileProcessResult.NoEnvisionFileProcessingNecessary);
+                    }
+                    return results;
                 }
-                var lakerResult = await UploadFileToApi(newestLakerFileInLocalDirectory.FullFileName, newestLakerFileInLocalDirectory.FileName, FileSource.Laker);
-                var envisionResult = await UploadFileToApi(newestEnvisionFileInLocalDirectory.FullFileName, newestEnvisionFileInLocalDirectory.FileName, FileSource.Envision);
+
+                var envisionResult = await UploadFileToApi(newestEnvisionFileInLocalDirectory.FullFileName,
+                    newestEnvisionFileInLocalDirectory.FileName, FileSource.Envision).ConfigureAwait(false);
+                var lakerResult = await UploadFileToApi(newestLakerFileInLocalDirectory.FullFileName,
+                    newestLakerFileInLocalDirectory.FileName, FileSource.Laker).ConfigureAwait(false);
                 results.Add(lakerResult);
                 results.Add(envisionResult);
                 return results;
@@ -137,19 +148,20 @@ namespace LakerFileImporter.Business
             // Upload and process Laker File on Server.
             var apiClient = new ApiClient();
             var bytes = File.ReadAllBytes(fullFileName);
-            var token = await apiClient.GetAuthenticationBearerTokenAsync();
+            var token = await apiClient.GetAuthenticationBearerTokenAsync().ConfigureAwait(false);
             var newFileName = fileName;
-            var succeededUpload = await apiClient.UploadFileToApiAsync(bytes, newFileName, token);
+            var succeededUpload = await apiClient.UploadFileToApiAsync(bytes, newFileName, token).ConfigureAwait(false);
             if (!succeededUpload)
             {
                 return fileSource == FileSource.Laker ? LakerAndEnvisionFileProcessResult.LakerFileFailedToUpload : LakerAndEnvisionFileProcessResult.EnvisionFileFailedToUpload;
             }
-            var succeededProcessing = await apiClient.ProcessLakerFileToApiAsync(newFileName, token);
-            return !succeededProcessing ? fileSource == FileSource.Laker
-                    ? LakerAndEnvisionFileProcessResult.LakerFileFailedToProcess
-                    : LakerAndEnvisionFileProcessResult.EnvisionFileFailedToProcess
-                : fileSource == FileSource.Laker ? LakerAndEnvisionFileProcessResult.LakerFileProcessStartedSuccessfully
-                : LakerAndEnvisionFileProcessResult.EnvisionFileProcessStartedSuccessfully;
+            if (fileSource != FileSource.Laker)
+            {
+                return LakerAndEnvisionFileProcessResult.EnvisionFileFailedToProcess; // TODO: to be expected for now.
+            }
+
+            var succeededProcessing = await apiClient.ProcessLakerFileToApiAsync(token).ConfigureAwait(false);
+            return succeededProcessing ? LakerAndEnvisionFileProcessResult.LakerFileProcessStartedSuccessfully : LakerAndEnvisionFileProcessResult.LakerFileFailedToProcess;
         }
     }
 }

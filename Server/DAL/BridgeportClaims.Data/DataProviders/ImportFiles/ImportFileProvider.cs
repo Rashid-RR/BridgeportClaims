@@ -8,11 +8,11 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using BridgeportClaims.Common.Config;
-using BridgeportClaims.Common.Constants;
 using BridgeportClaims.Common.Disposable;
 using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.Dtos;
 using cs = BridgeportClaims.Common.Config.ConfigService;
+using s = BridgeportClaims.Common.Constants.StringConstants;
 using BridgeportClaims.CsvReader.CsvReaders;
 using Dapper;
 
@@ -77,7 +77,7 @@ namespace BridgeportClaims.Data.DataProviders.ImportFiles
                     conn.Open();
                 }
                 oldestLakeFileName = conn.QuerySingleOrDefault<string>(sp,
-                    new {FileNameStartsWith = StringConstants.LakeFileNameStartsWithString},
+                    new {FileNameStartsWith = s.LakeFileNameStartsWithString},
                     commandType: CommandType.StoredProcedure);
             });
             if (!oldestLakeFileName.IsNotNullOrWhiteSpace())
@@ -289,15 +289,19 @@ namespace BridgeportClaims.Data.DataProviders.ImportFiles
             // Other            OT
             if (fileName.StartsWith("Billing_Claim_File_"))
             {
-                code = StringConstants.LakerImportImportFileTypeCode;
+                code = s.LakerImportImportFileTypeCode;
             }
             else if (fileName.EndsWith("Payments.xlsx"))
             {
-                code = StringConstants.PaymentImportFileTypeCode;
+                code = s.PaymentImportFileTypeCode;
+            }
+            else if (fileName.StartsWith("ENVexport_BPC_"))
+            {
+                code = s.EnvisionImportImportFileTypeCode;
             }
             else
             {
-                code = StringConstants.OtherImportFileTypeCode;
+                code = s.OtherImportFileTypeCode;
                 processed = true;
             }
             var importFileTypeId = default (int);
@@ -344,6 +348,10 @@ namespace BridgeportClaims.Data.DataProviders.ImportFiles
 
         public static string GetFileSize(double byteCount)
         {
+            if (cs.AppIsInDebugMode)
+            {
+                Logger.Value.Info($"The actual byte count for this file is {byteCount}");
+            }
             var size = "0 Bytes";
             if (byteCount >= 1073741824.0)
                 size = $"{byteCount / 1073741824.0:##.##}" + " GB";
