@@ -29,7 +29,7 @@ namespace BridgeportClaims.Data.DataProviders.ImportFiles
         }
 
 
-        public void LakerImportFileProcedureCall(DataTable dataTable, bool debugOnly = false)
+        public void ImportDataTableIntoDatabase(DataTable dataTable, bool debugOnly = false)
         {
             DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
@@ -118,16 +118,21 @@ namespace BridgeportClaims.Data.DataProviders.ImportFiles
             throw new IOException($"Error. Unable to save the Laker CSV file to {fullFilePath}");
         }
 
-        public DataTable RetrieveDataTableFromLatestLakerFile(string fullFilePathOfLatestLakerFile)
+        public DataTable RetrieveDataTableFromFullFilePath(string fullFilePath)
         {
-            if (fullFilePathOfLatestLakerFile.IsNullOrWhiteSpace())
-                throw new Exception("The full file path to the latest Laker CSV doesn't exist.");
-            var dt = _csvReaderProvider.ReadCsvFile(fullFilePathOfLatestLakerFile, true);
-            if (null == dt) throw new Exception($"Could not read CSV into Data Table from {fullFilePathOfLatestLakerFile}");
-            // Cleanup temporary file.
-            if (File.Exists(fullFilePathOfLatestLakerFile))
+            if (fullFilePath.IsNullOrWhiteSpace())
             {
-                File.Delete(fullFilePathOfLatestLakerFile);
+                throw new Exception("The full file path to the latest Laker CSV doesn't exist.");
+            }
+            var dt = _csvReaderProvider.ReadCsvFile(fullFilePath, true);
+            if (null == dt)
+            {
+                throw new Exception($"Could not read CSV into Data Table from {fullFilePath}");
+            }
+            // Cleanup temporary file.
+            if (File.Exists(fullFilePath))
+            {
+                File.Delete(fullFilePath);
             }
             return dt;
         }
