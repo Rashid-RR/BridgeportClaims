@@ -1,64 +1,64 @@
 <header class="main-header">
-    <div class="site-logo">
-        <!-- Logo -->
-        <a [routerLink]="!disableLinks ?  '/' : []" class="logo" style="background-color: white;"
-            [class.disabled]="disableLinks">
-            <!-- mini logo for sidebar mini 50x50 pixels -->
-            <!-- <span class="logo-mini" style="color:black">
+  <div class="site-logo">
+    <!-- Logo -->
+    <a [routerLink]="!disableLinks ?  '/' : []" class="logo" style="background-color: white;"
+      [class.disabled]="disableLinks">
+      <!-- mini logo for sidebar mini 50x50 pixels -->
+      <!-- <span class="logo-mini" style="color:black">
                 <b>BR</b>-C</span> -->
-            <!-- logo for regular state and mobile devices -->
-            <span class="logo-lg" style="margin-top: -50px;">
-                <img src="assets/logo/name.png" style="width: 200px;" alt="Bridgeport Claims" />
-            </span>
-        </a>
-        <a style="cursor:pointer" (click)="sidebarToggle()" class="sidebar-toggle" data-toggle="offcanvas" role="button"
-            *ngIf="profileManager.profile">
-            <i class="fa fa-bars"></i>
-            <!-- <img style='width: 20px;' class="bar" src="assets/images/normal-state/collapse.png"> -->
-        </a>
-    </div>
-    <div class="header-navbar">
-        <ng-container *ngIf="profileManager.profile">
-            <!-- <div class="left">
+      <!-- logo for regular state and mobile devices -->
+      <span class="logo-lg" style="margin-top: -50px;">
+        <img src="assets/logo/name.png" style="width: 200px;" alt="Bridgeport Claims" />
+      </span>
+    </a>
+    <a style="cursor:pointer" (click)="sidebarToggle()" class="sidebar-toggle" data-toggle="offcanvas" role="button"
+      *ngIf="profileManager.profile">
+      <i class="fa fa-bars"></i>
+      <!-- <img style='width: 20px;' class="bar" src="assets/images/normal-state/collapse.png"> -->
+    </a>
+  </div>
+  <div class="header-navbar">
+    <ng-container *ngIf="profileManager.profile">
+      <!-- <div class="left">
                 <div class="search-icon">
                     <mat-icon aria-hidden="false">search</mat-icon>
                     <mat-icon aria-hidden="false">expand_more</mat-icon>
                 </div>
                 <div class="search">Search Here</div>
             </div> -->
-            <div class="search">
-                <app-header-claim-search></app-header-claim-search>
-            </div>
-        </ng-container>
-        <nav class="navbar navbar-static-top">
-            <!-- Sidebar toggle button, check if user is logged in-->
-            <!-- <a style="cursor:pointer" (click)="sidebarToggle()" class="sidebar-toggle" data-toggle="offcanvas" role="button"
+      <div class="search">
+        <app-header-claim-search *ngIf="!isClient"></app-header-claim-search>
+      </div>
+    </ng-container>
+    <nav class="navbar navbar-static-top">
+      <!-- Sidebar toggle button, check if user is logged in-->
+      <!-- <a style="cursor:pointer" (click)="sidebarToggle()" class="sidebar-toggle" data-toggle="offcanvas" role="button"
                 *ngIf="profileManager.profile">
                 <i class="fa fa-align-justify"></i>
             </a> -->
-            <ul *ngIf="isTestDomain" class="nav navbar isTestDomain"
-                style="width:  fit-content; clear:  none;display:  flex;  flex-direction: row;margin-right:  0px;float: left;">
-                <li>
-                    <a>THIS IS A TESTING SITE ONLY</a>
-                </li>
-            </ul>
-            <!-- Top right menu items, also check if user is logged in-->
-            <div class="navbar-custom-menu cust-nav">
-                <ul class="nav navbar-nav">
-                    <ng-container *ngIf="!profileManager.profile">
-                        <li class="display-date">
-                            <i class="fa fa-calendar" aria-hidden="true"></i> {{ date | date }}</li>
-                        <li>
-                            <a [routerLinkActive]="'active'" [routerLink]="'/register'">
-                                <i class="fa fa-user-plus" aria-hidden="true"></i>Register</a>
-                        </li>
-                        <li>
-                            <a [routerLinkActive]="'active'" [routerLink]="'/login'">
-                                <i class="fa fa-sign-in" aria-hidden="true"></i>
-                                Login</a>
-                        </li>
-                    </ng-container>
-                    <!-- <ng-container *ngIf="profileManager.profile">
+      <ul *ngIf="isTestDomain" class="nav navbar isTestDomain"
+        style="width:  fit-content; clear:  none;display:  flex;  flex-direction: row;margin-right:  0px;float: left;">
+        <li>
+          <a>THIS IS A TESTING SITE ONLY</a>
+        </li>
+      </ul>
+      <!-- Top right menu items, also check if user is logged in-->
+      <div class="navbar-custom-menu cust-nav">
+        <ul class="nav navbar-nav">
+          <ng-container *ngIf="!profileManager.profile">
+            <li class="display-date">
+              <i class="fa fa-calendar" aria-hidden="true"></i> {{ date | date }}</li>
+            <li>
+              <a [routerLinkActive]="'active'" [routerLink]="'/register'">
+                <i class="fa fa-user-plus" aria-hidden="true"></i>Register</a>
+            </li>
+            <li>
+              <a [routerLinkActive]="'active'" [routerLink]="'/login'">
+                <i class="fa fa-sign-in" aria-hidden="true"></i>
+                Login</a>
+            </li>
+          </ng-container>
+          <!-- <ng-container *ngIf="profileManager.profile">
                         <li class="display-date">
                             <i class="fa fa-calendar" aria-hidden="true"></i>
                             {{ date | date }}
@@ -89,58 +89,64 @@
                                 alt="Version #" />
                         </p>
                     </ng-container> -->
-                </ul>
+        </ul>
+      </div>
+      <ng-container *ngIf="profileManager.profile">
+        <ng-container *ngIf="!isClient">
+          <div dropdown #dropdown="bs-dropdown" [insideClick]="true" class="notification"
+            [popover]="notificationCount == 0 ? 'No new Notifications...' : ''" triggers="mouseenter:mouseleave"
+            placement="left">
+            <img src="assets/images/normal-state/notification.png" dropdownToggle class="dropdown-toggle"
+              aria-controls="dropdown-basic">
+            <span class='notification-count' *ngIf="notificationCount>0">{{notificationCount}}</span>
+            <!-- <mat-icon  dropdownToggle  class="dropdown-toggle" aria-controls="dropdown-basic" aria-hidden="false">notifications_none</mat-icon> -->
+            <!-- <i class="fa fa-bell-o dropdown-toggle" aria-hidden="true" dropdownToggle aria-controls="dropdown-basic"></i> -->
+            <div id="dropdown-basic" *dropdownMenu class="dropdown-menu" role="menu">
+              <!-- <mat-card>
+                              <mat-card-content>
+                                  <div class="mat-header">
+                                      <div class="message">Message</div>
+                                      <div class="type">Type</div>
+                                  </div>
+                                  <div class="mat-content">
+                                      <div class="message">
+                                          It is a long established fact that a reader will be distracted by the readab...
+                                      </div>
+                                      <div class="type">
+                                          <span>Payor Lettor Name</span>
+                                          <button mat-flat-button color="primary">Set Letter Name</button>
+                                      </div>
+                                  </div>
+                              </mat-card-content>
+                          </mat-card> -->
+              <app-notification-details></app-notification-details>
             </div>
-            <ng-container *ngIf="profileManager.profile">
-                <div dropdown #dropdown="bs-dropdown" [insideClick] = "true" class="notification">
-                    <img [popover]="notificationCount == 0 ? 'No new Notifications...' : ''" triggers="mouseenter:mouseleave" placement="left" src="assets/images/normal-state/notification.png" dropdownToggle  class="dropdown-toggle" aria-controls="dropdown-basic">
-                    <span class='notification-count' *ngIf="notificationCount>0">{{notificationCount}}</span>
-                    <!-- <mat-icon  dropdownToggle  class="dropdown-toggle" aria-controls="dropdown-basic" aria-hidden="false">notifications_none</mat-icon> -->
-                    <!-- <i class="fa fa-bell-o dropdown-toggle" aria-hidden="true" dropdownToggle aria-controls="dropdown-basic"></i> -->
-                    <div id="dropdown-basic" *dropdownMenu class="dropdown-menu" role="menu">
-                        <!-- <mat-card>
-                            <mat-card-content>
-                                <div class="mat-header">
-                                    <div class="message">Message</div>
-                                    <div class="type">Type</div>
-                                </div>
-                                <div class="mat-content">
-                                    <div class="message">
-                                        It is a long established fact that a reader will be distracted by the readab...
-                                    </div>
-                                    <div class="type">
-                                        <span>Payor Lettor Name</span>
-                                        <button mat-flat-button color="primary">Set Letter Name</button>
-                                    </div>
-                                </div>
-                            </mat-card-content>
-                        </mat-card> -->
-                        <app-notification-details></app-notification-details>
-                    </div>
-                </div>
-                <div class="profile text-center"  [matMenuTriggerFor]="menu" style="margin:0;padding:0">
-                    <div class="image">
+          </div>
+        </ng-container>
+        <div class="profile text-center" [matMenuTriggerFor]="menu" style="margin:0;padding:0">
+          <div class="image">
 
-                        <img src="{{imgSrc}}"  style="width: 40px;" class="img-square" [alt]="userName">
-                    </div>
-                    <div class="info">
-                        <p>{{userName}}</p>
-                        <mat-icon aria-hidden="false">arrow_drop_down</mat-icon>
-                        <mat-menu #menu="matMenu" class="myClass">
-                            <div class="menu-item">
-                                <button mat-menu-item routerLinkActive="/main/profile" [class.disabled]="disableLinks"
-                                [routerLink]="!disableLinks ?  '/main/profile' : []">
-                                    <mat-icon aria-hidden="false">person</mat-icon> My Account
-                                </button>
-                                <button mat-menu-item routerLinkActive="active" [class.disabled]="disableLinks" (click)="!disableLinks ? logout() : ''">
-                                        <mat-icon aria-hidden="false">power_settings_new</mat-icon> Logout
-                                </button>
-                                <div class="ver-info">Version 35.0</div>
-                            </div>
-                        </mat-menu>
-                    </div>
-                </div>
-            </ng-container>
-        </nav>
+            <img src="{{imgSrc}}" style="width: 40px;" class="img-square" [alt]="userName">
+          </div>
+          <div class="info">
+            <p>{{userName}}</p>
+            <mat-icon aria-hidden="false">arrow_drop_down</mat-icon>
+            <mat-menu #menu="matMenu" class="myClass">
+              <div class="menu-item">
+                <button mat-menu-item routerLinkActive="/main/profile" [class.disabled]="disableLinks"
+                  [routerLink]="!disableLinks ?  '/main/profile' : []">
+                  <mat-icon aria-hidden="false">person</mat-icon> My Account
+                </button>
+                <button mat-menu-item routerLinkActive="active" [class.disabled]="disableLinks"
+                  (click)="!disableLinks ? logout() : ''">
+                  <mat-icon aria-hidden="false">power_settings_new</mat-icon> Logout
+                </button>
+                <div class="ver-info">Version 35.0</div>
+              </div>
+            </mat-menu>
+          </div>
+        </div>
+      </ng-container>
+    </nav>
 
-    </div>
+  </div>
