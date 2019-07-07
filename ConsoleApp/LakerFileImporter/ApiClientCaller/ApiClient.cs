@@ -103,7 +103,7 @@ namespace LakerFileImporter.ApiClientCaller
             }
         }
 
-        internal async Task<bool> ProcessLakerFileToApiAsync(string token, FileSource fileSource)
+        internal async Task<bool> ProcessImportFileToApiAsync(string token, FileSource fileSource)
         {
             var lakerApiUrlPath = cs.GetAppSetting(c.LakerFileProcessingApiUrlKey);
             var envisionApiUrlPath = cs.GetAppSetting(c.EnvisionFileProcessingApiUrlKey);

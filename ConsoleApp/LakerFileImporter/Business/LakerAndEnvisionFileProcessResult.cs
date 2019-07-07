@@ -12,6 +12,8 @@
         EnvisionFileFailedToProcess,
         LakerFileProcessStartedSuccessfully,
         EnvisionFileProcessStartedSuccessfully,
-        EnvisionFileFailedToUpload
+        EnvisionFileFailedToUpload,
+        LakerFileUploadedSuccessfully,
+        EnvisionFileUploadedSuccessfully
     }
 }

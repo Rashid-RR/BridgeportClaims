@@ -42,7 +42,8 @@ namespace LakerFileImporter.Business
                 var dbFiles = importFileProvider.GetImportFiles();
                 // Grab the last, processed files from the database.
                 var lastProcessedLakerFileFromDatabase = dbFiles?.Where(p => p.Processed && p.FileType == c.LakerFileTypeName).OrderByDescending(x => x.FileDate).FirstOrDefault();
-                var unprocessedEnvisionFilesFromDatabase = dbFiles?.Where(p => p.FileType == c.EnvisionFileTypeName).OrderByDescending(x => x.FileDate).ToList();
+                var lastUnprocessedLakerFileFromDatabase = dbFiles?.Where(p => !p.Processed && p.FileType == c.LakerFileTypeName).OrderByDescending(x => x.FileDate).FirstOrDefault();
+                var envisionFilesFromDatabase = dbFiles?.Where(p => p.FileType == c.EnvisionFileTypeName).OrderByDescending(x => x.FileDate).ToList();
                 // Ok, so now we have the latest file that has been processed in the database.
                 if (null != lastProcessedLakerFileFromDatabase && cs.AppIsInDebugMode)
                 {
@@ -91,7 +92,9 @@ namespace LakerFileImporter.Business
                 var newestLakerFileInLocalDirectory = IoHelper.BrowseDirectoryToLocateFile();
                 var envisionFiles = IoHelper.BrowseDirectoryForTenEnvisionFiles();
                 // Process Envision Files.
-                await UploadAndProcessEnvisionFilesAsync(envisionFiles, unprocessedEnvisionFilesFromDatabase);
+                await UploadEnvisionFilesAsync(envisionFiles, envisionFilesFromDatabase);
+                // TODO: Process Envision files.
+
                 // Move on to Laker File.
                 if (null == newestLakerFileInLocalDirectory)
                 {
@@ -113,9 +116,17 @@ namespace LakerFileImporter.Business
                     results.Add(LakerAndEnvisionFileProcessResult.NoLakerFileProcessingNecessary);
                     return results;
                 }
-                var lakerResult = await UploadFileToApiAsync(newestLakerFileInLocalDirectory.FullFileName,
-                    newestLakerFileInLocalDirectory.FileName, FileSource.Laker).ConfigureAwait(false);
-                results.Add(lakerResult);
+                var isLatestLakerFileAlreadyUploaded = null != lastUnprocessedLakerFileFromDatabase && newestLakerFileInLocalDirectory.FileDate == lastUnprocessedLakerFileFromDatabase.FileDate;
+                if (!isLatestLakerFileAlreadyUploaded)
+                {
+                    var lakerResult = await UploadFileToApiAsync(newestLakerFileInLocalDirectory.FullFileName,
+                        newestLakerFileInLocalDirectory.FileName, FileSource.Laker).ConfigureAwait(false);
+                    results.Add(lakerResult);
+                    return results;
+                }
+                // Else, if the Laker file is already there, just not processed, then process it.
+                var result = await ProcessFileToApiAsync(FileSource.Laker).ConfigureAwait(false);
+                results.Add(result);
                 return results;
             }
             catch (Exception ex)
@@ -125,25 +136,34 @@ namespace LakerFileImporter.Business
             }
         }
 
-        private static async Task UploadAndProcessEnvisionFilesAsync(IEnumerable<ImportFileModel> files, IList<ImportFileDto> unprocessedEnvisionFilesFromDatabase)
+        private static async Task UploadEnvisionFilesAsync(IEnumerable<ImportFileModel> files,
+            IList<ImportFileDto> unprocessedEnvisionFilesFromDatabase)
         {
-            var emptyEnvisionFileByteSize = Convert.ToInt32(cs.GetAppSetting(c.EmptyEnvisionFileByteSizeKey));
-            foreach (var file in files)
+            try
             {
-                var fileInfo = new FileInfo(file.FullFileName);
-                // If the file is empty, ignore it
-                if (fileInfo.Length <= emptyEnvisionFileByteSize)
+                var emptyEnvisionFileByteSize = Convert.ToInt32(cs.GetAppSetting(c.EmptyEnvisionFileByteSizeKey));
+                foreach (var file in files)
                 {
-                    continue;
+                    var fileInfo = new FileInfo(file.FullFileName);
+                    // If the file is empty, ignore it
+                    if (fileInfo.Length <= emptyEnvisionFileByteSize)
+                    {
+                        continue;
+                    }
+                    // If the file is already uploaded, ignore it.
+                    if (unprocessedEnvisionFilesFromDatabase.Any(x =>
+                        string.Equals(x.FileName, file.FileName, StringComparison.CurrentCultureIgnoreCase)))
+                    {
+                        continue;
+                    }
+                    await UploadFileToApiAsync(file.FullFileName, file.FileName, FileSource.Envision).ConfigureAwait(false);
                 }
-                // If the file is already uploaded, ignore it.
-                if (unprocessedEnvisionFilesFromDatabase.Any(x => string.Equals(x.FileName, file.FileName, StringComparison.CurrentCultureIgnoreCase)))
-                {
-                    continue;
-                }
-                await UploadFileToApiAsync(file.FullFileName, file.FileName, FileSource.Envision);
             }
-            
+            catch (Exception ex)
+            {
+                Logger.Value.Error(ex);
+                throw;
+            }
         }
 
         private static async Task<LakerAndEnvisionFileProcessResult> UploadFileToApiAsync(string fullFileName, string fileName, FileSource fileSource)
@@ -158,7 +178,14 @@ namespace LakerFileImporter.Business
             {
                 return fileSource == FileSource.Laker ? LakerAndEnvisionFileProcessResult.LakerFileFailedToUpload : LakerAndEnvisionFileProcessResult.EnvisionFileFailedToUpload;
             }
-            var succeededProcessing = await apiClient.ProcessLakerFileToApiAsync(token, fileSource).ConfigureAwait(false);
+            return fileSource == FileSource.Laker ? LakerAndEnvisionFileProcessResult.LakerFileUploadedSuccessfully : LakerAndEnvisionFileProcessResult.EnvisionFileUploadedSuccessfully;
+        }
+
+        private static async Task<LakerAndEnvisionFileProcessResult> ProcessFileToApiAsync(FileSource fileSource)
+        {
+            var apiClient = new ApiClient();
+            var token = await apiClient.GetAuthenticationBearerTokenAsync().ConfigureAwait(false);
+            var succeededProcessing = await apiClient.ProcessImportFileToApiAsync(token, fileSource).ConfigureAwait(false);
             if (fileSource == FileSource.Laker)
             {
                 return succeededProcessing ? LakerAndEnvisionFileProcessResult.LakerFileProcessStartedSuccessfully : LakerAndEnvisionFileProcessResult.LakerFileFailedToProcess;

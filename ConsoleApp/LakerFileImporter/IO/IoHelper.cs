@@ -81,10 +81,8 @@ namespace LakerFileImporter.IO
                 var take = Convert.ToInt32(cs.GetAppSetting(c.EnvisionFileProcessingCountKey));
                 var directoryInfo = new DirectoryInfo(GetFullLocalFilePathPlusMonthYearFolderByDate(DateTime.Now, FileSource.Envision));
                 var files = directoryInfo.GetFiles().Where(x =>
-                        !string.IsNullOrWhiteSpace(x.Name) && x.Name.StartsWith("ENVexport_BPC_") &&
-                        x.Name.EndsWith(".csv"))
-                    .OrderByDescending(p => p.CreationTime)
-                    .Take(take).ToList();
+                    !string.IsNullOrWhiteSpace(x.Name) && x.Name.StartsWith("ENVexport_BPC_") &&
+                    x.Name.EndsWith(".csv"));
                 var newFiles = files.Select(x => new ImportFileModel
                 {
                     FileName = x.Name,

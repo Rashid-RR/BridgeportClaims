@@ -212,7 +212,7 @@
                                                 <strong>{{ file?.processed }}</strong>
                                             </td>
                                             <td>
-                                                <strong>{{ file?.fileDate | date:"shortDate" }}</strong>
+                                              <strong>{{ file?.createdOn | date:"shortDate" }} {{ file?.createdOn | date:"shortTime"}}</strong>
                                             </td>
                                             <td nowrap>
                                                 <!-- TODO: Create a "Process Payments" button -->

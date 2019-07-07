@@ -1,18 +1,15 @@
+import { DatePipe } from '@angular/common';
 import { Component, NgZone, OnInit } from '@angular/core';
-import { ClaimManager } from '../../services/claim-manager';
-import { ClaimImage } from '../../models/claim-image';
-import { DocumentItem } from '../../models/document';
-import { DocumentType } from '../../models/document-type';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { DialogService } from 'ng2-bootstrap-modal';
+import { ToastrService } from 'ngx-toastr';
 import { SortColumnInfo } from '../../directives/table-sort.directive';
+import { ClaimImage } from '../../models/claim-image';
+import { ClaimManager } from '../../services/claim-manager';
 import { HttpService } from '../../services/http-service';
 import { EpisodeNoteModalComponent } from '../components-barrel';
-import { WindowsInjetor, CustomPosition, Size, WindowConfig } from '../ng-window';
-import { UnindexedImageFileComponent } from '../../pages/unindexed-image-file/unindexed-image-file.component';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ConfirmComponent } from '../confirm.component';
-import { DialogService } from 'ng2-bootstrap-modal';
-import { DatePipe, DecimalPipe } from '@angular/common';
-import { ToastrService } from 'ngx-toastr';
+import { CustomPosition, Size, WindowConfig, WindowsInjetor } from '../ng-window';
 declare var $: any;
 
 @Component({
@@ -96,6 +93,7 @@ export class ClaimImagesComponent implements OnInit {
         image.attorneyName = data.attorneyName;
         const type = this.claimManager.selectedClaim.documentTypes.find(t => t.documentTypeId === this.form.get('documentTypeId').value);
         image.type = type.typeName;
+        const shit = this.claimManager.selectedClaim.images;
         this.cancel();
       }, error => {
         this.toast.error(error.message);
