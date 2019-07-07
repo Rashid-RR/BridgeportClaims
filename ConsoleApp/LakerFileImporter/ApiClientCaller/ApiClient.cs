@@ -5,6 +5,7 @@ using System.Net.Http.Headers;
 using System.Net.Http;
 using System.Reflection;
 using System.Threading.Tasks;
+using LakerFileImporter.Enums;
 using LakerFileImporter.Logging;
 using LakerFileImporter.Security;
 using ServiceStack.Text;
@@ -102,10 +103,12 @@ namespace LakerFileImporter.ApiClientCaller
             }
         }
 
-        internal async Task<bool> ProcessLakerFileToApiAsync(string token)
+        internal async Task<bool> ProcessLakerFileToApiAsync(string token, FileSource fileSource)
         {
-            var apiUrlPath = cs.GetAppSetting(c.LakerFileProcessingApiUrlKey);
-            var req = new HttpRequestMessage(HttpMethod.Post, $"{_apiHostName}{apiUrlPath}");
+            var lakerApiUrlPath = cs.GetAppSetting(c.LakerFileProcessingApiUrlKey);
+            var envisionApiUrlPath = cs.GetAppSetting(c.EnvisionFileProcessingApiUrlKey);
+            var urlPath = fileSource == FileSource.Laker ? lakerApiUrlPath : envisionApiUrlPath;
+            var req = new HttpRequestMessage(HttpMethod.Post, $"{_apiHostName}{urlPath}");
 
             var client = new HttpClient();
             try

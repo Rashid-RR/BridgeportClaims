@@ -22,7 +22,7 @@ namespace LakerFileImporter.ProgramRunner
                     logger.Info($"Entered the {methodName} method on {now}");
                 }
                 var driver = new LakerFileProcessor();
-                var results = driver.UploadAndProcessLakerFileIfNecessary().GetAwaiter().GetResult();
+                var results = driver.UploadAndProcessLakerFileIfNecessaryAsync().GetAwaiter().GetResult();
                 if (!cs.AppIsInDebugMode)
                 {
                     return;

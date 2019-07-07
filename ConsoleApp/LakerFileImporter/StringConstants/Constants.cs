@@ -29,5 +29,6 @@
         public const string EnvisionFileTypeName = "Envision Import";
         public const string EnvisionFileProcessingCountKey = "EnvisionFileProcessingCount";
         public const string EmptyEnvisionFileByteSizeKey = "EmptyEnvisionFileByteSize";
+        public const string EnvisionFileProcessingApiUrlKey = "EnvisionFileProcessingApiUrl";
     }
 }

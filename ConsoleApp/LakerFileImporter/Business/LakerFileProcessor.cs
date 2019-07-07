@@ -26,7 +26,7 @@ namespace LakerFileImporter.Business
         /// Boolean returns whether or not the process was even necessary (and successful)
         /// </summary>
         /// <returns></returns>
-        internal async Task<List<LakerAndEnvisionFileProcessResult>> UploadAndProcessLakerFileIfNecessary()
+        internal async Task<List<LakerAndEnvisionFileProcessResult>> UploadAndProcessLakerFileIfNecessaryAsync()
         {
             try
             {
@@ -91,7 +91,7 @@ namespace LakerFileImporter.Business
                 var newestLakerFileInLocalDirectory = IoHelper.BrowseDirectoryToLocateFile();
                 var envisionFiles = IoHelper.BrowseDirectoryForTenEnvisionFiles();
                 // Process Envision Files.
-                await UploadNecessaryEnvisionFiles(envisionFiles, unprocessedEnvisionFilesFromDatabase);
+                await UploadAndProcessEnvisionFilesAsync(envisionFiles, unprocessedEnvisionFilesFromDatabase);
                 // Move on to Laker File.
                 if (null == newestLakerFileInLocalDirectory)
                 {
@@ -113,7 +113,7 @@ namespace LakerFileImporter.Business
                     results.Add(LakerAndEnvisionFileProcessResult.NoLakerFileProcessingNecessary);
                     return results;
                 }
-                var lakerResult = await UploadFileToApi(newestLakerFileInLocalDirectory.FullFileName,
+                var lakerResult = await UploadFileToApiAsync(newestLakerFileInLocalDirectory.FullFileName,
                     newestLakerFileInLocalDirectory.FileName, FileSource.Laker).ConfigureAwait(false);
                 results.Add(lakerResult);
                 return results;
@@ -125,7 +125,7 @@ namespace LakerFileImporter.Business
             }
         }
 
-        private static async Task UploadNecessaryEnvisionFiles(IEnumerable<ImportFileModel> files, IList<ImportFileDto> unprocessedEnvisionFilesFromDatabase)
+        private static async Task UploadAndProcessEnvisionFilesAsync(IEnumerable<ImportFileModel> files, IList<ImportFileDto> unprocessedEnvisionFilesFromDatabase)
         {
             var emptyEnvisionFileByteSize = Convert.ToInt32(cs.GetAppSetting(c.EmptyEnvisionFileByteSizeKey));
             foreach (var file in files)
@@ -141,12 +141,12 @@ namespace LakerFileImporter.Business
                 {
                     continue;
                 }
-                await UploadFileToApi(file.FullFileName, file.FileName, FileSource.Envision);
+                await UploadFileToApiAsync(file.FullFileName, file.FileName, FileSource.Envision);
             }
             
         }
 
-        private static async Task<LakerAndEnvisionFileProcessResult> UploadFileToApi(string fullFileName, string fileName, FileSource fileSource)
+        private static async Task<LakerAndEnvisionFileProcessResult> UploadFileToApiAsync(string fullFileName, string fileName, FileSource fileSource)
         {
             // Upload and process Laker File on Server.
             var apiClient = new ApiClient();
@@ -158,12 +158,12 @@ namespace LakerFileImporter.Business
             {
                 return fileSource == FileSource.Laker ? LakerAndEnvisionFileProcessResult.LakerFileFailedToUpload : LakerAndEnvisionFileProcessResult.EnvisionFileFailedToUpload;
             }
-            if (fileSource != FileSource.Laker)
+            var succeededProcessing = await apiClient.ProcessLakerFileToApiAsync(token, fileSource).ConfigureAwait(false);
+            if (fileSource == FileSource.Laker)
             {
-                return LakerAndEnvisionFileProcessResult.EnvisionFileFailedToProcess; // TODO: to be expected for now.
+                return succeededProcessing ? LakerAndEnvisionFileProcessResult.LakerFileProcessStartedSuccessfully : LakerAndEnvisionFileProcessResult.LakerFileFailedToProcess;
             }
-            var succeededProcessing = await apiClient.ProcessLakerFileToApiAsync(token).ConfigureAwait(false);
-            return succeededProcessing ? LakerAndEnvisionFileProcessResult.LakerFileProcessStartedSuccessfully : LakerAndEnvisionFileProcessResult.LakerFileFailedToProcess;
+            return succeededProcessing ? LakerAndEnvisionFileProcessResult.EnvisionFileProcessStartedSuccessfully : LakerAndEnvisionFileProcessResult.EnvisionFileFailedToProcess;
         }
     }
 }
