@@ -46,7 +46,7 @@ namespace BridgeportClaims.Web.Controllers
 		{
 			try
 			{
-			        var files = _importFileProvider.Value.GetImportFileDtos();
+			        var files = _importFileProvider.Value.GetImportFiles();
 			        return Ok(files);
 			}
 			catch (Exception ex)

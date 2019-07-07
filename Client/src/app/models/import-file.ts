@@ -6,9 +6,9 @@ export class ImportFile {
     fileSize: string;
     fileType: string;
     processed: any;
-    constructor(createdOn: Date, fileExtension: string, importFileId: number, fileName: string, fileSize: string,
-      fileType: string,
-      processed: any) {
+    fileDate: Date | string | null;
+    constructor(createdOn: Date, fileExtension: string, importFileId: number,
+                fileName: string, fileSize: string, fileType: string, processed: any, fileDate: Date | string | null) {
       this.createdOn = createdOn;
       this.fileExtension = fileExtension;
       this.importFileId = importFileId;
@@ -16,5 +16,6 @@ export class ImportFile {
       this.fileSize = fileSize;
       this.fileType = fileType;
       this.processed = processed;
+      this.fileDate = fileDate;
     }
-  }
+}

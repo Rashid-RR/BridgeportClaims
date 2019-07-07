@@ -31,7 +31,7 @@
                         <!-- File Upload For CSV -->
                         <div class="image-upload">
                             <label for="file-input-csv">
-                                <img src="assets/img/Laker_File_Upload.jpg" style="pointer-events: none; width: 300px; " />
+                                <img src="assets/img/file-uploads/Button1.png" style="pointer-events: none; width: 300px; " />
                             </label>
                             <input id="file-input-csv" accept=".csv" type="file" ng2FileSelect [uploader]="uploaderCsv" multiple />
                         </div>
@@ -212,7 +212,7 @@
                                                 <strong>{{ file?.processed }}</strong>
                                             </td>
                                             <td>
-                                                <strong>{{ file?.createdOn | date:"shortDate" }} {{ file?.createdOn | date:"shortTime"}}</strong>
+                                                <strong>{{ file?.fileDate | date:"shortDate" }}</strong>
                                             </td>
                                             <td nowrap>
                                                 <button mat-raised-button *ngIf="file.fileType=='Payment Import' && !file.processed" type="button" color="purple" (click)="process(file)">

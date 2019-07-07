@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using BridgeportClaims.Common.Disposable;
+using BridgeportClaims.Common.Enums;
 using DataAccess;
 using LumenWorks.Framework.IO.Csv;
 using DataTable = System.Data.DataTable;
@@ -19,22 +20,26 @@ namespace BridgeportClaims.CsvReader.CsvReaders
             _csvToolsProvider = csvToolsProvider;
         }
 
-        public DataTable ReadCsvFile(string fullFilePath, bool useCsvTools)
+        public DataTable ReadLakerCsvFile(string fullFilePath, bool useCsvTools, FileSource fileSource)
         {
             try
             {
                 if (useCsvTools)
                 {
                     var dt = _csvToolsProvider.ReadCsvFile(fullFilePath);
-                    var retVal = ConvertToDataTable(dt.Rows);
+                    var retVal = fileSource == FileSource.Laker
+                        ? ConvertToLakerDataTable(dt.Rows)
+                        : ConvertToEnvisionDataTable(dt.Rows);
                     return retVal;
                 }
-                return DisposableService.Using(() => new CachedCsvReader(new StreamReader(fullFilePath), false, '\t'), csv =>
-                {
-                    var table = new DataTable();
-                    table.Load(csv);
-                    return table;
-                });
+                return DisposableService.Using(
+                    () => new CachedCsvReader(new StreamReader(fullFilePath), fileSource == FileSource.Envision,
+                        fileSource == FileSource.Laker ? '\t' : ','), csv =>
+                    {
+                        var table = new DataTable();
+                        table.Load(csv);
+                        return table;
+                    });
             }
             catch (ArgumentOutOfRangeException ex)
             {
@@ -48,7 +53,82 @@ namespace BridgeportClaims.CsvReader.CsvReaders
             }
         }
 
-        private static DataTable ConvertToDataTable(IEnumerable<Row> rows)
+        private static DataTable ConvertToEnvisionDataTable(IEnumerable<Row> rows)
+        {
+            var dt = new DataTable();
+            dt.Columns.Add("CarrierID", typeof(string));
+            dt.Columns.Add("GroupID", typeof(string));
+            dt.Columns.Add("LocationCode", typeof(string));
+            dt.Columns.Add("MemberID", typeof(string));
+            dt.Columns.Add("PersonCode", typeof(string));
+            dt.Columns.Add("LastName", typeof(string));
+            dt.Columns.Add("FirstName", typeof(string));
+            dt.Columns.Add("RelCode", typeof(string));
+            dt.Columns.Add("DOB", typeof(string));
+            dt.Columns.Add("Gender", typeof(string));
+            dt.Columns.Add("SSN", typeof(string));
+            dt.Columns.Add("HICN", typeof(string));
+            dt.Columns.Add("Subgroup", typeof(string));
+            dt.Columns.Add("FillDate", typeof(string));
+            dt.Columns.Add("WrittenDate", typeof(string));
+            dt.Columns.Add("ProcessDate", typeof(string));
+            dt.Columns.Add("ProcessTime", typeof(string));
+            dt.Columns.Add("PharmacyNPI", typeof(string));
+            dt.Columns.Add("PharmacyName", typeof(string));
+            dt.Columns.Add("SubmittedPrescriberID", typeof(string));
+            dt.Columns.Add("AltPrescriberID", typeof(string));
+            dt.Columns.Add("RxNumber", typeof(string));
+            dt.Columns.Add("QTY", typeof(string));
+            dt.Columns.Add("DS", typeof(string));
+            dt.Columns.Add("FillNumber", typeof(string));
+            dt.Columns.Add("TranType", typeof(string));
+            dt.Columns.Add("DAW", typeof(string));
+            dt.Columns.Add("Compound", typeof(string));
+            dt.Columns.Add("OtherCoverageCode", typeof(string));
+            dt.Columns.Add("RxOrigin", typeof(string));
+            dt.Columns.Add("MPANumber", typeof(string));
+            dt.Columns.Add("MarkScriptAs", typeof(string));
+            dt.Columns.Add("AuthNumber", typeof(string));
+            dt.Columns.Add("ReversedAuth", typeof(string));
+            dt.Columns.Add("NDC", typeof(string));
+            dt.Columns.Add("GPI", typeof(string));
+            dt.Columns.Add("DrugName", typeof(string));
+            dt.Columns.Add("MONY", typeof(string));
+            dt.Columns.Add("DEAClass", typeof(string));
+            dt.Columns.Add("Tier", typeof(string));
+            dt.Columns.Add("IngredCost", typeof(string));
+            dt.Columns.Add("DispFee", typeof(string));
+            dt.Columns.Add("SalesTax", typeof(string));
+            dt.Columns.Add("VaccineAdminFee", typeof(string));
+            dt.Columns.Add("MemberCostShareCopay", typeof(string));
+            dt.Columns.Add("GroupBillAmount", typeof(string));
+            dt.Columns.Add("DeductibleAmount", typeof(string));
+            dt.Columns.Add("MemberOOP", typeof(string));
+            dt.Columns.Add("BenefitAmount", typeof(string));
+            dt.Columns.Add("SDCIND1", typeof(string));
+            dt.Columns.Add("SDCVALUE1", typeof(string));
+            dt.Columns.Add("SDCIND2", typeof(string));
+            dt.Columns.Add("SDCVALUE2", typeof(string));
+            dt.Columns.Add("SDCIND3", typeof(string));
+            dt.Columns.Add("SDCVALUE3", typeof(string));
+            dt.Columns.Add("SDCIND4", typeof(string));
+            dt.Columns.Add("SDCVALUE4", typeof(string));
+            dt.Columns.Add("SDCIND5", typeof(string));
+            dt.Columns.Add("SDCVALUE5", typeof(string));
+            foreach (var item in rows)
+            {
+                var row = dt.NewRow();
+                var count = item.Values.Count;
+                for (var i = 1; i <= count; i++)
+                {
+                    row[EnvisionColumns[i]] = item.Values[i - 1];
+                }
+                dt.Rows.Add(row);
+            }
+            return dt;
+        }
+
+        private static DataTable ConvertToLakerDataTable(IEnumerable<Row> rows)
         {
             var dt = new DataTable();
             dt.Columns.Add("RowID", typeof(string));
@@ -205,6 +285,7 @@ namespace BridgeportClaims.CsvReader.CsvReaders
             dt.Columns.Add("152", typeof(string));
             dt.Columns.Add("153", typeof(string));
             dt.Columns.Add("154", typeof(string));
+            // Populate data table.
             foreach (var item in rows)
             {
                 var row = dt.NewRow();
@@ -216,6 +297,76 @@ namespace BridgeportClaims.CsvReader.CsvReaders
                 dt.Rows.Add(row);
             }
             return dt;
+        }
+
+        private static Dictionary<int, string> EnvisionColumns
+        {
+            get
+            {
+                var dictionary = new Dictionary<int, string>
+                {
+                    {1, "CarrierID"},
+                    {2, "GroupID"},
+                    {3, "LocationCode"},
+                    {4, "MemberID"},
+                    {5, "PersonCode"},
+                    {6, "LastName"},
+                    {7, "FirstName"},
+                    {8, "RelCode"},
+                    {9, "DOB"},
+                    {10, "Gender"},
+                    {11, "SSN"},
+                    {12, "HICN"},
+                    {13, "Subgroup"},
+                    {14, "FillDate"},
+                    {15, "WrittenDate"},
+                    {16, "ProcessDate"},
+                    {17, "ProcessTime"},
+                    {18, "PharmacyNPI"},
+                    {19, "PharmacyName"},
+                    {20, "SubmittedPrescriberID"},
+                    {21, "AltPrescriberID"},
+                    {22, "RxNumber"},
+                    {23, "QTY"},
+                    {24, "DS"},
+                    {25, "FillNumber"},
+                    {26, "TranType"},
+                    {27, "DAW"},
+                    {28, "Compound"},
+                    {29, "OtherCoverageCode"},
+                    {30, "RxOrigin"},
+                    {31, "MPANumber"},
+                    {32, "MarkScriptAs"},
+                    {33, "AuthNumber"},
+                    {34, "ReversedAuth"},
+                    {35, "NDC"},
+                    {36, "GPI"},
+                    {37, "DrugName"},
+                    {38, "MONY"},
+                    {39, "DEAClass"},
+                    {40, "Tier"},
+                    {41, "IngredCost"},
+                    {42, "DispFee"},
+                    {43, "SalesTax"},
+                    {44, "VaccineAdminFee"},
+                    {45, "MemberCostShareCopay"},
+                    {46, "GroupBillAmount"},
+                    {47, "DeductibleAmount"},
+                    {48, "MemberOOP"},
+                    {49, "BenefitAmount"},
+                    {50, "SDCIND1"},
+                    {51, "SDCVALUE1"},
+                    {52, "SDCIND2"},
+                    {53, "SDCVALUE2"},
+                    {54, "SDCIND3"},
+                    {55, "SDCVALUE3"},
+                    {56, "SDCIND4"},
+                    {57, "SDCVALUE4"},
+                    {58, "SDCIND5"},
+                    {59, "SDCVALUE5"}
+                };
+                return dictionary;
+            }
         }
     }
 }

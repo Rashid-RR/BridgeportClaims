@@ -3,6 +3,7 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
 using BridgeportClaims.Business.EnvisionFileProcess;
+using BridgeportClaims.Common.Enums;
 using s = BridgeportClaims.Common.Constants.StringConstants;
 using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.DataProviders.ImportFiles;
@@ -32,7 +33,6 @@ namespace BridgeportClaims.Web.Controllers
         }
 
         [HttpPost]
-        [AllowAnonymous]
         [Route("process")]
         public IHttpActionResult ProcessEnvisionFile(int importFileId)
         {
@@ -69,14 +69,36 @@ namespace BridgeportClaims.Web.Controllers
 
         private async Task ProcessEnvisionImport(string envisionFileName, string fullEnvisionFileTemporaryPath, string userEmail)
         {
-            const string msg = "The Envision File Import Process Ran Successfully!";
-            // Take a third-party CSV reader, and turn that temporarily saved laker file into a Data Table.
-            var dataTable = _importFileProvider.RetrieveDataTableFromFullFilePath(fullEnvisionFileTemporaryPath);
-            // Import the new file, into the new Staged Envision table that will be imported into the database
-            _importFileProvider.ImportDataTableIntoDatabase(dataTable);
-
-            await _emailService.SendEmail<EmailTemplateProvider>(userEmail, msg, string.Empty,
-                EmailModelEnum.EnvisionImportStatus).ConfigureAwait(false);
+            try
+            {
+                const string msg = "The Envision File Import Process Ran Successfully!";
+                // Take a third-party CSV reader, and turn that temporarily saved laker file into a Data Table.
+                var dataTable = _importFileProvider.RetrieveDataTableFromFullFilePath(fullEnvisionFileTemporaryPath, FileSource.Envision);
+                // Import the new file, into the new Staged Envision table that will be imported into the database
+                if (cs.AppIsInDebugMode)
+                {
+                    Logger.Value.Info("About to call ImportEnvisionFile()...");
+                }
+                // In our case, this call is the big import.
+                _importFileProvider.ImportEnvisionFile(dataTable);
+                if (cs.AppIsInDebugMode)
+                {
+                    Logger.Value.Info("Finished inserting Envision records into the database");
+                }
+                // And finally, mark the file processed.
+                _importFileProvider.MarkFileProcessed(envisionFileName);
+                if (cs.AppIsInDebugMode)
+                {
+                    Logger.Value.Info("The file was marked as completed.");
+                }
+                await _emailService.SendEmail<EmailTemplateProvider>(userEmail, msg, string.Empty,
+                    EmailModelEnum.EnvisionImportStatus).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                Logger.Value.Error(ex);
+                throw;
+            }
         }
     }
 }

@@ -5,6 +5,7 @@ using System.Web.Http;
 using System.Threading.Tasks;
 using BridgeportClaims.Business.LakerFileProcess;
 using BridgeportClaims.Common.Constants;
+using BridgeportClaims.Common.Enums;
 using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.DataProviders.ImportFiles;
 using BridgeportClaims.Web.Email.EmailModelGeneration;
@@ -75,7 +76,7 @@ namespace BridgeportClaims.Web.Controllers
             try
             {
                 // Take a third-party CSV reader, and turn that temporarily saved laker file into a Data Table.
-                var dataTable = _importFileProvider.RetrieveDataTableFromFullFilePath(fullLakerFileTemporaryPath);
+                var dataTable = _importFileProvider.RetrieveDataTableFromFullFilePath(fullLakerFileTemporaryPath, FileSource.Laker);
                 // Import the new file, into the new Staged Laker File that will be imported into the database
                 _importFileProvider.ImportDataTableIntoDatabase(dataTable);
                 // Finally, use the newly imported file, to Upsert the database.

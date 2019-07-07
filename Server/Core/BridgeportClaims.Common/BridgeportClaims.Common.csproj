@@ -71,6 +71,7 @@
     <Compile Include="Constants\IntegerConstants.cs" />
     <Compile Include="DataTables\DataTableProvider.cs" />
     <Compile Include="Disposable\DisposableService.cs" />
+    <Compile Include="Enums\FileSource.cs" />
     <Compile Include="Expressions\ExpressionHelper.cs" />
     <Compile Include="Expressions\ExpressionReplacer.cs" />
     <Compile Include="Extensions\DataTableExtensions.cs" />

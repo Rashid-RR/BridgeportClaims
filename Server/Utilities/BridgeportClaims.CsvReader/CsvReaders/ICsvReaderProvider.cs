@@ -1,9 +1,10 @@
 using System.Data;
+using BridgeportClaims.Common.Enums;
 
 namespace BridgeportClaims.CsvReader.CsvReaders
 {
     public interface ICsvReaderProvider
     {
-        DataTable ReadCsvFile(string fullFilePath, bool useCsvTools);
+        DataTable ReadLakerCsvFile(string fullFilePath, bool useCsvTools, FileSource fileSource);
     }
 }

@@ -21,5 +21,6 @@ namespace BridgeportClaims.Data.Dtos
 		public bool Processed { get; set; }
 		[Required]
 		public DateTime? CreatedOn { get; set; }
+        public DateTime? FileDate { get; set; }
 	}
 }

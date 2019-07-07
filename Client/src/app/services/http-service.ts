@@ -118,8 +118,15 @@ closeTreeWindows() {
         })
       );
   }
-  importEnvision(id: number): Observable<any> {
-    return of({message: 'Change this to call API to process envision instead...'});
+
+  importEnvision(importFileId: number): Observable<any> {
+    return this.http.post(this.baseUrl + `/envision/process/?importFileId=${importFileId}`, {})
+      .pipe(
+        tap(_ => {
+        }, error => {
+          this.handleResponseError(error);
+        })
+      );
   }
 
   updateProfile(data): Observable<any> {

@@ -9,6 +9,7 @@ using System.Linq;
 using System.Reflection;
 using BridgeportClaims.Common.Config;
 using BridgeportClaims.Common.Disposable;
+using BridgeportClaims.Common.Enums;
 using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.Dtos;
 using cs = BridgeportClaims.Common.Config.ConfigService;
@@ -28,6 +29,30 @@ namespace BridgeportClaims.Data.DataProviders.ImportFiles
             _csvReaderProvider = csvReaderProvider;
         }
 
+        public void ImportEnvisionFile(DataTable dt) =>
+            DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+            {
+                const string sp = "[etl].[uspImportEnvision]";
+                DisposableService.Using(() => new SqlCommand(sp, conn), cmd =>
+                {
+                    if (conn.State != ConnectionState.Open)
+                    {
+                        conn.Open();
+                    }
+                    var udt = new SqlParameter
+                    {
+                        ParameterName = "@Base",
+                        TypeName = "[dbo].[udtEnvision]",
+                        Direction = ParameterDirection.Input,
+                        Value = dt,
+                        SqlDbType = SqlDbType.Structured
+                    };
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add(udt);
+                    cmd.CommandTimeout = 1600;
+                    cmd.ExecuteNonQuery();
+                });
+            });
 
         public void ImportDataTableIntoDatabase(DataTable dataTable, bool debugOnly = false)
         {
@@ -118,13 +143,13 @@ namespace BridgeportClaims.Data.DataProviders.ImportFiles
             throw new IOException($"Error. Unable to save the Laker CSV file to {fullFilePath}");
         }
 
-        public DataTable RetrieveDataTableFromFullFilePath(string fullFilePath)
+        public DataTable RetrieveDataTableFromFullFilePath(string fullFilePath, FileSource fileSource)
         {
             if (fullFilePath.IsNullOrWhiteSpace())
             {
                 throw new Exception("The full file path to the latest Laker CSV doesn't exist.");
             }
-            var dt = _csvReaderProvider.ReadCsvFile(fullFilePath, true);
+            var dt = _csvReaderProvider.ReadLakerCsvFile(fullFilePath, true, fileSource);
             if (null == dt)
             {
                 throw new Exception($"Could not read CSV into Data Table from {fullFilePath}");
@@ -213,20 +238,20 @@ namespace BridgeportClaims.Data.DataProviders.ImportFiles
                         {
                             conn.Open();
                         }
+                        var importFileIdParam = new SqlParameter
+                        {
+                            Value = importFileId,
+                            SqlDbType = SqlDbType.Int,
+                            DbType = DbType.Int32,
+                            ParameterName = "@ImportFileID"
+                        };
+                        cmd.Parameters.Add(importFileIdParam);
                         return DisposableService.Using(cmd.ExecuteReader, reader =>
                         {
                             byte[] bytes = null;
                             string fileName = null;
                             var fileBytesOrdinal = reader.GetOrdinal("FileBytes");
                             var fileNameOrdinal = reader.GetOrdinal("FileName");
-                            var importFileIdParam = new SqlParameter
-                            {
-                                Value = importFileId,
-                                SqlDbType = SqlDbType.Int,
-                                DbType = DbType.Int32,
-                                ParameterName = "@ImportFileID"
-                            };
-                            cmd.Parameters.Add(importFileIdParam);
                             while (reader.Read())
                             {
                                 if (!reader.IsDBNull(fileBytesOrdinal))
@@ -245,7 +270,7 @@ namespace BridgeportClaims.Data.DataProviders.ImportFiles
                 });
         }
 
-        public IList<ImportFileDto> GetImportFileDtos()
+        public IList<ImportFileDto> GetImportFiles()
             => DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), connection =>
             {
                 var files = new List<ImportFileDto>();
@@ -263,9 +288,11 @@ namespace BridgeportClaims.Data.DataProviders.ImportFiles
                         var fileTypeOrdinal = reader.GetOrdinal("FileType");
                         var processedOrdinal = reader.GetOrdinal("Processed");
                         var createdOnLocalOrdinal = reader.GetOrdinal("CreatedOnLocal");
+                        var fileDateOrdinal = reader.GetOrdinal("FileDate");
 
                         while (reader.Read())
                         {
+                            var createdOn = !reader.IsDBNull(createdOnLocalOrdinal) ? reader.GetDateTime(createdOnLocalOrdinal) : DateTime.Now;
                             var file = new ImportFileDto
                             {
                                 ImportFileId = reader.GetInt32(importFileIdOrdinal),
@@ -273,9 +300,8 @@ namespace BridgeportClaims.Data.DataProviders.ImportFiles
                                 FileSize = reader.GetString(fileSizeOrdinal),
                                 FileType = reader.GetString(fileTypeOrdinal),
                                 Processed = reader.GetBoolean(processedOrdinal),
-                                CreatedOn = !reader.IsDBNull(createdOnLocalOrdinal)
-                                    ? reader.GetDateTime(createdOnLocalOrdinal)
-                                    : DateTime.Now
+                                CreatedOn = createdOn,
+                                FileDate = !reader.IsDBNull(fileDateOrdinal) ? reader.GetDateTime(fileDateOrdinal) : createdOn
                             };
                             if (!reader.IsDBNull(fileExtensionOrdinal))
                                 file.FileExtension = reader.GetString(fileExtensionOrdinal);
@@ -417,7 +443,7 @@ namespace BridgeportClaims.Data.DataProviders.ImportFiles
             });
         }
 
-        public static string GetFileSize(double byteCount)
+        private static string GetFileSize(double byteCount)
         {
             if (cs.AppIsInDebugMode)
             {

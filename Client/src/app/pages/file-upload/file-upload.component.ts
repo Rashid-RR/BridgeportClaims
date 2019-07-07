@@ -1,14 +1,13 @@
-import { Component, OnInit, AfterViewChecked } from '@angular/core';
-
-import {  FileItem,ParsedResponseHeaders, FileUploader } from 'ng2-file-upload/ng2-file-upload';
-import { HttpService } from '../../services/http-service';
-import { ImportFile } from '../../models/import-file';
-import { ToastrService } from 'ngx-toastr';
+import { AfterViewChecked, Component, OnInit } from '@angular/core';
 import { DialogService } from 'ng2-bootstrap-modal';
+import { FileItem, FileUploader, ParsedResponseHeaders } from 'ng2-file-upload/ng2-file-upload';
+import { ToastrService } from 'ngx-toastr';
 import { ConfirmComponent } from '../../components/confirm.component';
+import { ImportFile } from '../../models/import-file';
+import { HttpService } from '../../services/http-service';
 
-const URL = 'http://bridgeportclaims-bridgeportclaimsstaging.azurewebsites.net/api/fileupload/upload';
 const noLaker: String = 'No Laker Files were found to import.';
+const noEnvision: String = 'No Envision File was found to process.';
 
 @Component({
   selector: 'app-file-upload',
@@ -78,7 +77,6 @@ export class FileUploadComponent implements OnInit, AfterViewChecked {
   getFiles() {
     this.loading = true;
     this.http.getFiles().subscribe(res => {
-      // res.push(new ImportFile(new Date(),".png",231,"assets/that-file.png"));
       this.importedFiles = res;
       this.loading = false;
     }, error => {
@@ -111,7 +109,7 @@ export class FileUploadComponent implements OnInit, AfterViewChecked {
     this.dialogService.addDialog(ConfirmComponent, {
       title: 'Process Laker File',
       message: 'You are about to import the Laker File ' + file.fileName + ' into the database. Would you like to proceed?'
-    }).subscribe((isConfirmed) => { 
+    }).subscribe((isConfirmed) => {
       if (isConfirmed) {
         this.loading = true;
         this.http.importLakerFile(file.fileName).subscribe(res => {
@@ -130,6 +128,7 @@ export class FileUploadComponent implements OnInit, AfterViewChecked {
       }
     });
   }
+
   importEnvision(file: ImportFile) {
     this.dialogService.addDialog(ConfirmComponent, {
       title: 'Process Envision File',
@@ -139,7 +138,7 @@ export class FileUploadComponent implements OnInit, AfterViewChecked {
       if (isConfirmed) {
         this.loading = true;
         this.http.importEnvision(file.importFileId).subscribe(res => {
-          if (res.message === noLaker) {
+          if (res.message === noEnvision) {
             this.toast.info(res.message);
           } else {
             this.toast.info(res.message, null, { timeOut: 10000 });
