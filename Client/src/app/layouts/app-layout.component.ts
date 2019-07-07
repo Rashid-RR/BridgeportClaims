@@ -30,11 +30,11 @@ export class AppLayoutComponent implements OnInit, AfterViewInit {
     const sideBarStatus = this.localSt.retrieve('sidebarOpen');
     sideBarStatus == null ? true : sideBarStatus;
     const st = document.body.classList;
-      if (st.contains('sidebar-collapse')) {
-        this.localSt.store('sidebarOpen', false);
-      } else {
-        this.localSt.store('sidebarOpen', true);
-      }
+    if (st.contains('sidebar-collapse')) {
+      this.localSt.store('sidebarOpen', false);
+    } else {
+      this.localSt.store('sidebarOpen', true);
+    }
     $('#vegascss').remove();
     this.adjustSideBar(!sideBarStatus);
     this.localSt.observe('sidebarOpen')
@@ -58,9 +58,9 @@ export class AppLayoutComponent implements OnInit, AfterViewInit {
       } else {
         this.localSt.store('sidebarOpen', true);
       }
-      setTimeout(()=>{
+      setTimeout(() => {
         this.ref.tick();
-      }, 1000)
+      }, 1000);
     });
 
     this.currentURL = this.router.url;
@@ -97,7 +97,7 @@ export class AppLayoutComponent implements OnInit, AfterViewInit {
     }
   }
   ngAfterViewInit() {
-   
+
   }
 
 }

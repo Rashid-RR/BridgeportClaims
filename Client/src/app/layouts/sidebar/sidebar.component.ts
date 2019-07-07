@@ -15,7 +15,7 @@ declare var $: any;
 export class SidebarComponent implements OnInit {
   disableLinks = false;
   classList;
-  
+
   constructor(
     private events: EventsService,
     public router: Router,
@@ -68,12 +68,12 @@ export class SidebarComponent implements OnInit {
   }
 
 
-  get isClient(): Boolean {
+  get isClient(): boolean {
     return (this.profileManager.profile && this.profileManager.profile.roles && (this.profileManager.profile.roles instanceof Array)
       && this.profileManager.profile.roles.indexOf('Client') > -1);
   }
 
-  get isOnlyUser(): Boolean {
+  get isOnlyUser(): boolean {
     return (this.profileManager.profile && this.profileManager.profile.roles && (this.profileManager.profile.roles instanceof Array)
       && this.profileManager.profile.roles.indexOf('Client') === -1
       && this.profileManager.profile.roles.indexOf('User') > -1

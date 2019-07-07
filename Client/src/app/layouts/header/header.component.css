@@ -8,6 +8,16 @@
 .nav.navbar-nav li {
   margin-right: 4px;
 }
+.isTestDomain *{
+  pointer-events: none;
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}
 .isTestDomain li:hover,
 .isTestDomain li,
 .isTestDomain li a:hover,
@@ -481,7 +491,7 @@ li a {
     border-radius: 0;
     line-height: 28px;
   }
-  /deep/span.notification-count {
+  :host-context span.notification-count {
     width: 25px;
     height: 25px;
     background: #925750;

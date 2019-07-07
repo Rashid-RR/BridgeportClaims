@@ -61,22 +61,31 @@ export class HeaderComponent implements OnInit {
     @Inject(DOCUMENT) private document,
     public claimManager: ClaimManager,
     public notificationservice: NotificationService,
-  ) { }
+  ) {
+    this.eventservice.on('login', () => {
+      this.fetchNotifications();
+    });
+    this.eventservice.on('logout', () => {
+      this.notificationCount = 0;
+    });
+  }
 
   ngOnInit() {
-
     this.setUserImage();
     this.date = Date.now();
     this.eventservice.on('disable-links', (status: boolean) => {
       this.disableLinks = status;
     });
-    this.notificationservice.getNotification().subscribe((countParam: number) => {
-      this.notificationCount = countParam;
-    });
-
+    this.fetchNotifications();
     this.sidebarToggle();
   }
-
+  fetchNotifications(): void {
+    if (!this.isClient) {
+      this.notificationservice.getNotification().subscribe((countParam: number) => {
+        this.notificationCount = countParam;
+      });
+    }
+  }
   get userName() {
     this.setUserImage();
     return this.profileManager.profile ? this.profileManager.profile.firstName + ' ' + this.profileManager.profile.lastName : '';
@@ -93,7 +102,7 @@ export class HeaderComponent implements OnInit {
     return this.document.location.hostname === 'bridgeportclaims-testing.azurewebsites.net';
   }
   get allowed(): Boolean {
-// tslint:disable-next-line: max-line-length
+    // tslint:disable-next-line: max-line-length
     return (this.profileManager.profile.roles && (this.profileManager.profile.roles instanceof Array) && this.profileManager.profile.roles.indexOf('Admin') > -1);
   }
   sidebarToggle() {
@@ -118,8 +127,16 @@ export class HeaderComponent implements OnInit {
 
   setUserImage() {
     const userDetail = localStorage.getItem('user');
+    if (!userDetail) {
+      return;
+    }
     this.avatarHash = md5(JSON.parse(userDetail).email);
     this.imgSrc = `https://www.gravatar.com/avatar/${this.avatarHash}/?random=` + new Date().getTime();
+  }
+  get isClient(): boolean {
+    return (!this.profileManager.profile || !this.profileManager.profile.roles) ||
+      (this.profileManager.profile && this.profileManager.profile.roles && (this.profileManager.profile.roles instanceof Array)
+        && this.profileManager.profile.roles.indexOf('Client') > -1);
   }
 
 }

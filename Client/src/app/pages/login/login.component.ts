@@ -50,9 +50,7 @@ export class LoginComponent implements OnInit {
           this.http.setAuth(data.access_token);
           localStorage.setItem('user', JSON.stringify(data));
           this.http.profile().subscribe(user => {
-
             user.access_token = data.access_token;
-            // res.roles=['Indexer','User']; for test
             localStorage.setItem('user', JSON.stringify(user));
             this.profileManager.profile = new UserProfile(user.id || user.email, user.email, user.firstName, user.lastName, user.email, user.email, null, data.createdOn, user.roles);
             this.profileManager.setProfile(new UserProfile(user.id || user.email, user.email, user.firstName, user.lastName, user.email, user.email, null, data.createdOn, user.roles));
@@ -121,6 +119,4 @@ export class LoginComponent implements OnInit {
       }
     });
   }
-
-
 }
