@@ -31,7 +31,7 @@
                         <!-- File Upload For CSV -->
                         <div class="image-upload">
                             <label for="file-input-csv">
-                                <img src="assets/img/file-uploads/Button1.png" style="pointer-events: none; width: 300px; " />
+                                <img src="assets/img/file-uploads/Button1.png" style="pointer-events: none; width: 400px; " />
                             </label>
                             <input id="file-input-csv" accept=".csv" type="file" ng2FileSelect [uploader]="uploaderCsv" multiple />
                         </div>
@@ -40,7 +40,7 @@
                         <!-- File Upload For XLSX  -->
                         <div class="image-upload">
                             <label for="file-input-excel">
-                                <img src="assets/img/Payment_File_Upload.jpg" style="pointer-events: none; width: 300px; " />
+                                <img src="assets/img/file-uploads/Button2.png" style="pointer-events: none; width: 400px; " />
                             </label>
                             <input id="file-input-excel" accept=".xlsx" type="file" ng2FileSelect [uploader]="uploaderExcel" multiple />
                         </div>
@@ -49,7 +49,7 @@
                         <!-- File Upload For XLSX  -->
                         <div class="image-upload">
                             <label for="file-input-misc">
-                                <img src="assets/img/Misc_File_Upload.png" style="pointer-events: none; width: 300px; " />
+                                <img src="assets/img/file-uploads/Button3.png" style="pointer-events: none; width: 400px; " />
                             </label>
                             <input id="file-input-misc" accept="*.*" type="file" ng2FileSelect [uploader]="uploaderMisc" multiple />
                         </div>
@@ -215,18 +215,28 @@
                                                 <strong>{{ file?.fileDate | date:"shortDate" }}</strong>
                                             </td>
                                             <td nowrap>
-                                                <button mat-raised-button *ngIf="file.fileType=='Payment Import' && !file.processed" type="button" color="purple" (click)="process(file)">
+                                                <!-- TODO: Create a "Process Payments" button -->
+                                                <!-- <button mat-raised-button *ngIf="file.fileType=='Payment Import' && !file.processed" type="button" color="purple" (click)="process(file)">
                                                     <span class="glyphicon glyphicon-import"></span> Import Payments
-                                                </button>
-                                                <button mat-raised-button *ngIf="file.fileType=='Laker Import' && !file.processed" type="button" color="purple" (click)="importLaker(file)">
+                                                </button> -->
+                                                <span *ngIf="file.fileType=='Laker Import' && !file.processed" (click)="importLaker(file)">
+                                                  <img src="assets/img/file-uploads/Button6.png" style="pointer-events: none; width: 130px;"/>
+                                                </span>
+                                                <!-- <button mat-raised-button *ngIf="file.fileType=='Laker Import' && !file.processed" type="button" color="purple" (click)="importLaker(file)">
                                                     <span class="glyphicon glyphicon-import"></span> Import Laker File
-                                                </button>
-                                                <button mat-raised-button *ngIf="file.fileType=='Envision Import' && !file.processed" type="button" color="purple" (click)="importEnvision(file)">
+                                                </button> -->
+                                                <span *ngIf="file.fileType=='Envision Import' && !file.processed" (click)="importEnvision(file)">
+                                                  <img src="assets/img/file-uploads/Button5.png" style="pointer-events: none; width: 130px;"/>
+                                                </span>
+                                                <!-- <button mat-raised-button *ngIf="file.fileType=='Envision Import' && !file.processed" type="button" color="purple" (click)="importEnvision(file)">
                                                     <span class="glyphicon glyphicon-import"></span> Process Envision File
-                                                </button>
-                                                <button mat-raised-button type="button" color="danger" (click)="deleteFile(file)">
+                                                </button> -->
+                                                <span (click)="deleteFile(file)">
+                                                  <img src="assets/img/file-uploads/Button4.png" style="pointer-events: none; width: 130px;"/>
+                                                </span>
+                                                <!-- <button mat-raised-button type="button" color="danger" (click)="deleteFile(file)">
                                                     <span class="glyphicon glyphicon-trash"></span> Delete
-                                                </button>
+                                                </button> -->
                                             </td>
                                         </tr>
                                     </tbody>
