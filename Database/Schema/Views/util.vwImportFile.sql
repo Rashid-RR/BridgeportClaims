@@ -9,6 +9,7 @@ SELECT [if].[ImportFileID]
      , [if].[FileExtension]
 	 , [if].[FileSize]
 	 , [ift].[TypeName] FileType
+	 , ift.Code FileTypeCode
 	 , [if].[Processed]
      , [dtme].[udfGetLocalDateTime]([if].[CreatedOnUTC]) CreatedOnLocal
      , [dtme].[udfGetLocalDateTime]([if].[UpdatedOnUTC]) UpdatedOnLocal

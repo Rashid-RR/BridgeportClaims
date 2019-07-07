@@ -1,6 +1,5 @@
-CREATE TABLE [etl].[EnvisionStaging]
+CREATE TYPE [dbo].[udtEnvision] AS TABLE
 (
-[RowID] [int] NOT NULL IDENTITY(1, 1),
 [CarrierID] [varchar] (1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [GroupID] [varchar] (1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [LocationCode] [varchar] (1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
@@ -59,16 +58,6 @@ CREATE TABLE [etl].[EnvisionStaging]
 [SDCIND4] [varchar] (1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [SDCVALUE4] [varchar] (1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [SDCIND5] [varchar] (1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-[SDCVALUE5] [varchar] (1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-[IsImported] [bit] NOT NULL CONSTRAINT [dfEnvisionStagingIsImported] DEFAULT ((0)),
-[CreatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfEnvisionStagingCreatedOnUTC] DEFAULT (sysutcdatetime()),
-[UpdatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfEnvisionStagingUpdatedOnUTC] DEFAULT (sysutcdatetime()),
-[DataVersion] [timestamp] NOT NULL
-) ON [PRIMARY]
-WITH
-(
-DATA_COMPRESSION = ROW
+[SDCVALUE5] [varchar] (1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
 )
-GO
-ALTER TABLE [etl].[EnvisionStaging] ADD CONSTRAINT [pkEnvisionStaging] PRIMARY KEY CLUSTERED  ([RowID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = ROW) ON [PRIMARY]
 GO

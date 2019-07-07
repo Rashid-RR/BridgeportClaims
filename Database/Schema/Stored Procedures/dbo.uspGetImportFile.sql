@@ -13,17 +13,17 @@ CREATE PROC [dbo].[uspGetImportFile]
 AS
     BEGIN
         SET NOCOUNT ON;
-        SELECT [if].[ImportFileID]
-             , [if].[FileName]
-             , [if].[FileExtension]
-             , [if].[FileSize]
-             , [if].[FileType]
-             , [if].[Processed]
-             , [if].[CreatedOnLocal]
-        FROM   [util].[vwImportFile] AS [if]
+        SELECT [i].[ImportFileID] ImportFileId
+             , [i].[FileName]
+             , [i].[FileExtension]
+             , [i].[FileSize]
+             , [i].[FileType]
+             , [i].[Processed]
+             , [i].[CreatedOnLocal]
+			 , [FileDate] = CASE WHEN i.FileTypeCode = 'LI' THEN TRY_CONVERT(DATE, REPLACE(REPLACE(i.[FileName], 'Billing_Claim_File_', ''), '.csv', ''))
+								 WHEN i.FileTypeCode = 'EI' THEN TRY_CONVERT(DATE, SUBSTRING(i.[FileName], 15, 8)) END
+        FROM   [util].[vwImportFile] AS [i]
     END
-
-
 GO
 GRANT EXECUTE ON  [dbo].[uspGetImportFile] TO [bridgeportclaimslakerimporter]
 GO
