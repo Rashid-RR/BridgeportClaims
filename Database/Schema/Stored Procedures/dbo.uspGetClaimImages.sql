@@ -38,11 +38,12 @@ AS BEGIN
 			[FileName] [varchar](1000) NOT NULL,
             NoteCount INT NOT NULL,
             EpisodeId INT NULL,
-			[FileUrl] [nvarchar](500) NOT NULL
+			[FileUrl] [nvarchar](500) NOT NULL,
+			[FileDate] DATE NULL
 		);
 
 		INSERT [#Images] ([DocumentID],[Created],[Type],[RxDate],[RxNumber],[InvoiceNumber],
-                            [InjuryDate],[AttorneyName],[FileName],[NoteCount],[EpisodeId],[FileUrl])
+                            [InjuryDate],[AttorneyName],[FileName],[NoteCount],[EpisodeId],[FileUrl],[FileDate])
         SELECT          DocumentId = [d].[DocumentID]
                       , Created    = [d].[CreationTimeLocal]
                       , [Type]     = [dt].[TypeName]
@@ -61,6 +62,7 @@ AS BEGIN
                                            )
                       , EpisodeId  = [e].[EpisodeID]
                       , [d].[FileUrl]
+					  , d.DocumentDate AS FileDate
         FROM            [dbo].[Document]      AS [d]
             INNER JOIN  [dbo].[DocumentIndex] AS [di] ON [di].[DocumentID] = [d].[DocumentID]
             INNER JOIN  [dbo].[DocumentType]  AS [dt] ON [dt].[DocumentTypeID] = [di].[DocumentTypeID]
@@ -88,6 +90,7 @@ AS BEGIN
              , [i].[NoteCount]
              , [i].[EpisodeId]
 			 , [i].[FileUrl]
+			 , [i].[FileDate]
 		FROM [#Images] AS [i]
 		ORDER BY CASE WHEN @SortColumn = 'DocumentID' AND @SortDirection = 'ASC'
 					THEN [i].[DocumentID] END ASC,
@@ -128,7 +131,11 @@ AS BEGIN
                  CASE WHEN @SortColumn = 'NoteCount' AND @SortDirection = 'ASC'
 					THEN [i].[NoteCount] END ASC,
 				 CASE WHEN @SortColumn = 'NoteCount' AND @SortDirection = 'DESC'
-					THEN [i].[NoteCount] END DESC
+					THEN [i].[NoteCount] END DESC,
+				 CASE WHEN @SortColumn = 'FileDate' AND @SortDirection = 'ASC'
+					THEN [i].[FileDate] END ASC,
+				 CASE WHEN @SortColumn = 'FileDate' AND @SortDirection = 'DESC'
+					THEN [i].[FileDate] END DESC
 			OFFSET @PageSize * (@PageNumber - 1) ROWS
 			FETCH NEXT @PageSize ROWS ONLY;
 
@@ -153,5 +160,4 @@ AS BEGIN
 			@ErrMsg);			-- First argument (string)
 	END CATCH
 END
-
 GO
