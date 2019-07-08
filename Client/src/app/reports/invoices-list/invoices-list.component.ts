@@ -120,7 +120,7 @@ export class InvoicesListComponent implements OnInit {
       { headerName: 'Carrier', field: 'carrier', editable: true, sortable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true}, rowGroup: true, width: 90, },
       { headerName: 'Patient Name', field: 'patientName', editable: true, sortable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true}, width: 90, },
       { headerName: 'Claim #', field: 'claimNumber', editable: true, sortable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true}, width: 90, },
-      { headerName: 'Invoice Count', field: 'invoiceCount', editable: true, sortable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true} },
+      { headerName: 'Invoice Count', field: 'invoiceCount', editable: true, sortable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true}, aggFunc: "sum" },
       { headerName: 'Script Count', field: 'scriptCount', editable: true, sortable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true} },
       { headerName: 'Printed', field: 'printed', editable: true, sortable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true} },
       { headerName: 'Total Printed', field: 'totalToPrint', editable: true, sortable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true} },
