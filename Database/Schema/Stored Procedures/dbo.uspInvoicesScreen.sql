@@ -10,6 +10,7 @@ GO
 					EXECUTE [dbo].[uspInvoicesScreen]
 */
 CREATE PROCEDURE [dbo].[uspInvoicesScreen]
+WITH RECOMPILE
 AS BEGIN
     SELECT   I.InvoiceDate
             ,Carrier = car.GroupName
@@ -20,10 +21,10 @@ AS BEGIN
             ,Printed = 0
             ,TotalToPrint = 0
     FROM     dbo.Invoice AS I
-                LEFT JOIN dbo.Prescription AS P ON P.InvoiceID = I.InvoiceID
-                LEFT JOIN dbo.Claim AS C ON C.ClaimID = P.ClaimID
-                LEFT JOIN dbo.Payor AS car ON car.PayorID = C.PayorID
-                LEFT JOIN dbo.Patient AS pt ON pt.PatientID = C.PatientID
+                INNER JOIN dbo.Prescription AS P ON P.InvoiceID = I.InvoiceID
+                INNER JOIN dbo.Claim AS C ON C.ClaimID = P.ClaimID
+                INNER JOIN dbo.Payor AS car ON car.PayorID = C.PayorID
+                INNER JOIN dbo.Patient AS pt ON pt.PatientID = C.PatientID
     GROUP BY I.InvoiceDate
             ,car.GroupName
             ,pt.LastName + ', ' + pt.FirstName

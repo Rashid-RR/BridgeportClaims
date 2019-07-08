@@ -169,17 +169,17 @@ AS BEGIN
 		OUTPUT src.RowID, Inserted.PatientID INTO @EnvisionETLPatient (RowID, PatientID);
 
 		DECLARE @EnvisionETLClaim TABLE (RowID INT NOT NULL PRIMARY KEY CLUSTERED, ClaimID INT NOT NULL);
-
+		SELECT * FROM dbo.Payor AS p
 		MERGE dbo.Claim USING
 		(
 			SELECT us.StateID JurisdictionStateID,
 				   es.MemberID,
 				   es.PersonCode,
-				   1 IsFirstParty, -- Hard-Coded.
-				   TRY_CONVERT(TINYINT, es.RelCode) RelCode, -- Guess?
+				   1 IsFirstParty,
+				   TRY_CONVERT(TINYINT, es.RelCode) RelCode,
 				   p.PatientID,
-				   0 AS IsMaxBalance, -- Hard-Coded
-				   0 AS PayorID, -- Can't Hard-Code a dummy Payor ID
+				   0 AS IsMaxBalance,
+				   -1 AS PayorID, -- Create a "Unknown" Payor record of -1.
 				   @UtcNow Created,
 				   @UtcNow Updated,
 				   es.RowID
@@ -210,9 +210,11 @@ AS BEGIN
 			ClaimID,
 			DateFilled,
 			DateSubmitted,
+			-- Enter the NABP for this Pharmacy
 			-- This should go into the Pharmacy Table, which DOES have this fields already.
 			-- Column18 (Pharmacy NPI) - we don't have a field for this yet.  Can we add a new field to the Prescription table called PharmacyNPI (varchar(10), null) to store this info?
 			-- Column19 (Pharmacy Name) - will you add another field to the Prescription table called PharmacyName to store anything submitted in this field.  (varchar(60), null)
+			-- Import to the Pharmcy table and Prescription table.
 			DEA,
 			PrescriberNPI,
 			RxNumber,	  
@@ -237,7 +239,7 @@ AS BEGIN
 			ImportTypeID,
 			CreatedOnUTC,
 			UpdatedOnUTC,
-			PharmacyNABP -- NOT NULL
+			PharmacyNABP -- NULLABLE
 		)
 		SELECT c.ClaimID,
 			   TRY_CONVERT(DATE, e.FillDate) AS FillDate
@@ -259,14 +261,14 @@ AS BEGIN
 			   ,e.IngredCost
 			   ,e.DispFee
 			   ,e.SalesTax
-			   ,0 PayableAmount -- NO IDEA
-			   ,0 BilledAmount -- NO IDEA
-			   ,0 TransactionType -- NO IDEA
-			   ,0 TranID -- NO IDEA
+			   ,e.GroupBillAmount PayableAmount
+			   ,0 BilledAmount
+			   ,e.TranType TransactionType
+			   ,'' TranID
 			   ,@ImportTypeID ImportTypeID
 			   ,@UtcNow
 			   ,@UtcNow
-			   ,'GIBBERISH' -- NO IDEA!!
+			   ,NULL
 		FROM etl.EnvisionStaging AS e
 			 INNER JOIN @EnvisionETL AS etl ON etl.RowID = e.RowID
 			 INNER JOIN @EnvisionETLClaim AS c ON c.RowID = e.RowID
