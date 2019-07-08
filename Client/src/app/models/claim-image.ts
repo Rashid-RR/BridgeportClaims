@@ -1,6 +1,7 @@
 export class ClaimImage {
     constructor(public created: Date, public type: String, public rxNumber: Number, public rxDate: Date, public fileName: string,
-        public diaryNote:  String, public fileUrl: string, public documentId?: number, public injuryDate?: Date, public attorneyName?: string, public invoiceNumber?: number) {
+        public diaryNote:  String, public fileUrl: string, public fileDate: Date | string | null, public documentId?: number,
+        public injuryDate?: Date, public attorneyName?: string, public invoiceNumber?: number) {
         this.documentId = documentId;
         this.created = created;
         this.type = type;
@@ -8,5 +9,6 @@ export class ClaimImage {
         this.rxNumber = rxNumber;
         this.rxDate = rxDate;
         this.fileName = fileName;
+        this.fileDate = fileDate;
     }
 }

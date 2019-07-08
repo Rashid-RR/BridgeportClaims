@@ -80,6 +80,7 @@ namespace BridgeportClaims.Data.DataProviders.ClaimImages
                         var noteCountOrdinal = reader.GetOrdinal("NoteCount");
                         var episodeIdOrdinal = reader.GetOrdinal("EpisodeId");
                         var fileUrlOrdinal = reader.GetOrdinal("FileUrl");
+                        var fileDateOrdinal = reader.GetOrdinal("FileDate");
                         while (reader.Read())
                         {
                             var result = new ClaimImageResultDto
@@ -95,7 +96,8 @@ namespace BridgeportClaims.Data.DataProviders.ClaimImages
                                 Type = !reader.IsDBNull(typeOrdinal) ? reader.GetString(typeOrdinal) : string.Empty,
                                 NoteCount = !reader.IsDBNull(noteCountOrdinal) ? reader.GetInt32(noteCountOrdinal) : default,
                                 EpisodeId = !reader.IsDBNull(episodeIdOrdinal) ? reader.GetInt32(episodeIdOrdinal) : default,
-                                FileUrl = !reader.IsDBNull(fileUrlOrdinal) ? reader.GetString(fileUrlOrdinal) : string.Empty
+                                FileUrl = !reader.IsDBNull(fileUrlOrdinal) ? reader.GetString(fileUrlOrdinal) : string.Empty,
+                                FileDate = !reader.IsDBNull(fileDateOrdinal) ? reader.GetDateTime(fileDateOrdinal) : (DateTime?) null
                             };
                             results.Add(result);
                         }

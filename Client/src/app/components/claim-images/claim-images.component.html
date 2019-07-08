@@ -67,7 +67,7 @@
                   <td (click)="openAttachment(image)">
                       <i class="fa fa-file-pdf-o text-red"></i>
                     </td>
-                    <td>{{image.created | date:"shortDate"}}</td>
+                    <td>{{image?.fileDate | date:"shortDate"}}</td>
                 <td>
                   <select class="form-control" formControlName="documentTypeId">
                     <option *ngFor="let o of claimManager.selectedClaim.documentTypes" [value]="o.documentTypeId">{{o.typeName}}</option>
@@ -111,11 +111,11 @@
                   </button>
                 </td>
               </ng-container>
-              <ng-container *ngIf="editingDocumentId!=image.documentId">
+              <ng-container *ngIf="editingDocumentId !== image.documentId">
                 <td (click)="openAttachment(image)">
                   <i class="fa fa-file-pdf-o text-red"></i>
                 </td>
-                <td (click)="openAttachment(image)">{{image.created | date:"shortDate"}}</td>
+                <td (click)="openAttachment(image)">{{image?.fileDate | date:"shortDate"}}</td>
                 <td (click)="openAttachment(image)">{{image.type}}</td>
                 <td (click)="openAttachment(image)">{{image.rxDate | date:"shortDate"}}</td>
                 <td (click)="openAttachment(image)">{{image.rxNumber}}</td>

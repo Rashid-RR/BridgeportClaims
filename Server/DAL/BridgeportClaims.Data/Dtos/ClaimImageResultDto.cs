@@ -36,5 +36,6 @@ namespace BridgeportClaims.Data.Dtos
             get => HttpUtility.UrlEncode(_fileUrl);
             set => _fileUrl = value;
         }
+        public DateTime? FileDate { get; set; }
     }
 }
