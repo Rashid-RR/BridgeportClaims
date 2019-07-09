@@ -64,6 +64,12 @@ namespace LakerFileImporter.ProgramRunner
                         case LakerAndEnvisionFileProcessResult.NoEnvisionFileProcessingNecessary:
                             logger.Info("No Envision file processing is necessary.");
                             break;
+                        case LakerAndEnvisionFileProcessResult.LakerFileUploadedSuccessfully:
+                            logger.Info("Laker file uploaded successfully.");
+                            break;
+                        case LakerAndEnvisionFileProcessResult.EnvisionFileUploadedSuccessfully:
+                            logger.Info("Envision file uploaded successfully.");
+                            break;
                         default:
                             throw new ArgumentOutOfRangeException();
                     }
