@@ -16,8 +16,7 @@ td,
 th {
   font-size: 9pt;
   word-wrap: break-word;
-  padding-left: 2px !important;
-  padding-right: 2px !important;
+  padding: 5px 2px !important;
 }
 /* ROW COLOR CHANGE*/
 
@@ -34,14 +33,20 @@ tr>td:first-child{
 }
 tr>th:nth-child(2),
 tr>td:nth-child(2),
-tr>th:nth-child(3),
-tr>td:nth-child(3),
 tr>th:nth-child(4),
-tr>td:nth-child(4),
+tr>td:nth-child(4){
+  width:6%;
+}
+tr>th:nth-child(3),
+tr>td:nth-child(3){
+  width:10%
+}
 tr>th:nth-child(5),
 tr>td:nth-child(5),
 tr>th:nth-child(7),
-tr>td:nth-child(7){
+tr>td:nth-child(7),
+tr>th:nth-child(10),
+tr>td:nth-child(10){
   width:8%
 }
 tr>th:nth-child(6),
@@ -58,7 +63,7 @@ tr>td:nth-child(9)
 }
 tr>th:last-child,
 tr>td:last-child{
-  width: calc(23% - 20px);
+  width: calc(18% - 20px);
 }
 tbody>tr:hover {
   background: #b6f1ff !important;
@@ -97,4 +102,7 @@ thead span {
   background: #992727;
   border: 1px solid #992727;
   color: #fff;
+}
+button{
+  margin: 1.5px 5px;
 }

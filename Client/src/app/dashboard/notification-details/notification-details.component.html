@@ -36,10 +36,10 @@
                 <ng-container *ngIf="n.notificationType != 'New Client Referral'">
                   <textarea class="form-control" name="letterName" formControlName="letterName"
                     (focus)="submitted=false" placeholder="Letter Name"></textarea>
-                  <button type="button" class="btn btn-save" (click)="saveNotification(n); $event.stopPropagation()"
+                  <button type="button" mat-raised-button  color="success" (click)="saveNotification(n); $event.stopPropagation()"
                     id="saveNotificationButton"> Save
                   </button>
-                  <button type="button" class="btn" (click)="cancel(); $event.stopPropagation()">
+                  <button type="button" mat-raised-button  color="warn" (click)="cancel(); $event.stopPropagation()">
                     Cancel
                   </button>
                 </ng-container>
@@ -54,12 +54,12 @@
               <td>{{n.messageText}}</td>
               <td>{{n.notificationType}}</td>
               <td>
-                <button type="button" class="btn btn-set-letter" *ngIf="n.notificationType != 'New Client Referral'"
-                  mat-flat-button color="primary" (click)="update(n); $event.stopPropagation()">
+                <button type="button" mat-button *ngIf="n.notificationType != 'New Client Referral'"
+                   color="blue-b" (click)="update(n); $event.stopPropagation()">
                   Set Letter Name
                 </button>
-                <button *ngIf="n.notificationType == 'New Client Referral'" type="button" mat-flat-button color="warn"
-                  class="btn btn-warn" (click)="dismissNotification(n); $event.stopPropagation()"
+                <button *ngIf="n.notificationType == 'New Client Referral'" type="button" mat-raised-button  color="warn"
+                   (click)="dismissNotification(n); $event.stopPropagation()"
                   id="dismissNotificationButton"> Dismiss
                 </button>
               </td>

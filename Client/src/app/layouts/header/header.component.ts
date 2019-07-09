@@ -63,6 +63,7 @@ export class HeaderComponent implements OnInit {
     public notificationservice: NotificationService,
   ) {
     this.eventservice.on('login', () => {
+    this.setUserImage();
       this.fetchNotifications();
     });
     this.eventservice.on('logout', () => {
@@ -87,7 +88,6 @@ export class HeaderComponent implements OnInit {
     }
   }
   get userName() {
-    this.setUserImage();
     return this.profileManager.profile ? this.profileManager.profile.firstName + ' ' + this.profileManager.profile.lastName : '';
   }
 
@@ -137,6 +137,10 @@ export class HeaderComponent implements OnInit {
     return (!this.profileManager.profile || !this.profileManager.profile.roles) ||
       (this.profileManager.profile && this.profileManager.profile.roles && (this.profileManager.profile.roles instanceof Array)
         && this.profileManager.profile.roles.indexOf('Client') > -1);
+  }
+  get adminOnly(): Boolean {
+    return (this.profileManager.profile && this.profileManager.profile.roles && (this.profileManager.profile.roles instanceof Array)
+      && this.profileManager.profile.roles.indexOf('Admin') > -1);
   }
 
 }

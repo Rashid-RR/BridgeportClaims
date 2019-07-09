@@ -386,6 +386,7 @@ li a {
     border-right: 1px solid #ccc;
     height: 100%;
     margin-right: 25px;
+    position: relative;
   }
   .main-header .header-navbar .notification img {
     cursor: pointer;
