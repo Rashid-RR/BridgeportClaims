@@ -63,7 +63,11 @@ CREATE TABLE [etl].[EnvisionStaging]
 [IsImported] [bit] NOT NULL CONSTRAINT [dfEnvisionStagingIsImported] DEFAULT ((0)),
 [CreatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfEnvisionStagingCreatedOnUTC] DEFAULT (sysutcdatetime()),
 [UpdatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfEnvisionStagingUpdatedOnUTC] DEFAULT (sysutcdatetime()),
-[DataVersion] [timestamp] NOT NULL
+[DataVersion] [timestamp] NOT NULL,
+[PatientID] [int] NULL,
+[ClaimID] [int] NULL,
+[PharmacyNABP] [varchar] (7) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[PrescriptionID] [int] NULL
 ) ON [PRIMARY]
 WITH
 (

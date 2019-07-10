@@ -17,7 +17,7 @@ AS
 	BEGIN
 		DECLARE @Today DATE = CONVERT(DATE, [dtme].[udfGetLocalDate]())
 		IF ISNULL(RTRIM(LTRIM(@BackupPath)),'') = ''
-			SELECT  @BackupPath = 'D:\Jordan\Development\SQL\Backups\'
+			SELECT  @BackupPath = 'F:\Development\SQL\Local Backups\'
 		/* If the File Path does not contain a slash at the end, create one. */
 		IF RIGHT(@BackupPath,1) != '\'
 			SET @BackupPath += '\'

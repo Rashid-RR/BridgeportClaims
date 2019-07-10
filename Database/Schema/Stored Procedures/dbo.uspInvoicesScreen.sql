@@ -10,16 +10,14 @@ GO
 					EXECUTE [dbo].[uspInvoicesScreen]
 */
 CREATE PROCEDURE [dbo].[uspInvoicesScreen]
-WITH RECOMPILE
 AS BEGIN
     SELECT   I.InvoiceDate
             ,Carrier = car.GroupName
             ,PatientName = pt.LastName + ', ' + pt.FirstName
             ,C.ClaimNumber
-            ,InvoiceCount = Count(I.InvoiceID)
+            ,InvoiceCount = Count(DISTINCT I.InvoiceNumber)
             ,ScriptCount = Count(P.PrescriptionID)
             ,Printed = 0
-            ,TotalToPrint = 0
     FROM     dbo.Invoice AS I
                 INNER JOIN dbo.Prescription AS P ON P.InvoiceID = I.InvoiceID
                 INNER JOIN dbo.Claim AS C ON C.ClaimID = P.ClaimID

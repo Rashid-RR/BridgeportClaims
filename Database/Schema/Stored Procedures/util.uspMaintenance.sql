@@ -84,12 +84,13 @@ AS BEGIN
 			-- Remove all Import files except for the last one
 			DECLARE		@LastImportFileID INT;
 			SELECT		@LastImportFileID = MAX(vif.ImportFileID)
-			FROM		util.vwImportFile AS vif;
+			FROM		util.vwImportFile AS vif
+			WHERE		vif.FileType = 'Laker Import';
 
 			DELETE		vif
 			FROM		util.ImportFile AS vif
-			WHERE		vif.ImportFileID < @LastImportFileID;
-
+			WHERE		vif.ImportFileID < @LastImportFileID
+						AND vif.ImportFileTypeID = 1;
 
 			CHECKPOINT;
 
@@ -105,5 +106,4 @@ AS BEGIN
 		THROW 50000, @Msg, 0;
     END CATCH
 END
-
 GO

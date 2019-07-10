@@ -1,4 +1,7 @@
 SET IDENTITY_INSERT [dbo].[UsState] ON
+INSERT INTO [dbo].[UsState] ([StateID], [StateCode], [StateName], [IsTerritory]) VALUES (-1, 'NA', 'UNKNOWN', 1)
+SET IDENTITY_INSERT [dbo].[UsState] OFF
+SET IDENTITY_INSERT [dbo].[UsState] ON
 INSERT INTO [dbo].[UsState] ([StateID], [StateCode], [StateName], [IsTerritory]) VALUES (1, 'AL', 'Alabama', 0)
 INSERT INTO [dbo].[UsState] ([StateID], [StateCode], [StateName], [IsTerritory]) VALUES (2, 'AK', 'Alaska', 0)
 INSERT INTO [dbo].[UsState] ([StateID], [StateCode], [StateName], [IsTerritory]) VALUES (3, 'AS', 'American Samoa', 1)

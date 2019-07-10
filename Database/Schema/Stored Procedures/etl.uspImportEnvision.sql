@@ -21,174 +21,152 @@ AS BEGIN
         BEGIN TRAN;
 
 		DECLARE @UtcNow DATETIME2 = dtme.udfGetDate();
-		DECLARE @ImportTypeID INT = [etl].[udfGetImportTypeByCode]('ENVISION');
-		DECLARE @EnvisionETL TABLE (RowID INT NOT NULL PRIMARY KEY CLUSTERED);
 
-		INSERT INTO etl.EnvisionStaging
+		MERGE etl.EnvisionStaging AS tgt USING
 		(
-			CarrierID,
-			GroupID,
-			LocationCode,
-			MemberID,
-			PersonCode,
-			LastName,
-			FirstName,
-			RelCode,
-			DOB,
-			Gender,
-			SSN,
-			HICN,
-			Subgroup,
-			FillDate,
-			WrittenDate,
-			ProcessDate,
-			ProcessTime,
-			PharmacyNPI,
-			PharmacyName,
-			SubmittedPrescriberID,
-			AltPrescriberID,
-			RxNumber,
-			QTY,
-			DS,
-			FillNumber,
-			TranType,
-			DAW,
-			Compound,
-			OtherCoverageCode,
-			RxOrigin,
-			MPANumber,
-			MarkScriptAs,
-			AuthNumber,
-			ReversedAuth,
-			NDC,
-			GPI,
-			DrugName,
-			MONY,
-			DEAClass,
-			Tier,
-			IngredCost,
-			DispFee,
-			SalesTax,
-			VaccineAdminFee,
-			MemberCostShareCopay,
-			GroupBillAmount,
-			DeductibleAmount,
-			MemberOOP,
-			BenefitAmount,
-			SDCIND1,
-			SDCVALUE1,
-			SDCIND2,
-			SDCVALUE2,
-			SDCIND3,
-			SDCVALUE3,
-			SDCIND4,
-			SDCVALUE4,
-			SDCIND5,
-			SDCVALUE5
-		) OUTPUT Inserted.RowID INTO @EnvisionETL
-		SELECT CarrierID,
-			GroupID,
-			LocationCode,
-			MemberID,
-			PersonCode,
-			LastName,
-			FirstName,
-			RelCode,
-			DOB,
-			Gender,
-			SSN,
-			HICN,
-			Subgroup,
-			FillDate,
-			WrittenDate,
-			ProcessDate,
-			ProcessTime,
-			PharmacyNPI,
-			PharmacyName,
-			SubmittedPrescriberID,
-			AltPrescriberID,
-			RxNumber,
-			QTY,
-			DS,
-			FillNumber,
-			TranType,
-			DAW,
-			Compound,
-			OtherCoverageCode,
-			RxOrigin,
-			MPANumber,
-			MarkScriptAs,
-			AuthNumber,
-			ReversedAuth,
-			NDC,
-			GPI,
-			DrugName,
-			MONY,
-			DEAClass,
-			Tier,
-			IngredCost,
-			DispFee,
-			SalesTax,
-			VaccineAdminFee,
-			MemberCostShareCopay,
-			GroupBillAmount,
-			DeductibleAmount,
-			MemberOOP,
-			BenefitAmount,
-			SDCIND1,
-			SDCVALUE1,
-			SDCIND2,
-			SDCVALUE2,
-			SDCIND3,
-			SDCVALUE3,
-			SDCIND4,
-			SDCVALUE4,
-			SDCIND5,
-			SDCVALUE5
-		FROM @Base;
+			SELECT CarrierID,
+				GroupID,
+				LocationCode,
+				MemberID,
+				PersonCode,
+				LastName,
+				FirstName,
+				RelCode,
+				DOB,
+				Gender,
+				SSN,
+				HICN,
+				Subgroup,
+				FillDate,
+				WrittenDate,
+				ProcessDate,
+				ProcessTime,
+				PharmacyNPI,
+				PharmacyName,
+				SubmittedPrescriberID,
+				AltPrescriberID,
+				RxNumber,
+				QTY,
+				DS,
+				FillNumber,
+				TranType,
+				DAW,
+				Compound,
+				OtherCoverageCode,
+				RxOrigin,
+				MPANumber,
+				MarkScriptAs,
+				AuthNumber,
+				ReversedAuth,
+				NDC,
+				GPI,
+				DrugName,
+				MONY,
+				DEAClass,
+				Tier,
+				IngredCost,
+				DispFee,
+				SalesTax,
+				VaccineAdminFee,
+				MemberCostShareCopay,
+				GroupBillAmount,
+				DeductibleAmount,
+				MemberOOP,
+				BenefitAmount,
+				SDCIND1,
+				SDCVALUE1,
+				SDCIND2,
+				SDCVALUE2,
+				SDCIND3,
+				SDCVALUE3,
+				SDCIND4,
+				SDCVALUE4,
+				SDCIND5,
+				SDCVALUE5
+			FROM @Base
+		) AS src ON 1 = 0
+		WHEN NOT MATCHED THEN
+		INSERT
+		( CarrierID, GroupID, LocationCode,	MemberID, PersonCode, LastName,	FirstName, RelCode, DOB, Gender, SSN, HICN,	Subgroup, FillDate, WrittenDate, ProcessDate, ProcessTime,
+			PharmacyNPI, PharmacyName, SubmittedPrescriberID, AltPrescriberID, RxNumber, QTY, DS, FillNumber, TranType,	DAW, Compound, OtherCoverageCode, RxOrigin, MPANumber,
+			MarkScriptAs, AuthNumber, ReversedAuth,	NDC, GPI, DrugName, MONY, DEAClass,	Tier, IngredCost, DispFee, SalesTax, VaccineAdminFee, MemberCostShareCopay,
+			GroupBillAmount, DeductibleAmount, MemberOOP, BenefitAmount, SDCIND1, SDCVALUE1, SDCIND2, SDCVALUE2, SDCIND3, SDCVALUE3, SDCIND4, SDCVALUE4, SDCIND5, SDCVALUE5
+		)
+		VALUES (src.CarrierID, src.GroupID,src.LocationCode,src.MemberID,RIGHT(src.PersonCode, 2),src.LastName,src.FirstName,src.RelCode,src.DOB,src.Gender,src.SSN,src.HICN,src.Subgroup,src.FillDate,
+				src.WrittenDate,src.ProcessDate,src.ProcessTime,src.PharmacyNPI,src.PharmacyName,src.SubmittedPrescriberID,src.AltPrescriberID,src.RxNumber,src.QTY,src.DS,src.FillNumber,
+				src.TranType,src.DAW,src.Compound,src.OtherCoverageCode,src.RxOrigin,src.MPANumber,src.MarkScriptAs,src.AuthNumber,src.ReversedAuth,src.NDC,src.GPI,src.DrugName,src.MONY,
+				src.DEAClass,src.Tier,src.IngredCost,src.DispFee,src.SalesTax,src.VaccineAdminFee,src.MemberCostShareCopay,src.GroupBillAmount,src.DeductibleAmount,src.MemberOOP,
+				src.BenefitAmount,src.SDCIND1,src.SDCVALUE1,src.SDCIND2,src.SDCVALUE2,src.SDCIND3,src.SDCVALUE3,src.SDCIND4,src.SDCVALUE4,src.SDCIND5,src.SDCVALUE5);
 
-		DECLARE @EnvisionETLPatient TABLE (RowID INT NOT NULL PRIMARY KEY CLUSTERED, PatientID INT NOT NULL);
+		CREATE TABLE #EnvisionETLPatient (RowID INT IDENTITY NOT NULL PRIMARY KEY CLUSTERED, ActionTaken VARCHAR(50) NOT NULL, TargetPatientID INT NULL, TargetLastName VARCHAR(155) NULL,
+										TargetFirstName VARCHAR(155) NULL,	TargetGenderID INT NULL, TargetDateOfBirth DATE NULL, SourcePatientID INT NOT NULL, SourceLastName VARCHAR(155) NOT NULL,
+										SourceFirstName VARCHAR(155) NOT NULL, SourceGenderID INT NOT NULL, SourceDateOfBirth DATE NULL);
+		CREATE TABLE #EnvisionETLClaim (RowID INT IDENTITY NOT NULL PRIMARY KEY CLUSTERED, ActionTaken VARCHAR(50) NOT NULL, TargetClaimID INT NULL, TargetJurisdictionStateID INT NULL, TargetClaimNumber VARCHAR(255) NULL,
+										TargetPersonCode CHAR(2) NULL, TargetIsFirstParty BIT NULL, TargetRelationCode TINYINT NULL, TargetPatientID INT NULL, TargetIsMaxBalance BIT NULL,
+										TargetPayorID INT NULL, SourceClaimID INT NOT NULL, SourceJurisdictionStateID INT NULL, SourceClaimNumber VARCHAR(255) NOT NULL, SourcePersonCode CHAR(2) NULL,
+										SourceIsFirstParty BIT NOT NULL, SourceRelationCode TINYINT NULL, SourcePatientID INT NOT NULL, SourceIsMaxBalance BIT NOT NULL, SourcePayorID INT NOT NULL);
+		CREATE TABLE #EnvisionETLPharmacy (RowID INT IDENTITY NOT NULL PRIMARY KEY CLUSTERED, ActionTaken VARCHAR(50) NOT NULL, TargetNABP VARCHAR(7) NULL, TargetPharmacyName VARCHAR(60) NULL,
+										TargetNPI VARCHAR(10) NULL, TargetStateID INT NULL, SourceNABP VARCHAR(7) NOT NULL, SourcePharmacyName VARCHAR(60) NOT NULL, SourceNPI VARCHAR(10) NULL,
+										SourceStateID INT NOT NULL);
 
 		-- Here comes the fun....
-		MERGE INTO dbo.Patient USING
+		WITH PatientsCTE AS
 		(
-			SELECT e.LastName,
-				   e.FirstName,
-				   TRY_CONVERT(DATE, e.DOB) DOB,
-				   g.GenderID,
-				   @UtcNow Created,
-				   @UtcNow Updated,
-				   e.RowID
-			FROM etl.EnvisionStaging AS e
-				 INNER JOIN @EnvisionETL AS etl ON etl.RowID = e.RowID
-				 LEFT JOIN dbo.Gender AS g ON g.GenderCode = e.Gender
-		) AS src ON 1 = 0 -- Force a False so an INSERT will happen
-		WHEN NOT MATCHED THEN
+			SELECT DISTINCT	e.LastName,
+					e.FirstName,
+					TRY_CONVERT(DATE, e.DOB) DOB,
+					g.GenderID,
+					@UtcNow Created,
+					@UtcNow Updated
+			FROM	etl.EnvisionStaging AS e
+					LEFT JOIN dbo.Gender AS g ON g.GenderCode = e.Gender
+			WHERE	e.IsImported = 0
+		)
+		MERGE INTO dbo.Patient AS tgt USING PatientsCTE AS src ON ISNULL(src.DOB, '') = ISNULL(tgt.DateOfBirth, '') AND src.FirstName = tgt.FirstName AND src.LastName = tgt.LastName
+		WHEN MATCHED
+			THEN UPDATE SET tgt.UpdatedOnUTC = @UtcNow
+		WHEN NOT MATCHED BY TARGET THEN
 			INSERT (LastName, FirstName, DateOfBirth, GenderID, CreatedOnUTC, UpdatedOnUTC)
 			VALUES (src.LastName, src.FirstName, src.DOB, src.GenderID, src.Created, src.Updated)
-		OUTPUT src.RowID, Inserted.PatientID INTO @EnvisionETLPatient (RowID, PatientID);
+		OUTPUT  $action, 
+				Deleted.PatientID AS TargetPatientID, 
+				Deleted.LastName AS TargetLastName, 
+				Deleted.FirstName AS TargetFirstName,
+				Deleted.GenderID AS TargetGenderID,
+				Deleted.DateOfBirth AS TargetDateOfBirth,
+				Inserted.PatientID AS SourcePatientID, 
+				Inserted.LastName AS SourceLastName, 
+				Inserted.FirstName AS SourceFirstName,
+				Inserted.GenderID AS SourceGenderID,
+				Inserted.DateOfBirth AS SourceDateOfBirth
+		INTO #EnvisionETLPatient (ActionTaken, TargetPatientID, TargetLastName, TargetFirstName, TargetGenderID, TargetDateOfBirth, SourcePatientID, SourceLastName, SourceFirstName, SourceGenderID, SourceDateOfBirth);
 
-		DECLARE @EnvisionETLClaim TABLE (RowID INT NOT NULL PRIMARY KEY CLUSTERED, ClaimID INT NOT NULL);
-		SELECT * FROM dbo.Payor AS p
-		MERGE dbo.Claim USING
+		-- Update etl.EnvisionStaging with the PatientID.
+		UPDATE	es SET es.PatientID = e.SourcePatientID
+		FROM	etl.EnvisionStaging AS es
+				INNER JOIN #EnvisionETLPatient e ON es.LastName = e.SourceLastName
+		WHERE	es.FirstName = e.SourceFirstName
+				AND TRY_CONVERT(DATE, es.DOB) = e.SourceDateOfBirth;
+
+		MERGE dbo.Claim AS tgt USING
 		(
-			SELECT us.StateID JurisdictionStateID,
-				   es.MemberID,
-				   es.PersonCode,
-				   1 IsFirstParty,
-				   TRY_CONVERT(TINYINT, es.RelCode) RelCode,
-				   p.PatientID,
-				   0 AS IsMaxBalance,
-				   -1 AS PayorID, -- Create a "Unknown" Payor record of -1.
-				   @UtcNow Created,
-				   @UtcNow Updated,
-				   es.RowID
-			FROM etl.EnvisionStaging AS es
-				 INNER JOIN @EnvisionETL AS etl ON etl.RowID = es.RowID
-				 INNER JOIN @EnvisionETLPatient p ON p.RowID = es.RowID
-				 LEFT JOIN dbo.UsState AS us ON us.StateName = es.GroupID
-		) AS src ON 1 = 0 -- Force a False so that an INSERT will happen.
-		WHEN NOT MATCHED THEN
+			SELECT DISTINCT	us.StateID JurisdictionStateID,
+					es.MemberID,
+					es.PersonCode,
+					1 IsFirstParty,
+					TRY_CONVERT(TINYINT, es.RelCode) RelCode,
+					es.PatientID,
+					0 AS IsMaxBalance,
+					-1 AS PayorID, -- "Unknown" Payor
+					@UtcNow Created,
+					@UtcNow Updated
+			FROM	etl.EnvisionStaging AS es
+					LEFT JOIN dbo.UsState AS us ON us.StateName = es.GroupID
+			WHERE	es.IsImported = 0
+		) AS src ON src.MemberID = tgt.ClaimNumber AND src.PersonCode = tgt.PersonCode
+		WHEN MATCHED
+			THEN UPDATE SET tgt.UpdatedOnUTC = @UtcNow
+		WHEN NOT MATCHED BY TARGET THEN
 			INSERT (
 						JurisdictionStateID,
 						ClaimNumber,
@@ -197,51 +175,83 @@ AS BEGIN
 						RelationCode,
 						PatientID,
 						IsMaxBalance,
-						PayorID, -- Don't have Payor
+						PayorID,
 						CreatedOnUTC,
 						UpdatedOnUTC
 					)
 			VALUES (src.JurisdictionStateID, src.MemberID, src.PersonCode, src.IsFirstParty, src.RelCode, src.PatientID, src.IsMaxBalance,
 					src.PayorID, src.Created, src.Updated)
-		OUTPUT src.RowID, Inserted.ClaimID INTO @EnvisionETLClaim (RowID, ClaimID);
+		OUTPUT  $action,
+				Deleted.ClaimID AS TargetClaimID,
+				Deleted.JurisdictionStateID AS TargetJurisdictionStateID,
+				Deleted.ClaimNumber AS TargetClaimNumber,
+				Deleted.PersonCode AS TargetPersonCode,
+				Deleted.IsFirstParty AS TargetIsFirstParty,
+				Deleted.RelationCode AS TargetRelationCode,
+				Deleted.PatientID AS TargetPatientID,
+				Deleted.IsMaxBalance AS TargetIsMaxBalance,
+				Deleted.PayorID AS TargetPayorID,
+				Inserted.ClaimID AS SourceClaimID,
+				Inserted.JurisdictionStateID AS SourceJurisdictionStateID,
+				Inserted.ClaimNumber AS SourceClaimNumber,
+				Inserted.PersonCode AS SourcePersonCode,
+				Inserted.IsFirstParty AS SourceIsFirstParty,
+				Inserted.RelationCode AS SourceRelationCode,
+				Inserted.PatientID AS SourcePatientID,
+				Inserted.IsMaxBalance AS SourceIsMaxBalance,
+				Inserted.PayorID AS SourcePayorID
+		INTO #EnvisionETLClaim (ActionTaken, TargetClaimID, TargetJurisdictionStateID, TargetClaimNumber, TargetPersonCode, TargetIsFirstParty, TargetRelationCode, TargetPatientID, TargetIsMaxBalance, TargetPayorID, SourceClaimID, SourceJurisdictionStateID, SourceClaimNumber, SourcePersonCode, SourceIsFirstParty, SourceRelationCode, SourcePatientID, SourceIsMaxBalance, SourcePayorID);
 
-		INSERT INTO dbo.Prescription
+		-- Update etl.EnvisionStaging with the ClaimID.
+		UPDATE	es SET es.ClaimID = e.SourceClaimID
+		FROM	etl.EnvisionStaging AS es
+				INNER JOIN #EnvisionETLClaim e ON e.SourceClaimNumber = es.MemberID
+		WHERE	e.SourcePersonCode = es.PersonCode;
+
+		MERGE dbo.Pharmacy AS tgt USING
 		(
-			ClaimID,
-			DateFilled,
-			DateSubmitted,
-			-- Enter the NABP for this Pharmacy
-			-- This should go into the Pharmacy Table, which DOES have this fields already.
-			-- Column18 (Pharmacy NPI) - we don't have a field for this yet.  Can we add a new field to the Prescription table called PharmacyNPI (varchar(10), null) to store this info?
-			-- Column19 (Pharmacy Name) - will you add another field to the Prescription table called PharmacyName to store anything submitted in this field.  (varchar(60), null)
-			-- Import to the Pharmcy table and Prescription table.
-			DEA,
-			PrescriberNPI,
-			RxNumber,	  
-			Quantity,
-			DaySupply,
-			RefillNumber,
-			DAW,
-			Compound,
-			ETLRowID,
-			NDC,
-			GPI,
-			LabelName,
-			MONY,
-			Generic,
-			BillIngrCost,
-			BillDispFee,
-			BilledTax,
-			PayableAmount,
-			BilledAmount,
-			TransactionType,
-			TranID,
-			ImportTypeID,
-			CreatedOnUTC,
-			UpdatedOnUTC,
-			PharmacyNABP -- NULLABLE
-		)
-		SELECT c.ClaimID,
+			SELECT  e.PharmacyNPI,
+					e.PharmacyName,
+					-1 StateID,
+					@UtcNow Created,
+					@UtcNow Updated,
+					TRY_CONVERT(VARCHAR(7), MIN(e.RowID) * -1) AS PharmacyNABP
+			FROM etl.EnvisionStaging AS e
+			WHERE e.IsImported = 0
+			GROUP BY e.PharmacyNPI, e.PharmacyName
+		) AS src ON src.PharmacyNPI = tgt.NPI
+		WHEN MATCHED
+			THEN UPDATE SET tgt.UpdatedOnUTC = @UtcNow
+		WHEN NOT MATCHED BY TARGET THEN
+			INSERT (
+					NABP,
+					PharmacyName,
+					NPI,
+					StateID,
+					CreatedOnUTC,
+					UpdatedOnUTC
+					)
+			VALUES (src.PharmacyNABP,src.PharmacyName,src.PharmacyNPI,src.StateID,src.Created,src.Updated)
+		OUTPUT  $action,
+				Deleted.NABP AS TargetNABP,
+				Deleted.PharmacyName AS TargetPharmacyName,
+				Deleted.NPI AS TargetNPI,
+				Deleted.StateID AS TargetStateID,
+				Inserted.NABP AS SourceNABP,
+				Inserted.PharmacyName AS SourcePharmacyName,
+				Inserted.NPI AS SourceNPI,
+				Inserted.StateID AS SourceStateID
+		INTO #EnvisionETLPharmacy (ActionTaken, TargetNABP, TargetPharmacyName, TargetNPI, TargetStateID, SourceNABP, SourcePharmacyName, SourceNPI, SourceStateID);
+
+		UPDATE es SET es.PharmacyNABP = e.SourceNABP FROM etl.EnvisionStaging AS es INNER JOIN #EnvisionETLPharmacy AS e ON e.SourceNPI = es.PharmacyNPI;
+
+		DECLARE @Scripts TABLE (PrescriptionID INT NOT NULL PRIMARY KEY CLUSTERED, RowID INT NOT NULL);
+		
+		DECLARE @ImportTypeID INT = [etl].[udfGetImportTypeByCode]('ENVISION');
+
+		MERGE dbo.Prescription AS tgt USING
+        (
+			SELECT e.ClaimID,
 			   TRY_CONVERT(DATE, e.FillDate) AS FillDate
 			   ,TRY_CONVERT(DATE, e.ProcessDate) AS ProcessDate
 			   ,e.SubmittedPrescriberID
@@ -252,7 +262,7 @@ AS BEGIN
 			   ,e.FillNumber
 			   ,e.DAW
 			   ,e.Compound
-			   ,COALESCE(NULLIF(e.AuthNumber, ''), NULLIF(e.ReversedAuth, ''))
+			   ,COALESCE(NULLIF(e.AuthNumber, ''), NULLIF(e.ReversedAuth, '')) AS ETLRowID
 			   ,e.NDC
 			   ,e.GPI
 			   ,e.DrugName
@@ -266,14 +276,26 @@ AS BEGIN
 			   ,e.TranType TransactionType
 			   ,'' TranID
 			   ,@ImportTypeID ImportTypeID
-			   ,@UtcNow
-			   ,@UtcNow
-			   ,NULL
+			   ,@UtcNow Created
+			   ,@UtcNow Updated
+			   ,e.PharmacyNABP
+			   ,e.RowID
 		FROM etl.EnvisionStaging AS e
-			 INNER JOIN @EnvisionETL AS etl ON etl.RowID = e.RowID
-			 INNER JOIN @EnvisionETLClaim AS c ON c.RowID = e.RowID
+		WHERE e.IsImported = 0
+		) AS src ON 1 = 0
+		WHEN NOT MATCHED THEN
+		INSERT
+		( ClaimID, DateFilled, DateSubmitted, DEA, PrescriberNPI, RxNumber,	Quantity, DaySupply, RefillNumber, DAW,	Compound, ETLRowID, NDC, GPI, LabelName, MONY,
+			Generic, BillIngrCost, BillDispFee,	BilledTax, PayableAmount, BilledAmount,	TransactionType, TranID, ImportTypeID, CreatedOnUTC, UpdatedOnUTC, PharmacyNABP
+		)
+		VALUES (src.ClaimID, src.FillDate, src.ProcessDate, src.SubmittedPrescriberID, src.AltPrescriberID, src.RxNumber, src.QTY, src.DS, src.FillNumber, src.DAW,
+				src.Compound, src.ETLRowID, src.NDC, src.GPI, src.DrugName, src.MONY, src.Generic, src.IngredCost, src.DispFee, src.SalesTax, src.PayableAmount,
+				src.BilledAmount, src.TransactionType, src.TranID, src.ImportTypeID, src.Created, src.Updated, src.PharmacyNABP)
+		OUTPUT Inserted.PrescriptionID, src.RowID INTO @Scripts (PrescriptionID, RowID);
 
-		UPDATE e SET e.IsImported = 1 FROM etl.EnvisionStaging AS e INNER JOIN @EnvisionETL etl ON etl.RowID = e.RowID;
+		UPDATE es SET es.PrescriptionID = s.PrescriptionID FROM etl.EnvisionStaging AS es INNER JOIN @Scripts AS s ON s.RowID = es.RowID;
+
+		UPDATE e SET e.IsImported = 1 FROM etl.EnvisionStaging AS e WHERE e.IsImported = 0;
 
 	IF (@@TRANCOUNT > 0)
 		COMMIT;
@@ -284,8 +306,36 @@ AS BEGIN
 		DECLARE @ErrLine INT = ERROR_LINE()
               , @ErrMsg NVARCHAR(4000) = ERROR_MESSAGE();
 		DECLARE @Msg NVARCHAR(2000) = FORMATMESSAGE(N'An error occurred: %s Line Number: %u', @ErrMsg, @ErrLine);
+		INSERT INTO util.NLog
+		(
+		    SiteName,
+		    Logged,
+		    Level,
+		    Message,
+		    Logger,
+		    ServerName,
+		    Port,
+		    Url,
+		    ServerAddress,
+		    RemoteAddress,
+		    Callsite,
+		    Exception
+		)
+		VALUES
+		(   N'',           -- SiteName - nvarchar(200)
+		    SYSDATETIME(), -- Logged - datetime2(7)
+		    'Error',            -- Level - varchar(5)
+		    @Msg,           -- Message - nvarchar(max)
+		    N'[etl].[uspImportEnvision]',           -- Logger - nvarchar(300)
+		    N'',           -- ServerName - nvarchar(200)
+		    N'',           -- Port - nvarchar(100)
+		    N'',           -- Url - nvarchar(2000)
+		    N'',           -- ServerAddress - nvarchar(100)
+		    N'',           -- RemoteAddress - nvarchar(100)
+		    N'',           -- Callsite - nvarchar(300)
+		    N''            -- Exception - nvarchar(max)
+		    );
 		THROW 50000, @Msg, 0;
     END CATCH
-	
 END
 GO
