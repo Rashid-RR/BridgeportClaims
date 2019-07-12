@@ -2,17 +2,19 @@
 /**
  * This service will serve to facilitate communication between app views and the web services
  */
-import {Injectable} from '@angular/core';
-import {Observable, of } from 'rxjs';
-import {HttpClient, HttpHeaders, HttpParams, HttpResponse} from '@angular/common/http';
-import {UUID} from 'angular2-uuid';
-import {Router} from '@angular/router';
+import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import { UUID } from 'angular2-uuid';
 import * as Immutable from 'immutable';
-import {EventsService} from './events-service';
-import {ToastrService} from 'ngx-toastr';
-import {tap} from 'rxjs/operators';
-import {RootDecisionTreeModal} from '../interfaces/decision-tree-choice';
+import { ToastrService } from 'ngx-toastr';
+import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import { RootDecisionTreeModal } from '../interfaces/decision-tree-choice';
+import { EnvisionNotificationDismissal } from '../models/envision-notification-dismissal';
 import { InvoiceScreen } from '../models/invoice.model';
+import { MessageResponse } from '../models/message-response';
+import { EventsService } from './events-service';
 
 @Injectable()
 export class HttpService {
@@ -347,6 +349,16 @@ closeTreeWindows() {
         })
       );
     return s;
+  }
+
+  dismissEnvisionNotification(data: EnvisionNotificationDismissal): Observable<MessageResponse> {
+    return this.http.post<MessageResponse>(this.baseUrl + '/notifications/dismiss-envision-notification', data)
+      .pipe(
+        tap(_ => {
+        }, error => {
+          this.handleResponseError(error);
+        })
+      );
   }
 
   changeusername(firstName, lastName, id, extension: string): Observable<any> {

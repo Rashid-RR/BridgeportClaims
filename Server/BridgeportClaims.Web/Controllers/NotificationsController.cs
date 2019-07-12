@@ -11,7 +11,7 @@ using Microsoft.AspNet.Identity;
 namespace BridgeportClaims.Web.Controllers
 {
     [RoutePrefix("api/notifications")]
-    [Authorize(Roles = "User")]
+    [Authorize(Roles = "Admin")]
     public class NotificationsController : BaseApiController
     {
         private readonly Lazy<IPayorLetterNameProvider> _payorLetterNameProvider;
@@ -23,6 +23,22 @@ namespace BridgeportClaims.Web.Controllers
         {
             _payorLetterNameProvider = payorLetterNameProvider;
             _notificationsDataProvider = notificationsDataProvider;
+        }
+
+        [HttpPost]
+        [Route("dismiss-envision-notification")]
+        public IHttpActionResult DismissEnvisionNotification(EnvisionNotificationModel model)
+        {
+            try
+            {
+                var modifiedByUserId = User.Identity.GetUserId();
+                _notificationsDataProvider.Value.DismissEnvisionNotification();
+            }
+            catch (Exception ex)
+            {
+                Logger.Value.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+            }
         }
 
         [HttpPost]
