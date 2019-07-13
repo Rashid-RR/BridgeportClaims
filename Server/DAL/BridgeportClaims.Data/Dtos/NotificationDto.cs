@@ -10,5 +10,6 @@ namespace BridgeportClaims.Data.Dtos
         public string NotificationType { get; set; }
         public int? PrescriptionId { get; set; }
         public bool NeedsCarrier { get; set; }
+        public int? ClaimId { get; set; }
     }
 }

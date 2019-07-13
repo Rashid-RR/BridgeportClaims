@@ -495,7 +495,7 @@ li a {
   :host-context span.notification-count {
     width: 25px;
     height: 25px;
-    background: #925750;
+    background: #ff4832;
     border-radius: 50%;
     padding: 4px 7px;
     text-align: center;

@@ -351,16 +351,6 @@ closeTreeWindows() {
     return s;
   }
 
-  dismissEnvisionNotification(data: EnvisionNotificationDismissal): Observable<MessageResponse> {
-    return this.http.post<MessageResponse>(this.baseUrl + '/notifications/dismiss-envision-notification', data)
-      .pipe(
-        tap(_ => {
-        }, error => {
-          this.handleResponseError(error);
-        })
-      );
-  }
-
   changeusername(firstName, lastName, id, extension: string): Observable<any> {
     const s = this.http.post(this.baseUrl + '/users/updatename/' + id + '?firstName=' + firstName + '&lastName=' +
       lastName + '&extension=' + extension,
@@ -1529,16 +1519,6 @@ closeTreeWindows() {
       );
   }
 
-  getNotifications(data?: any): Observable<NotificationResult[]> {
-    return this.http.post<NotificationResult[]>(this.baseUrl + '/notifications/get', data)
-      .pipe(
-        tap(_ => {
-        }, error => {
-          this.handleResponseError(error);
-        })
-      );
-  }
-
   saveLetterNotifications(data: any): Observable<any> {
     return this.http.post(this.baseUrl + '/notifications/save-payor-letter-name', data)
       .pipe(
@@ -1822,6 +1802,26 @@ closeTreeWindows() {
       );
   }
 
+  dismissEnvisionNotification(data: EnvisionNotificationDismissal): Observable<MessageResponse> {
+    return this.http.post<MessageResponse>(this.baseUrl + '/notifications/dismiss-envision-notification', data)
+      .pipe(
+        tap(_ => {
+        }, error => {
+          this.handleResponseError(error);
+        })
+      );
+  }
+
+  getNotifications(data?: any): Observable<NotificationResult[]> {
+    return this.http.post<NotificationResult[]>(this.baseUrl + '/notifications/get', data)
+      .pipe(
+        tap(_ => {
+        }, error => {
+          this.handleResponseError(error);
+        })
+      );
+  }
+
   getPayorSearch(searchTerm: string): Observable<PayorSearchResult[]> {
     return this.http.post<PayorSearchResult[]>(this.baseUrl + `/payors/get-payor-search/?searchTerm=${searchTerm}`, {})
     .pipe(
@@ -1852,4 +1852,5 @@ export interface NotificationResult {
   NotificationType: string;
   PrescriptionId: number | null;
   NeedsCarrier: boolean;
+  ClaimId: number | null;
 }
