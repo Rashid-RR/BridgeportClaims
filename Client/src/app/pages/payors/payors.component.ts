@@ -33,7 +33,7 @@ export class PayorsComponent implements OnInit {
 
   getPayors(pageNumber: number) {
     this.loading = true;
-    this.http.getPayors(pageNumber, this.pageSize)
+    this.http.getPayorList()
       .pipe(map(res => { this.loading = false; return res; }))
       .subscribe(result => {
         this.payors = result;

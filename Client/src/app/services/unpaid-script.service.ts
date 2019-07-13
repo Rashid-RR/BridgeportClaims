@@ -34,7 +34,7 @@ export class UnpaidScriptService {
   }
   getPayors(pageNumber: number) {
     this.loading = true;
-    this.http.getPayorList(pageNumber, 5000).pipe(
+    this.http.getPayorList().pipe(
       map(res => {this.loading = false; return res; })
       ).subscribe(result => {
           this.payors = result;

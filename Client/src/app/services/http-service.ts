@@ -431,17 +431,6 @@ closeTreeWindows() {
     return s;
   }
 
-  getPayors(pageNumber: Number, pageSize: Number): Observable<any> {
-    const s = this.http.get(this.baseUrl + '/payor/getpayors/?pageNumber=' + pageNumber + '&pageSize=' + pageSize)
-      .pipe(
-        tap(_ => {
-        }, error => {
-          this.handleResponseError(error);
-        })
-      );
-    return s;
-  }
-
   getActiveUsers(): Observable<any> {
     const s = this.http.post(this.baseUrl + '/prescriptions/get-active-users/', {})
       .pipe(
@@ -479,8 +468,8 @@ closeTreeWindows() {
   }
 
 
-  getPayorList(pageNumber: Number, pageSize: Number): Observable<any> {
-    const s = this.http.post(this.baseUrl + '/payors/get-payors/?pageNumber=' + pageNumber + '&pageSize=' + pageSize, {})
+  getPayorList(): Observable<any> {
+    const s = this.http.post(this.baseUrl + '/payors/get-payors', {})
       .pipe(
         tap(_ => {
         }, error => {
@@ -1540,8 +1529,8 @@ closeTreeWindows() {
       );
   }
 
-  getNotifications(data?: any): Observable<any> {
-    return this.http.post(this.baseUrl + '/notifications/get', data)
+  getNotifications(data?: any): Observable<NotificationResult[]> {
+    return this.http.post<NotificationResult[]>(this.baseUrl + '/notifications/get', data)
       .pipe(
         tap(_ => {
         }, error => {
@@ -1832,6 +1821,16 @@ closeTreeWindows() {
         })
       );
   }
+
+  getPayorSearch(searchTerm: string): Observable<PayorSearchResult[]> {
+    return this.http.post<PayorSearchResult[]>(this.baseUrl + `/payors/get-payor-search/?searchTerm=${searchTerm}`, {})
+    .pipe(
+      tap(_ => {
+      }, error => {
+        this.handleResponseError(error);
+      })
+    );
+  }
 }
 
 export interface GlobalSearchResult {
@@ -1839,4 +1838,18 @@ export interface GlobalSearchResult {
   claimNumber: string;
   lastName: string;
   firstName: string;
+}
+
+export interface PayorSearchResult {
+  payorId: number;
+  carrier: string;
+}
+
+export interface NotificationResult {
+  NotificationId: number;
+  MessageText: string;
+  GeneratedDate: Date;
+  NotificationType: string;
+  PrescriptionId: number | null;
+  NeedsCarrier: boolean;
 }

@@ -32,12 +32,14 @@ namespace BridgeportClaims.Web.Controllers
             try
             {
                 var modifiedByUserId = User.Identity.GetUserId();
-                _notificationsDataProvider.Value.DismissEnvisionNotification();
+                _notificationsDataProvider.Value.DismissEnvisionNotification(model.PrescriptionId, model.BilledAmount,
+                    modifiedByUserId, model.PayorId);
+                return Ok(new {message = "Envision notification dismissed successfully."});
             }
             catch (Exception ex)
             {
                 Logger.Value.Error(ex);
-                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+                return Content(HttpStatusCode.NotAcceptable, new {message = ex.Message});
             }
         }
 
@@ -49,7 +51,7 @@ namespace BridgeportClaims.Web.Controllers
             {
                 var dismissedByUserId = User.Identity.GetUserId();
                 _notificationsDataProvider.Value.DismissNotification(notificationId, dismissedByUserId);
-                return Ok(new { message = "The notification was dismissed successfully." });
+                return Ok(new {message = "The notification was dismissed successfully."});
             }
             catch (Exception ex)
             {
@@ -66,7 +68,7 @@ namespace BridgeportClaims.Web.Controllers
             {
                 if (model.LetterName.IsNullOrWhiteSpace())
                     throw new ArgumentNullException(nameof(model.LetterName));
-                if (model.NotificationId == default(int))
+                if (model.NotificationId == default)
                     throw new Exception($"Error, the notification Id {model.NotificationId} doesn't exist.");
                 var userId = User.Identity.GetUserId();
                 _payorLetterNameProvider.Value.SavePayorLetterNameNotification(model.NotificationId, userId,
@@ -86,7 +88,7 @@ namespace BridgeportClaims.Web.Controllers
         {
             try
             {
-                var notifications = _payorLetterNameProvider.Value.GetNotifications();
+                var notifications = _notificationsDataProvider.Value.GetNotifications();
                 return Ok(notifications);
             }
             catch (Exception ex)

@@ -26,6 +26,23 @@ namespace BridgeportClaims.Web.Controllers
         }
 
         [HttpPost]
+        [Route("get-payor-search")]
+        public IHttpActionResult GetPayorSearch(string searchTerm)
+        {
+            try
+            {
+                var results = _payorsDataProvider.Value.GetPayorsSearch(searchTerm);
+                return Ok(results);
+            }
+            catch (Exception ex)
+            {
+                Logger.Value.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message
+                });
+            }
+        }
+
+        [HttpPost]
         [Route("get-payors-for-unpaid-scripts")]
         public IHttpActionResult GetPayorsForUnpaidScripts()
         {
@@ -81,34 +98,6 @@ namespace BridgeportClaims.Web.Controllers
             try
             {
                 return Ok(_payorsDataProvider.Value.GetPayor(payorId));
-            }
-            catch (Exception ex)
-            {
-                Logger.Value.Error(ex);
-                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
-            }
-        }
-
-        [HttpGet]
-        public IHttpActionResult GetAllPayors()
-        {
-            try
-            {
-                return Ok(_payorsDataProvider.Value.GetAllPayors());
-            }
-            catch (Exception ex)
-            {
-                Logger.Value.Error(ex);
-                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
-            }
-        }
-
-        [HttpGet]
-        public IHttpActionResult GetPayors(int pageNumber, int pageSize)
-        {
-            try
-            {
-                return Ok(_payorsDataProvider.Value.GetAllPayors());
             }
             catch (Exception ex)
             {

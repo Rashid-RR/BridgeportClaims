@@ -1,16 +1,16 @@
-import { Component, Inject, OnInit, ElementRef, ViewChild } from '@angular/core';
-import { EventsService } from '../../services/events-service';
-import { ProfileManager } from '../../services/profile-manager';
-import { HttpService, GlobalSearchResult } from '../../services/http-service';
-import { Router } from '@angular/router';
 import { DOCUMENT } from '@angular/common';
+import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { Router } from '@angular/router';
+import { BsDropdownDirective } from 'ngx-bootstrap/dropdown';
 import { ToastrService } from 'ngx-toastr';
 import { LocalStorageService } from 'ngx-webstorage';
-import { FormControl } from '@angular/forms';
-import { BsDropdownDirective } from 'ngx-bootstrap/dropdown';
 import { Observable, Subject } from 'rxjs';
 import { ClaimManager } from '../../services/claim-manager';
+import { EventsService } from '../../services/events-service';
+import { GlobalSearchResult, HttpService } from '../../services/http-service';
 import { NotificationService } from '../../services/notification.service';
+import { ProfileManager } from '../../services/profile-manager';
 import { md5 } from '../md5/md5';
 
 @Component({

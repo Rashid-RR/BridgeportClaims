@@ -1,14 +1,13 @@
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { combineLatest, merge, Observable, of, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map, mapTo, shareReplay, skip, startWith, switchMap, take, tap, filter } from 'rxjs/operators';
-import { HttpService, GlobalSearchResult } from '../../services/http-service';
+import { debounceTime, distinctUntilChanged, map, mapTo, shareReplay, skip, startWith, switchMap, take, tap } from 'rxjs/operators';
 import { ClaimManager } from '../../services/claim-manager';
-import { trigger, state, style, animate, transition } from '@angular/animations';
+import { GlobalSearchResult, HttpService } from '../../services/http-service';
 declare var $: any;
-
 
 @Component({
   selector: 'app-header-claim-search',
@@ -35,12 +34,12 @@ export class HeaderClaimSearchComponent implements OnInit, OnDestroy {
     isFirstSearchResultReceived = false;
     highlightedTexts: string[] = [];
     selectedType = '';
-    placeholder: string = '';
+    placeholder = '';
     currentCustomerId = null;
     readyState = false;
     isLoading = false;
     isResult = false;
-    
+
 
 
 
@@ -67,20 +66,20 @@ export class HeaderClaimSearchComponent implements OnInit, OnDestroy {
                 // if (val) {
                 //     return this.filterCustomerSearchList(val.FullName);
                 // }
-                if(!val) {
+                if (!val) {
                   val = '';
                   this.isResult = false;
                 }
-                if (val.length > 2) {
+                if (val.length > 1) {
                     // lookup value.
                     // return this.filterCustomerSearchList(val);
                     this.readyState = true;
                     this.isLoading = true;
                     $('body').addClass('search-completed');
-                    let searchResult = this.http.getGlobalSearch(val, this.selectedType);
+                    const searchResult = this.http.getGlobalSearch(val, this.selectedType);
                     searchResult.subscribe(val => {
-                        if (val.length > 0) {this.isLoading = false; this.isResult = false;}else { this.isLoading = false; this.isResult = true; }
-                    }, err => {this.isLoading = false;this.isResult = true;});
+                        if (val.length > 0) {this.isLoading = false; this.isResult = false; } else { this.isLoading = false; this.isResult = true; }
+                    }, err => {this.isLoading = false; this.isResult = true; });
                     return searchResult;
                   } else {
                     // if no value is present, return null
@@ -206,7 +205,7 @@ export class HeaderClaimSearchComponent implements OnInit, OnDestroy {
       // Check that prevents an error if the authentication token is expired.
       if (rows && !(rows instanceof HttpErrorResponse)) {
           return rows.map((x: any) => {
-              const wholeString = x.firstName + ' ' + x.lastName + ' - ' + x.claimNumber
+              const wholeString = x.firstName + ' ' + x.lastName + ' - ' + x.claimNumber;
               return wholeString.replace(regexp, match => `<span class="highlighted">${match}</span>`);
           });
       } else {
@@ -231,7 +230,7 @@ export class HeaderClaimSearchComponent implements OnInit, OnDestroy {
           this.placeholder = '';
           break;
         }
-        if(!init) {
+        if (!init) {
           this.searchCtrl.reset();
           // this.cleanSearch = false;
           // this.myControl.setValue('');

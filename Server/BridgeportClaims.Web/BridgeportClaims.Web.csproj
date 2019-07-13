@@ -467,6 +467,7 @@
     <Compile Include="Models\DocumentModel.cs" />
     <Compile Include="Models\DrLetterModel.cs" />
     <Compile Include="Models\EditClaimImageViewModel.cs" />
+    <Compile Include="Models\EnvisionNotificationModel.cs" />
     <Compile Include="Models\EpisodeClaimModel.cs" />
     <Compile Include="Models\EpisodeNoteHeaderModel.cs" />
     <Compile Include="Models\EpisodeNoteModel.cs" />

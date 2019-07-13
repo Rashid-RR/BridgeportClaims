@@ -45,9 +45,9 @@ export class SkippedPaymentService {
     }
     getPayors(pageNumber: number) {
         this.loading = true;
-        this.http.getPayorList(pageNumber, this.pageSize)
+        this.http.getPayorList()
             .pipe(map(res => { this.loading = false; return res; }))
-            .subscribe((result:Payor[]) => {
+            .subscribe((result: Payor[]) => {
             this.payors = result;
             this.pageNumber = pageNumber;
             this.payorListReady.next();

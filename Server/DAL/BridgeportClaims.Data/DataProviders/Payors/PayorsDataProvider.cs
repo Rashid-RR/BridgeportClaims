@@ -13,6 +13,17 @@ namespace BridgeportClaims.Data.DataProviders.Payors
 {
     public class PayorsDataProvider : IPayorsDataProvider
     {
+        public IEnumerable<PayorDto> GetPayorsSearch(string searchTerm) =>
+            DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+            {
+                const string sp = "[claims].[uspGetPayorsSearch]";
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                }
+                return conn.Query<PayorDto>(sp, new { SearchTerm = searchTerm }, commandType: CommandType.StoredProcedure);
+            });
+
         public IEnumerable<PayorDto> GetPayors() => DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()),
             conn =>
             {
@@ -20,7 +31,7 @@ namespace BridgeportClaims.Data.DataProviders.Payors
                 {
                     conn.Open();
                 }
-                return conn.Query(new SQLinq<PayorDto>().OrderBy(c => c.Carrier)
+                return conn.Query(new SQLinq<PayorDto>().Where(x => x.PayorId != -1).OrderBy(c => c.Carrier)
                     ?.Select(c => new {c.PayorId, c.Carrier}));
             });
 
