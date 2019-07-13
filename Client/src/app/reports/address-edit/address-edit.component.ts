@@ -8,10 +8,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AddressEditComponent implements OnInit {
 
-  constructor(private http: HttpService) { }
+  constructor() { }
 
   ngOnInit() {
-    this.http.getNotifications().subscribe(res => console.log(res));
   }
 
 }
