@@ -12,7 +12,7 @@ export class SortColumnInfo {
 })
 export class TableSortDirective {
 
-  @Output('tableSort')onSort = new EventEmitter<SortColumnInfo>();
+  @Output('tableSort') onSort = new EventEmitter<SortColumnInfo>();
   private _sortedColumn: ColumnSortDirective;
 
   constructor() { }

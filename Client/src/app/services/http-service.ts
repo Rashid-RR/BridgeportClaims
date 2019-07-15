@@ -1846,12 +1846,12 @@ export interface PayorSearchResult {
 }
 
 export interface NotificationResult {
-  NotificationId: number;
-  MessageText: string;
-  GeneratedDate: Date;
-  NotificationType: string;
-  PrescriptionId: number | null; // hidden - needed for the dismissEnvisionNotification API call.
-  NeedsCarrier: boolean; // hidden - needed for the rendering of the
+  notificationId: number;
+  messageText: string;
+  generatedDate: Date;
+  notificationType: string;
+  prescriptionId: number | null; // hidden - needed for the dismissEnvisionNotification API call.
+  needsCarrier: boolean; // hidden - needed for the rendering of the
   // "Action" in the Notifications window - whether to display the "Select Carrier" Autocomplete control or not.
-  ClaimId: number | null; // this is needed for the "Open Claim" button.
+  claimId: number | null; // this is needed for the "Open Claim" button.
 }

@@ -4,42 +4,63 @@
       <thead class="overflowable">
         <tr (tableSort)="onSortColumn($event)" #myTable='table-sort' [class.rows6]="!allowed">
           <th>
-            <span columnSort="messageText" [sort-table]="myTable"> Message</span>
+            <span> Message</span>
           </th>
           <th>
-            <span columnSort="notificationType" [sort-table]="myTable">Type</span>
+            <span>Type</span>
           </th>
           <th>
-            &nbsp;
+            <span>Action</span>
           </th>
         </tr>
       </thead>
     </table>
   </div>
   <form role="form" [formGroup]="form" autocomplete="off" autocapitalize="none" autocomplete="off"
-    (keyup.enter)="saveButtonClick()">
+    (keyup.submit)="saveButtonClick()">
     <div class="notification-details table-responsive table-body scroll-y">
       <table class="table no-margin table-striped" id="maintable">
         <tbody class="overflowable" #paymentsTable tabindex="0">
           <ng-container *ngIf="loadingNotification">
-            <div class="loader" style="align-self: center;  margin-top: 30px;">
+            <div class="loader text-center" style="align-self: center;  margin-top: 30px;">
               <a>
                 <img src="assets/img/Spinner.gif">
               </a>
             </div>
           </ng-container>
+          <ng-container *ngIf="!loadingNotification">
           <tr *ngFor="let n of notifications">
+            <td>
+              {{n.messageText}}
+              <a type="button" mat-button *ngIf="n.notificationType == 'Envision Information'"
+                [routerLink]="'/main/claims'" [queryParams]="{ claimId: n.claimId }" target="_tab" color="grey"
+                class="pull-right">
+                Open Claim
+              </a>
+            </td>
+            <td>{{n.notificationType}}</td>
             <ng-container *ngIf="editingNotificationId === n.notificationId">
-              <td>{{n.messageText}}</td>
-              <td>{{n.notificationType}}</td>
               <td>
-                <ng-container *ngIf="n.notificationType != 'New Client Referral'">
+                <ng-container *ngIf="n.notificationType == 'Payor Letter Name'">
                   <textarea class="form-control" name="letterName" formControlName="letterName"
                     (focus)="submitted=false" placeholder="Letter Name"></textarea>
-                  <button type="button" mat-raised-button  color="success" (click)="saveNotification(n); $event.stopPropagation()"
-                    id="saveNotificationButton"> Save
+                  <button type="button" mat-raised-button color="success"
+                    (click)="saveLetterNotification(n); $event.stopPropagation()" id="saveNotificationButton"> Save
                   </button>
-                  <button type="button" mat-raised-button  color="warn" (click)="cancel(); $event.stopPropagation()">
+                  <button type="button" mat-raised-button color="warn" (click)="cancel(); $event.stopPropagation()">
+                    Cancel
+                  </button>
+                </ng-container>
+                <ng-container *ngIf="n.notificationType == 'Envision Information'">
+                  <mat-form-field class="mt-1">
+                    <input matInput placeholder="Billed Amount" type="text" class="input-right-align" mask="0*.00" [showMaskTyped] = "false" formControlName="billedAmount" id="billedAmount">
+                    <span matPrefix>$&nbsp;</span>
+                  </mat-form-field>
+                  <app-payor-search (onPayorSelected)="onPayorSelected($event)"></app-payor-search>
+                  <button type="button" mat-raised-button color="success"
+                    (click)="saveEnvisionNotification(n); $event.stopPropagation()" id="saveNotificationButton"> Save
+                  </button>
+                  <button type="button" mat-raised-button color="warn" (click)="cancel(); $event.stopPropagation()">
                     Cancel
                   </button>
                 </ng-container>
@@ -51,20 +72,22 @@
               </td>
             </ng-container>
             <ng-container *ngIf="editingNotificationId !== n.notificationId">
-              <td>{{n.messageText}}</td>
-              <td>{{n.notificationType}}</td>
               <td>
-                <button type="button" mat-button *ngIf="n.notificationType != 'New Client Referral'"
-                   color="blue-b" (click)="update(n); $event.stopPropagation()">
+                <button type="button" mat-button *ngIf="n.notificationType == 'Envision Information'" color="grey"
+                  (click)="update(n); $event.stopPropagation()">
+                  Update Prescription
+                </button>
+                <button type="button" mat-button *ngIf="n.notificationType == 'Payor Letter Name'" color="blue-b"
+                  (click)="update(n); $event.stopPropagation()">
                   Set Letter Name
                 </button>
-                <button *ngIf="n.notificationType == 'New Client Referral'" type="button" mat-raised-button  color="warn"
-                   (click)="dismissNotification(n); $event.stopPropagation()"
-                  id="dismissNotificationButton"> Dismiss
+                <button *ngIf="n.notificationType == 'New Client Referral'" type="button" mat-raised-button color="warn"
+                  (click)="dismissNotification(n); $event.stopPropagation()" id="dismissNotificationButton"> Dismiss
                 </button>
               </td>
             </ng-container>
           </tr>
+          </ng-container>
         </tbody>
       </table>
     </div>

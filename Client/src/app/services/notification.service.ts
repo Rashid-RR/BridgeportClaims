@@ -13,10 +13,13 @@ export class NotificationService {
   constructor(
     private http: HttpService,
   ) {
-      this.notifications$.subscribe((notifications: any[]) => {
-        this.updateNotificationCount(notifications.length);
-      });
-      this.http.getNotifications()
+    this.notifications$.subscribe((notifications: any[]) => {
+      this.updateNotificationCount(notifications.length);
+    });
+    this.fetchNotifications();
+  }
+  fetchNotifications() {
+    this.http.getNotifications()
       .subscribe((result: any) => {
         this.notifications$.next(result);
       });

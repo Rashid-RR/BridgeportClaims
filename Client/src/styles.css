@@ -1698,13 +1698,27 @@ app-new-episode .close-button {
 /* .navbar-static-top{
   display: inherit;
 } */
+.input-right-align {
+  text-align: right;
+}
+
+input.input-right-align::-webkit-outer-spin-button,
+input.input-right-align::-webkit-inner-spin-button {
+  display: none;
+}
+
+input.input-right-align {
+  -moz-appearance: textfield;
+}
 button[color^="purple"],
+[color^="grey"],
 button[color^="success"],
 button[color^="warn"],
 button[color^="blue-b"],
 button[color^="danger"],
 button[color^="purple"]:disabled,
 button[color^="success"]:disabled,
+button[color^="grey"]:disabled,
 button[color^="warn"]:disabled,
 button[color^="blue-b"]:disabled,
 button[color^="danger"]:disabled
@@ -1716,6 +1730,7 @@ button[color^="danger"]:disabled
 }
 
 button[color^="purple"]:disabled,
+[color^="grey"]:disabled,
 button[color^="success"]:disabled,
 button[color^="warn"]:disabled,
 button[color^="danger"]:disabled{
@@ -1743,6 +1758,10 @@ button[color^="danger"] .glyphicon
 }
 .mat-blue-b {
   background-color: #495bbc;
+  color: #fff;
+}
+.mat-grey {
+  background-color: #4e4e50;
   color: #fff;
 }
 .mat-danger {

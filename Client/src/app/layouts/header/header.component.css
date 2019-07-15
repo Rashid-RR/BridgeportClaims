@@ -430,12 +430,13 @@ li a {
   .main-header .header-navbar .notification i:after {
     display: none;
   }
+
   .main-header .header-navbar .notification .dropdown-menu {
     left: -630px !important;
     top: 50px !important;
     padding: 0px !important;
     width: 690px;
-    border: none;
+    border: 1.5px solid grey;;
     border-radius: 15px;
   }
   .main-header .header-navbar .notification-for-live .dropdown-menu {

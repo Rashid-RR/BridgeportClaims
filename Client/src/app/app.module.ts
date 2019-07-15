@@ -67,9 +67,11 @@ import { NotificationService } from './services/notification.service';
 import { PaymentService } from './services/payment-service';
 import { ReferenceManagerService } from './services/reference-manager.service';
 // services
+// tslint:disable-next-line: max-line-length
 import { AccountReceivableService, AddressEditService, AuthGuard, AuthInterceptor, ClaimManager, CollectionBonusService, DecisionTreeService, DiaryService, DocumentManagerService, EventsService, FirewallService, HttpService, InvoicesService, PaymentScriptService, ProfileManager, QueryBuilderService, ReportLoaderService, ShortPayService, SignalRService, SkippedPaymentService, UnpaidScriptService, WINDOW_PROVIDERS } from './services/services.barrel';
 import { StringService } from './services/string.service';
 // import { SnotifyModule, SnotifyService, ToastDefaults } from 'ng-snotify';
+
 import { SharedModule } from './shared';
 
 @NgModule({

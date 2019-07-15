@@ -61,7 +61,7 @@
   }
 
 .notification-details {
-  max-height: calc(100vh - 90px);
+  max-height: calc(100vh - 94px);
   overflow-y: auto;
 }
 .notification-details .btn {

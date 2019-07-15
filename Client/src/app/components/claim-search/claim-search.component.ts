@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
-import { HttpService } from '../../services/http-service';
 import { ClaimManager } from '../../services/claim-manager';
 import { EventsService } from '../../services/events-service';
 declare var $: any;
@@ -20,7 +18,8 @@ export class ClaimSearchComponent implements OnInit {
   showDropDown = new Subject<any>();
   searchText = '';
   dropdownVisible = false;
-  constructor(public claimManager: ClaimManager, private formBuilder: FormBuilder, private http: HttpService, private router: Router, private events: EventsService,
+  // tslint:disable-next-line: max-line-length
+  constructor(public claimManager: ClaimManager, private formBuilder: FormBuilder, private events: EventsService,
     private toast: ToastrService) {
     this.form = this.formBuilder.group({
       claimNumber: [null],

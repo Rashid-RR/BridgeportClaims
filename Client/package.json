@@ -61,6 +61,7 @@
     "ng2-right-click-menu": "0.0.16",
     "ngx-admin-lte": "2.0.0-beta.11",
     "ngx-bootstrap": "^5.0.0",
+    "ngx-mask": "^8.0.1",
     "ngx-signalr": "2.2.7",
     "ngx-toastr": "10.0.2",
     "ngx-webstorage": "3.0.2",

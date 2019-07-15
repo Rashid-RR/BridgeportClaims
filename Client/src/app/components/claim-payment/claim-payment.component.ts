@@ -93,7 +93,7 @@ export class ClaimPaymentComponent implements OnInit {
   datePosted($event) {
   }
   savePayment(payment: Payment) {
-    const d = $('#datePostedPicker').val(); 
+    const d = $('#datePostedPicker').val();
     if (this.form.get('amountPaid').value && this.form.get('checkNumber').value && d) {
       this.claimManager.loading = true;
       this.form.controls['datePosted'].setValue(d);
@@ -153,7 +153,7 @@ export class ClaimPaymentComponent implements OnInit {
   }
 
   del(payment: Payment) {
-    const disposable = this.dialogService.addDialog(ConfirmComponent, {
+    this.dialogService.addDialog(ConfirmComponent, {
       title: 'Delete payment',
       message: 'Are you sure you wish to remove this Payment  for Invoice Number: ' +
         payment.invoiceNumber + ' of $' + payment.checkAmt + '?'

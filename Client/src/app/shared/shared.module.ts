@@ -27,7 +27,9 @@ import { FilterUserPipe } from '../user/list/filter-user.pipe';
 import { MaterialModule } from './material.module';
 import { NotificationComponent } from '../dashboard/notification/notification.component';
 import { NotificationDetailsComponent } from '../dashboard/notification-details/notification-details.component';
-
+import { PayorSearchComponent } from '../components/payor-search/payor-search.component';
+import { RouterModule } from '@angular/router';
+import {NgxMaskModule } from 'ngx-mask';
 @Pipe({ name: 'safeStyle' })
 export class SafeStylePipe implements PipeTransform {
   constructor(private sanitized: DomSanitizer) { }
@@ -47,13 +49,15 @@ export class SafeUrlPipe implements PipeTransform {
 @NgModule({
   imports: [
     CommonModule,
+    RouterModule,
     FormsModule,
     ReactiveFormsModule,
     AutoCompleteModule,
     ShContextMenuModule,
     MaterialComponentsModule,
     MaterialModule,
-    SweetAlert2Module.forRoot()
+    SweetAlert2Module.forRoot(),
+    NgxMaskModule.forRoot()
   ],
   declarations: [
     ConfirmComponent, BootstrapWindowContainer, WindowBackdrop, ScriptNoteWindowComponent, EpisodeNoteModalComponent,
@@ -62,7 +66,7 @@ export class SafeUrlPipe implements PipeTransform {
     UnpaidScriptResultsComponent, UnpaidScriptSearchComponent, InvoiceSearchComponent,
      EpisodeNoteModalComponent, UnindexedImageFilterComponent, UnindexedImageListComponent, ScriptNoteWindowComponent,
      TreeListGridComponent, TreeListFilterComponent, TreeListComponent, NewEpisodeComponent,
-     NotificationComponent, NotificationDetailsComponent
+     NotificationComponent, NotificationDetailsComponent, PayorSearchComponent
   ],
   providers: [
     WindowsInjetor,
@@ -75,14 +79,14 @@ export class SafeUrlPipe implements PipeTransform {
     ReactiveFormsModule,
     AutoCompleteModule,
     ShContextMenuModule,
-    SweetAlert2Module,
+    SweetAlert2Module, NgxMaskModule,
     TableSortDirective, ColumnSortDirective, TextSelectDirective,
     DisplayRolesPipe, BridgeportDatePipe, ArraySortPipe, PhonePipe, EpisodesFilterPipe, SafeUrlPipe, SafeStylePipe, FilterUserPipe, DiariesFilterPipe,
     UnpaidScriptResultsComponent, UnpaidScriptSearchComponent,
     EpisodeNoteModalComponent, InvoiceSearchComponent, NewEpisodeComponent,
     UnindexedImageFilterComponent, UnindexedImageListComponent, ScriptNoteWindowComponent,
     TreeListGridComponent, TreeListFilterComponent, TreeListComponent, MaterialComponentsModule,
-    NotificationComponent, NotificationDetailsComponent
+    NotificationComponent, NotificationDetailsComponent, PayorSearchComponent
   ],
   entryComponents: [
     ConfirmComponent, BootstrapWindowContainer, WindowBackdrop, ScriptNoteWindowComponent,

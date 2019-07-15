@@ -16,7 +16,10 @@ import { md5 } from '../md5/md5';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.css']
+  styleUrls: ['./header.component.css'],
+  host: {
+    '(document:click)': 'onClick($event)',
+  },
 })
 export class HeaderComponent implements OnInit {
 
@@ -26,6 +29,7 @@ export class HeaderComponent implements OnInit {
   public imgSrc!: string;
   placeholder = 'Search';
   @ViewChild('dropdown') dropdown: BsDropdownDirective;
+  @ViewChild('dropdownContainer') dropdownContainer: ElementRef;
   myControl = new FormControl();
   options: string[] = [];
   selectedType = '';
@@ -90,7 +94,9 @@ export class HeaderComponent implements OnInit {
   get userName() {
     return this.profileManager.profile ? this.profileManager.profile.firstName + ' ' + this.profileManager.profile.lastName : '';
   }
-
+  onDropdownOutsideClick($event): void {
+    console.log($event);
+  }
   clearCache() {
     this.http.clearCache().subscribe(res => {
       this.toast.success(res.message);
@@ -142,5 +148,15 @@ export class HeaderComponent implements OnInit {
     return (this.profileManager.profile && this.profileManager.profile.roles && (this.profileManager.profile.roles instanceof Array)
       && this.profileManager.profile.roles.indexOf('Admin') > -1);
   }
+  onClick = function  (event) {
+    if (!this.dropdownContainer.nativeElement.contains(event.target) &&
+    !event.target.closest('dialog-holder') &&
+    !event.target.classList.contains('payor-search-elm') &&
+    !event.target.classList.contains('mat-option-text') &&
+    !event.target.classList.contains('mat-option')
+    ) {
+        this.dropdown.hide();
+    }
+  };
 
 }
