@@ -314,11 +314,25 @@ AS BEGIN
 			  ,@NotificationTypeID
 			  ,[p].[PrescriptionID]
 		FROM [dbo].[Prescription] AS [p]
-			 INNER JOIN [dbo].[Notification] AS [n] ON [n].[PrescriptionID] = [p].[PrescriptionID]
 			 INNER JOIN [dbo].[Claim] AS [c] ON [c].[ClaimID] = [p].[ClaimID]
 			 INNER JOIN [dbo].[Payor] AS [pay] ON [pay].[PayorID] = [c].[PayorID]
 		WHERE [p].[ImportTypeID] = @ImportTypeID
-			 AND [n].[IsDismissed] = 0;
+			 AND NOT EXISTS (SELECT * FROM [dbo].[Notification] AS [n] WHERE [n].[PrescriptionID] = [p].[PrescriptionID]);
+
+		IF EXISTS
+        (
+			SELECT [n].[MessageText]
+				  ,COUNT(*) [Cnt]
+			FROM [dbo].[Notification] AS [n]
+			GROUP BY [n].[MessageText]
+			HAVING COUNT(*) > 1
+		)
+			BEGIN
+				IF (@@TRANCOUNT > 0)
+					ROLLBACK;
+				RAISERROR(N'Error. The generation of new notifications produced duplicates.', 16, 1) WITH NOWAIT;
+				RETURN -1;
+			END
 
 	IF (@@TRANCOUNT > 0)
 		COMMIT;

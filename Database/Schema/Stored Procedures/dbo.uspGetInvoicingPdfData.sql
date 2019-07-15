@@ -70,6 +70,7 @@ BEGIN
 		LEFT JOIN dbo.Invoice AS i1 ON i1.InvoiceID = p1.InvoiceID
 		LEFT JOIN dbo.UsState AS s1 ON s1.StateID = p3.StateID
 		LEFT JOIN dbo.UsState AS p2s ON p2.BillToStateID = p2s.StateID
-		LEFT JOIN dbo.UsState AS phars ON phars.StateID = p4.StateID;
+		LEFT JOIN dbo.UsState AS phars ON phars.StateID = p4.StateID
+	WHERE c1.DateOfInjury IS NOT NULL;
 END;
 GO
