@@ -1,26 +1,25 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AppLayoutComponent } from './layouts/app-layout.component';
+import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
+import { ChangePasswordComponent } from './pages/change-password/change-password.component';
+import { ClaimsComponent } from './pages/claim/claim.component';
+import { ConfirmEmailComponent } from './pages/confirm-email/confirm-email.component';
+import { EpisodePageComponent } from './pages/episode-page/episode-page.component';
+import { Error404Component } from './pages/error404/error404.component';
+import { FileUploadComponent } from './pages/file-upload/file-upload.component';
+import { FirewallSettingsComponent } from './pages/firewall-settings/firewall-settings.component';
 // end of layouts
 import { LoginComponent } from './pages/login/login.component';
-import { RegisterComponent } from './pages/register/register.component';
 import { MainComponent } from './pages/main/main.component';
 import { PasswordResetComponent } from './pages/password-reset/password-reset.component';
-import { ChangePasswordComponent } from './pages/change-password/change-password.component';
-import { Error404Component } from './pages/error404/error404.component';
 import { PayorsComponent } from './pages/payors/payors.component';
-import { ClaimsComponent } from './pages/claim/claim.component';
-import { AuthGuard } from './services/services.barrel';
 import { ProfileComponent } from './pages/profile/profile.component';
-import { ConfirmEmailComponent } from './pages/confirm-email/confirm-email.component';
-import { FileUploadComponent } from './pages/file-upload/file-upload.component';
-import { UnpaidScriptComponent } from './pages/unpaid-script/unpaid-script.component';
+import { RegisterComponent } from './pages/register/register.component';
 import { UnindexedImageComponent } from './pages/unindex-image/unindex-image.component';
 import { UnindexedImageFileComponent } from './pages/unindexed-image-file/unindexed-image-file.component';
-import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
-import { EpisodePageComponent } from './pages/episode-page/episode-page.component';
-import { FirewallSettingsComponent } from './pages/firewall-settings/firewall-settings.component';
-import { TestComponent } from './pages/test/test.component';
+import { UnpaidScriptComponent } from './pages/unpaid-script/unpaid-script.component';
+import { AuthGuard } from './services/services.barrel';
 
 export const routes: Routes = [
   {
@@ -43,10 +42,6 @@ export const routes: Routes = [
       {
         path: 'login',
         component: LoginComponent
-      },
-      {
-        path: 'test',
-        component: TestComponent
       }
       , {
         path: 'recover-lost-password',

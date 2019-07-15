@@ -7,12 +7,15 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BootstrapModalModule } from 'ng2-bootstrap-modal';
 import { FileUploadModule } from 'ng2-file-upload';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { PopoverModule } from 'ngx-bootstrap/popover';
 import { ToastrModule } from 'ngx-toastr';
 import { NgxWebstorageModule } from 'ngx-webstorage';
 import { AppComponent } from './app.component';
 import { RoutingModule } from './app.routing';
 import { AcquireEpisodeComponent } from './components/acquire-episode/acquire-episode.component';
 import { AdjustorModalComponent } from './components/adjustor-modal/adjustor-modal.component';
+import { AgPhoneNumberMaskComponent } from './components/ag-phone-number-mask/ag-phone-number-mask.component';
 import { AttorneyModalComponent } from './components/attorney-modal/attorney-modal.component';
 import { CarrierModalComponent } from './components/carrier-modal/carrier-modal.component';
 import { ClaimEpisodeComponent } from './components/claim-episode/claim-episode.component';
@@ -29,6 +32,7 @@ import { EpisodeFilterComponent } from './components/episode-filter/episode-filt
 import { EpisodeResultsComponent } from './components/episode-results/episode-results.component';
 import { FirewallFilterComponent } from './components/firewall-filter/firewall-filter.component';
 import { FirewallGridComponent } from './components/firewall-grid/firewall-grid.component';
+import { HeaderClaimSearchComponent } from './components/header-claim-search/header-claim-search.component';
 import { OutstandingFilterComponent } from './components/outstanding-filter/outstanding-filter.component';
 import { OutstandingResultComponent } from './components/outstanding-result/outstanding-result.component';
 import { AppLayoutComponent } from './layouts/app-layout.component';
@@ -54,27 +58,19 @@ import { PasswordResetComponent } from './pages/password-reset/password-reset.co
 import { PayorsComponent } from './pages/payors/payors.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { RegisterComponent } from './pages/register/register.component';
-import { TestComponent } from './pages/test/test.component';
 import { UnindexedImageComponent } from './pages/unindex-image/unindex-image.component';
 import { UnindexedImageFileListComponent } from './pages/unindexed-image-file-list/unindexed-image-file-list.component';
 import { UnindexedImageFileComponent } from './pages/unindexed-image-file/unindexed-image-file.component';
 import { UnpaidScriptComponent } from './pages/unpaid-script/unpaid-script.component';
 import { EpisodeService } from './services/episode.service';
+import { NotificationService } from './services/notification.service';
 import { PaymentService } from './services/payment-service';
 import { ReferenceManagerService } from './services/reference-manager.service';
 // services
-import { AccountReceivableService, AuthGuard, AuthInterceptor, ClaimManager, CollectionBonusService,
-  DecisionTreeService, DiaryService, DocumentManagerService, EventsService, FirewallService, HttpService,
-  PaymentScriptService, ProfileManager, ReportLoaderService, ShortPayService, SignalRService,
-  SkippedPaymentService, UnpaidScriptService, WINDOW_PROVIDERS, QueryBuilderService, AddressEditService, InvoicesService } from './services/services.barrel';
+import { AccountReceivableService, AddressEditService, AuthGuard, AuthInterceptor, ClaimManager, CollectionBonusService, DecisionTreeService, DiaryService, DocumentManagerService, EventsService, FirewallService, HttpService, InvoicesService, PaymentScriptService, ProfileManager, QueryBuilderService, ReportLoaderService, ShortPayService, SignalRService, SkippedPaymentService, UnpaidScriptService, WINDOW_PROVIDERS } from './services/services.barrel';
 import { StringService } from './services/string.service';
 // import { SnotifyModule, SnotifyService, ToastDefaults } from 'ng-snotify';
 import { SharedModule } from './shared';
-import { AgPhoneNumberMaskComponent } from './components/ag-phone-number-mask/ag-phone-number-mask.component';
-import { PopoverModule } from 'ngx-bootstrap/popover';
-import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
-import { NotificationService } from './services/notification.service';
-import { HeaderClaimSearchComponent } from './components/header-claim-search/header-claim-search.component';
 
 @NgModule({
   declarations: [
@@ -94,7 +90,7 @@ import { HeaderClaimSearchComponent } from './components/header-claim-search/hea
     UnpaidScriptComponent, UnindexedImageComponent,
     UnindexedImageFileComponent, IndexFileComponent, UnindexedImageFileListComponent, MainLayoutComponent, EpisodePageComponent,
     EpisodeResultsComponent, EpisodeFilterComponent, FirewallSettingsComponent, FirewallFilterComponent,
-    FirewallGridComponent, AcquireEpisodeComponent, TestComponent, OutstandingFilterComponent, OutstandingResultComponent,
+    FirewallGridComponent, AcquireEpisodeComponent, OutstandingFilterComponent, OutstandingResultComponent,
     ClaimOutstandingComponent,
     CarrierModalComponent, AdjustorModalComponent, AttorneyModalComponent, DecisionTreeModalComponent, AgPhoneNumberMaskComponent, HeaderClaimSearchComponent
   ],

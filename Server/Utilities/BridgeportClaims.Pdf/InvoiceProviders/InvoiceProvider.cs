@@ -1,9 +1,11 @@
+using System;
 using System.IO;
 using System.Reflection;
 using BridgeportClaims.Common.Disposable;
 using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.Dtos;
 using iTextSharp.text;
+using NLog;
 using iTextSharp.text.pdf;
 
 namespace BridgeportClaims.Pdf.InvoiceProviders
@@ -11,8 +13,10 @@ namespace BridgeportClaims.Pdf.InvoiceProviders
     public class InvoiceProvider : IInvoiceProvider
     {
         private const int DefaultFontSize = 9;
+        private const int AlternateFontSize = 7;
         private const int DefaultFontStyle = 0;
         private static readonly BaseFont BaseFont = BaseFont.CreateFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
+        private static readonly Lazy<ILogger> Logger = new Lazy<ILogger>(NLog.LogManager.GetCurrentClassLogger);
 
         public bool ProcessInvoice(InvoicePdfDto data, string targetPath)
         {
@@ -41,13 +45,78 @@ namespace BridgeportClaims.Pdf.InvoiceProviders
                         }
                         StampText($"Invoice#-1: {data.InvoiceNumber}", 240, 683, contentByte);
                         StampText($"Invoice Date: {data.InvoiceDate}", 340, 683, contentByte);
-                        StampText("X", 331.5f, 656.5f, contentByte);
-                        StampText(data.ClaimNumber, 362, 655.8f, contentByte, 7);
-                        StampText(data.DateOfBirthMonth, 248, 635, contentByte, 7);
+                        StampText("X", 331.7f, 656.7f, contentByte, 8);
+                        StampText(data.ClaimNumber, 362, 655.8f, contentByte, AlternateFontSize);
+                        const float leftAxis = 66.7f;
+                        StampText($"{data.PatientLastName}, {data.PatientFirstName}", leftAxis, 636, contentByte, AlternateFontSize);
+                        StampText(data.DateOfBirthMonth, 248, 636, contentByte, AlternateFontSize);
+                        StampText(data.DateOfBirthDay, 268, 636, contentByte, AlternateFontSize);
+                        StampText(data.DateOfBirthYear, 291, 636, contentByte, AlternateFontSize);
+                        if (data.IsMale.HasValue && data.IsMale.Value)
+                        {
+                            // Check Male
+                            StampText("X", 313.5f, 636.2f, contentByte, 8);
+                        }
+                        else
+                        {
+                            // Check Female
+                            StampText("X", 343.8f, 636.2f, contentByte, 8);
+                        }
+                        // Address
+                        var address = data.PatientAddress2.IsNotNullOrWhiteSpace() ? $"{data.PatientAddress1}, {data.PatientAddress2}" : data.PatientAddress1; 
+                        StampText(address, leftAxis, 614.8f, contentByte, AlternateFontSize);
+                        // Stamp Self
+                        StampText("X", 259.3f, 614.8f, contentByte, 8);
+                        StampText(data.PatientCity, leftAxis, 594.6f, contentByte, AlternateFontSize);
+                        StampText(data.PatientStateCode, 218, 594.6f, contentByte, AlternateFontSize);
+                        const float zipPhoneYAxis = 572.8f;
+                        StampText(data.PatientPostalCode, leftAxis, zipPhoneYAxis, contentByte, AlternateFontSize);
+                        if (data.PatientPhoneNumber.IsNotNullOrWhiteSpace())
+                        {
+                            if (data.PatientPhoneNumber.Length == 10)
+                            {
+                                var areaCode = data.PatientPhoneNumber.Substring(0, 3);
+                                var phoneNumber = data.PatientPhoneNumber.Substring(3, 7);
+                                var phonePrefix = phoneNumber.Substring(0, 3);
+                                var phoneSuffix = phoneNumber.Substring(3, 4);
+                                StampText($"{areaCode}    {phonePrefix}-{phoneSuffix}", 154.5f, zipPhoneYAxis, contentByte, AlternateFontSize);
+                            }
+                            else
+                            {
+                                StampText($"    {data.PatientPhoneNumber}", 154.5f, zipPhoneYAxis, contentByte, AlternateFontSize);
+                            }
+                        }
+                        const float dobYAxis = 530;
+                        StampText(data.DateOfBirthMonth, 383, dobYAxis, contentByte, AlternateFontSize);
+                        StampText(data.DateOfBirthDay, 401, dobYAxis, contentByte, AlternateFontSize);
+                        StampText(data.DateOfBirthYear, 425, dobYAxis, contentByte, AlternateFontSize);
+                        const float billToNameYAxis = 490.5f;
+                        StampText(data.BillToName, 361.5f, billToNameYAxis, contentByte, AlternateFontSize);
+                        // Auto-Accident Yes
+                        StampText("X", 271.7f, 510.8f, contentByte, 8);
+                        const string availableUponRequest = "AVAILABLE UPON REQUEST";
+                        const float availableUponRequestYAxis = 430;
+                        StampText(availableUponRequest, 101, availableUponRequestYAxis, contentByte, AlternateFontSize);
+                        StampText(availableUponRequest, 399, availableUponRequestYAxis,contentByte,7);
+                        const float dateOfInjuryYAxis = 406.2f;
+                        StampText(data.DateOfInjuryMonth, 75.3f, dateOfInjuryYAxis, contentByte, AlternateFontSize);
+                        StampText(data.DateOfInjuryDay, 94, dateOfInjuryYAxis, contentByte, AlternateFontSize);
+                        StampText(data.DateOfInjuryYear, 116.2f, dateOfInjuryYAxis, contentByte, AlternateFontSize);
+                        const float prescriberLineYAxis = 386.4f;
+                        StampText(data.Prescriber, 85, prescriberLineYAxis, contentByte, AlternateFontSize);
+                        StampText(data.PrescriberNpi, 256, prescriberLineYAxis, contentByte, AlternateFontSize);
+                        const string diagnosis = "V49.9XXA";
+                        StampText(diagnosis, 78.7f, 345, contentByte, AlternateFontSize);
+                        // Script 1
+                        StampText(data.Ndc, 212.5f, 292.5f, contentByte, AlternateFontSize);
+                        const float scriptOneYAxis = 283.1f;
+                        StampText(data.DateFilledMonth, leftAxis + 2, scriptOneYAxis, contentByte, AlternateFontSize);
+                        StampText(data.DateFilledDay, 87, scriptOneYAxis, contentByte, AlternateFontSize);
                     }
-                    catch
+                    catch (Exception ex)
                     {
                         success = false;
+                        Logger.Value.Error(ex);
                     }
                     finally
                     {

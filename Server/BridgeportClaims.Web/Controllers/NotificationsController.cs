@@ -14,9 +14,15 @@ namespace BridgeportClaims.Web.Controllers
     [Authorize(Roles = "Admin")]
     public class NotificationsController : BaseApiController
     {
+        #region Private Members
+
         private readonly Lazy<IPayorLetterNameProvider> _payorLetterNameProvider;
         private static readonly Lazy<ILogger> Logger = new Lazy<ILogger>(LogManager.GetCurrentClassLogger);
         private readonly Lazy<INotificationsDataProvider> _notificationsDataProvider;
+
+        #endregion
+
+        #region Ctor
 
         public NotificationsController(Lazy<IPayorLetterNameProvider> payorLetterNameProvider,
             Lazy<INotificationsDataProvider> notificationsDataProvider)
@@ -24,6 +30,10 @@ namespace BridgeportClaims.Web.Controllers
             _payorLetterNameProvider = payorLetterNameProvider;
             _notificationsDataProvider = notificationsDataProvider;
         }
+
+        #endregion
+
+        #region Action Methods
 
         [HttpPost]
         [Route("dismiss-envision-notification")]
@@ -97,5 +107,7 @@ namespace BridgeportClaims.Web.Controllers
                 return Content(HttpStatusCode.NotAcceptable, new {message = ex.Message});
             }
         }
+
+        #endregion
     }
 }

@@ -10,7 +10,6 @@ using BridgeportClaims.Business.BillingStatement;
 using BridgeportClaims.Common.Constants;
 using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.DataProviders.Claims;
-using BridgeportClaims.Data.DataProviders.CollectionAssignments;
 using BridgeportClaims.Data.DataProviders.Prescriptions;
 using BridgeportClaims.Data.Dtos;
 using BridgeportClaims.Data.Enums;
@@ -30,20 +29,17 @@ namespace BridgeportClaims.Web.Controllers
         private static readonly Lazy<ILogger> Logger = new Lazy<ILogger>(LogManager.GetCurrentClassLogger);
         private readonly Lazy<IPdfFactory> _pdfFactory;
         private readonly Lazy<IBillingStatementProvider> _billingStatementProvider;
-        private readonly Lazy<ICollectionAssignmentProvider> _collectionAssignmentProvider;
 
         public PrescriptionsController(
             Lazy<IClaimsDataProvider> claimsDataProvider,
             Lazy<IPrescriptionsDataProvider> prescriptionsDataProvider,
             Lazy<IPdfFactory> pdfFactory,
-            Lazy<IBillingStatementProvider> billingStatementProvider,
-            Lazy<ICollectionAssignmentProvider> collectionAssignmentProvider)
+            Lazy<IBillingStatementProvider> billingStatementProvider)
         {
             _claimsDataProvider = claimsDataProvider;
             _prescriptionsDataProvider = prescriptionsDataProvider;
             _pdfFactory = pdfFactory;
             _billingStatementProvider = billingStatementProvider;
-            _collectionAssignmentProvider = collectionAssignmentProvider;
         }
 
         [HttpPost]

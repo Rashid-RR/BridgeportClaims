@@ -8,6 +8,7 @@ using BridgeportClaims.Common.Extensions;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 using iTextSharp.text.pdf.draw;
+using NLog;
 
 namespace BridgeportClaims.Pdf.Factories
 {
@@ -17,6 +18,7 @@ namespace BridgeportClaims.Pdf.Factories
         private const int DefaultFontStyle = 0;
         private const int DefaultCellFontSize = 6;
         private const int DefaultCellFontStyle = 1; // Bold
+        private static readonly Lazy<ILogger> Logger = new Lazy<ILogger>(LogManager.GetCurrentClassLogger);
 
         public string GeneratePdf(DataTable dt)
         {
@@ -51,10 +53,11 @@ namespace BridgeportClaims.Pdf.Factories
                                 reader.Close();
                             });
                         }
-                        catch
+                        catch (Exception ex)
                         {
                             merged = false;
                             reader?.Close();
+                            Logger.Value.Error(ex);
                         }
                         finally
                         {

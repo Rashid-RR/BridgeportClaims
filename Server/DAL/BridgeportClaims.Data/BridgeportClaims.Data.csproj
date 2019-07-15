@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>BridgeportClaims.Data</RootNamespace>
     <AssemblyName>BridgeportClaims.Data</AssemblyName>
-    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -43,7 +43,7 @@
       <HintPath>..\..\packages\NLog.4.5.11\lib\net45\NLog.dll</HintPath>
     </Reference>
     <Reference Include="Pipelines.Sockets.Unofficial, Version=1.0.0.0, Culture=neutral, PublicKeyToken=42ea0a778e13fbe2, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Pipelines.Sockets.Unofficial.1.0.7\lib\net461\Pipelines.Sockets.Unofficial.dll</HintPath>
+      <HintPath>..\..\packages\Pipelines.Sockets.Unofficial.1.0.7\lib\net472\Pipelines.Sockets.Unofficial.dll</HintPath>
     </Reference>
     <Reference Include="protobuf-net, Version=2.4.0.0, Culture=neutral, PublicKeyToken=257b51d87d2e4d67, processorArchitecture=MSIL">
       <HintPath>..\..\packages\protobuf-net.2.4.0\lib\net40\protobuf-net.dll</HintPath>
@@ -61,7 +61,7 @@
       <HintPath>..\..\packages\SQLinq.Dapper.1.2\lib\net\SQLinq.Dapper.dll</HintPath>
     </Reference>
     <Reference Include="StackExchange.Redis, Version=2.0.0.0, Culture=neutral, PublicKeyToken=c219ff1ca8c2ce46, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\StackExchange.Redis.2.0.513\lib\net461\StackExchange.Redis.dll</HintPath>
+      <HintPath>..\..\packages\StackExchange.Redis.2.0.513\lib\net472\StackExchange.Redis.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -73,7 +73,11 @@
     <Reference Include="System.Diagnostics.PerformanceCounter, Version=4.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\..\packages\System.Diagnostics.PerformanceCounter.4.5.0\lib\net461\System.Diagnostics.PerformanceCounter.dll</HintPath>
     </Reference>
-    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.IO.Compression.4.3.0\lib\net46\System.IO.Compression.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.IO.Pipelines, Version=4.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\..\packages\System.IO.Pipelines.4.5.1\lib\netstandard2.0\System.IO.Pipelines.dll</HintPath>
     </Reference>
