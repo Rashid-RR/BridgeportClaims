@@ -104,8 +104,8 @@ export class NotificationDetailsComponent implements OnInit {
       this.dialogService.addDialog(ConfirmComponent, {
         title: 'Envision Information',
         message: `Are you sure you wish to save Billed Amount
-        ${form.billedAmount}
-        ${form.payorId ? 'and Carrier ' + this.carrierName : ''}
+        <b>$${form.billedAmount}</b>
+        ${form.payorId ? 'and Carrier <b>' + this.carrierName + '</b>' : ''}
         to this prescription?`
       })
         .subscribe((isConfirmed) => {
