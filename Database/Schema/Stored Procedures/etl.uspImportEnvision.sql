@@ -297,6 +297,29 @@ AS BEGIN
 
 		UPDATE e SET e.IsImported = 1 FROM etl.EnvisionStaging AS e WHERE e.IsImported = 0;
 
+		-- Generate Notifications
+		DECLARE @TodayLocal DATE = CONVERT(DATE, [dtme].[udfGetLocalDate]());
+		DECLARE @NotificationTypeID INT = [dbo].[udfGetNotificationTypeIDFromCode]('ENVISIONINFO');
+		INSERT [dbo].[Notification]
+		(
+			[MessageText]
+		   ,[GeneratedDate]
+		   ,[NotificationTypeID]
+		   ,[PrescriptionID]
+		)
+		SELECT 'A new Envision Claim #: ' + CONVERT(VARCHAR(100), [c].[ClaimNumber])
+			   + ' has been imported. Prescription Rx #: ' + [p].[RxNumber] + ' Label: ' + [p].[LabelName]
+			   + ' needs a Billed Amount' + CASE WHEN [pay].[PayorID] = -1 THEN ' and a Carrier.' ELSE '' END
+			  ,@TodayLocal
+			  ,@NotificationTypeID
+			  ,[p].[PrescriptionID]
+		FROM [dbo].[Prescription] AS [p]
+			 INNER JOIN [dbo].[Notification] AS [n] ON [n].[PrescriptionID] = [p].[PrescriptionID]
+			 INNER JOIN [dbo].[Claim] AS [c] ON [c].[ClaimID] = [p].[ClaimID]
+			 INNER JOIN [dbo].[Payor] AS [pay] ON [pay].[PayorID] = [c].[PayorID]
+		WHERE [p].[ImportTypeID] = @ImportTypeID
+			 AND [n].[IsDismissed] = 0;
+
 	IF (@@TRANCOUNT > 0)
 		COMMIT;
     END TRY
@@ -336,6 +359,6 @@ AS BEGIN
 		    N''            -- Exception - nvarchar(max)
 		    );
 		THROW 50000, @Msg, 0;
-    END CATCH
+    END CATCH;
 END
 GO

@@ -29,6 +29,7 @@ AS BEGIN
 		 , p.[LetterName]
          , CreatedOn = p.CreatedOnUTC
          , UpdatedOn = p.UpdatedOnUTC
-    FROM dbo.Payor p LEFT JOIN dbo.UsState us ON us.StateID = p.BillToStateID;
+    FROM	dbo.Payor p LEFT JOIN dbo.UsState us ON us.StateID = p.BillToStateID
+	WHERE	p.[PayorID] != -1;
 END
 GO
