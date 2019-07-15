@@ -106,7 +106,8 @@ export class NotificationDetailsComponent implements OnInit {
         message: `Are you sure you wish to save Billed Amount
         <b>$${form.billedAmount}</b>
         ${form.payorId ? 'and Carrier <b>' + this.carrierName + '</b>' : ''}
-        to this prescription?`
+        to this prescription?`,
+        buttonText: 'Save'
       })
         .subscribe((isConfirmed) => {
           if (isConfirmed) {
