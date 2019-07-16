@@ -1737,6 +1737,9 @@ button[color^="danger"]:disabled{
   cursor:not-allowed;
   opacity: 0.5
 }
+[color^="grey"]:hover{
+
+}
 button[color^="purple"] .glyphicon,
 button[color^="success"] .glyphicon,
 button[color^="warn"] .glyphicon,

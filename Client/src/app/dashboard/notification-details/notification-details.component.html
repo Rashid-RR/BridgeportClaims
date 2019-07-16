@@ -33,7 +33,7 @@
             <td>
               {{n.messageText}}
               <a type="button" mat-button *ngIf="n.notificationType == 'Envision Information'"
-                [routerLink]="'/main/claims'" [queryParams]="{ claimId: n.claimId }" target="_tab" color="grey"
+                [routerLink]="'/main/claims'" [queryParams]="{ claimId: n.claimId }" target="_blank" color="grey"
                 class="pull-right">
                 Open Claim
               </a>
