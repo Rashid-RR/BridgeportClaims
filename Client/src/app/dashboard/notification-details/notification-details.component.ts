@@ -6,7 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { ProfileManager } from '../../services/profile-manager';
 import { NotificationService } from '../../services/notification.service';
-import { MessageResponse } from 'src/app/models/message-response';
+import { MessageResponse } from '../../models/message-response';
 import { DialogService } from 'ng2-bootstrap-modal';
 import { ConfirmComponent } from '../../components/confirm.component';
 

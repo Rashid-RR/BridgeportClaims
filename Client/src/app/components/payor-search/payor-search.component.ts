@@ -51,11 +51,7 @@ export class PayorSearchComponent implements OnInit {
 
   private autocompleteOpened$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(
-    private router: Router,
-    private http: HttpService,
-    public claimManager: ClaimManager,
-  ) { }
+  constructor(private http: HttpService, public claimManager: ClaimManager) {}
 
   ngOnInit(): void {
     // Search autocomplete.

@@ -1,4 +1,4 @@
-<mat-form-field>
+<mat-form-field matAutocompleteOrigin #origin="matAutocompleteOrigin">
   <mat-icon class="search-i" matPrefix>search</mat-icon>
   <input type="text" matInput [formControl]="searchCtrl" [matAutocomplete]="auto" (click)="placeholder=''"
     #searchAutocompleteInputCtrl="matInput" [placeholder]="placeholder" [matAutocompleteConnectedTo]="origin">
