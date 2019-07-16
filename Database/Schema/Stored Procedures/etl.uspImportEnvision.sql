@@ -307,8 +307,8 @@ AS BEGIN
 		   ,[NotificationTypeID]
 		   ,[PrescriptionID]
 		)
-		SELECT 'A new Envision Claim #: ' + CONVERT(VARCHAR(100), [c].[ClaimNumber])
-			   + ' has been imported. Prescription Rx #: ' + [p].[RxNumber] + ' Label: ' + [p].[LabelName]
+		SELECT 'A new Envision Claim #: ' + [c].[ClaimNumber]
+			   + ' has been imported. Prescription Rx #: ' + [p].[RxNumber] + ' Label: ' + ISNULL([p].[LabelName], '')
 			   + ' needs a Billed Amount' + CASE WHEN [pay].[PayorID] = -1 THEN ' and a Carrier.' ELSE '' END
 			  ,@TodayLocal
 			  ,@NotificationTypeID

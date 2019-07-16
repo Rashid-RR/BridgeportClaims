@@ -24,6 +24,8 @@ AS BEGIN
     SET XACT_ABORT ON;
 	DECLARE @UtcNow DATETIME2 = dtme.udfGetDate();
 	DECLARE @ImportTypeID INT = dbo.udfGetImportTypeByCode('ENVISION');
+	DECLARE @NotificationID INT;
+	DECLARE @TodayLocal DATE = CONVERT(DATE, [dtme].[udfGetLocalDate]());
 	IF @ImportTypeID IS NULL
 		BEGIN
 			RAISERROR(N'Error, could not populate the Import Type ID variable.', 16, 1) WITH NOWAIT;
@@ -44,6 +46,19 @@ AS BEGIN
 				WHERE p.ImportTypeID = @ImportTypeID
 					  AND p.PrescriptionID = @PrescriptionID;
 			END
+
+		-- Dismiss Notification
+		SELECT @NotificationID = [n].[NotificationID]
+		FROM [dbo].[Prescription] AS [p]
+			 INNER JOIN [dbo].[Notification] AS [n] ON [n].[PrescriptionID] = [p].[PrescriptionID]
+		WHERE [p].[PrescriptionID] = @PrescriptionID;
+
+		UPDATE [n]
+		SET [n].[IsDismissed] = 1
+		   ,[n].[DismissedByUserID] = @ModifiedByUserID
+		   ,[n].[DismissedDate] = @TodayLocal
+		FROM [dbo].[Notification] AS [n]
+		WHERE [n].[NotificationID] = @NotificationID;
 
 		IF (@@TRANCOUNT > 0)
 			COMMIT;
