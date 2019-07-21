@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.IO;
 using System.Reflection;
 using BridgeportClaims.Common.Disposable;
@@ -123,6 +124,20 @@ namespace BridgeportClaims.Pdf.InvoiceProviders
                         StampText(data.Scripts[0].RxNumber, rxNumberXAxis, scriptOneNdcRxNumberYAxis, contentByte, AlternateFontSize);
                         const string a = "A";
                         StampText(a, rxNumberXAxis + 9, scriptOneYAxis, contentByte, AlternateFontSize);
+                        var billedAmountDollars = data.Scripts[0].BilledAmountDollars;
+                        var billedAmountCents = data.Scripts[0].BilledAmountCents;
+                        const float billedAmountDollarsXAxis = 370.5f;
+                        if (billedAmountDollars.HasValue && billedAmountDollars.Value > 0)
+                        {
+                            StampText(billedAmountDollars.Value.ToString(), billedAmountDollarsXAxis, scriptOneYAxis, contentByte, AlternateFontSize);
+                        }
+                        const float billedAmountCentsXAxis = 400.5f;
+                        if (billedAmountCents.HasValue)
+                        {
+                            var cents = billedAmountCents.Value.ToString(CultureInfo.InvariantCulture);
+                            StampText(cents, billedAmountCentsXAxis, scriptOneYAxis, contentByte, AlternateFontSize);
+                        }
+                        StampText(data.Scripts[0].Quantity.ToString(CultureInfo.InvariantCulture), 430.5f, scriptOneYAxis, contentByte, AlternateFontSize);
                     }
                     catch (Exception ex)
                     {

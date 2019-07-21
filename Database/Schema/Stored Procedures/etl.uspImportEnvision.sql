@@ -308,7 +308,7 @@ AS BEGIN
 		   ,[PrescriptionID]
 		)
 		SELECT 'A new Envision Claim #: ' + [c].[ClaimNumber]
-			   + ' has been imported. Prescription Rx #: ' + [p].[RxNumber] + ' Label: ' + ISNULL([p].[LabelName], '')
+			   + ' has been imported. Claimant: ' + [pat].[FirstName] + ' ' + [pat].[LastName] + '. Rx Date: ' + FORMAT([p].[DateFilled], 'MM/dd/yyyy') + '. Rx #: ' + [p].[RxNumber] + '. Label: ' + ISNULL([p].[LabelName], '')
 			   + ' needs a Billed Amount' + CASE WHEN [pay].[PayorID] = -1 THEN ' and a Carrier.' ELSE '' END
 			  ,@TodayLocal
 			  ,@NotificationTypeID
@@ -316,6 +316,7 @@ AS BEGIN
 		FROM [dbo].[Prescription] AS [p]
 			 INNER JOIN [dbo].[Claim] AS [c] ON [c].[ClaimID] = [p].[ClaimID]
 			 INNER JOIN [dbo].[Payor] AS [pay] ON [pay].[PayorID] = [c].[PayorID]
+			 INNER JOIN [dbo].[Patient] AS [pat] ON [pat].[PatientID] = [c].[PatientID]
 		WHERE [p].[ImportTypeID] = @ImportTypeID
 			 AND NOT EXISTS (SELECT * FROM [dbo].[Notification] AS [n] WHERE [n].[PrescriptionID] = [p].[PrescriptionID]);
 

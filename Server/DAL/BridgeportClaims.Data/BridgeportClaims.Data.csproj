@@ -253,6 +253,7 @@
     <Compile Include="Dtos\InvoiceAmountDto.cs" />
     <Compile Include="Dtos\InvoiceDto.cs" />
     <Compile Include="Dtos\InvoicePdfDto.cs" />
+    <Compile Include="Dtos\InvoiceProcessDto.cs" />
     <Compile Include="Dtos\LeftRightClaimsDto.cs" />
     <Compile Include="Dtos\LetterGenerationDto.cs" />
     <Compile Include="Dtos\NewEpisodeSaveDto.cs" />
