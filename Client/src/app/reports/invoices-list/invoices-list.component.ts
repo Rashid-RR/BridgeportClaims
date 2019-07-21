@@ -5,9 +5,9 @@ import { ToastrService } from 'ngx-toastr';
 import { map } from 'rxjs/operators';
 import { HttpService, InvoicesService } from '../../services/services.barrel';
 import { StateCellRendererComponent } from '../address-edit/states-cell-renderer.component';
-import { AgPhoneNumberMaskComponent } from './../../components/ag-phone-number-mask/ag-phone-number-mask.component';
 import { AgDateFilterComponent } from './../../components/ag-date-filter/ag-date-filter.component';
-import * as moment from 'moment';
+import { AgPhoneNumberMaskComponent } from './../../components/ag-phone-number-mask/ag-phone-number-mask.component';
+import { BridgeportDateService } from './../../services/bridgeport-date.service';
 
 @Component({
   selector: 'app-invoices-list',
@@ -28,7 +28,7 @@ export class InvoicesListComponent implements OnInit {
   public frameworkComponents: any;
   @ViewChild('agGrid') agGrid: AgGridNg2;
 
-  constructor(public invoicesService: InvoicesService, private http: HttpService, private toast: ToastrService) {
+  constructor(private bpDate: BridgeportDateService, public invoicesService: InvoicesService, private http: HttpService, private toast: ToastrService) {
     this.editType = 'fullRow';
     this.frameworkComponents = {
       stateCellRenderer: StateCellRendererComponent,
@@ -82,10 +82,10 @@ export class InvoicesListComponent implements OnInit {
     this.rowData = this.invoicesService.getInvoices().pipe(
       map((invoices: any) => {
         const inv = invoices.map((invoice) => {
-          invoice['invoiceDate'] = (invoice['invoiceDate']||'').substr(0, 10);
+          invoice['invoiceDate'] = (invoice['invoiceDate'] || '').substr(0, 10);
           return invoice;
         });
-        inv.sort((a,b) => parseInt(moment(b.invoiceDate).format('YYYYMMDD')) - parseInt(moment(a.invoiceDate).format('YYYYMMDD')))
+        inv.sort((a, b) => parseInt(this.bpDate.formatDateRaw(b.invoiceDate)) - parseInt(this.bpDate.formatDateRaw(a.invoiceDate)));
         return inv;
       })
     );
@@ -102,9 +102,9 @@ export class InvoicesListComponent implements OnInit {
         filter: 'agDateColumnFilter',
         filterParams: {
           comparator: function(filterLocalDateAtMidnight, cellValue) {
-            var dateAsString = cellValue;
-            var dateParts = dateAsString.split("/");
-            var cellDate = new Date(Number(dateParts[2]), Number(dateParts[1]) - 1, Number(dateParts[0]));
+            let dateAsString = cellValue;
+            let dateParts = dateAsString.split('/');
+            let cellDate = new Date(Number(dateParts[2]), Number(dateParts[1]) - 1, Number(dateParts[0]));
             if (filterLocalDateAtMidnight.getTime() === cellDate.getTime()) {
               return 0;
             }
@@ -120,8 +120,8 @@ export class InvoicesListComponent implements OnInit {
       { headerName: 'Carrier', field: 'carrier', editable: true, sortable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true}, rowGroup: true, width: 90, },
       { headerName: 'Patient Name', field: 'patientName', editable: true, sortable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true}, width: 90, },
       { headerName: 'Claim #', field: 'claimNumber', editable: true, sortable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true}, width: 90, },
-      { headerName: 'Invoice Count', field: 'invoiceCount', editable: true, sortable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true}, aggFunc: "sum" },
-      { headerName: 'Script Count', field: 'scriptCount', editable: true, sortable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true}, aggFunc: "sum" }
+      { headerName: 'Invoice Count', field: 'invoiceCount', editable: true, sortable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true}, aggFunc: 'sum' },
+      { headerName: 'Script Count', field: 'scriptCount', editable: true, sortable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true}, aggFunc: 'sum' }
     ];
     this.invoicesService.refreshList$.subscribe(this.refreshList);
   }
@@ -138,7 +138,7 @@ export class InvoicesListComponent implements OnInit {
 
   onCellValueChanged(params: any) {
     const valueActuallyChanged = (params.oldValue !== params.newValue);
-    if( valueActuallyChanged ) {
+    if ( valueActuallyChanged ) {
       const colId = params.column.getId();
       this.http.editPatient(params.data).subscribe(res => { this.toast.success(res.message); }, err => this.toast.error(err.message));
     }
@@ -162,7 +162,7 @@ export class InvoicesListComponent implements OnInit {
   }
 
   refreshList = (action) => {
-    if(!action){return;}
+    if (!action) {return; }
     this.gridApi.setFilterModel(null);
     this.gridApi.onFilterChanged();
     this.gridColumnApi.resetColumnState();

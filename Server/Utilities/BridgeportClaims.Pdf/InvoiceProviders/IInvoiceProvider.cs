@@ -1,9 +1,9 @@
-﻿using BridgeportClaims.Data.Dtos;
+﻿using BridgeportClaims.Common.Models;
 
 namespace BridgeportClaims.Pdf.InvoiceProviders
 {
     public interface IInvoiceProvider
     {
-        bool ProcessInvoice(InvoicePdfDto data, string targetPath);
+        bool ProcessInvoice(InvoicePdfModel data, string targetPath);
     }
 }

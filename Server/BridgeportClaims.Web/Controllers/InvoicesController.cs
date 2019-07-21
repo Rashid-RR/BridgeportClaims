@@ -52,9 +52,10 @@ namespace BridgeportClaims.Web.Controllers
             try
             {
                 var data = _invoicePdfDocumentProvider.Value.GetInvoicePdfDocument();
+                var model = _invoicePdfDocumentProvider.Value.GetInvoicePdfModel(data.ToList());
                 var fileName = "Invoice_" + $"{DateTime.Now:yyyy-MM-dd_hh-mm-ss-tt}.pdf";
                 var targetPath = Path.Combine(Path.GetTempPath(), fileName);
-                if (_invoiceProvider.Value.ProcessInvoice(data, targetPath))
+                if (_invoiceProvider.Value.ProcessInvoice(model, targetPath))
                 {
                     return new FileResult(targetPath, fileName, "application/pdf");
                 }

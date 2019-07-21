@@ -55,7 +55,7 @@ export class TextSelectDirective implements OnInit, OnDestroy {
     // I get called once when the directive is being unmounted.
     public ngOnDestroy(): void {
 
-        // Unbind all handlers, even ones that may not be bounds at this moment.
+        // Unbind all handlers, even ones that may not be bounds at this time.
         this.elementRef.nativeElement.removeEventListener( 'mousedown', this.handleMousedown, false );
         document.removeEventListener( 'mouseup', this.handleMouseup, false );
         document.removeEventListener( 'selectionchange', this.handleSelectionchange, false );

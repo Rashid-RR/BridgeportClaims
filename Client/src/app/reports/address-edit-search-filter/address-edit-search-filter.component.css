@@ -1,6 +1,7 @@
 form {
     background: #ffffff;
 }
+
 form .col-md-2.flex{
     width:165px;
     padding-right:2px;
@@ -10,4 +11,8 @@ form .col-md-2.flex{
 form .col-md-2.flex .form-group span{
     display:flex;
     flex-direction: row;
+}
+
+#filter-text-box {
+  border: 1px solid black;
 }
