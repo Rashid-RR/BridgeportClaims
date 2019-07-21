@@ -3,7 +3,7 @@ import { AgGridNg2 } from 'ag-grid-angular/dist/agGridNg2';
 import { GridApi } from 'ag-grid-community';
 import { ToastrService } from 'ngx-toastr';
 import { map } from 'rxjs/operators';
-import { HttpService, InvoicesService } from '../../services/services.barrel';
+import { HttpService, InvoicesService, InvoiceProcessService } from '../../services/services.barrel';
 import { AgDateFilterComponent } from '../../components/ag-date-filter/ag-date-filter.component';
 import { AgPhoneNumberMaskComponent } from '../../components/ag-phone-number-mask/ag-phone-number-mask.component';
 import { BridgeportDateService } from '../../services/bridgeport-date.service';
@@ -28,7 +28,7 @@ export class InvoiceProcessListComponent implements OnInit {
   public frameworkComponents: any;
   @ViewChild('agGrid') agGrid: AgGridNg2;
 
-  constructor(private bpDate: BridgeportDateService, public invoicesService: InvoicesService, private http: HttpService, private toast: ToastrService) {
+  constructor(private bpDate: BridgeportDateService, public invoiceProcessService: InvoiceProcessService, private http: HttpService, private toast: ToastrService) {
     this.editType = 'fullRow';
     this.frameworkComponents = {
       stateCellRenderer: InvoiceProcessStateCellRendererComponent,
@@ -79,10 +79,10 @@ export class InvoiceProcessListComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.rowData = this.invoicesService.getInvoices().pipe(
+    this.rowData = this.invoiceProcessService.getInvoiceProcess().pipe(
       map((invoices: any) => {
         const inv = invoices.map((invoice) => {
-          invoice['invoiceDate'] = (invoice['invoiceDate'] || '').substr(0, 10);
+          invoice['dateSubmitted'] = (invoice['dateSubmitted'] || '').substr(0, 10);
           return invoice;
         });
         inv.sort((a, b) => parseInt(this.bpDate.formatDateRaw(b.invoiceDate)) - parseInt(this.bpDate.formatDateRaw(a.invoiceDate)));
@@ -92,8 +92,8 @@ export class InvoiceProcessListComponent implements OnInit {
 
     this.columnDefs = [
       {
-        headerName: 'Inv Date',
-        field: 'invoiceDate',
+        headerName: 'Submitted Date',
+        field: 'dateSubmitted',
         // editable: true, sortable: false,
         // filter: 'agTextColumnFilter',
         // filterParams: { clearButton: true},
@@ -120,16 +120,22 @@ export class InvoiceProcessListComponent implements OnInit {
       { headerName: 'Carrier', field: 'carrier', editable: true, sortable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true}, rowGroup: true, width: 90, },
       { headerName: 'Patient Name', field: 'patientName', editable: true, sortable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true}, width: 90, },
       { headerName: 'Claim #', field: 'claimNumber', editable: true, sortable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true}, width: 90, },
-      { headerName: 'Invoice Count', field: 'invoiceCount', editable: true, sortable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true}, aggFunc: 'sum' },
-      { headerName: 'Script Count', field: 'scriptCount', editable: true, sortable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true}, aggFunc: 'sum' }
+      { headerName: 'In Queue', field: 'inQueue', editable: true, sortable: true, filter: 'agNumberColumnFilter', filterParams: { clearButton: true}, aggFunc: 'sum' },
     ];
-    this.invoicesService.refreshList$.subscribe(this.refreshList);
+    this.invoiceProcessService.refreshList$.subscribe(this.refreshList);
   }
 
   onGridReady(params): void {
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
-    params.api.sizeColumnsToFit();
+  }
+
+  onFirstDataRendered (params): void {
+    const allColumnIds = [];
+    this.gridColumnApi.getAllColumns().forEach(function(column) {
+      allColumnIds.push(column.colId);
+    });
+    this.gridColumnApi.autoSizeColumns(allColumnIds);
   }
 
   refreshGrid(): void {

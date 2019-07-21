@@ -120,8 +120,8 @@ export class InvoicesListComponent implements OnInit {
       { headerName: 'Carrier', field: 'carrier', editable: true, sortable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true}, rowGroup: true, width: 90, },
       { headerName: 'Patient Name', field: 'patientName', editable: true, sortable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true}, width: 90, },
       { headerName: 'Claim #', field: 'claimNumber', editable: true, sortable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true}, width: 90, },
-      { headerName: 'Invoice Count', field: 'invoiceCount', editable: true, sortable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true}, aggFunc: 'sum' },
-      { headerName: 'Script Count', field: 'scriptCount', editable: true, sortable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true}, aggFunc: 'sum' }
+      { headerName: 'Invoice Count', field: 'invoiceCount', editable: true, sortable: true, filter: 'agNumberColumnFilter', filterParams: { clearButton: true}, aggFunc: 'sum' },
+      { headerName: 'Script Count', field: 'scriptCount', editable: true, sortable: true, filter: 'agNumberColumnFilter', filterParams: { clearButton: true}, aggFunc: 'sum' }
     ];
     this.invoicesService.refreshList$.subscribe(this.refreshList);
   }
@@ -129,7 +129,7 @@ export class InvoicesListComponent implements OnInit {
   onGridReady(params): void {
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
-    params.api.sizeColumnsToFit();
+    params.columnApi.autoSizeColumns();
   }
 
   refreshGrid(): void {

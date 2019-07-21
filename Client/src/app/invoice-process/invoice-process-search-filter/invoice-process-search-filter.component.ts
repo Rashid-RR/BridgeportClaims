@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { InvoicesService } from '../../services/services.barrel';
+import { InvoiceProcessService } from '../../services/services.barrel';
 
 @Component({
   selector: 'app-invoice-process-search-filter',
@@ -9,16 +9,16 @@ import { InvoicesService } from '../../services/services.barrel';
 })
 export class InvoiceProcessSearchFilterComponent implements OnInit {
 
-  constructor(public invoicesService: InvoicesService) {}
+  constructor(public invoiceProcessService: InvoiceProcessService) {}
 
   ngOnInit(): void {}
 
   clearFilter(): void {
-    this.invoicesService.filterText = '';
+    this.invoiceProcessService.filterText = '';
   }
 
   refreshList(): void {
-    this.invoicesService.filterText = '';
-    this.invoicesService.refreshList$.next(true);
+    this.invoiceProcessService.filterText = '';
+    this.invoiceProcessService.refreshList$.next(true);
   }
 }
