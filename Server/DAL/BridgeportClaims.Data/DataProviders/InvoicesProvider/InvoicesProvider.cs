@@ -20,5 +20,16 @@ namespace BridgeportClaims.Data.DataProviders.InvoicesProvider
                 }
                 return conn.Query<InvoiceDto>(sp, commandType: CommandType.StoredProcedure);
             });
+
+        public IEnumerable<InvoiceProcessDto> GetInvoiceProcesses() =>
+            DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+            {
+                const string sp = "[dbo].[uspInvoicesProcess]";
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                }
+                return conn.Query<InvoiceProcessDto>(sp, commandType: CommandType.StoredProcedure);
+            });
     }
 }

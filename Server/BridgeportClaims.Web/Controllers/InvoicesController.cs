@@ -46,6 +46,22 @@ namespace BridgeportClaims.Web.Controllers
         }
 
         [HttpPost]
+        [Route("get-invoice-processes")]
+        public IHttpActionResult GetInvoiceProcesses()
+        {
+            try
+            {
+                var data = _invoicesProvider.Value.GetInvoiceProcesses();
+                return Ok(data?.OrderByDescending(x => x.DateSubmitted));
+            }
+            catch (Exception ex)
+            {
+                Logger.Value.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+            }
+        }
+
+        [HttpPost]
         [Route("process-invoice")]
         public IHttpActionResult ProcessInvoice()
         {

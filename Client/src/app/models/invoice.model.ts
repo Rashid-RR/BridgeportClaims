@@ -1,10 +1,16 @@
 export interface InvoiceScreen {
   invoiceDate: string; // Date -- MUST be formmatted MM/dd/yyyy
   carrier: string;
-  patientname: string;
-  claimnumber: string;
-  invoicecount: number;
-  scriptcount: number;
-  printed: number;
-  totaltoprint: number;
+  patientName: string;
+  claimNumber: string;
+  invoiceCount: number;
+  scriptCount: number;
+}
+
+export interface InvoiceProcess  {
+  dateSubmitted: string; // Date -- MUST be formmatted MM/dd/yyyy
+  carrier: string;
+  patientName: string;
+  claimNumber: string;
+  inQueue: number;
 }

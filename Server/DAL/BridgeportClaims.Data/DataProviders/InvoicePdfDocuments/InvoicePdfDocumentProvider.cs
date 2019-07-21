@@ -25,8 +25,7 @@ namespace BridgeportClaims.Data.DataProviders.InvoicePdfDocuments
 
         public InvoicePdfModel GetInvoicePdfModel(IList<InvoicePdfDto> data)
         {
-            var model = from d in data
-                group d by new
+            var model = data.GroupBy(d => new
                 {
                     d.ClaimId,
                     d.BillToName,
@@ -54,9 +53,8 @@ namespace BridgeportClaims.Data.DataProviders.InvoicePdfDocuments
                     d.DateOfInjuryDay,
                     d.DateOfInjuryMonth,
                     d.DateOfInjuryYear
-                }
-                into gcs
-                select new InvoicePdfModel
+                })
+                .Select(gcs => new InvoicePdfModel
                 {
                     BillToName = gcs.Key.BillToName,
                     BillToAddress1 = gcs.Key.BillToAddress1,
@@ -84,7 +82,7 @@ namespace BridgeportClaims.Data.DataProviders.InvoicePdfDocuments
                     DateOfInjuryMonth = gcs.Key.DateOfInjuryMonth,
                     DateOfInjuryYear = gcs.Key.DateOfInjuryYear,
                     Scripts = GetInvoicePrescriptionPdfModels(gcs.ToList())
-                };
+                });
             return model.SingleOrDefault();
         }
 
@@ -95,32 +93,31 @@ namespace BridgeportClaims.Data.DataProviders.InvoicePdfDocuments
         /// <returns></returns>
         private static IList<InvoicePrescriptionPdfModel> GetInvoicePrescriptionPdfModels(IEnumerable<InvoicePdfDto> invoicePdfDtos)
         {
-            var query = from c in invoicePdfDtos
-                select new InvoicePrescriptionPdfModel
-                {
-                    PrescriptionId = c.PrescriptionId,
-                    Prescriber = c.Prescriber,
-                    PrescriberNpi = c.PrescriberNpi,
-                    DateFilledDay = c.DateFilledDay,
-                    DateFilledMonth = c.DateFilledMonth,
-                    DateFilledYear = c.DateFilledYear,
-                    Ndc = c.Ndc,
-                    LabelName = c.LabelName,
-                    RxNumber = c.RxNumber,
-                    BilledAmount = c.BilledAmount,
-                    BilledAmountDollars = c.BilledAmountDollars,
-                    BilledAmountCents = c.BilledAmountCents,
-                    Quantity = c.Quantity,
-                    PharmacyName = c.PharmacyName,
-                    Address1 = c.Address1,
-                    Address2 = c.Address2,
-                    City = c.City,
-                    PharmacyState = c.PharmacyState,
-                    PostalCode = c.PostalCode,
-                    FederalTin = c.FederalTin,
-                    Npi = c.Npi,
-                    Nabp = c.Nabp
-                };
+            var query = invoicePdfDtos.Select(c => new InvoicePrescriptionPdfModel
+            {
+                PrescriptionId = c.PrescriptionId,
+                Prescriber = c.Prescriber,
+                PrescriberNpi = c.PrescriberNpi,
+                DateFilledDay = c.DateFilledDay,
+                DateFilledMonth = c.DateFilledMonth,
+                DateFilledYear = c.DateFilledYear,
+                Ndc = c.Ndc,
+                LabelName = c.LabelName,
+                RxNumber = c.RxNumber,
+                BilledAmount = c.BilledAmount,
+                BilledAmountDollars = c.BilledAmountDollars,
+                BilledAmountCents = c.BilledAmountCents,
+                Quantity = c.Quantity,
+                PharmacyName = c.PharmacyName,
+                Address1 = c.Address1,
+                Address2 = c.Address2,
+                City = c.City,
+                PharmacyState = c.PharmacyState,
+                PostalCode = c.PostalCode,
+                FederalTin = c.FederalTin,
+                Npi = c.Npi,
+                Nabp = c.Nabp
+            });
             return query.ToList();
         }
     }

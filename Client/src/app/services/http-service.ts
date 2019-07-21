@@ -12,7 +12,7 @@ import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { RootDecisionTreeModal } from '../interfaces/decision-tree-choice';
 import { EnvisionNotificationDismissal } from '../models/envision-notification-dismissal';
-import { InvoiceScreen } from '../models/invoice.model';
+import { InvoiceProcess, InvoiceScreen } from '../models/invoice.model';
 import { MessageResponse } from '../models/message-response';
 import { EventsService } from './events-service';
 
@@ -1791,6 +1791,17 @@ closeTreeWindows() {
         })
       );
     }
+
+  getInvoicesProcess(): Observable<InvoiceProcess> {
+    return this.http.post<InvoiceProcess>(this.baseUrl + '/invoices/get-invoice-processes', {})
+    .pipe(
+      tap(_ => {
+      }, error => {
+        this.handleResponseError(error);
+      })
+    );
+  }
+
 // Search Typs MUST be: FirstName, LastName, ClaimNumber.
   getGlobalSearch(searchTerm: string, searchType: any): Observable<any> {
     return this.http.post<GlobalSearchResult>(this.baseUrl + `/claims/global-search/?searchTerm=${searchTerm}&searchType=${searchType}`, {})

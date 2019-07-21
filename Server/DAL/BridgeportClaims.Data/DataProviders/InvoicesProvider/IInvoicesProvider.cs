@@ -6,5 +6,6 @@ namespace BridgeportClaims.Data.DataProviders.InvoicesProvider
     public interface IInvoicesProvider
     {
         IEnumerable<InvoiceDto> GetInvoices();
+        IEnumerable<InvoiceProcessDto> GetInvoiceProcesses();
     }
 }
