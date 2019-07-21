@@ -30,6 +30,7 @@ import { NotificationDetailsComponent } from '../dashboard/notification-details/
 import { PayorSearchComponent } from '../components/payor-search/payor-search.component';
 import { RouterModule } from '@angular/router';
 import {NgxMaskModule } from 'ngx-mask';
+import { AgDateFilterComponent } from '../components/ag-date-filter/ag-date-filter.component';
 @Pipe({ name: 'safeStyle' })
 export class SafeStylePipe implements PipeTransform {
   constructor(private sanitized: DomSanitizer) { }
@@ -66,7 +67,7 @@ export class SafeUrlPipe implements PipeTransform {
     UnpaidScriptResultsComponent, UnpaidScriptSearchComponent, InvoiceSearchComponent,
      EpisodeNoteModalComponent, UnindexedImageFilterComponent, UnindexedImageListComponent, ScriptNoteWindowComponent,
      TreeListGridComponent, TreeListFilterComponent, TreeListComponent, NewEpisodeComponent,
-     NotificationComponent, NotificationDetailsComponent, PayorSearchComponent
+     NotificationComponent, NotificationDetailsComponent, PayorSearchComponent, AgDateFilterComponent
   ],
   providers: [
     WindowsInjetor,
@@ -86,7 +87,7 @@ export class SafeUrlPipe implements PipeTransform {
     EpisodeNoteModalComponent, InvoiceSearchComponent, NewEpisodeComponent,
     UnindexedImageFilterComponent, UnindexedImageListComponent, ScriptNoteWindowComponent,
     TreeListGridComponent, TreeListFilterComponent, TreeListComponent, MaterialComponentsModule,
-    NotificationComponent, NotificationDetailsComponent, PayorSearchComponent
+    NotificationComponent, NotificationDetailsComponent, PayorSearchComponent, AgDateFilterComponent
   ],
   entryComponents: [
     ConfirmComponent, BootstrapWindowContainer, WindowBackdrop, ScriptNoteWindowComponent,

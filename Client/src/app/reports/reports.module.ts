@@ -63,7 +63,6 @@ import { AgDateFilterComponent } from '../components/ag-date-filter/ag-date-filt
     InvoicesComponent,
     InvoicesSearchFilterComponent,
     InvoicesListComponent,
-    AgDateFilterComponent
   ]
 })
 export class ReportsModule { }

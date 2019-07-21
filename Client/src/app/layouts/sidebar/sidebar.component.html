@@ -111,18 +111,18 @@
             <span>Indexing</span>
           </a>
         </li>
-        <li [class.active]="router.url.indexOf('/main/reports/invoices')>-1">
-          <a [routerLink]="!disableLinks ? '/main/reports/invoices' : []" *ngIf="adminOrAsociate" [class.disabled]="disableLinks"
+        <li [class.active]="router.url.indexOf('/main/invoice-processes')>-1">
+          <a [routerLink]="!disableLinks ? '/main/invoice-processes' : []" *ngIf="adminOrAsociate" [class.disabled]="disableLinks"
           [popover]="classList.contains('sidebar-collapse') ? 'Invoices' : ''" triggers="mouseenter:mouseleave" placement="right">
             <img  style='width: 20px;' class="activeImage" src="assets/images/active-state/invoice.png">
             <img  style='width: 20px;' class="normalImage" src="assets/images/normal-state/invoice.png">
             <!-- <i class="fa fa-tachometer" aria-hidden="true"></i> -->
-            <span>Invoices</span>
+            <span>Invoice-Processes</span>
           </a>
         </li>
         <ng-container *ngIf="profileManager.profile && profileManager.profile.roles.indexOf('Admin') < 0 &&
         ((profileManager.profile.roles.indexOf('User') > -1 && profileManager.profile.roles.indexOf('Indexer') > -1) || profileManager.profile.roles.indexOf('Indexer') > -1)">
-          <li [class.active]="router.url.indexOf('/main/reports')>-1 && router.url.indexOf('/main/reports/invoices') === -1">
+          <li [class.active]="router.url.indexOf('/main/reports')>-1">
             <a [routerLink]="'/main/reports'"
             [popover]="classList.contains('sidebar-collapse') ? 'Reports' : ''" triggers="mouseenter:mouseleave" placement="right">
             <img style='width: 20px;' class="activeImage" src="assets/images/active-state/reports.png">
@@ -139,7 +139,7 @@
     </div>
     <ul class="sidebar-menu" *ngIf="allowed">
         <ng-container *ngIf="profileManager.profile && profileManager.profile.roles.indexOf('Admin') > -1">
-          <li [class.active]="router.url.indexOf('/main/reports')>-1 && router.url.indexOf('/main/reports/invoices') === -1">
+          <li [class.active]="router.url.indexOf('/main/reports')>-1">
             <a [routerLink]="'/main/reports'"
             [popover]="classList.contains('sidebar-collapse') ? 'Reports' : ''" triggers="mouseenter:mouseleave" placement="right">
             <img style='width: 20px;' class="activeImage" src="assets/images/active-state/reports.png">
