@@ -18,6 +18,9 @@ export class AuthInterceptor implements HttpInterceptor {
                 const us = JSON.parse(user);
                 token = us.access_token;
                 const dupReq = req.clone({ headers: req.headers.set('Authorization', `Bearer ${token}`) });
+                /*if (dupReq && dupReq.url) {
+                  console.log(`API called with ${dupReq.urlWithParams}`);
+                }*/
                 return next.handle(dupReq);
             } catch (error) {
 

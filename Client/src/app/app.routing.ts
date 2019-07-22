@@ -68,6 +68,7 @@ export const routes: Routes = [
           { path: 'payors', component: PayorsComponent },
           { path: 'indexed-image/:id', component: UnindexedImageFileComponent, },
           { path: 'indexing', loadChildren: './indexing/indexing.module#IndexingModule' },
+          { path: 'invoice-processes', loadChildren: './invoice-process/invoice-process.module#InvoiceProcessModule' },
           { path: 'unindexed-images', component: UnindexedImageComponent, },
           { path: 'unindexed-images/:date', component: UnindexedImageComponent, },
           { path: 'unpaid-scripts', component: UnpaidScriptComponent },
