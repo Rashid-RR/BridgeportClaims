@@ -131,7 +131,7 @@ export class InvoicesListComponent implements OnInit, OnDestroy {
   onGridReady(params): void {
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
-    // params.columnApi.autoSizeColumns();
+    params.api.sizeColumnsToFit();
   }
 
   ngOnDestroy(): void {
