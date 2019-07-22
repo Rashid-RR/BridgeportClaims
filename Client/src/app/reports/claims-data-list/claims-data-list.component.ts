@@ -1,4 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { AgGridNg2 } from 'ag-grid-angular/dist/agGridNg2';
 import { QueryBuilderService } from '../../services/query-builder.service';
 
@@ -6,7 +7,8 @@ import { QueryBuilderService } from '../../services/query-builder.service';
   selector: 'app-claims-data-list',
   templateUrl: './claims-data-list.component.html'
 })
-export class ClaimsDataListComponent implements OnInit {
+export class ClaimsDataListComponent implements OnInit, OnDestroy {
+  private sub!: Subscription;
   public defaultColDef: any;
   public rowSelection: string;
   public rowGroupPanelShow: string;
@@ -107,14 +109,6 @@ export class ClaimsDataListComponent implements OnInit {
       }
     }
   ];
-  /*autoGroupColumnDef = {
-    headerName: 'GroupName',
-    field: 'groupName',
-    cellRenderer: 'agGroupCellRenderer',
-    cellRendererParams: {
-        checkbox: true
-    }
-  };*/
 
   rowData: any;
   constructor(public queryBuilderSvc: QueryBuilderService) {
@@ -162,15 +156,22 @@ export class ClaimsDataListComponent implements OnInit {
 
   ngOnInit(): void {
     this.rowData = this.queryBuilderSvc.fetchQueryBuilderReport();
-    this.queryBuilderSvc.refreshList$.subscribe(this.refreshList);
+    this.sub = this.queryBuilderSvc.refreshList$.subscribe(this.refreshList);
   }
 
-  /*getSelectedRows() {
-    const selectedNodes = this.agGrid.api.getSelectedNodes();
-    const selectedData = selectedNodes.map(node => node.data);
-    const selectedDataStringPresentation = selectedData.map(node => node.make + ' ' + node.model).join(', ');
-    console.log(`Selected nodes: ${selectedDataStringPresentation}`);
-  }*/
+  ngOnDestroy(): void {
+    if (this.sub) {
+      this.sub.unsubscribe();
+    }
+  }
+
+  onFirstDataRendered(params: any): void {
+    const allColumnIds = [];
+    this.gridColumnApi.getAllColumns().forEach((column: any) => {
+      allColumnIds.push(column.colId);
+    });
+    this.gridColumnApi.autoSizeColumns(allColumnIds);
+  }
 
   onGridReady(params): void {
     this.gridApi = params.api;
@@ -178,7 +179,9 @@ export class ClaimsDataListComponent implements OnInit {
   }
 
   refreshList = (action) => {
-    if(!action){return;}
+    if (!action) {
+      return;
+    }
     this.gridApi.setFilterModel(null);
     this.gridApi.onFilterChanged();
     this.gridColumnApi.resetColumnState();

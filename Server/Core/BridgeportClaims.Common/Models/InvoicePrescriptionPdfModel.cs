@@ -13,7 +13,7 @@
         public string RxNumber { get; set; }
         public decimal BilledAmount { get; set; }
         public int? BilledAmountDollars { get; set; }
-        public decimal? BilledAmountCents { get; set; }
+        public string BilledAmountCents { get; set; }
         public float Quantity { get; set; }
         public string PharmacyName { get; set; }
         public string Address1 { get; set; }

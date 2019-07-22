@@ -1,7 +1,8 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { AgGridNg2 } from 'ag-grid-angular/dist/agGridNg2';
 import { GridApi } from 'ag-grid-community';
 import { ToastrService } from 'ngx-toastr';
+import { Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { HttpService, InvoicesService } from '../../services/services.barrel';
 import { StateCellRendererComponent } from '../address-edit/states-cell-renderer.component';
@@ -13,7 +14,8 @@ import { BridgeportDateService } from './../../services/bridgeport-date.service'
   selector: 'app-invoices-list',
   templateUrl: './invoices-list.component.html',
 })
-export class InvoicesListComponent implements OnInit {
+export class InvoicesListComponent implements OnInit, OnDestroy {
+  private sub!: Subscription;
   private gridColumnApi: any;
   public defaultColDef: any;
   public rowSelection: string;
@@ -123,13 +125,19 @@ export class InvoicesListComponent implements OnInit {
       { headerName: 'Invoice Count', field: 'invoiceCount', editable: true, sortable: true, filter: 'agNumberColumnFilter', filterParams: { clearButton: true}, aggFunc: 'sum' },
       { headerName: 'Script Count', field: 'scriptCount', editable: true, sortable: true, filter: 'agNumberColumnFilter', filterParams: { clearButton: true}, aggFunc: 'sum' }
     ];
-    this.invoicesService.refreshList$.subscribe(this.refreshList);
+    this.sub = this.invoicesService.refreshList$.subscribe(this.refreshList);
   }
 
   onGridReady(params): void {
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
-    params.columnApi.autoSizeColumns();
+    // params.columnApi.autoSizeColumns();
+  }
+
+  ngOnDestroy(): void {
+    if (this.sub) {
+      this.sub.unsubscribe();
+    }
   }
 
   refreshGrid(): void {

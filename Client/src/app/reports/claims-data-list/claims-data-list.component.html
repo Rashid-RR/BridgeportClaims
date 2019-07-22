@@ -15,6 +15,7 @@
     [pivotPanelShow]="pivotPanelShow"
     [enableRangeSelection]="true"
     (gridReady)="onGridReady($event)"
+    (firstDataRendered)="onFirstDataRendered($event)"
     [cacheQuickFilter]="true"
     [quickFilterText]="queryBuilderSvc.filterText"
     [floatingFilter]="true"

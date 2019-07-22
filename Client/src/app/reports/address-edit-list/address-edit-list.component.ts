@@ -1,17 +1,20 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { AgGridNg2 } from 'ag-grid-angular/dist/agGridNg2';
+import { GridApi } from 'ag-grid-community';
+import { ToastrService } from 'ngx-toastr';
+import { Subscription } from 'rxjs';
 import { AddressEditService } from '../../services/address-edit.service';
 import { HttpService } from '../../services/http-service';
 import { StateCellRendererComponent } from '../address-edit/states-cell-renderer.component';
-import { ToastrService } from 'ngx-toastr';
-import { GridApi } from 'ag-grid-community';
 import { AgPhoneNumberMaskComponent } from './../../components/ag-phone-number-mask/ag-phone-number-mask.component';
 
 @Component({
   selector: 'app-address-edit-list',
   templateUrl: './address-edit-list.component.html'
 })
-export class AddressEditListComponent implements OnInit {
+export class AddressEditListComponent implements OnInit, OnDestroy {
+  private sub!: Subscription;
+  private subEditPatient!: Subscription;
   private gridColumnApi: any;
   public defaultColDef: any;
   public rowSelection: string;
@@ -72,12 +75,6 @@ export class AddressEditListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    /*this.http.getStates({}).pipe(take(1)).subscribe(data => {
-        this.addressEditService.states = data.map(a => a.stateName);
-        console.log(this.addressEditService.states);
-      }, error => {
-        console.error(error);
-    });*/
     this.rowData = this.addressEditService.getPatientAddressEdit();
     this.columnDefs = [
       // { headerName: 'ClaimId', field: 'claimId', sortable: true, filter: true, checkboxSelection: true, rowDrag: true },
@@ -97,11 +94,11 @@ export class AddressEditListComponent implements OnInit {
           cellRenderer: 'stateCellRenderer'
         } },
       { headerName: 'Zip', field: 'postalCode', sortable: true, editable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true} },
-      { headerName: 'Phone #', field: 'phoneNumber', sortable: true, editable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true}, cellEditor: "agPhoneNumberMaskComponent" },
+      { headerName: 'Phone #', field: 'phoneNumber', sortable: true, editable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true}, cellEditor: 'agPhoneNumberMaskComponent' },
       { headerName: 'Email', cellEditor: 'agPopupTextCellEditor', field: 'emailAddress', sortable: true, editable: true,
         filter: 'agTextColumnFilter', filterParams: { clearButton: true} }
     ];
-    this.addressEditService.refreshList$.subscribe(this.refreshList);
+    this.sub = this.addressEditService.refreshList$.subscribe(this.refreshList);
   }
 
   onGridReady(params): void {
@@ -116,9 +113,17 @@ export class AddressEditListComponent implements OnInit {
 
   onCellValueChanged(params: any) {
     const valueActuallyChanged = (params.oldValue !== params.newValue);
-    if( valueActuallyChanged ) {
-      const colId = params.column.getId();
-      this.http.editPatient(params.data).subscribe(res => { this.toast.success(res.message); }, err => this.toast.error(err.message));
+    if (valueActuallyChanged) {
+      this.subEditPatient = this.http.editPatient(params.data).subscribe(res => { this.toast.success(res.message); }, err => this.toast.error(err.message));
+    }
+  }
+
+  ngOnDestroy(): void {
+    if (this.sub) {
+      this.sub.unsubscribe();
+    }
+    if (this.subEditPatient) {
+      this.subEditPatient.unsubscribe();
     }
   }
 
@@ -140,7 +145,7 @@ export class AddressEditListComponent implements OnInit {
   }
 
   refreshList = (action) => {
-    if(!action){return;}
+    if (!action) {return; }
     this.gridApi.setFilterModel(null);
     this.gridApi.onFilterChanged();
     this.gridColumnApi.resetColumnState();

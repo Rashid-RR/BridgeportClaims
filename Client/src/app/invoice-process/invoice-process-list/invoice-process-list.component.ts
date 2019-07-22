@@ -1,19 +1,21 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { AgGridNg2 } from 'ag-grid-angular/dist/agGridNg2';
 import { GridApi } from 'ag-grid-community';
 import { ToastrService } from 'ngx-toastr';
 import { map } from 'rxjs/operators';
-import { HttpService, InvoicesService, InvoiceProcessService } from '../../services/services.barrel';
 import { AgDateFilterComponent } from '../../components/ag-date-filter/ag-date-filter.component';
 import { AgPhoneNumberMaskComponent } from '../../components/ag-phone-number-mask/ag-phone-number-mask.component';
 import { BridgeportDateService } from '../../services/bridgeport-date.service';
+import { HttpService, InvoiceProcessService } from '../../services/services.barrel';
 import { InvoiceProcessStateCellRendererComponent } from './invoice-process-states-cell-renderer.component';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-invoice-process-list',
   templateUrl: './invoice-process-list.component.html',
 })
-export class InvoiceProcessListComponent implements OnInit {
+export class InvoiceProcessListComponent implements OnInit, OnDestroy {
+  private sub!: Subscription;
   private gridColumnApi: any;
   public defaultColDef: any;
   public rowSelection: string;
@@ -28,7 +30,8 @@ export class InvoiceProcessListComponent implements OnInit {
   public frameworkComponents: any;
   @ViewChild('agGrid') agGrid: AgGridNg2;
 
-  constructor(private bpDate: BridgeportDateService, public invoiceProcessService: InvoiceProcessService, private http: HttpService, private toast: ToastrService) {
+  constructor(private bpDate: BridgeportDateService, public invoiceProcessService: InvoiceProcessService,
+    private http: HttpService, private toast: ToastrService) {
     this.editType = 'fullRow';
     this.frameworkComponents = {
       stateCellRenderer: InvoiceProcessStateCellRendererComponent,
@@ -122,7 +125,7 @@ export class InvoiceProcessListComponent implements OnInit {
       { headerName: 'Claim #', field: 'claimNumber', editable: true, sortable: true, filter: 'agTextColumnFilter', filterParams: { clearButton: true}, width: 90, },
       { headerName: 'In Queue', field: 'inQueue', editable: true, sortable: true, filter: 'agNumberColumnFilter', filterParams: { clearButton: true}, aggFunc: 'sum' },
     ];
-    this.invoiceProcessService.refreshList$.subscribe(this.refreshList);
+    this.sub = this.invoiceProcessService.refreshList$.subscribe(this.refreshList);
   }
 
   onGridReady(params): void {
@@ -130,41 +133,22 @@ export class InvoiceProcessListComponent implements OnInit {
     this.gridColumnApi = params.columnApi;
   }
 
-  onFirstDataRendered (params): void {
+  ngOnDestroy(): void {
+    if (this.sub) {
+      this.sub.unsubscribe();
+    }
+  }
+
+  /*onFirstDataRendered(params: any): void {
     const allColumnIds = [];
-    this.gridColumnApi.getAllColumns().forEach(function(column) {
+    this.gridColumnApi.getAllColumns().forEach((column: any) => {
       allColumnIds.push(column.colId);
     });
     this.gridColumnApi.autoSizeColumns(allColumnIds);
-  }
+  }*/
 
   refreshGrid(): void {
     this.gridApi.refreshCells({});
-  }
-
-  onCellValueChanged(params: any) {
-    const valueActuallyChanged = (params.oldValue !== params.newValue);
-    if ( valueActuallyChanged ) {
-      const colId = params.column.getId();
-      this.http.editPatient(params.data).subscribe(res => { this.toast.success(res.message); }, err => this.toast.error(err.message));
-    }
-  }
-
-  onBtWhich() {
-    const cellDefs = this.gridApi.getEditingCells();
-    if (cellDefs.length > 0) {
-      const cellDef = cellDefs[0];
-      console.log(
-        'editing cell is: row = ' +
-          cellDef.rowIndex +
-          ', col = ' +
-          cellDef.column.getId() +
-          ', floating = ' +
-          cellDef.floating
-      );
-    } else {
-      console.log('no cells are editing');
-    }
   }
 
   refreshList = (action) => {

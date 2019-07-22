@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { InvoiceProcessRoutes } from './invoice-process.routing';
-
 import { SharedModule } from '../shared';
 import { InvoiceProcessComponent } from './invoice-process/invoice-process.component';
 import { InvoiceProcessListComponent } from './invoice-process-list/invoice-process-list.component';
