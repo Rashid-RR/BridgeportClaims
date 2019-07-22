@@ -15,31 +15,45 @@
             </ol>
         </section>
     </div>
-  </div>
-<div class="row search">
-  <div class="col-sm-12" id="accordion">
-      <div class="box no-border box-solid" style="padding: 0px;margin-bottom:0rem;">
-          <div class="box-header bg-head-box" style="border-bottom:2px solid white;padding:12px;padding-left: 10px;">
-              <a class="blade-title panel-head" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-                  <h4 class="panel-title" data-toggle="tooltip" title="Click to toggle search and filter">
-                      <span class="left5 right5 white">Search and Filter</span>
-                      <i class="fa fa-filter white" aria-hidden="true"></i>
-                  </h4>
-              </a>
-          </div>
-          <div class="box-body collection-bonus-results" style="padding: 0px 15px;">
-            <app-invoice-process-search-filter class="panel-collapse collapse in" id="collapseOne"></app-invoice-process-search-filter>
-              <div class="row bg-head-box" style="padding-top: 10px;padding-left: 10px;padding-right: 15px;">
-                  <span class="blade-title panel-head">
-                      <i class="fa fa-book" aria-hidden="true"></i> Invoices Process
-                  </span>
-              </div>
-              <!-- AG Grid -->
-              <app-invoice-process-list></app-invoice-process-list>
-          </div>
-          <div class="overlay" *ngIf="false" style="text-align:center;"> <!-- Loading Gif -->
-            <img src="assets/1.gif">
-          </div>
-      </div>
-  </div>
+</div>
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="box" id="modalWindowMax">
+            <div class="box-body">
+                <div class="row search">
+                    <div class="col-sm-12" id="accordion">
+                        <div class="box no-border box-solid" style="padding: 0px;margin-bottom:0rem;">
+                            <div class="box-header bg-head-box"
+                                style="border-bottom:2px solid white;padding:12px;padding-left: 10px;">
+                                <a class="blade-title panel-head" data-toggle="collapse" data-parent="#accordion"
+                                    href="#collapseOne">
+                                    <h4 class="panel-title" data-toggle="tooltip"
+                                        title="Click to toggle search and filter">
+                                        <span class="left5 right5 white">Search and Filter</span>
+                                        <i class="fa fa-filter white" aria-hidden="true"></i>
+                                    </h4>
+                                </a>
+                            </div>
+                            <div class="box-body collection-bonus-results" style="padding: 0px 15px;">
+                                <app-invoice-process-search-filter class="panel-collapse collapse in" id="collapseOne">
+                                </app-invoice-process-search-filter>
+                                <div class="row bg-head-box"
+                                    style="padding-top: 10px;padding-left: 10px;padding-right: 15px;">
+                                    <span class="blade-title panel-head">
+                                        <i class="fa fa-book" aria-hidden="true"></i> Invoices Process
+                                    </span>
+                                </div>
+                                <!-- AG Grid -->
+                                <app-invoice-process-list></app-invoice-process-list>
+                            </div>
+                            <div class="overlay" *ngIf="false" style="text-align:center;">
+                                <!-- Loading Gif -->
+                                <img src="assets/1.gif">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
