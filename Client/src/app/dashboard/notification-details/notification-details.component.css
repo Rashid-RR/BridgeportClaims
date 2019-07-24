@@ -89,4 +89,7 @@
 .notification-details textarea {
   margin-bottom: 5px;
 }
+.notification-details .overflowable a.openClaim:focus {
+  color: #ffffff;
+}
 
