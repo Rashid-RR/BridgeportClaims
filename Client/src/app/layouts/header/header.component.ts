@@ -149,7 +149,7 @@ export class HeaderComponent implements OnInit {
       && this.profileManager.profile.roles.indexOf('Admin') > -1);
   }
   onClick = function  (event) {
-    if (!this.dropdownContainer.nativeElement.contains(event.target) &&
+    if (this.dropdownContainer && !this.dropdownContainer.nativeElement.contains(event.target) &&
     !event.target.closest('dialog-holder') &&
     !event.target.classList.contains('payor-search-elm') &&
     !event.target.classList.contains('mat-option-text') &&

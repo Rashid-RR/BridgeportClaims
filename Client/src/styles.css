@@ -102,6 +102,9 @@ a.disabled, a.disabled:active, a.disabled:hover {
   overflow: hidden;
 }
 
+.swal2-modal.payment-modal.search-modal .swal2-header {
+  margin-top:1rem;
+}
 .swal2-modal.payment-modal.search-modal .swal2-content {
   height: calc(100vh - 50px);
   /* overflow: hidden; */
@@ -1710,18 +1713,18 @@ input.input-right-align::-webkit-inner-spin-button {
 input.input-right-align {
   -moz-appearance: textfield;
 }
-button[color^="purple"],
-[color^="grey"],
-button[color^="success"],
-button[color^="warn"],
-button[color^="blue-b"],
-button[color^="danger"],
-button[color^="purple"]:disabled,
-button[color^="success"]:disabled,
-button[color^="grey"]:disabled,
-button[color^="warn"]:disabled,
-button[color^="blue-b"]:disabled,
-button[color^="danger"]:disabled
+button[color^="purple"]:not(.mat-mini-fab ),
+[color^="grey"]:not(.mat-mini-fab ),
+button[color^="success"]:not(.mat-mini-fab ),
+button[color^="warn"]:not(.mat-mini-fab ),
+button[color^="blue-b"]:not(.mat-mini-fab ),
+button[color^="danger"]:not(.mat-mini-fab ),
+button[color^="purple"]:disabled:not(.mat-mini-fab ),
+button[color^="success"]:disabled:not(.mat-mini-fab ),
+button[color^="grey"]:disabled:not(.mat-mini-fab ),
+button[color^="warn"]:disabled:not(.mat-mini-fab ),
+button[color^="blue-b"]:disabled:not(.mat-mini-fab ),
+button[color^="danger"]:disabled:not(.mat-mini-fab )
 {
   padding: 2px 14px 0px 13px;
   height: 28px;

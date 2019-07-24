@@ -1,7 +1,10 @@
-<button class="close-button" (click)="payment.closeModal()">
-  <i class="fa fa-times"></i>
+<button mat-mini-fab (click)="payment.closeModal()" class="pull-right" color="danger">
+    <mat-icon>close</mat-icon>
 </button>
-<div class="row">
+<!-- <button class="close-button" (click)="payment.closeModal()">
+  <i class="fa fa-times"></i>
+</button> -->
+<div class="row mt-1">
   <div class="col-sm-12" id="accordion">
     <div class="box bottom-0">
       <div class="box-body payment-input">
@@ -53,11 +56,11 @@
               <div class="form-group">
                 <label>&nbsp;</label>
                 <br/>
-                <button class="btn bg-darkRed btn-flat btn-small search-claims" type="button" (click)="search()">
+                <button mat-raised-button color="warn" class="search-claims" type="button" (click)="search()">
                   <i class="fa fa-search"></i> Search</button>
-                <button class="btn bg-darkblue btn-flat btn-small clear-inputs" type="button" (click)="clear()">
+                <button mat-raised-button   color="purple" class="clear-inputs" type="button" (click)="clear()">
                   <i class="fa fa-eraser"></i> Clear</button>
-                <button class="color-palette btn bg-DarkGreen btn-flat btn-small refresh-search" type="button" (click)="search()">
+                <button mat-raised-button   color="success" class="refresh-search" type="button" (click)="search()">
                   <i class="fa fa-refresh"></i> Refresh</button>
               </div>
             </div>
@@ -123,15 +126,15 @@
                     <td>{{p.carrier}}</td>
                     <td>
                       <ng-container *ngIf="editing && editing.prescriptionId===p.prescriptionId">
-                        <button type="button" class="btn btn-primary btn-xs" (click)="save(p)" id="saveButton">
+                        <button mat-raised-button type="button"  color="blue-b" (click)="save(p)" id="saveButton">
                           <span class="glyphicon glyphicon-edit"></span> Save
                         </button>
-                        <button type="button" class="btn bg-darkRed btn-xs" (click)="cancel()">
+                        <button mat-raised-button type="button" color="danger" (click)="cancel()">
                           <span class="glyphicon glyphicon-trash"></span> Cancel
                         </button>
                       </ng-container>
                       <ng-container *ngIf="!editing || editing.prescriptionId!==p.prescriptionId">
-                        <button type="button" class="btn btn-primary btn-xs" (click)="update(p)">
+                        <button mat-raised-button type="button" color="blue-b" (click)="update(p)">
                           <span class="glyphicon glyphicon-edit"></span> Edit
                         </button>
                       </ng-container>

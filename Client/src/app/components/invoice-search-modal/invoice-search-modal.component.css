@@ -3,11 +3,11 @@
     padding: 1px 10px;
     min-width:41px;
   }
-  
+
   .commonCheckBox .match{
     margin: 6px;
   }
-  .commonCheckBox label:not(.match) { 
+  .commonCheckBox label:not(.match) {
     font-size:12px;
     font-weight: 600;
     padding-top: 7px;
@@ -146,4 +146,20 @@ tr>th:nth-child(8),
 tr>td:nth-child(8){
     font-size: 12px !important;
     width: 15% !important;
+}
+[mat-raise-button]{
+  padding: 2px 14px 0px 13px;height: 36px;
+}
+[mat-mini-fab]{
+  position: absolute;
+  top:5px;
+  right:5px;
+  width: 32px;
+  height: 32px;
+  z-index: 3;
+}
+[mat-mini-fab] mat-icon{
+  width: 18px;
+  height: 18px;
+  font-size: 18px !important;
 }
