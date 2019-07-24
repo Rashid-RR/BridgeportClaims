@@ -175,8 +175,18 @@ namespace BridgeportClaims.Pdf.InvoiceProviders
                         StampText(
                             data.Scripts[0].Address1 + (data.Scripts[0].Address2.IsNotNullOrWhiteSpace()
                                 ? $", {data.Scripts[0].Address2}"
-                                : string.Empty), line32XAxis, 133.2f, contentByte, AlternateFontSize);
-                        StampText(data.Scripts[0].City, line32XAxis, 123.1f, contentByte, AlternateFontSize);
+                                : string.Empty), line32XAxis, 133.9f, contentByte, AlternateFontSize);
+                        StampText(
+                            (data.Scripts[0].City ?? string.Empty) +
+                            (data.Scripts[0].PharmacyState.IsNotNullOrWhiteSpace()
+                                ? "," + data.Scripts[0].PharmacyState
+                                : string.Empty) + (data.Scripts[0].PostalCode.IsNotNullOrWhiteSpace()
+                                ? " " + data.Scripts[0].PostalCode
+                                : string.Empty), line32XAxis, 127.1f, contentByte, AlternateFontSize);
+                        StampText(
+                            data.Scripts[0].FederalTin.IsNotNullOrWhiteSpace()
+                                ? "Tax ID: " + data.Scripts[0].FederalTin
+                                : string.Empty, line32XAxis, 120, contentByte, AlternateFontSize);
                     }
                     catch (Exception ex)
                     {
