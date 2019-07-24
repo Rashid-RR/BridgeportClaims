@@ -56,7 +56,7 @@
                     <input matInput placeholder="Billed Amount" type="text" class="input-right-align" mask="0*.00" [showMaskTyped] = "false" formControlName="billedAmount" id="billedAmount">
                     <span matPrefix>$&nbsp;</span>
                   </mat-form-field>
-                  <app-payor-search (onPayorSelected)="onPayorSelected($event)"></app-payor-search>
+                  <app-payor-search (onPayorSelected)="onPayorSelected($event)" [hidden]="!n.needsCarrier"></app-payor-search>
                   <button type="button" mat-raised-button color="success"
                     (click)="saveEnvisionNotification(n); $event.stopPropagation()" id="saveNotificationButton"> Save
                   </button>

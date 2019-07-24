@@ -67,8 +67,8 @@ export class HeaderComponent implements OnInit {
     public notificationservice: NotificationService,
   ) {
     this.eventservice.on('login', () => {
-    this.setUserImage();
-      this.fetchNotifications();
+      this.setUserImage();
+      this.notificationservice.fetchNotifications();
     });
     this.eventservice.on('logout', () => {
       this.notificationCount = 0;
@@ -85,11 +85,11 @@ export class HeaderComponent implements OnInit {
     this.sidebarToggle();
   }
   fetchNotifications(): void {
-    if (!this.isClient) {
       this.notificationservice.getNotification().subscribe((countParam: number) => {
-        this.notificationCount = countParam;
+        if (!this.isClient) {
+           this.notificationCount = countParam;
+        }
       });
-    }
   }
   get userName() {
     return this.profileManager.profile ? this.profileManager.profile.firstName + ' ' + this.profileManager.profile.lastName : '';

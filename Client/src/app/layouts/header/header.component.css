@@ -434,7 +434,7 @@ li a {
   .main-header .header-navbar .notification .dropdown-menu {
     left: -630px !important;
     top: 50px !important;
-    padding: 0px !important;
+    padding: 1px !important;
     width: 690px;
     border: 1.5px solid grey;;
     border-radius: 15px;

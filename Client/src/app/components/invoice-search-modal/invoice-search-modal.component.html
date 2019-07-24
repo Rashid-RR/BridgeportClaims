@@ -126,15 +126,15 @@
                     <td>{{p.carrier}}</td>
                     <td>
                       <ng-container *ngIf="editing && editing.prescriptionId===p.prescriptionId">
-                        <button mat-raised-button type="button"  color="blue-b" (click)="save(p)" id="saveButton">
+                        <button style=" padding: 2px 8px 0px 8px; " mat-raised-button type="button"  color="blue-b" (click)="save(p)" id="saveButton">
                           <span class="glyphicon glyphicon-edit"></span> Save
                         </button>
-                        <button mat-raised-button type="button" color="danger" (click)="cancel()">
+                        <button style=" padding: 2px 8px 0px 8px; " mat-raised-button type="button" color="danger" (click)="cancel()">
                           <span class="glyphicon glyphicon-trash"></span> Cancel
                         </button>
                       </ng-container>
                       <ng-container *ngIf="!editing || editing.prescriptionId!==p.prescriptionId">
-                        <button mat-raised-button type="button" color="blue-b" (click)="update(p)">
+                        <button style=" padding: 2px 8px 0px 8px; " mat-raised-button type="button" color="blue-b" (click)="update(p)">
                           <span class="glyphicon glyphicon-edit"></span> Edit
                         </button>
                       </ng-container>

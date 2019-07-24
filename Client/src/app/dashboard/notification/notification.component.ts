@@ -1,6 +1,7 @@
 import { SortColumnInfo } from '../../directives/table-sort.directive';
 import { Component, OnInit} from '@angular/core';
 import { HttpService } from '../../services/http-service';
+import { EventsService } from '../../services/events-service';
 import { FormBuilder,  FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { ProfileManager } from '../../services/profile-manager';
@@ -22,17 +23,23 @@ export class NotificationComponent implements OnInit {
     private formBuilder: FormBuilder,
     private profileManager: ProfileManager,
     private toast: ToastrService,
+    private events: EventsService,
     private http: HttpService
   ) {
     this.form = this.formBuilder.group({
       letterName: [null],
       notificationId: [null],
     });
+    this.events.on('login', () => {
+      this.fetchData();
+      });
 
   }
 
   ngOnInit() {
-    this.fetchData();
+    if (this.profileManager.profile) {
+      this.fetchData();
+    }
   }
 
   onSortColumn(info: SortColumnInfo) {

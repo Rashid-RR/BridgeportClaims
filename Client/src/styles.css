@@ -1775,3 +1775,11 @@ button[color^="danger"] .glyphicon
   background-color: #f44336;
   color: #fff;
 }
+app-payor-search .mat-form-field .mat-form-field-wrapper
+{
+  padding-bottom: 2px !important;
+}
+app-payor-search .mat-form-field .mat-form-field-underline
+{
+  bottom: 2px !important;
+}

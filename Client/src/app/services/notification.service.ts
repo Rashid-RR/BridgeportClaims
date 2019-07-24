@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { HttpService } from './http-service';
+import { EventsService } from './events-service';
+import { ProfileManager } from './profile-manager';
 
 @Injectable({
   providedIn: 'root'
@@ -12,11 +14,18 @@ export class NotificationService {
 
   constructor(
     private http: HttpService,
+    private profileManager: ProfileManager,
+    private events: EventsService,
   ) {
     this.notifications$.subscribe((notifications: any[]) => {
       this.updateNotificationCount(notifications.length);
     });
-    this.fetchNotifications();
+    if (this.profileManager.profile) {
+      this.fetchNotifications();
+    }
+    this.events.on('login', () => {
+      this.fetchNotifications();
+    });
   }
   fetchNotifications() {
     this.http.getNotifications()
