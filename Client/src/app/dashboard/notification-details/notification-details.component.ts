@@ -184,7 +184,6 @@ export class NotificationDetailsComponent implements OnInit {
       .subscribe((result: NotificationResult[]) => {
         this.loadingNotification = false;
         this.notifications = result;
-        this.notifications[0].needsCarrier  = true;
         this.notificationservice.updateNotifications(result);
       }, () => {
         this.loadingNotification = false;
