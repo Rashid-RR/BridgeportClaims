@@ -1,8 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<RptDataSource xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Name="BridgeportClaims">
-  <ConnectionProperties>
-    <Extension>SQL</Extension>
-    <ConnectString>Data Source=jdgdb1.database.windows.net;Initial Catalog=BridgeportClaims;Encrypt=True</ConnectString>
-  </ConnectionProperties>
-  <DataSourceID>c0f7263a-6221-48d2-9c2d-576294a22be3</DataSourceID>
-</RptDataSource>

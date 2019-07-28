@@ -1,3 +1,0 @@
-CREATE SCHEMA [rpt]
-AUTHORIZATION [dbo]
-GO

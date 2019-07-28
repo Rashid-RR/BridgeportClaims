@@ -1,3 +1,0 @@
-CREATE SCHEMA [etl]
-AUTHORIZATION [dbo]
-GO
