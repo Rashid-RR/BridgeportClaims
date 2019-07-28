@@ -1,7 +1,8 @@
-import { AfterViewChecked, Component, OnInit } from '@angular/core';
+import { AfterViewChecked, Component, OnDestroy, OnInit } from '@angular/core';
 import { DialogService } from 'ng2-bootstrap-modal';
 import { FileItem, FileUploader, ParsedResponseHeaders } from 'ng2-file-upload/ng2-file-upload';
 import { ToastrService } from 'ngx-toastr';
+import { Subscription } from 'rxjs';
 import { ConfirmComponent } from '../../components/confirm.component';
 import { ImportFile } from '../../models/import-file';
 import { HttpService } from '../../services/http-service';
@@ -15,8 +16,8 @@ const noEnvision: String = 'No Envision File was found to process.';
   styleUrls: ['./file-upload.component.css'],
 
 })
-export class FileUploadComponent implements OnInit, AfterViewChecked {
-
+export class FileUploadComponent implements OnInit, AfterViewChecked, OnDestroy {
+  private sub!: Subscription;
   public uploaderCsv: FileUploader = new FileUploader({});
   public uploaderExcel: FileUploader = new FileUploader({});
   public uploaderMisc: FileUploader = new FileUploader({});
@@ -137,7 +138,7 @@ export class FileUploadComponent implements OnInit, AfterViewChecked {
       // We get dialog result
       if (isConfirmed) {
         this.loading = true;
-        this.http.importEnvision(file.importFileId).subscribe(res => {
+        this.sub = this.http.importEnvision(file.importFileId).subscribe(res => {
           if (res.message === noEnvision) {
             this.toast.info(res.message);
           } else {
@@ -216,5 +217,11 @@ export class FileUploadComponent implements OnInit, AfterViewChecked {
         }
       }
     }, 500);
+  }
+
+  ngOnDestroy(): void {
+    if (this.sub) {
+      this.sub.unsubscribe();
+    }
   }
 }
