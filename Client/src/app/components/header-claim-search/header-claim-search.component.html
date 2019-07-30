@@ -1,4 +1,4 @@
-<mat-form-field class="input-search" floatLabel="never" [@anim]="isSearchInputExpanded" matAutocompleteOrigin #origin="matAutocompleteOrigin"
+<mat-form-field class="input-search" [class.isEmpty]="(rowSearchHits$ | async).length == 0" floatLabel="never" [@anim]="isSearchInputExpanded" matAutocompleteOrigin #origin="matAutocompleteOrigin"
     [class.input-search--is-expanded]="isSearchInputExpanded" [class.input-search--is-options-visible]="isAutocompleteOpened">
     <div class="input-search__button" #menuTrigger="matMenuTrigger" [matMenuTriggerFor]="menu" [class.active] = "menuTrigger.menuOpen">
         <mat-icon class="search-i" >search</mat-icon>

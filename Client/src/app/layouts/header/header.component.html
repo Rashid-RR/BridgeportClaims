@@ -102,9 +102,11 @@
               <span class='notification-count' *ngIf="notificationCount>0">{{notificationCount}}</span>
               <!-- <mat-icon  dropdownToggle  class="dropdown-toggle" aria-controls="dropdown-basic" aria-hidden="false">notifications_none</mat-icon> -->
               <!-- <i class="fa fa-bell-o dropdown-toggle" aria-hidden="true" dropdownToggle aria-controls="dropdown-basic"></i> -->
-              <div id="dropdown-basic" *dropdownMenu class="dropdown-menu" role="menu">
-                <app-notification-details></app-notification-details>
-              </div>
+              <ng-container *ngIf="notificationCount > 0">
+                <div id="dropdown-basic" *dropdownMenu class="dropdown-menu" role="menu">
+                  <app-notification-details></app-notification-details>
+                </div>
+              </ng-container>
             </span>
           </div>
         </ng-container>
