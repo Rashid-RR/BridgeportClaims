@@ -1631,8 +1631,14 @@ app-new-episode .close-button {
   background: #fff;
   border-radius: 5px;
   color: #353535;
+}
+.main-header .header-navbar .search .input-search.input-search--is-expanded.mat-focused .mat-form-field-wrapper {
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
+}
+
+.main-header .header-navbar .search .input-search.isEmpty .mat-form-field-wrapper {
+  border-radius: 5px !important;
 }
 .cdk-overlay-pane .mat-autocomplete-panel.searchAutoComplete {
   width: 338px !important;

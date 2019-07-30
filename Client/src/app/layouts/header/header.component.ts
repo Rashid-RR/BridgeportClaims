@@ -85,11 +85,11 @@ export class HeaderComponent implements OnInit {
     this.sidebarToggle();
   }
   fetchNotifications(): void {
-      this.notificationservice.getNotification().subscribe((countParam: number) => {
-        if (!this.isClient) {
-           this.notificationCount = countParam;
-        }
-      });
+      // this.notificationservice.getNotification().subscribe((countParam: number) => {
+      //   if (!this.isClient) {
+      //      this.notificationCount = countParam;
+      //   }
+      // });
   }
   get userName() {
     return this.profileManager.profile ? this.profileManager.profile.firstName + ' ' + this.profileManager.profile.lastName : '';
