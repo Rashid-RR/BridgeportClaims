@@ -29,6 +29,7 @@ AS
                        INNER JOIN [dbo].[Claim] AS [c] ON [c].[ClaimID] = [p].[ClaimID]
                        INNER JOIN [dbo].[Payor] AS [pay] ON [pay].[PayorID] = [c].[PayorID] ON [p].[PrescriptionID] = [n].[PrescriptionID]
         WHERE [n].[IsDismissed] = 0
-        ORDER BY [n].[UpdatedOnUTC] DESC;
+			  AND ([p].[BilledAmount] = 0 OR [pay].[PayorID] = - 1)
+		ORDER BY [n].[UpdatedOnUTC] DESC;
     END;
 GO

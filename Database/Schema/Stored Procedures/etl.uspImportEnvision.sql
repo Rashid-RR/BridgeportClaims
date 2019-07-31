@@ -308,7 +308,7 @@ AS BEGIN
 		   ,[PrescriptionID]
 		)
 		SELECT 'A new Envision Claim #: ' + [c].[ClaimNumber]
-			   + ' has been imported. Claimant: ' + [pat].[FirstName] + ' ' + [pat].[LastName] + '. Rx Date: ' + FORMAT([p].[DateFilled], 'MM/dd/yyyy') + '. Rx #: ' + [p].[RxNumber] + '. Label: ' + ISNULL([p].[LabelName], '')
+			   + ' has been imported. Claimant: ' + [pat].[LastName] + ', ' + [pat].[FirstName] + '. Rx Date: ' + FORMAT([p].[DateFilled], 'MM/dd/yyyy') + '. Rx #: ' + [p].[RxNumber] + '. Label: ' + ISNULL([p].[LabelName], '')
 			   + ' needs a Billed Amount' + CASE WHEN [pay].[PayorID] = -1 THEN ' and a Carrier.' ELSE '' END
 			  ,@TodayLocal
 			  ,@NotificationTypeID

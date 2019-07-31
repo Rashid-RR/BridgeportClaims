@@ -10,6 +10,7 @@ GO
 					EXECUTE [dbo].[uspInvoicesScreen]
 */
 CREATE PROCEDURE [dbo].[uspInvoicesScreen]
+WITH RECOMPILE
 AS BEGIN
     SELECT   I.InvoiceDate
             ,Carrier = car.GroupName
