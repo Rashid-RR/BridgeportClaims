@@ -68,7 +68,11 @@ export class HeaderComponent implements OnInit {
   ) {
     this.eventservice.on('login', () => {
       this.setUserImage();
-      this.notificationservice.fetchNotifications();
+      if (this.profileManager.profile) {
+        if (this.profileManager.profile.roles[0] === 'Admin') {
+        this.fetchNotifications();
+        }
+      }
     });
     this.eventservice.on('logout', () => {
       this.notificationCount = 0;
@@ -81,7 +85,11 @@ export class HeaderComponent implements OnInit {
     this.eventservice.on('disable-links', (status: boolean) => {
       this.disableLinks = status;
     });
-    this.fetchNotifications();
+    if (this.profileManager.profile) {
+      if (this.profileManager.profile.roles[0] === 'Admin') {
+      this.fetchNotifications();
+      }
+    }
     this.sidebarToggle();
   }
   fetchNotifications(): void {

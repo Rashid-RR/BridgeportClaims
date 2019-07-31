@@ -29,8 +29,9 @@ form .col-md-2.flex .form-group span{
   display: inline-block;
 }
 .generate-pdf img {
-  height: 55px;
+  height: 50px;
   padding-left: 40px;
+  padding-top: 2px;
 }
 .generate-pdf img:hover {
   cursor: pointer;
