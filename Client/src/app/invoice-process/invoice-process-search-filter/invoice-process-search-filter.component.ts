@@ -8,7 +8,7 @@ import { InvoiceProcessService } from '../../services/services.barrel';
   encapsulation: ViewEncapsulation.None
 })
 export class InvoiceProcessSearchFilterComponent implements OnInit {
-
+  imgSrc = 'assets/images/ButtonNormal.png';
   constructor(public invoiceProcessService: InvoiceProcessService) {}
 
   ngOnInit(): void {}
@@ -21,4 +21,6 @@ export class InvoiceProcessSearchFilterComponent implements OnInit {
     this.invoiceProcessService.filterText = '';
     this.invoiceProcessService.refreshList$.next(true);
   }
+
+  generatePdfs() { }
 }
