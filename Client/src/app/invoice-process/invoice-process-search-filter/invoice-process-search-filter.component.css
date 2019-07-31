@@ -16,3 +16,23 @@ form .col-md-2.flex .form-group span{
   border: 1px solid black;
 }
 
+.form-group {
+  margin: 5px 0px;
+}
+.form-group .input-group {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.generate-pdf {
+  display: inline-block;
+}
+.generate-pdf img {
+  height: 50px;
+  padding-left: 40px;
+  padding-top: 2px;
+}
+.generate-pdf img:hover {
+  cursor: pointer;
+}

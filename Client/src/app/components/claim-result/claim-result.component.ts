@@ -579,7 +579,7 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
 
   openPayorDialog(): void {
     this.claimManager.loading = true;
-    this.http.getPayorById(this.claimManager.claimsData[0].payorId).subscribe(data => {
+    this.http.getPayorById(this.claimManager.selectedClaim.payorId).subscribe(data => {
       this.claimManager.payorData = data;
       this.claimManager.loading = false;
       this.dialog.open(CarrierModalComponent, {
@@ -592,7 +592,7 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
 
   openAdjustorDialog(): void {
     this.claimManager.loading = true;
-    this.http.getAdjustorById(this.claimManager.claimsData[0].adjustorId).subscribe(data => {
+    this.http.getAdjustorById(this.claimManager.selectedClaim.adjustorId).subscribe(data => {
       this.claimManager.adjustorData = data;
       this.claimManager.loading = false;
       this.dialog.open(AdjustorModalComponent, {
@@ -605,7 +605,7 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
 
   openAttorneyDialog(): void {
     this.claimManager.loading = true;
-    this.http.getAttorneyById(this.claimManager.claimsData[0].attorneyId).subscribe(data => {
+    this.http.getAttorneyById(this.claimManager.selectedClaim.attorneyId).subscribe(data => {
       this.claimManager.attorneyData = data;
       this.claimManager.loading = false;
       this.dialog.open(AttorneyModalComponent, {

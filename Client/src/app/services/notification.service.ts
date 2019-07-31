@@ -21,10 +21,16 @@ export class NotificationService {
       this.updateNotificationCount(notifications.length);
     });
     if (this.profileManager.profile) {
+      if (this.profileManager.profile.roles[0] === 'Admin') {
       this.fetchNotifications();
+      }
     }
     this.events.on('login', () => {
-      this.fetchNotifications();
+      if (this.profileManager.profile) {
+        if (this.profileManager.profile.roles[0] === 'Admin') {
+        this.fetchNotifications();
+        }
+      }
     });
   }
   fetchNotifications() {
