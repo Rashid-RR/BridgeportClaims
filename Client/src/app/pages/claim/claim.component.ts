@@ -1,4 +1,4 @@
-import { Component, Inject, PLATFORM_ID, ViewChild, OnInit, HostListener, AfterViewInit } from '@angular/core';
+import { Component, Inject, PLATFORM_ID, ViewChild, OnInit, HostListener, AfterViewInit, TemplateRef } from '@angular/core';
 import { HttpService } from '../../services/http-service';
 import { EventsService } from '../../services/events-service';
 import { ClaimManager } from '../../services/claim-manager';
@@ -18,6 +18,8 @@ import { isPlatformBrowser } from '@angular/common';
 import { Prescription } from '../../models/prescription';
 import { MatDialog } from '@angular/material';
 import { LocalStorageService } from 'ngx-webstorage';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 declare var $: any;
 
@@ -38,6 +40,8 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
   expandedBlade: Number = 0;
   over: boolean[];
   statusId: any;
+  modalRef: BsModalRef;
+  modalForm: FormGroup;
 
   @HostListener('window:scroll', [])
   onWindowScroll() {
@@ -75,7 +79,8 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
     private events: EventsService,
     private toast: ToastrService,
     private ar: AccountReceivableService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private modalService: BsModalService
   ) {
     this.over = new Array(8);
     this.over.fill(false);
@@ -177,6 +182,11 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    this.modalForm = new FormGroup({
+      noteType: new FormControl(''),
+      noteText: new FormControl('', Validators.required)
+    });
+
     this.events.on('edit-episode', (episode: Episode) => {
       this.episode(episode.episodeId, episode.type, (episode.episodeNote || episode['note']));
     });
@@ -750,5 +760,56 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
         }
       }
     }).catch(()=>{});
+  }
+
+  openModal(addNote: TemplateRef<any>, noteText: string = '', TypeId?: String) {
+    noteText = noteText.replace(/\\n/g, '&#13;');
+    if (!TypeId) {
+      this.modalForm.reset();
+      this.modalForm.patchValue({'noteType': ''})
+      this.modalRef = this.modalService.show(addNote, {class: 'claim-note modal-md modal-dialog-centered'});
+    } else {
+      for (let item of this.claimManager.NoteTypes) {
+        if (item.value == TypeId) {
+          this.modalForm.patchValue({'noteType': item.key});
+        }
+      }
+      this.modalForm.patchValue({'noteText': noteText});
+      this.modalRef = this.modalService.show(addNote, {class: 'claim-note modal-md modal-dialog-centered'});
+    }
+  }
+
+  onSubmit(formData) {
+    if (this.modalForm.valid) {
+      this.modalRef.hide();
+      this.claimManager.loading = true;
+      let txt = JSON.stringify(formData.noteText);
+      txt = txt.substring(1, txt.length - 1);
+      this.http.saveClaimNote({
+        claimId: this.claimManager.selectedClaim.claimId,
+        noteTypeId: formData.noteType ? parseInt(formData.noteType) : null,
+        noteText: txt
+      }).subscribe(res => {
+        this.claimManager.loading = false;
+        const noteType = this.claimManager.NoteTypes.find(type => type.key === parseInt(formData.noteType));
+        if (!this.claimManager.selectedClaim.claimNote) {
+          this.claimManager.selectedClaim.claimNote = new ClaimNote(txt, noteType ? noteType.value : undefined);
+        } else {
+          this.claimManager.selectedClaim.claimNote.noteText = txt;
+          this.claimManager.selectedClaim.claimNote.noteType = noteType ? noteType.value : undefined;
+          if (this.claimManager.selectedClaim.claimNote.noteType === undefined) {
+            this.claimManager.selectedClaim.claimNote.noteType = res.noteType;
+          }
+        }
+        this.claimManager.selectedClaim.editing = false;
+        this.claimManager.loading = false;
+        this.toast.success('The note was saved successfully.');
+      }, error => {
+        const err = error.error;
+        setTimeout(() => {
+          this.toast.error(err.Message);
+        }, 200);
+      });
+    }
   }
 }
