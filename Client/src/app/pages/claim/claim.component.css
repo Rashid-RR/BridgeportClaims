@@ -16,8 +16,11 @@ h6 {
 
 mat-select.form-control {
   width: 50% !important;
+  margin-left: 25% !important;
 }
-
+.text-center {
+  text-align: center;
+}
 .box-header {
   padding: 10px 10px 5px 10px;
 }
@@ -91,6 +94,7 @@ th {
 @media screen and (max-width: 767px) {
   mat-select.form-control {
     width: 100% !important;
+    margin-left: 0% !important;
   }
 }
 
