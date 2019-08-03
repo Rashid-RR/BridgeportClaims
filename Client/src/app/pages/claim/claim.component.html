@@ -481,7 +481,7 @@
         </div>
     </div>
 <swal>
-    
+
 <ng-template #addNote>
     <div class="modal-header">
         <div class="title text-center">CLAIM NOTE</div>
@@ -492,15 +492,17 @@
     <div class="modal-body">
         <form [formGroup]="modalForm" (ngSubmit)="onSubmit(modalForm.value)">
             <div class="form-group">
-                <label for="noteType">NOTE TYPE</label>
-                <select class="form-control" formControlName="noteType" id="noteType">
-                    <option value="">Select Type</option>
-                    <option *ngFor="let opt of claimManager.NoteTypes" [value]="opt.key">{{opt.value}}</option>
-                </select>
+                <label for="noteType">Note Type</label>
+                <mat-form-field>
+                  <mat-select class="form-control" formControlName="noteType" id="noteType">
+                    <mat-option>-- No Type --</mat-option>
+                    <mat-option *ngFor="let opt of claimManager.NoteTypes" [value]="opt.key">{{opt.value}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
                 <small id="note" style="font-size: 13px;" class="form-text text-muted">(Optional)</small>
             </div>
             <div class="form-group">
-                <label for="noteText">NOTE TEXT</label>
+                <label for="noteText">Note Text</label>
                 <textarea class="form-control" [class.is-invalid]="modalForm.get('noteText').touched && !modalForm.get('noteText').valid" formControlName="noteText" id="noteText" rows="3"></textarea>
                 <small id="note" style="font-size: 13px;color: #dc3545" *ngIf="modalForm.get('noteText').touched && !modalForm.get('noteText').valid" class="form-text text-muted">This field is required.</small>
             </div>

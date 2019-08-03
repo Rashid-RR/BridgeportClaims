@@ -19,7 +19,6 @@ namespace BridgeportClaims.Tests.RedisCache
         private readonly Lazy<IRedisDomain> _redisDomain = new Lazy<IRedisDomain>(() => new RedisDomain());
 
         [TestMethod]
-        [Ignore]
         public void CanSetAndGetFromRedisCache()
         {
             // Arrange.
