@@ -182,11 +182,12 @@
                                     </span>
                                 </span>
                                 <div class="pull-right" style="display:flex;" *ngIf="claimManager.selectedClaim && !claimManager.selectedClaim.editing">
-                                    <button type="button" class="btn btn-primary btn-xs min-width-75 height-25 bg-transparent border-white b-radius-3 fsize-15 mr-10" (click)="addNote()"
+                                    <button type="button" class="btn btn-primary btn-xs min-width-75 height-25 bg-transparent border-white b-radius-3 fsize-15 mr-10" (click)="openModal(addNote)"
                                         *ngIf="!claimManager.selectedClaim.claimNotes" title="Add Note">
                                         <span class="fa fa-plus fsize-1em button-icon2-fix"></span> Add
                                     </button>
-                                    <button type="button" class="btn btn-primary btn-xs min-width-75 height-25 bg-transparent border-white b-radius-3 fsize-15 mr-10" (click)="addNote(claimManager.selectedClaim.claimNote.noteText,claimManager.selectedClaim.claimNote.noteType)"
+                                    <button type="button" class="btn btn-primary btn-xs min-width-75 height-25 bg-transparent border-white b-radius-3 fsize-15 mr-10"
+                                     (click)="openModal(addNote, claimManager.selectedClaim.claimNote.noteText,claimManager.selectedClaim.claimNote.noteType)"
                                         *ngIf="claimManager.selectedClaim.claimNotes" title="Edit Note">
                                         <span class="fa fa-pencil fsize-1em button-icon2-fix"></span> Edit
                                     </button>
@@ -479,4 +480,34 @@
             </div>
         </div>
     </div>
-    <swal>
+<swal>
+    
+<ng-template #addNote>
+    <div class="modal-header">
+        <div class="title text-center">CLAIM NOTE</div>
+        <div class="cross">
+            <img src="assets/images/cross_btn.png" (click)="modalRef.hide();modalForm.reset();" alt="X" >
+        </div>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="modalForm" (ngSubmit)="onSubmit(modalForm.value)">
+            <div class="form-group">
+                <label for="noteType">NOTE TYPE</label>
+                <select class="form-control" formControlName="noteType" id="noteType">
+                    <option value="">Select Type</option>
+                    <option *ngFor="let opt of claimManager.NoteTypes" [value]="opt.key">{{opt.value}}</option>
+                </select>
+                <small id="note" style="font-size: 13px;" class="form-text text-muted">(Optional)</small>
+            </div>
+            <div class="form-group">
+                <label for="noteText">NOTE TEXT</label>
+                <textarea class="form-control" [class.is-invalid]="modalForm.get('noteText').touched && !modalForm.get('noteText').valid" formControlName="noteText" id="noteText" rows="3"></textarea>
+                <small id="note" style="font-size: 13px;color: #dc3545" *ngIf="modalForm.get('noteText').touched && !modalForm.get('noteText').valid" class="form-text text-muted">This field is required.</small>
+            </div>
+            <div class="buttons text-center">
+                <button type="submit" mat-raised-button class="action mr-2">Save</button>
+                <button type="button" (click)="modalRef.hide();modalForm.reset();" mat-raised-button class="cancle">Cancel</button>
+            </div>
+        </form>
+    </div>
+</ng-template>

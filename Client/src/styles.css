@@ -850,7 +850,7 @@ button.grey1 {
 }
 
 .sticky-wrapper.is-sticky .sticky-claim {
-  z-index: 9999991;
+  z-index: 999;
   width: 100% !important;
 }
 
@@ -1788,4 +1788,65 @@ app-payor-search .mat-form-field .mat-form-field-wrapper
 app-payor-search .mat-form-field .mat-form-field-underline
 {
   bottom: 2px !important;
+}
+.modal .claim-note .modal-content {
+  padding: 0px;
+  border: none;
+  border-radius: 5px;
+}
+.modal .claim-note .modal-content .modal-header {
+  background-color: #162880;
+  color: #fff;
+  height: 54px;
+  display: flex;
+}
+.modal .claim-note .modal-content .modal-header .title {
+  width: 95%;
+  font-size: 16px;
+}
+.modal .claim-note .modal-header .cross {
+  width: 5%;
+}
+.modal .claim-note .modal-header .cross img {
+  cursor: pointer;
+}
+.modal .claim-note .modal-content .modal-body select {
+  height: 35px;
+  background-color: #fff;
+  border: 1px solid #d2d6de !important;
+  border-radius: 4px;
+  font-size: 13px;
+  color: #495057;
+  background-image: url('assets/images/dropdown.png');
+  background-position: calc(100% - 20px) calc(1em + 2px), calc(100% - 15px) calc(1em + 2px), 100% 0;
+  background-repeat: no-repeat;
+}
+.modal .claim-note .modal-content .modal-body .form-group label {
+  font-size: 13px;
+}
+.modal .claim-note .modal-content .modal-body textarea {
+  border-radius: 4px;
+}
+.modal .claim-note .modal-content .modal-body textarea.is-invalid {
+  border-color: #dc3545;
+}
+.modal .claim-note .modal-content .modal-body .buttons .action {
+  background-color: #162880;
+  font-size: 14px;
+  height: 30px;
+  color: #fff;
+}
+.modal .claim-note .modal-content .modal-body .buttons .action:active {
+  background-color: #102070;
+  font-size: 14px;
+}
+.modal .claim-note .modal-content .modal-body .buttons .cancle {
+  background-color: #ececec;
+  color: #868686;
+  height: 30px;
+  font-size: 14px;
+}
+.modal .claim-note .modal-content .modal-body .buttons .cancle:active {
+  background-color: #cacaca;
+  color: #434343;
 }

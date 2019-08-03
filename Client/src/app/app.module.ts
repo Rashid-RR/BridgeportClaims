@@ -9,6 +9,7 @@ import { BootstrapModalModule } from 'ng2-bootstrap-modal';
 import { FileUploadModule } from 'ng2-file-upload';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { PopoverModule } from 'ngx-bootstrap/popover';
+import { ModalModule } from 'ngx-bootstrap/modal';
 import { ToastrModule } from 'ngx-toastr';
 import { NgxWebstorageModule } from 'ngx-webstorage';
 import { AppComponent } from './app.component';
@@ -112,6 +113,7 @@ import { SharedModule } from './shared';
     }),
     BootstrapModalModule.forRoot({container: document.body}),
     BsDropdownModule.forRoot(),
+    ModalModule.forRoot(),
     MatSlideToggleModule,
     PopoverModule.forRoot()
   ],
