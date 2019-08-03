@@ -492,23 +492,24 @@
     <div class="modal-body">
         <form [formGroup]="modalForm" (ngSubmit)="onSubmit(modalForm.value)">
             <div class="form-group">
-                <label for="noteType">Note Type</label>
+                <label for="noteType">Note Type  <small id="note" style="font-size: 13px;" class="form-text text-muted">(Optional)</small></label>
+
                 <mat-form-field>
-                  <mat-select class="form-control" formControlName="noteType" id="noteType">
+                  <mat-select class="form-control col-md-6" formControlName="noteType" id="noteType">
                     <mat-option>-- No Type --</mat-option>
                     <mat-option *ngFor="let opt of claimManager.NoteTypes" [value]="opt.key">{{opt.value}}</mat-option>
                   </mat-select>
                 </mat-form-field>
-                <small id="note" style="font-size: 13px;" class="form-text text-muted">(Optional)</small>
+               
             </div>
             <div class="form-group">
                 <label for="noteText">Note Text</label>
-                <textarea class="form-control" [class.is-invalid]="modalForm.get('noteText').touched && !modalForm.get('noteText').valid" formControlName="noteText" id="noteText" rows="3"></textarea>
-                <small id="note" style="font-size: 13px;color: #dc3545" *ngIf="modalForm.get('noteText').touched && !modalForm.get('noteText').valid" class="form-text text-muted">This field is required.</small>
+                <textarea class="form-control" [class.is-invalid]="modalForm.get('noteText').touched && !modalForm.get('noteText').valid && isSubmit" formControlName="noteText" id="noteText" rows="3"></textarea>
+                <small id="note" style="font-size: 13px;color: #dc3545" *ngIf="modalForm.get('noteText').touched && !modalForm.get('noteText').valid && isSubmit" class="form-text text-muted">This field is required.</small>
             </div>
             <div class="buttons text-center">
                 <button type="submit" mat-raised-button class="action mr-2">Save</button>
-                <button type="button" (click)="modalRef.hide();modalForm.reset();" mat-raised-button class="cancle">Cancel</button>
+                <button type="button" (click)="modalRef.hide();" mat-raised-button class="cancle">Cancel</button>
             </div>
         </form>
     </div>
