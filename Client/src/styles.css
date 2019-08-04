@@ -583,9 +583,44 @@ tbody > tr.isReversed td .btn-group button.dropdown-toggle.status {
   bottom: -73px;
   right: 0px;
 }
+.modal-content .mat-form-field-wrapper {
+  padding-bottom: 0px !important;
+}
+
+.modal-content .mat-form-field-underline {
+  display: none !important;
+}
+
+.modal-content .mat-form-field-infix {
+  border: none !important;
+  padding-top: 0px !important;
+}
+
+
+.modal-content mat-form-field {
+  display: block !important;
+}
 
 .swal2-modal.prescription-modal .swal2-buttonswrapper {
   text-align: left !important;
+}
+@media screen and (min-width: 768px) { 
+  .modal:before {
+    display: inline-block;
+    vertical-align: middle;
+    content: " ";
+    height: 100%;
+  }
+}
+
+.modal {
+  text-align: center;
+}
+
+.modal-dialog {
+  display: inline-block;
+  text-align: left;
+  vertical-align: middle;
 }
 
 .ngPopup .modal-dialog .modal-content,

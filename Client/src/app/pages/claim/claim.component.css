@@ -14,6 +14,13 @@ h6 {
   font-weight: 700;
 }
 
+mat-select.form-control {
+  width: 50% !important;
+  margin-left: 25% !important;
+}
+.text-center {
+  text-align: center;
+}
 .box-header {
   padding: 10px 10px 5px 10px;
 }
@@ -82,6 +89,13 @@ th {
 .swal2-modal {
   width: 900px !important;
   min-width: 900px !important;
+}
+
+@media screen and (max-width: 767px) {
+  mat-select.form-control {
+    width: 100% !important;
+    margin-left: 0% !important;
+  }
 }
 
 textarea {

@@ -37,6 +37,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
   @ViewChild('decisionTreeSwal') private decisionTreeSwal: SwalComponent;
   @ViewChild('prescriptionStatusSwal') private prescriptionStatusSwal: SwalComponent;
   expanded: Boolean = false;
+  isSubmit = false;
   expandedBlade: Number = 0;
   over: boolean[];
   statusId: any;
@@ -764,7 +765,8 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
 
   openModal(addNote: TemplateRef<any>, noteText: string = '', TypeId?: String) {
     noteText = noteText.replace(/\\n/g, '&#13;');
-    if (!TypeId) {
+    this.isSubmit = false;
+    if (!TypeId && !noteText) {
       this.modalForm.reset();
       this.modalForm.patchValue({'noteType': ''})
       this.modalRef = this.modalService.show(addNote, {class: 'claim-note modal-md modal-dialog-centered'});
@@ -780,6 +782,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
   }
 
   onSubmit(formData) {
+    this.isSubmit = true;
     if (this.modalForm.valid) {
       this.modalRef.hide();
       this.claimManager.loading = true;
