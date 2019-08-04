@@ -4,7 +4,7 @@ using ProtoBuf;
 namespace BridgeportClaims.Data.Dtos
 {
     [ProtoContract]
-    public class ClaimsUserHistoryDto
+    public sealed class ClaimsUserHistoryDto
     {
         [ProtoMember(1)]
         public int ClaimId { get; set; }

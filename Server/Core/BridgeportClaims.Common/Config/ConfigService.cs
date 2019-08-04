@@ -16,23 +16,15 @@ namespace BridgeportClaims.Common.Config
             }
             return collection;
         }
-
         public static bool IsProduction = Convert.ToBoolean(GetAppSetting(s.IsProductionKey));
-
         public static bool UseRedis => Convert.ToBoolean(GetAppSetting(s.UseRedisKey));
-
+        public static string CacheConnection => GetAppSetting(s.RedisCacheConnection);
         public static string GetAppSetting(string key) => cm.AppSettings[key];
-
         public static string GetDbConnStr() 
             => cm.ConnectionStrings[s.DbConnStrName].ConnectionString;
-
         public static string GetSecureDbConnStr()
             => cm.ConnectionStrings[s.SecureDbConnStrName].ConnectionString;
-
         public static bool AppIsInDebugMode
             => Convert.ToBoolean(GetAppSetting(s.AppIsInDebugMode));
-
-        public static string GetRedisCacheConnStr()
-            => GetAppSetting(s.RedisCacheConnection);
     }
 }

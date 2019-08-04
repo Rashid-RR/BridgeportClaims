@@ -45,7 +45,7 @@ namespace BridgeportClaims.Data.DataProviders.ClaimsUserHistories
             return history;
         }
 
-        public IEnumerable<ClaimsUserHistoryDto> GetClaimsUserHistoryFromDb(string userId) =>
+        private IEnumerable<ClaimsUserHistoryDto> GetClaimsUserHistoryFromDb(string userId) =>
             DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
                 var maxClaimsLookup = int.TryParse(cs.GetAppSetting(StringConstants.MaxClaimsLookupHistoryItemsKey), out var i) ? i : 22;

@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Configuration;
 using System.Threading;
 using System.Threading.Tasks;
+using BridgeportClaims.Common.Helpers;
 using BridgeportClaims.RedisCache.Connection;
 using BridgeportClaims.RedisCache.Domain;
 using BridgeportClaims.RedisCache.Keys.Abstractions;
@@ -22,19 +24,38 @@ namespace BridgeportClaims.Tests.RedisCache
         public void CanSetAndGetFromRedisCache()
         {
             // Arrange.
-            var redisCache = CacheConnectionHelper.Connection.GetDatabase();
+            // Connection refers to a property that returns a ConnectionMultiplexer
+            // as shown in the previous example.
+            IDatabase cache = RedisCacheConnectionHelper.Connection.GetDatabase();
+
+            // Prepare, clear all items from cache.
 
             // Act.
-            redisCache.StringSet(Key, Value);
-            RedisValue data = redisCache.StringGet(Key);
+            // Perform cache operations using the cache object...
 
+            // Simple PING command
+            var cacheCommand = "PING";
+            const string messageKey = "{{Message_v1}}";
+            var pingResponse = cache.Execute(cacheCommand).ToString();
+
+            // Simple get and put of integral data types into the cache
+            var arbitraryValue = Utilities.RandomString(20);
+            cache.KeyDelete(messageKey);
+            var stringGetCacheResponse = cache.StringGet(messageKey).ToString();
+            var stringSetCacheResponse = cache.StringSet(messageKey, arbitraryValue);
+            var value = cache.StringGet(messageKey).ToString();
+
+            // Get the client list, useful to see if connection list is growing...
+            var response = cache.Execute("CLIENT", "LIST").ToString();
             // Assert.
-            Assert.IsTrue(data.HasValue);
-            Assert.AreEqual(data, Value);
+            Assert.AreEqual(arbitraryValue, value);
+            Assert.AreEqual(pingResponse, "PONG");
+            Assert.IsNull(stringGetCacheResponse);
+            Assert.IsTrue(stringSetCacheResponse);
+            RedisCacheConnectionHelper.Connection.Dispose();
         }
 
         [TestMethod]
-        [Ignore]
         public async Task CanSetAndGetFromRedisObjects()
         {
             // Arrange.
@@ -82,11 +103,6 @@ namespace BridgeportClaims.Tests.RedisCache
             var cacheKeyDoesNotExist = await _redisDomain.Value.KeyExists(fakeCacheKey)
                 .ConfigureAwait(false);
             Assert.IsFalse(cacheKeyDoesNotExist);
-        }
-
-        private string DecorateFakeKey(string cacheKey)
-        {
-            return cacheKey + "Fake";
         }
     }
 }

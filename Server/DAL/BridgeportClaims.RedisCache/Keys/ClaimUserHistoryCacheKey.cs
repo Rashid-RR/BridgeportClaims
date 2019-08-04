@@ -3,7 +3,7 @@ using BridgeportClaims.RedisCache.Keys.Abstractions;
 
 namespace BridgeportClaims.RedisCache.Keys
 {
-    public class ClaimUserHistoryCacheKey : AbstractCacheKey
+    public sealed class ClaimUserHistoryCacheKey : AbstractCacheKey
     {
         private const int SevenHours = 7;
 

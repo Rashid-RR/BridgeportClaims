@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Threading.Tasks;
 using BridgeportClaims.Common.Disposable;
 using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.DataProviders.ClaimImages;
@@ -10,6 +11,9 @@ using BridgeportClaims.Data.DataProviders.Episodes;
 using BridgeportClaims.Data.DataProviders.Payments;
 using BridgeportClaims.Data.Dtos;
 using BridgeportClaims.Data.Enums;
+using BridgeportClaims.RedisCache.Clearing;
+using BridgeportClaims.RedisCache.Domain;
+using BridgeportClaims.RedisCache.Keys;
 using Dapper;
 using NLog;
 using cs = BridgeportClaims.Common.Config.ConfigService;
@@ -32,14 +36,17 @@ namespace BridgeportClaims.Data.DataProviders.Claims
         private readonly Lazy<IPaymentsDataProvider> _paymentsDataProvider;
         private readonly Lazy<IClaimImageProvider> _claimImageProvider;
         private static readonly Lazy<Logger> Logger = new Lazy<Logger>(LogManager.GetCurrentClassLogger);
+        private readonly Lazy<IRedisDomain> _redisDomain;
+        private readonly Lazy<ICachingClearingService> _clearingProvider;
 
-        public ClaimsDataProvider(Lazy<IPaymentsDataProvider> paymentsDataProvider,
-            Lazy<IClaimImageProvider> claimImageProvider,
-            Lazy<IEpisodesDataProvider> episodesDataProvider)
+        public ClaimsDataProvider(Lazy<IPaymentsDataProvider> paymentsDataProvider, Lazy<IClaimImageProvider> claimImageProvider,
+            Lazy<IEpisodesDataProvider> episodesDataProvider, Lazy<IRedisDomain> redisDomain, Lazy<ICachingClearingService> clearingProvider)
         {
             _paymentsDataProvider = paymentsDataProvider;
             _claimImageProvider = claimImageProvider;
             _episodesDataProvider = episodesDataProvider;
+            _redisDomain = redisDomain;
+            _clearingProvider = clearingProvider;
         }
 
         public IList<GetClaimsSearchResults> GetClaimsData(string claimNumber, string firstName, string lastName,
@@ -58,7 +65,24 @@ namespace BridgeportClaims.Data.DataProviders.Claims
                 return results?.ToList();
             });
 
-        public IEnumerable<QueryBuilderDto> QueryBuilderReport() =>
+        public async Task<IList<QueryBuilderDto>> QueryBuilderReportAsync()
+        {
+            var cacheKey = new QueryBuilderCacheKey();
+            var result = await _redisDomain.Value.GetAsync<List<QueryBuilderDto>>(cacheKey).ConfigureAwait(false);
+            var queryResults = result.ReturnResult;
+            if (!result.Success || null == queryResults)
+            {
+                queryResults = QueryBuilderReportFromDb()?.ToList();
+                if (null != queryResults)
+                {
+                    await _redisDomain.Value.AddAsync(cacheKey, queryResults, cacheKey.RedisExpirationTimespan)
+                        .ConfigureAwait(false);
+                }
+            }
+            return queryResults;
+        }
+
+        private static IEnumerable<QueryBuilderDto> QueryBuilderReportFromDb() =>
             DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
                 const string sp = "rpt.uspClaimQueryBuilder";

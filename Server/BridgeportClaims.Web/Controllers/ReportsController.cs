@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Linq.Dynamic;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web.Http;
 using BridgeportClaims.Common.Constants;
 using BridgeportClaims.Common.Disposable;
@@ -37,11 +38,11 @@ namespace BridgeportClaims.Web.Controllers
 
         [HttpPost]
         [Route("query-builder")]
-        public IHttpActionResult QueryBuilder()
+        public async Task<IHttpActionResult> QueryBuilder()
         {
             try
             {
-                var data = _claimsDataProvider.Value.QueryBuilderReport();
+                var data = await _claimsDataProvider.Value.QueryBuilderReportAsync().ConfigureAwait(false);
                 return Ok(data);
             }
             catch (Exception ex)

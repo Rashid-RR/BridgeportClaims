@@ -43,7 +43,8 @@ namespace BridgeportClaims.Web.Controllers
             try
             {
                 var userId = User.Identity.GetUserId();
-                var results = await _claimsUserHistoryProvider.Value.GetClaimsUserHistoryAsync(userId);
+                var results = await _claimsUserHistoryProvider.Value.GetClaimsUserHistoryAsync(userId)
+                    .ConfigureAwait(false);
                 return Ok(results);
             }
             catch (Exception ex)

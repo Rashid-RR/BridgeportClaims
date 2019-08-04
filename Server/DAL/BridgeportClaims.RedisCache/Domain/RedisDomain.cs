@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.Reflection;
 using System.Threading.Tasks;
 using BridgeportClaims.Common.Protobuf;
@@ -49,7 +50,7 @@ namespace BridgeportClaims.RedisCache.Domain
             }
             try
             {
-                var redisCache = CacheConnectionHelper.Connection.GetDatabase();
+                var redisCache = RedisCacheConnectionHelper.Connection.GetDatabase();
                 RedisValue data = await redisCache.StringGetAsync(DecorateKey(key.CacheKey),
                     CommandFlags.PreferSlave).ConfigureAwait(false);
 
@@ -77,10 +78,10 @@ namespace BridgeportClaims.RedisCache.Domain
             }
             try
             {
-                var redisDb = CacheConnectionHelper.Connection.GetDatabase();
+                var redisDb = RedisCacheConnectionHelper.Connection.GetDatabase();
                 var valueToCache = ProtobufService.ProtoSerialize(value);
                 await redisDb.StringSetAsync(DecorateKey(key.CacheKey)
-                    , valueToCache, expirationTime, flags: CommandFlags.DemandMaster
+                    , valueToCache, expirationTime, flags: CommandFlags.None
                 ).ConfigureAwait(false);
                 return true;
             }
@@ -99,7 +100,7 @@ namespace BridgeportClaims.RedisCache.Domain
             }
             try
             {
-                var redisCache = CacheConnectionHelper.Connection.GetDatabase();
+                var redisCache = RedisCacheConnectionHelper.Connection.GetDatabase();
                 await redisCache.KeyDeleteAsync(DecorateKey(key.CacheKey), 
                     CommandFlags.DemandMaster).ConfigureAwait(false);
                 return true;
@@ -119,7 +120,7 @@ namespace BridgeportClaims.RedisCache.Domain
             }
             try
             {
-                var db = CacheConnectionHelper.Connection.GetDatabase();
+                var db = RedisCacheConnectionHelper.Connection.GetDatabase();
                 await db.KeyExpireAsync(DecorateKey(key.CacheKey), expirationTime, 
                     CommandFlags.DemandMaster).ConfigureAwait(false);
                 return true;
@@ -139,7 +140,7 @@ namespace BridgeportClaims.RedisCache.Domain
             }
             try
             {
-                var db = CacheConnectionHelper.Connection.GetDatabase();
+                var db = RedisCacheConnectionHelper.Connection.GetDatabase();
                 var retVal = await db.KeyExistsAsync(DecorateKey(key.CacheKey), 
                     CommandFlags.PreferSlave);
                 return retVal;

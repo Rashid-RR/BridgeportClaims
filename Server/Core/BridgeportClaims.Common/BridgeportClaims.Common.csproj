@@ -87,6 +87,7 @@
     <Compile Include="Helpers\AsyncLazy.cs" />
     <Compile Include="Helpers\DateTimeHelper.cs" />
     <Compile Include="Helpers\ObjectShredder.cs" />
+    <Compile Include="Helpers\Utilities.cs" />
     <Compile Include="Models\InvoicePdfModel.cs" />
     <Compile Include="Models\InvoicePrescriptionPdfModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
