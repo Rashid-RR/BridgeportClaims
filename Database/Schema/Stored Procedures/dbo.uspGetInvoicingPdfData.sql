@@ -81,7 +81,6 @@ BEGIN
 		LEFT JOIN dbo.UsState AS p2s ON p2.BillToStateID = p2s.StateID
 	WHERE p1.[ImportTypeID] = @ImportTypeEnvision
 	-- testing
-	      AND c1.ClaimID = 5946
 	)
 	SELECT * FROM [CTE] AS c
 END;

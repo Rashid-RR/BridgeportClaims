@@ -36,7 +36,7 @@ AS BEGIN
 					, [pre].[Prescriber] PrescriberName
 					, [pb].[Addr1]
 					, [pb].[Addr2]
-					, [pb].[City]e
+					, [pb].[City]
 					, [us].[StateCode]
 					, [pb].[Zip] [PostalCode]
 					, [p].[FirstName]
@@ -62,5 +62,4 @@ AS BEGIN
 
 	SELECT [p].[LabelName], p.[DateFilled] FROM @PrescriptionIds AS [pi] INNER JOIN [dbo].[Prescription] AS [p] ON [p].[PrescriptionID] = [pi].[ID];
 END
-
 GO
