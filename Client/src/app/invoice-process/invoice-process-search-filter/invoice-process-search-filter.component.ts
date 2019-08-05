@@ -4,8 +4,7 @@ import { InvoiceProcessService } from '../../services/services.barrel';
 @Component({
   selector: 'app-invoice-process-search-filter',
   templateUrl: './invoice-process-search-filter.component.html',
-  styleUrls: ['./invoice-process-search-filter.component.css'],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./invoice-process-search-filter.component.css']
 })
 export class InvoiceProcessSearchFilterComponent implements OnInit {
   imgSrc = 'assets/images/ButtonNormal.png';
