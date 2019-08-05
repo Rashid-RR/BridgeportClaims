@@ -55,8 +55,8 @@ a.disabled, a.disabled:active, a.disabled:hover {
 }
 
 .swal2-modal.payment-modal {
-  padding: 5px 10px !important;
-  padding-left: 15px !important;
+  padding: 5px 10px;
+  padding-left: 15px;
   margin-top: 174px !important;
 }
 
@@ -1849,4 +1849,68 @@ app-payor-search .mat-form-field .mat-form-field-underline
 .modal .claim-note .modal-content .modal-body .buttons .cancle:active {
   background-color: #cacaca;
   color: #434343;
+}
+.search-modal {
+  padding: 0px !important;
+}
+.search-modal .swal2-header {
+  height: 54px;
+  margin: 0px !important;
+  background-color: #162880;
+}
+.search-modal .swal2-header h2 {
+  position: relative;
+  top: 18px;
+  color: #fff;
+}
+.search-modal .swal2-content {
+  padding: 5px 10px;
+}
+
+/* confirmDialog CSS */
+
+.confirmDialog .modal-content {
+  border: none;
+  border-radius: 5px;
+}
+.confirmDialog .modal-content .modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 15px;
+  height: 45px;
+  background-color: #162880;
+}
+.confirmDialog .modal-content .modal-header .modal-title {
+  color: #fff;
+  font-weight: 600;
+  font-size: 14px;
+  position: absolute;
+  left: 15px;
+}
+.confirmDialog .modal-content .modal-header .closeConfirmModal {
+  position: absolute;
+  right: 15px;
+  top: 10px;
+  cursor: pointer;
+}
+.confirmDialog .modal-content .modal-body { padding: 20px 15px; }
+.confirmDialog .modal-content .modal-body p {
+  color: #3c3c3c;
+  font-size: 16px;
+  margin: 0px;
+}
+.confirmDialog .modal-content .modal-body p ul { margin: 0px; }
+.confirmDialog .modal-content .modal-body p ul li:first-child { margin-top: 12px; }
+.confirmDialog .modal-content .modal-footer { border-top: 1px solid #e5e5e5; }
+.confirmDialog .modal-content .modal-footer button .mat-button-wrapper { vertical-align: sub; }
+.confirmDialog .modal-content .modal-footer .confirm {
+  background-color: #162880;
+  font-size: 14px;
+  color: #fff;
+}
+.confirmDialog .modal-content .modal-footer .cancle {
+  background-color: #ececec;
+  color: #868686;
+  font-size: 14px;
 }
