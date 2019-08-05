@@ -763,16 +763,15 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
     }).catch(()=>{});
   }
 
-  openModal(addNote: TemplateRef<any>, noteText: string = '', TypeId?: String) {
-    noteText = noteText.replace(/\\n/g, '&#13;');
-    this.isSubmit = false;
+  openModal(addNote: TemplateRef<any>, noteText: string, TypeId?: String) {
     if (!TypeId && !noteText) {
       this.modalForm.reset();
       this.modalForm.patchValue({'noteType': ''})
       this.modalRef = this.modalService.show(addNote, {class: 'claim-note modal-md modal-dialog-centered'});
     } else {
+      noteText = noteText.replace(/\\n/g, '&#13;');
       for (let item of this.claimManager.NoteTypes) {
-        if (item.value == TypeId) {
+        if (TypeId && item.value == TypeId) {
           this.modalForm.patchValue({'noteType': item.key});
         }
       }
@@ -786,8 +785,9 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
     if (this.modalForm.valid) {
       this.modalRef.hide();
       this.claimManager.loading = true;
-      let txt = JSON.stringify(formData.noteText);
-      txt = txt.substring(1, txt.length - 1);
+      // let txt = JSON.stringify(formData.noteText);
+      // txt = txt.substring(1, txt.length - 1);
+      let txt = formData.noteText;
       this.http.saveClaimNote({
         claimId: this.claimManager.selectedClaim.claimId,
         noteTypeId: formData.noteType ? parseInt(formData.noteType) : null,
