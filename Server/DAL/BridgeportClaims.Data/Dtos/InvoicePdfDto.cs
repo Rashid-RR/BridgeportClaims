@@ -1,7 +1,10 @@
-﻿namespace BridgeportClaims.Data.Dtos
+﻿using System;
+
+namespace BridgeportClaims.Data.Dtos
 {
     public sealed class InvoicePdfDto
     {
+        private decimal _billedAmount;
         public int ClaimId { get; set; }
         public string BillToName { get; set; }
         public string BillToAddress1 { get; set; }
@@ -37,7 +40,11 @@
         public string Ndc { get; set; }
         public string LabelName { get; set; }
         public string RxNumber { get; set; }
-        public decimal BilledAmount { get; set; }
+        public decimal BilledAmount
+        {
+            get => _billedAmount;
+            set => _billedAmount = Math.Round(value, 2);
+        }
         public int? BilledAmountDollars { get; set; }
         public string BilledAmountCents { get; set; }
         public float Quantity { get; set; }

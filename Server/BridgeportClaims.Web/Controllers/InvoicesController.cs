@@ -6,6 +6,7 @@ using System.Net;
 using System.Web.Http;
 using BridgeportClaims.Data.DataProviders.InvoicePdfDocuments;
 using BridgeportClaims.Data.DataProviders.InvoicesProvider;
+using BridgeportClaims.Data.Dtos;
 using BridgeportClaims.Pdf.InvoiceProviders;
 using BridgeportClaims.Web.CustomActionResults;
 

@@ -14,6 +14,8 @@ namespace BridgeportClaims.Pdf.InvoiceProviders
 {
     public class InvoiceProvider : IInvoiceProvider
     {
+        private const string X = "X";
+        private const string ZeroOne = "01";
         private const int DefaultFontSize = 9;
         private const int AlternateFontSize = 7;
         private const int DefaultFontStyle = 0;
@@ -50,9 +52,9 @@ namespace BridgeportClaims.Pdf.InvoiceProviders
                             contentByte);
                     }
 
-                    StampText($"Invoice#-1: {data.InvoiceNumber}", 240, 683, contentByte);
+                    StampText($"Invoice #: {data.InvoiceNumber}", 240, 683, contentByte);
                     StampText($"Invoice Date: {data.InvoiceDate}", 340, 683, contentByte);
-                    StampText("X", 331.7f, 656.7f, contentByte, 8);
+                    StampText(X, 331.7f, 656.7f, contentByte, 8);
                     StampText(data.ClaimNumber, 362, 655.8f, contentByte, AlternateFontSize);
                     const float leftAxis = 66.7f;
                     StampText($"{data.PatientLastName}, {data.PatientFirstName}", leftAxis, 636, contentByte,
@@ -63,12 +65,12 @@ namespace BridgeportClaims.Pdf.InvoiceProviders
                     if (data.IsMale.HasValue && data.IsMale.Value)
                     {
                         // Check Male
-                        StampText("X", 313.5f, 636.2f, contentByte, 8);
+                        StampText(X, 313.5f, 636.2f, contentByte, 8);
                     }
                     else
                     {
                         // Check Female
-                        StampText("X", 343.8f, 636.2f, contentByte, 8);
+                        StampText(X, 343.8f, 636.2f, contentByte, 8);
                     }
 
                     // Address
@@ -77,7 +79,7 @@ namespace BridgeportClaims.Pdf.InvoiceProviders
                         : data.PatientAddress1;
                     StampText(address, leftAxis, 614.8f, contentByte, AlternateFontSize);
                     // Stamp Self
-                    StampText("X", 259.3f, 614.8f, contentByte, 8);
+                    StampText(X, 259.3f, 614.8f, contentByte, 8);
                     StampText(data.PatientCity, leftAxis, 594.6f, contentByte, AlternateFontSize);
                     StampText(data.PatientStateCode, 218, 594.6f, contentByte, AlternateFontSize);
                     const float zipPhoneYAxis = 572.8f;
@@ -104,10 +106,19 @@ namespace BridgeportClaims.Pdf.InvoiceProviders
                     StampText(data.DateOfBirthMonth, 383, dobYAxis, contentByte, AlternateFontSize);
                     StampText(data.DateOfBirthDay, 401, dobYAxis, contentByte, AlternateFontSize);
                     StampText(data.DateOfBirthYear, 425, dobYAxis, contentByte, AlternateFontSize);
+                    // Optionally check Male or Female
+                    if (data.IsMale.HasValue && data.IsMale.Value)
+                    {
+                        StampText(X, 470.4f, dobYAxis + 2, contentByte, 8);
+                    }
+                    else
+                    {
+                        StampText(X, 512.9f, dobYAxis + 2, contentByte, 8);
+                    }
                     const float billToNameYAxis = 490.5f;
                     StampText(data.BillToName, 361.5f, billToNameYAxis, contentByte, AlternateFontSize);
                     // Auto-Accident Yes
-                    StampText("X", 271.7f, 510.8f, contentByte, 8);
+                    StampText(X, 271.7f, 510.8f, contentByte, 8);
                     const string availableUponRequest = "AVAILABLE UPON REQUEST";
                     const float availableUponRequestYAxis = 430;
                     StampText(availableUponRequest, 101, availableUponRequestYAxis, contentByte, AlternateFontSize);
@@ -170,13 +181,12 @@ namespace BridgeportClaims.Pdf.InvoiceProviders
                     {
                         throw new Exception("Error, we have more than 6 prescriptions");
                     }
-
                     const string federalTaxIdNumber = "81-4105673";
                     const float line25XAxis = 158.5f;
                     StampText(federalTaxIdNumber, 70.8f, line25XAxis, contentByte, AlternateFontSize);
-                    StampText("X", 175.6f, line25XAxis, contentByte, 8);
+                    StampText(X, 175.6f, line25XAxis, contentByte, 8);
                     // Yes Accept Assignment
-                    StampText("X", 290.2f, line25XAxis, contentByte, 8);
+                    StampText(X, 290.2f, line25XAxis, contentByte, 8);
                     var totalBilled = data.Scripts.Sum(x => x.BilledAmount);
                     var totalBilledStr = totalBilled.ToString(CultureInfo.InvariantCulture);
                     var totalBilledDollars = totalBilledStr.Left(totalBilledStr.Length - 5);
@@ -198,18 +208,32 @@ namespace BridgeportClaims.Pdf.InvoiceProviders
                     StampText(
                         data.Scripts[0].Address1 + (data.Scripts[0].Address2.IsNotNullOrWhiteSpace()
                             ? $", {data.Scripts[0].Address2}"
-                            : string.Empty), line32XAxis, 133.9f, contentByte, AlternateFontSize);
+                            : string.Empty), line32XAxis, 134.6f, contentByte, AlternateFontSize);
                     StampText(
                         (data.Scripts[0].City ?? string.Empty) +
                         (data.Scripts[0].PharmacyState.IsNotNullOrWhiteSpace()
-                            ? "," + data.Scripts[0].PharmacyState
+                            ? ", " + data.Scripts[0].PharmacyState
                             : string.Empty) + (data.Scripts[0].PostalCode.IsNotNullOrWhiteSpace()
                             ? " " + data.Scripts[0].PostalCode
                             : string.Empty), line32XAxis, 127.1f, contentByte, AlternateFontSize);
                     StampText(
                         data.Scripts[0].FederalTin.IsNotNullOrWhiteSpace()
                             ? "Tax ID: " + data.Scripts[0].FederalTin
-                            : string.Empty, line32XAxis, 120, contentByte, AlternateFontSize);
+                            : string.Empty, line32XAxis, 119, contentByte, AlternateFontSize);
+                    // Line 33
+                    const string bridgeportAddress = "PO BOX 249";
+                    const string bridgeportCityStateZip = "SANDY, UT 84091-0249";
+                    const string bridgeportEmployeeId = "81-4105673";
+                    const string bridgeportAreaCode = "844";
+                    const string bridgeportPhoneNumber = "480-5630";
+                    const float line33XAxis = 365.6f;
+                    StampText(bridgeportPharmacyServices, line33XAxis, 139.2f, contentByte, AlternateFontSize);
+                    StampText(bridgeportAddress, line33XAxis, 131.6f, contentByte, AlternateFontSize);
+                    StampText(bridgeportCityStateZip, line33XAxis, 124.1f, contentByte, AlternateFontSize);
+                    StampText(bridgeportEmployeeId, line33XAxis, 116.9f, contentByte, AlternateFontSize);
+                    const float billingPhoneNumberYAxis = 147.5f;
+                    StampText(bridgeportAreaCode, 461.5f, billingPhoneNumberYAxis, contentByte, AlternateFontSize);
+                    StampText(bridgeportPhoneNumber, 482, billingPhoneNumberYAxis, contentByte, AlternateFontSize);
                 }
                 catch (Exception ex)
                 {
@@ -234,14 +258,20 @@ namespace BridgeportClaims.Pdf.InvoiceProviders
             const float secondDateFilledDayXAxis = 140;
             const float secondDateFilledYearXAxis = 158.5f;
             const float ndcLabelNameXAxis = 213.5f;
-            var ndcRxNumberYAxis = 0.0f;
-            const float scriptOneNdcRxNumberYAxis = 292.5f;
-            const float scriptTwoNdcRxNumberYAxis = 271.5f;
-            const float scriptThreeNdcRxNumberYAxis = 251.1f;
+            float ndcRxNumberYAxis;
+            const float scriptOneNdcRxNumberYAxis = 292.8f;
+            const float scriptTwoNdcRxNumberYAxis = 271.7f;
+            const float scriptThreeNdcRxNumberYAxis = 251.3f;
+            const float scriptFourNdcRxNumberYAxis = 230.1f;
+            const float scriptFiveNdcRxNumberYAxis = 209.8f;
+            const float scriptSixNdcRxNumberYAxis = 191.8f;
             const float scriptOneYAxis = 283.1f;
             const float scriptTwoYAxis = 261.8f;
             const float scriptThreeYAxis = 241.3f;
-            var yAxis = 0.0f;
+            const float scriptFourYAxis = 220;
+            const float scriptFiveYAxis = 199.8f;
+            const float scriptSixYAxis = 180.0f;
+            float yAxis;
             switch (scriptIndex)
             {
                 case 0:
@@ -256,6 +286,20 @@ namespace BridgeportClaims.Pdf.InvoiceProviders
                     ndcRxNumberYAxis = scriptThreeNdcRxNumberYAxis;
                     yAxis = scriptThreeYAxis;
                     break;
+                case 3:
+                    ndcRxNumberYAxis = scriptFourNdcRxNumberYAxis;
+                    yAxis = scriptFourYAxis;
+                    break;
+                case 4:
+                    ndcRxNumberYAxis = scriptFiveNdcRxNumberYAxis;
+                    yAxis = scriptFiveYAxis;
+                    break;
+                case 5:
+                    ndcRxNumberYAxis = scriptSixNdcRxNumberYAxis;
+                    yAxis = scriptSixYAxis;
+                    break;
+                default:
+                    throw new Exception($"Error, the {nameof(scriptIndex)} argument must be an integer of zero through 5.");
             }
             StampText(data.Scripts[scriptIndex].Ndc, ndcLabelNameXAxis, ndcRxNumberYAxis, contentByte, AlternateFontSize);
             // Rx Date
@@ -267,6 +311,7 @@ namespace BridgeportClaims.Pdf.InvoiceProviders
             StampText(data.Scripts[scriptIndex].DateFilledDay, secondDateFilledDayXAxis, yAxis, contentByte, AlternateFontSize);
             StampText(data.Scripts[scriptIndex].DateFilledYear, secondDateFilledYearXAxis, yAxis, contentByte, AlternateFontSize);
             StampText(data.Scripts[scriptIndex].LabelName, ndcLabelNameXAxis, yAxis, contentByte, AlternateFontSize);
+            StampText(ZeroOne, 176.5f, yAxis, contentByte, AlternateFontSize);
             const float rxNumberXAxis = 331.0f;
             StampText(data.Scripts[scriptIndex].RxNumber, rxNumberXAxis, ndcRxNumberYAxis, contentByte, AlternateFontSize);
             const string a = "A";

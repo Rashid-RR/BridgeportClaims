@@ -65,4 +65,4 @@ import { AgDateFilterComponent } from '../components/ag-date-filter/ag-date-filt
     InvoicesListComponent,
   ]
 })
-export class ReportsModule { }
+export class ReportsModule {}

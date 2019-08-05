@@ -2,7 +2,7 @@
 
 namespace BridgeportClaims.Common.Models
 {
-    public class InvoicePdfModel
+    public sealed class InvoicePdfModel
     {
         public string BillToName { get; set; }
         public string BillToAddress1 { get; set; }
