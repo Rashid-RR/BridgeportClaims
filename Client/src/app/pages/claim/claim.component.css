@@ -381,19 +381,3 @@ li button{
 .example-container > * {
   width: 100%;
 }
-.invoiced-tally {
-  margin: 0px;
-  display: flex;
-  flex-direction: row;
-  color: #112794;
-  justify-items: center;
-  justify-content: space-evenly;
-}
-.invoiced-tally span{
-  font-size:13px;
-  line-height: 26px;
-}
-.invoiced-tally small{
-  font-size:14px;
-  font-weight: 600;
-}
