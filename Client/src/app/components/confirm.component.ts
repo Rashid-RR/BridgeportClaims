@@ -15,21 +15,19 @@ export interface ConfirmModel {
 @Component({
   selector: 'confirm',
   // tslint:disable-next-line: max-line-length
-  template: `<div class="modal-dialog">
+  template: `<div class="modal-dialog confirmDialog">
   <div class="modal-content" style="padding: 0;">
-     <div class="modal-header" style="display: block;padding:5px 5px 5px 15px;">
-      <button type="button" style="min-width:1%;" mat-raised-button color="danger" (click)="close()" class="close-btn pull-right">
-          <span class="fa fa-close"></span>
-      </button>
-       <h4 class="modal-title" style="padding-top: 15px;">{{title || 'Confirm'}}</h4>
+     <div class="modal-header">
+      <div class="modal-title">{{title || 'Confirm'}}</div>
+      <img src="assets/images/cross_btn.png" (click)="close()" class="closeConfirmModal close-btn" alt="X" >
      </div>
      <div class="modal-body">
        <p [innerHTML]="msg || 'Are you sure?'"></p>
      </div>
      <div class="modal-footer">
-       <button type="button" mat-button class="btn" style="height:49px;background-color:green;color: #fff;" (click)="confirm()"
-        [disabled]="buttonDisabled" cdkFocusInitial>{{buttonText ||'OK'}}</button>
-       <button type="button" mat-button class="btn btn-default" (click)="close()" style="background-color: #ccc;" >{{cancelText ||'Cancel'}}</button>
+     <button type="button" class="confirm mr-2" mat-raised-button (click)="confirm()"
+      [disabled]="buttonDisabled" cdkFocusInitial>{{buttonText ||'OK'}}</button>
+     <button type="button" (click)="close()" mat-raised-button class="cancle">{{cancelText ||'Cancel'}}</button>
      </div>
    </div>
 </div>`,
