@@ -496,7 +496,7 @@
 
                 <mat-form-field>
                   <mat-select class="form-control col-md-6" formControlName="noteType" id="noteType">
-                    <mat-option>-- No Type --</mat-option>
+                    <mat-option value=''>-- No Type --</mat-option>
                     <mat-option *ngFor="let opt of claimManager.NoteTypes" [value]="opt.key">{{opt.value}}</mat-option>
                   </mat-select>
                 </mat-form-field>

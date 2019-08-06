@@ -770,6 +770,8 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
       this.modalForm.patchValue({'noteType': ''});
       this.modalRef = this.modalService.show(addNote, {class: 'claim-note modal-md modal-dialog-centered'});
     } else {
+      noteText = noteText.replace(/\\n/g, '\n');
+      this.modalForm.patchValue({'noteType': ''});
       for (const item of this.claimManager.NoteTypes) {
         if (TypeId && item.value == TypeId) {
           this.modalForm.patchValue({'noteType': item.key});
