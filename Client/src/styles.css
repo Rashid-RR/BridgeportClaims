@@ -604,7 +604,7 @@ tbody > tr.isReversed td .btn-group button.dropdown-toggle.status {
 .swal2-modal.prescription-modal .swal2-buttonswrapper {
   text-align: left !important;
 }
-@media screen and (min-width: 768px) { 
+@media screen and (min-width: 768px) {
   .modal:before {
     display: inline-block;
     vertical-align: middle;
@@ -839,8 +839,8 @@ thead {
 
 .box-header.isAttorneyManaged,
 .bg-head-box.isAttorneyManaged {
-  background: #2a40b2 !important;
-  color: white !important;
+  background: #F9E64F !important;
+  color: black !important;
 }
 
 
