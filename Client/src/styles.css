@@ -604,7 +604,7 @@ tbody > tr.isReversed td .btn-group button.dropdown-toggle.status {
 .swal2-modal.prescription-modal .swal2-buttonswrapper {
   text-align: left !important;
 }
-@media screen and (min-width: 768px) { 
+@media screen and (min-width: 768px) {
   .modal:before {
     display: inline-block;
     vertical-align: middle;
@@ -1948,4 +1948,54 @@ app-payor-search .mat-form-field .mat-form-field-underline
   background-color: #ececec;
   color: #868686;
   font-size: 14px;
+}
+.swal2-popup,.mat-dialog-container{
+  padding:0px !important;
+  border-radius: 6px !important;
+}
+.swal2-popup .swal2-header,.swal2-popup .swal2-content,
+.mat-dialog-content,.mat-dialog-title{
+  padding:15px !important;
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+  margin: 0px !important;
+}
+.swal2-popup .swal2-header,.swal2-popup .swal2-title,.mat-dialog-title{
+  color: #fff !important;
+  margin: 0px;
+  display: flex !important;
+  font-family: 'Cambay', sans-serif ;
+  position: relative;
+  background-color: #162880;
+  border-radius: unset;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+}
+.swal2-popup .swal2-header .swal2-close,
+.mat-dialog-container .swal2-close,
+.mat-dialog-container .swal2-close:hover,
+.mat-dialog-container .swal2-close:active
+{
+    top: 10px;
+    right: 10px;
+    display: block !important;
+    color: #162880;
+    font-size: 30px;
+    border-radius: 50%;
+    padding: 0px !important;
+    background: rgba(255,255,255,.52);
+    width: 21px;
+    height: 21px;
+    line-height: 28px;
+}
+.mat-dialog-container .mat-dialog-title,
+.mat-dialog-container .swal2-title
+{
+  color: #fff !important;
+  margin: 0;
+  line-height: 20px;
+}
+.mat-dialog-container [mat-dialog-close]
+{
+  cursor: pointer;
 }

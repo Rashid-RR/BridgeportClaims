@@ -1,51 +1,58 @@
-<div class="row">
-  <div class="col-lg-2" style="width: 14% !important;">
-    <h2>Adjustor:
-    </h2>
+<h3 mat-dialog-title class="text-center">
+  <div class="swal2-title" style="flex: 1">
+    Adjustor
   </div>
-  <div class="col-lg-3" style="width: 26% !important;">
-    <h2>
-      <span class="header-hd" style="font-size: 19px !important; color: #204d74">
-        {{claimManager.selectedClaim.adjustor}}</span></h2>
-  </div>
-  <div class="col-lg-1">
-    <h2>Patient:
-    </h2>
-  </div>
-  <div class="col-lg-5">
-    <h2>
-      <span class="header-hd"> {{claimManager.selectedClaim.name || claimManager.selectedClaim.firstName || ''}}
-        {{claimManager.selectedClaim.lastName || ''}} </span>
-    </h2>
-  </div>
-  <div class="col-lg-1">
-    <label (click)="onNoClick()" class="close-btn" mat-dialog-close>
-      <i class="fa fa-close" style="color: #992727;"></i>
-    </label>
-  </div>
-  <div class="col-lg-2" style="width: 14% !important;">
-    <h2>Claim #:
-    </h2>
-  </div>
-  <div class="col-lg-3" style="width: 26% !important;">
-    <h2>
-      <span class="header-hd"> {{claimManager.selectedClaim.claimNumber}}</span></h2>
-  </div>
-  <div class="col-lg-1">
-    <h2>Address:</h2>
-  </div>
-  <div class="col-lg-6">
-    <h2>
-      <span class="header-hd">
-        {{claimManager.selectedClaim?.address1 || ''}}
-        , {{claimManager.selectedClaim?.address2 || ''}} {{claimManager.selectedClaim?.city || ''}}
-        , {{claimManager.selectedClaim?.stateAbbreviation || ''}} &nbsp;{{claimManager.selectedClaim.postalCode || ''}}
-      </span></h2>
-  </div>
-</div>
-<mat-divider></mat-divider>
+  <img  (click)="onNoClick()" mat-dialog-close  src="assets/images/cross_btn.png" alt="X" type="button"/>
+</h3>
 <mat-dialog-content class="mat-typography" style="margin-top: 2vh">
   <div class="row">
+    <div class="col-lg-2" style="width: 14% !important;">
+      <h2>Adjustor:
+      </h2>
+    </div>
+    <div class="col-lg-3" style="width: 26% !important;">
+      <h2>
+        <span class="header-hd" style="font-size: 19px !important; color: #204d74">
+          {{claimManager.selectedClaim.adjustor}}</span></h2>
+    </div>
+    <div class="col-lg-1">
+      <h2>Patient:
+      </h2>
+    </div>
+    <div class="col-lg-5">
+      <h2>
+        <span class="header-hd"> {{claimManager.selectedClaim.name || claimManager.selectedClaim.firstName || ''}}
+          {{claimManager.selectedClaim.lastName || ''}} </span>
+      </h2>
+    </div>
+    <div class="col-lg-1">
+
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-2" style="width: 14% !important;">
+      <h2>Claim #:
+      </h2>
+    </div>
+    <div class="col-lg-3" style="width: 26% !important;">
+      <h2>
+        <span class="header-hd"> {{claimManager.selectedClaim.claimNumber}}</span></h2>
+    </div>
+    <div class="col-lg-1">
+      <h2>Address:</h2>
+    </div>
+    <div class="col-lg-6">
+      <h2>
+        <span class="header-hd">
+          {{claimManager.selectedClaim?.address1 || ''}}
+          , {{claimManager.selectedClaim?.address2 || ''}} {{claimManager.selectedClaim?.city || ''}}
+          , {{claimManager.selectedClaim?.stateAbbreviation || ''}}
+          &nbsp;{{claimManager.selectedClaim.postalCode || ''}}
+        </span></h2>
+    </div>
+  </div>
+  <mat-divider></mat-divider>
+  <div class="row" style="margin-top: 2vh">
     <div class="col-lg-12">
       <button class="algin-btn-center" (click)="showReference(claimManager?.adjustorData?.adjustorId)" color="primary"
         mat-raised-button>
