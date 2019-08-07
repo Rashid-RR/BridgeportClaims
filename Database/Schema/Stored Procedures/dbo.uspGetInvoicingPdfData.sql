@@ -19,8 +19,9 @@ BEGIN
     SET NOCOUNT ON;
     SET XACT_ABORT ON;
 	DECLARE @ImportTypeEnvision INT = [etl].[udfGetImportTypeByCode]('ENVISION');
-	WITH CTE AS
-	(
+	DECLARE @InvoiceNumber BIGINT = (NEXT VALUE FOR dbo.[seqInvoice]);
+	DECLARE @TodaysLocalDate DATE = CAST([dtme].[udfGetLocalDate]() AS DATE);
+	
     SELECT c1.[ClaimID] AS ClaimId,
 		   p2.BillToName,
            p2.BillToAddress1,
@@ -28,8 +29,8 @@ BEGIN
            p2.BillToCity,
            p2s.StateCode BillToStateCode,
            p2.BillToPostalCode,
-           i1.InvoiceNumber,
-           InvoiceDate = FORMAT(i1.InvoiceDate, 'MM/dd/yyyy'),
+           @InvoiceNumber AS InvoiceNumber, -- i1.InvoiceNumber ,
+           InvoiceDate = @TodaysLocalDate,
            c1.ClaimNumber,
 		   p3.LastName AS PatientLastName,
 		   p3.FirstName AS PatientFirstName,
@@ -57,8 +58,8 @@ BEGIN
 		   p1.LabelName,
 		   p1.RxNumber,
 		   p1.BilledAmount,
-		   TRY_CAST(FLOOR(p1.BilledAmount) AS INT) AS BilledAmountDollars,
-		   TRY_CAST(p1.BilledAmount % 1 AS VARCHAR(4)) AS [BilledAmountCents],
+		   TRY_CAST(ISNULL(FLOOR(p1.BilledAmount), 0) AS INT) AS BilledAmountDollars,
+		   TRY_CAST(ISNULL(p1.BilledAmount % 1, '0.00') AS VARCHAR(4)) AS [BilledAmountCents],
 		   p1.Quantity,
 		   p4.PharmacyName,
 		   p4.Address1,
@@ -68,7 +69,7 @@ BEGIN
 		   p4.PostalCode,
 		   p4.FederalTIN AS FederalTin,
 		   p4.NPI AS Npi,
-		   p4.NABP Nabp
+		   CASE WHEN TRY_CONVERT(INT, p4.NABP) < 0 THEN NULL ELSE p4.[NABP] END AS Nabp
     FROM dbo.Prescription AS p1
         INNER JOIN dbo.Pharmacy AS p4 ON p4.NABP = p1.PharmacyNABP
 		INNER JOIN dbo.UsState AS phars ON phars.StateID = p4.StateID
@@ -80,8 +81,5 @@ BEGIN
 		LEFT JOIN dbo.UsState AS s1 ON s1.StateID = p3.StateID
 		LEFT JOIN dbo.UsState AS p2s ON p2.BillToStateID = p2s.StateID
 	WHERE p1.[ImportTypeID] = @ImportTypeEnvision
-	-- testing
-	)
-	SELECT * FROM [CTE] AS c
 END;
 GO
