@@ -128,10 +128,10 @@ tr:nth-of-type(even) {
   height:60px;
 }
 .expanded{
-  height: calc(100vh - 290px);
-  height: -moz-calc(100vh - 290px);
-  height: -webkit-calc(100vh - 290px);
-  height: -o-calc(100vh - 290px);
+  height: calc(100vh - 310px);
+  height: -moz-calc(100vh - 310px);
+  height: -webkit-calc(100vh - 310px);
+  height: -o-calc(100vh - 310px);
   overflow:hidden;
 }
 .top-header,.table-body{

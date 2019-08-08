@@ -8,6 +8,8 @@
     height: -o-calc(100vh - 50px) !important;
     height: -webkit-calc(100vh - 50px) !important;
     height: -moz-calc(100vh - 50px) !important;
+    min-height: calc(100vh - 50px) !important;
+    max-height: calc(100vh - 50px) !important;
  }
 
  .content-wrapper {

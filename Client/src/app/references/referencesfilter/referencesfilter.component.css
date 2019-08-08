@@ -141,3 +141,13 @@ mat-form-field{
 .cdk-overlay-container {
   z-index: 1000000000 !important;
 }
+
+#modalAddAdjustor
+{
+  display: flex;
+}
+#modalAddAdjustor .modal-dialog.modal-dialog-centered
+{
+  display: table;
+  align-self: flex-start;
+}
