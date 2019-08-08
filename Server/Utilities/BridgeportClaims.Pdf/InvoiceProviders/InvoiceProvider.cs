@@ -19,6 +19,7 @@ namespace BridgeportClaims.Pdf.InvoiceProviders
         private const int DefaultFontSize = 9;
         private const int AlternateFontSize = 7;
         private const int DefaultFontStyle = 0;
+        private const string Na = "NA";
         private const float BilledAmountCentsXAxis = 399.0f;
         private const float BilledAmountDollarsXAxis = 372.0f;
         private static readonly BaseFont BaseFont = BaseFont.CreateFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
@@ -189,8 +190,8 @@ namespace BridgeportClaims.Pdf.InvoiceProviders
                     StampText(X, 290.2f, line25XAxis, contentByte, 8);
                     var totalBilled = data.Scripts.Sum(x => x.BilledAmount);
                     var totalBilledStr = totalBilled.ToString(CultureInfo.InvariantCulture);
-                    var totalBilledDollars = totalBilledStr.Left(totalBilledStr.Length - 5);
-                    var totalBilledCents = totalBilledStr.Right(5).Left(3);
+                    var totalBilledDollars = totalBilledStr.Left(totalBilledStr.Length - 3);
+                    var totalBilledCents = totalBilledStr.Right(2);
                     StampText(totalBilledDollars, BilledAmountDollarsXAxis + 10, line25XAxis, contentByte,
                         AlternateFontSize);
                     StampText(totalBilledCents, BilledAmountDollarsXAxis + 42.1f, line25XAxis, contentByte,
@@ -211,7 +212,8 @@ namespace BridgeportClaims.Pdf.InvoiceProviders
                             : string.Empty), line32XAxis, 134.6f, contentByte, AlternateFontSize);
                     StampText(
                         (data.Scripts[0].City ?? string.Empty) +
-                        (data.Scripts[0].PharmacyState.IsNotNullOrWhiteSpace()
+                        (data.Scripts[0].PharmacyState.IsNotNullOrWhiteSpace() &&
+                         !string.Equals(data.Scripts[0].PharmacyState, Na, StringComparison.InvariantCultureIgnoreCase)
                             ? ", " + data.Scripts[0].PharmacyState
                             : string.Empty) + (data.Scripts[0].PostalCode.IsNotNullOrWhiteSpace()
                             ? " " + data.Scripts[0].PostalCode
@@ -264,13 +266,13 @@ namespace BridgeportClaims.Pdf.InvoiceProviders
             const float scriptThreeNdcRxNumberYAxis = 251.3f;
             const float scriptFourNdcRxNumberYAxis = 230.1f;
             const float scriptFiveNdcRxNumberYAxis = 209.8f;
-            const float scriptSixNdcRxNumberYAxis = 191.8f;
+            const float scriptSixNdcRxNumberYAxis = 189.0f;
             const float scriptOneYAxis = 283.1f;
             const float scriptTwoYAxis = 261.8f;
             const float scriptThreeYAxis = 241.3f;
             const float scriptFourYAxis = 220;
             const float scriptFiveYAxis = 199.8f;
-            const float scriptSixYAxis = 180.0f;
+            const float scriptSixYAxis = 179.0f;
             float yAxis;
             switch (scriptIndex)
             {
