@@ -18,10 +18,10 @@ namespace BridgeportClaims.Pdf.InvoiceProviders
         private const string ZeroOne = "01";
         private const int DefaultFontSize = 9;
         private const int AlternateFontSize = 7;
+        private const float LetterLength = 3.8f;
         private const int DefaultFontStyle = 0;
         private const string Na = "NA";
         private const float BilledAmountCentsXAxis = 399.0f;
-        private const float BilledAmountDollarsXAxis = 372.0f;
         private static readonly BaseFont BaseFont = BaseFont.CreateFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
         private static readonly Lazy<ILogger> Logger = new Lazy<ILogger>(LogManager.GetCurrentClassLogger);
 
@@ -192,15 +192,19 @@ namespace BridgeportClaims.Pdf.InvoiceProviders
                     var totalBilledStr = totalBilled.ToString(CultureInfo.InvariantCulture);
                     var totalBilledDollars = totalBilledStr.Left(totalBilledStr.Length - 3);
                     var totalBilledCents = totalBilledStr.Right(2);
-                    StampText(totalBilledDollars, BilledAmountDollarsXAxis + 10, line25XAxis, contentByte,
+                    var totalBilledDollarsLength = totalBilledDollars.ToString().Length;
+                    var subtractTotalBilledDollarsXAxis = (totalBilledDollarsLength - 1) * LetterLength;
+                    StampText(totalBilledDollars.Length == 0 ? "0" : totalBilledDollars,
+                        404.4f - subtractTotalBilledDollarsXAxis, line25XAxis, contentByte,
                         AlternateFontSize);
-                    StampText(totalBilledCents, BilledAmountDollarsXAxis + 42.1f, line25XAxis, contentByte,
+                    StampText(totalBilledCents, 412.1f, line25XAxis, contentByte,
                         AlternateFontSize);
-                    StampText("0", BilledAmountDollarsXAxis + 82.1f, line25XAxis, contentByte, AlternateFontSize);
-                    StampText("00", BilledAmountDollarsXAxis + 101.1f, line25XAxis, contentByte, AlternateFontSize);
-                    StampText(totalBilledDollars, BilledAmountDollarsXAxis + 120, line25XAxis, contentByte,
+                    StampText("0", 464.8f, line25XAxis, contentByte, AlternateFontSize);
+                    StampText("00", 472.1f, line25XAxis, contentByte, AlternateFontSize);
+                    // Box 30
+                    StampText(totalBilledDollars, 518.3f - subtractTotalBilledDollarsXAxis, line25XAxis, contentByte,
                         AlternateFontSize);
-                    StampText(totalBilledCents.Right(2), BilledAmountDollarsXAxis + 160, line25XAxis, contentByte,
+                    StampText(totalBilledCents.Right(2), 526.5f, line25XAxis, contentByte,
                         AlternateFontSize);
                     const string bridgeportPharmacyServices = "BRIDGEPORT PHARMACY SERVICES";
                     StampText(bridgeportPharmacyServices, leftAxis + 1.5f, 121.5f, contentByte, AlternateFontSize);
@@ -216,7 +220,10 @@ namespace BridgeportClaims.Pdf.InvoiceProviders
                          !string.Equals(data.Scripts[0].PharmacyState, Na, StringComparison.InvariantCultureIgnoreCase)
                             ? ", " + data.Scripts[0].PharmacyState
                             : string.Empty) + (data.Scripts[0].PostalCode.IsNotNullOrWhiteSpace()
-                            ? " " + data.Scripts[0].PostalCode
+                            ? " " + (data.Scripts[0].PostalCode.Length == 9 && !data.Scripts[0].PostalCode.Contains("-")
+                                  ? data.Scripts[0].PostalCode.Left(5)
+                                    + "-" + data.Scripts[0].PostalCode.Right(4)
+                                  : data.Scripts[0].PostalCode)
                             : string.Empty), line32XAxis, 127.1f, contentByte, AlternateFontSize);
                     StampText(
                         data.Scripts[0].FederalTin.IsNotNullOrWhiteSpace()
@@ -319,10 +326,17 @@ namespace BridgeportClaims.Pdf.InvoiceProviders
             const string a = "A";
             StampText(a, rxNumberXAxis + 9, yAxis, contentByte, AlternateFontSize);
             var billedAmountDollars = data.Scripts[scriptIndex].BilledAmountDollars;
-            var billedAmountCents = data.Scripts[scriptIndex].BilledAmountCents;
-            if (billedAmountDollars.HasValue && billedAmountDollars.Value > 0)
+            var billedAmountLength = data.Scripts[scriptIndex]?.BilledAmountDollars?.ToString().Length;
+            if (null == billedAmountLength)
             {
-                StampText(billedAmountDollars.Value.ToString(), BilledAmountDollarsXAxis, yAxis, contentByte, AlternateFontSize);
+                throw new Exception("Something went wrong. The billed amount is null.");
+            }
+            var billedAmountXAxis = 392.0f - (billedAmountLength.Value -1) * LetterLength;
+            var billedAmountCents = data.Scripts[scriptIndex].BilledAmountCents;
+            if (billedAmountDollars.HasValue)
+            {
+                var amount = billedAmountDollars.Value.ToString();
+                StampText(0 == amount.Length ? "0" : amount, billedAmountXAxis, yAxis, contentByte, AlternateFontSize);
             }
             if (billedAmountCents.IsNotNullOrWhiteSpace())
             {
