@@ -6,7 +6,7 @@ namespace BridgeportClaims.Data.DataProviders.InvoicePdfDocuments
 {
     public interface IInvoicePdfDocumentProvider
     {
-        IEnumerable<InvoicePdfDto> GetInvoicePdfDocument();
+        IEnumerable<InvoicePdfDto> GetInvoicePdfDocument(string userId);
         InvoicePdfModel GetInvoicePdfModel(IList<InvoicePdfDto> data);
     }
 }

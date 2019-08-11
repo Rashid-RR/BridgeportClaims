@@ -12,7 +12,7 @@ namespace BridgeportClaims.Data.DataProviders.InvoicePdfDocuments
 {
     public class InvoicePdfDocumentProvider : IInvoicePdfDocumentProvider
     {
-        public IEnumerable<InvoicePdfDto> GetInvoicePdfDocument() =>
+        public IEnumerable<InvoicePdfDto> GetInvoicePdfDocument(string userId) =>
             DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
                 const string sp = "[dbo].[uspGetInvoicingPdfData]";
@@ -20,7 +20,7 @@ namespace BridgeportClaims.Data.DataProviders.InvoicePdfDocuments
                 {
                     conn.Open();
                 }
-                return conn.Query<InvoicePdfDto>(sp, commandType: CommandType.StoredProcedure);
+                return conn.Query<InvoicePdfDto>(sp, new { GeneratedByUserID = userId }, commandType: CommandType.StoredProcedure);
             });
 
         public InvoicePdfModel GetInvoicePdfModel(IList<InvoicePdfDto> data)
