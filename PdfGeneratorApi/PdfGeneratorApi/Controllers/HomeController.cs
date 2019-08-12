@@ -39,8 +39,31 @@ namespace PdfGeneratorApi.Controllers
                     }
                     var model = _invoicePdfDocumentProvider.Value.GetInvoicePdfModel(data.ToList());
                     var invoiceNumber = model.InvoiceNumber;
+                    var invoiceDate = model.InvoiceDate;
+                    if (!DateTime.TryParse(invoiceDate, out var dt))
+                    {
+                        break;
+                    }
+                    var year = dt.Year;
+                    var yearDir = Path.Combine(cs.PdfDropPath, year.ToString());
+                    if (!Directory.Exists(yearDir))
+                    {
+                        Directory.CreateDirectory(yearDir);
+                    }
+                    var month = dt.ToString("MM") + "-" + dt.ToString("MMM");
+                    var monthDir = Path.Combine(cs.PdfDropPath, year.ToString(), month);
+                    if (!Directory.Exists(monthDir))
+                    {
+                        Directory.CreateDirectory(monthDir);
+                    }
+                    var day = dt.ToString("yyyyMMdd");
+                    var dayDir = Path.Combine(cs.PdfDropPath, year.ToString(), month, day);
+                    if (!Directory.Exists(dayDir))
+                    {
+                        Directory.CreateDirectory(dayDir);
+                    }
                     var fileName = $"{invoiceNumber}.pdf";
-                    var targetPath = Path.Combine(cs.PdfDropPath, fileName);
+                    var targetPath = Path.Combine(dayDir, fileName);
                     if (_invoiceProvider.Value.ProcessInvoice(model, targetPath))
                     {
                         successCount++;
