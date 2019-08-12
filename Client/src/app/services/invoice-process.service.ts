@@ -1,7 +1,6 @@
-import {InvoiceProcess } from './../models/invoice.model';
 import { Injectable } from '@angular/core';
-import { Observable, BehaviorSubject } from 'rxjs';
-import { UsState } from '../models/us-state';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { InvoiceProcess } from './../models/invoice.model';
 import { HttpService } from './http-service';
 
 @Injectable()
