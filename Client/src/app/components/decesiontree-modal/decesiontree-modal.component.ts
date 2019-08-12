@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit,OnDestroy } from '@angular/core';
+import { Component, Inject, OnInit, OnDestroy } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { HttpService } from '../../services/http-service';
 import { ReferenceManagerService } from '../../services/reference-manager.service';
@@ -14,18 +14,18 @@ let zoomX = 0, zoomY = 0, zoomZ = 1, clickOriginX = null, clickOriginY = null;
   templateUrl: './decesiontree-modal.component.html',
   styleUrls: ['./decesiontree-modal.component.css']
 })
-export class DecisionTreeModalComponent implements OnInit,OnDestroy {
+export class DecisionTreeModalComponent implements OnInit, OnDestroy {
   zoomLevel = 1;
-  treeChoiceHeader: DecisionTreeChoiceModalHeader
+  treeChoiceHeader: DecisionTreeChoiceModalHeader;
   treeChoicePaths: DecisionTreeChoiceModalPath[];
-  loading: boolean = false;
+  loading = false;
   constructor(public dialogRef: MatDialogRef<DecisionTreeModalComponent>,
     private http: HttpService,
     public ds: DecisionTreeService,
     public rs: ReferenceManagerService,
     public claimManager: ClaimManager,
     @Inject(MAT_DIALOG_DATA) private data) {
-      
+
   }
 
   ngOnInit() {
@@ -33,14 +33,14 @@ export class DecisionTreeModalComponent implements OnInit,OnDestroy {
     this.ds.readonly = true;
     this.http.getTreeChoice(this.data.episodeId).subscribe((tree: RootDecisionTreeModal) => {
       this.loading = false;
-      this.treeChoiceHeader = tree.decisionTreeChoiceModalHeader
-      this.treeChoicePaths = tree.decisionTreeChoiceModalPaths
-      this.treeChoicePaths.map(t=>{t['picked']=true; return t;})//for the selected color setup
+      this.treeChoiceHeader = tree.decisionTreeChoiceModalHeader;
+      this.treeChoicePaths = tree.decisionTreeChoiceModalPaths;
+      this.treeChoicePaths.map(t => {t['picked'] = true; return t; }); // for the selected color setup
       this.ds.treeData = this.treeChoicePaths[0] as ITreeNode;
       this.attachChildren(this.ds.treeData, this.treeChoicePaths[1], 1, this.treeChoicePaths.length);
     }, () => {
       this.loading = false;
-    })
+    });
   }
   drawTree() {
     this.ds.root = d3.hierarchy(this.ds.treeData, (d) => d.children);
@@ -61,7 +61,7 @@ export class DecisionTreeModalComponent implements OnInit,OnDestroy {
   }
   attachChildren(tree: ITreeNode, child: DecisionTreeChoiceModalPath, pos: number, length: number) {
     tree['children'] = [child as ITreeNode];
-    let next = pos + 1
+    const next = pos + 1;
     if (this.treeChoicePaths[next]) {
       this.attachChildren(tree['children'][0], this.treeChoicePaths[next], next, length);
     } else {
@@ -72,10 +72,10 @@ export class DecisionTreeModalComponent implements OnInit,OnDestroy {
   onNoClick(): void {
     this.dialogRef.close();
   }
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.ds.readonly = false;
     this.ds.height = 500 - this.ds.margin.top - this.ds.margin.bottom;
-    this.ds.root.x0 = this.ds.height/2;
+    this.ds.root.x0 = this.ds.height / 2;
     this.ds.tree = d3.tree().size([this.ds.height, this.ds.width]);
   }
   startDragging() {
@@ -86,12 +86,12 @@ export class DecisionTreeModalComponent implements OnInit,OnDestroy {
             clickOriginX = d3.event.x;
             clickOriginY = d3.event.y;
           })
-          .on('drag',  ()=> {
-            zoomX+= d3.event.dx;// - clickOriginX;
-            zoomY+= d3.event.dy;// - clickOriginY;
+          .on('drag',  () => {
+            zoomX += d3.event.dx; // - clickOriginX;
+            zoomY += d3.event.dy; // - clickOriginY;
             d3.select('#decisionTree')
-              .attr('transform', () =>{
-                return 'translate(' + [zoomX,zoomY] + ')' + `scale(${zoomZ})`;
+              .attr('transform', () => {
+                return 'translate(' + [zoomX, zoomY] + ')' + `scale(${zoomZ})`;
               });
           })
       );

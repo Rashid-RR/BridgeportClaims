@@ -1,3 +1,4 @@
+import { InvoiceProcessService } from './../../services/invoice-process.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class InvoiceProcessComponent implements OnInit {
 
-  constructor() { }
+  constructor(public invoiceProcessService: InvoiceProcessService) {}
 
   ngOnInit() {
   }

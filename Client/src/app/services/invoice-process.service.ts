@@ -6,6 +6,7 @@ import { HttpService } from './http-service';
 
 @Injectable()
 export class InvoiceProcessService {
+  loading: Boolean = false;
   public filterText: string;
   rows: InvoiceProcess[] = [];
   states: string[];

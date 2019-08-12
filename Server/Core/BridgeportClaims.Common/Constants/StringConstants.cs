@@ -55,5 +55,7 @@
 	    public const string IsProductionKey = "IsProduction";
 	    public const string TimeFormat = "M/d/yyyy h:mm:ss tt";
 	    public const string ApplicationJson = "application/json";
-	}
+        public const string PdfApiUrlKey = "PdfApiUrlKey";
+        public const string PdfApiUrlPath = "PdfApiUrlPath";
+    }
 }

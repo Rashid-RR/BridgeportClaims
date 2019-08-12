@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpService } from '../../services/http-service';
-import { EpisodeService } from '../../services/episode.service';
-import { Toast, ToastrService } from 'ngx-toastr';
-import { DialogService } from 'ng2-bootstrap-modal';
-import { Subject } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
-import { ConfirmComponent } from '../confirm.component';
 import { UUID } from 'angular2-uuid';
+import { DialogService } from 'ng2-bootstrap-modal';
+import { ToastrService } from 'ngx-toastr';
+import { Subject } from 'rxjs';
+import { EpisodeService } from '../../services/episode.service';
+import { HttpService } from '../../services/http-service';
+import { ConfirmComponent } from '../confirm.component';
+
 declare var $: any;
 
 @Component({

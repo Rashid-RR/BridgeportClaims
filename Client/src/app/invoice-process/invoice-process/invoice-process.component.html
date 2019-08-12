@@ -46,7 +46,7 @@
                                 <!-- AG Grid -->
                                 <app-invoice-process-list></app-invoice-process-list>
                             </div>
-                            <div class="overlay" *ngIf="false" style="text-align:center;">
+                            <div class="overlay" *ngIf="invoiceProcessService.loading" style="text-align:center;">
                                 <!-- Loading Gif -->
                                 <img src="assets/1.gif">
                             </div>
