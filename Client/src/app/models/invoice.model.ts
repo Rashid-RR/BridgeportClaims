@@ -8,7 +8,7 @@ export interface InvoiceScreen {
 }
 
 export interface InvoiceProcess  {
-  dateSubmitted: string; // Date -- MUST be formmatted MM/dd/yyyy
+  rxDate: string; // Date -- MUST be formmatted MM/dd/yyyy
   carrier: string;
   patientName: string;
   claimNumber: string;

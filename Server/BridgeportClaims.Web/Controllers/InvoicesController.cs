@@ -60,7 +60,7 @@ namespace BridgeportClaims.Web.Controllers
             try
             {
                 var data = _invoicesProvider.Value.GetInvoiceProcesses();
-                return Ok(data?.OrderByDescending(x => x.DateSubmitted));
+                return Ok(data?.OrderByDescending(x => x.RxDate));
             }
             catch (Exception ex)
             {
