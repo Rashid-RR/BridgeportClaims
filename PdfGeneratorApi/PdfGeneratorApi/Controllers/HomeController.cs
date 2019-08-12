@@ -23,7 +23,7 @@ namespace PdfGeneratorApi.Controllers
             _invoicePdfDocumentProvider = invoicePdfDocumentProvider;
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("generate-pdfs")]
         public IHttpActionResult GeneratePdfs(string userId)
         {
@@ -32,7 +32,6 @@ namespace PdfGeneratorApi.Controllers
                 var successCount = 0;
                 while (true)
                 {
-                    throw new Exception("AHH");
                     var data = _invoicePdfDocumentProvider.Value.GetInvoicePdfDocument(userId)?.ToList();
                     if (null == data || !data.Any())
                     {
