@@ -8,6 +8,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class InvoiceProcessComponent implements OnInit {
 
+  makeReferesh = false;
+
   constructor(public invoiceProcessService: InvoiceProcessService) {}
 
   ngOnInit() {

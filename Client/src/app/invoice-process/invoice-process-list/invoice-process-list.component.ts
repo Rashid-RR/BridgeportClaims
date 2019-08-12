@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy, Input, OnChanges, SimpleChange, SimpleChanges, EventEmitter, Output } from '@angular/core';
 import { AgGridNg2 } from 'ag-grid-angular/dist/agGridNg2';
 import { GridApi } from 'ag-grid-community';
 import { ToastrService } from 'ngx-toastr';
@@ -14,7 +14,7 @@ import { Subscription } from 'rxjs';
   selector: 'app-invoice-process-list',
   templateUrl: './invoice-process-list.component.html',
 })
-export class InvoiceProcessListComponent implements OnInit, OnDestroy {
+export class InvoiceProcessListComponent implements OnInit, OnDestroy, OnChanges {
   private sub!: Subscription;
   private gridColumnApi: any;
   public defaultColDef: any;
@@ -28,6 +28,8 @@ export class InvoiceProcessListComponent implements OnInit, OnDestroy {
   public rowData: any;
   public columnDefs: any;
   public frameworkComponents: any;
+  @Input() makeReferesh: any;
+  @Output() refreshDone = new EventEmitter();
   @ViewChild('agGrid') agGrid: AgGridNg2;
 
   constructor(private bpDate: BridgeportDateService, public invoiceProcessService: InvoiceProcessService,
@@ -80,12 +82,14 @@ export class InvoiceProcessListComponent implements OnInit, OnDestroy {
     };
   }
 
+
+
   ngOnInit(): void {
 
     this.rowData = this.invoiceProcessService.getInvoiceProcess().pipe(
       map((invoices: any) => {
         const inv = invoices.map((invoice) => {
-          invoice['dateSubmitted'] = (invoice['dateSubmitted'] || '').substr(0, 10);
+          invoice['rxDate'] = (invoice['rxDate'] || '').substr(0, 10);
           return invoice;
         });
         inv.sort((a, b) => parseInt(this.bpDate.formatDateRaw(b.invoiceDate)) - parseInt(this.bpDate.formatDateRaw(a.invoiceDate)));
@@ -95,8 +99,8 @@ export class InvoiceProcessListComponent implements OnInit, OnDestroy {
 
     this.columnDefs = [
       {
-        headerName: 'Submitted Date',
-        field: 'dateSubmitted',
+        headerName: 'RX Date',
+        field: 'rxDate',
         // editable: true, sortable: false,
         // filter: 'agTextColumnFilter',
         // filterParams: { clearButton: true},
@@ -128,6 +132,12 @@ export class InvoiceProcessListComponent implements OnInit, OnDestroy {
     this.sub = this.invoiceProcessService.refreshList$.subscribe(this.refreshList);
   }
 
+  ngOnChanges(change: SimpleChanges) {
+    if (change.makeReferesh.currentValue) {
+      this.refreshData();
+    }
+  }
+
   onGridReady(params): void {
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
@@ -140,6 +150,7 @@ export class InvoiceProcessListComponent implements OnInit, OnDestroy {
     }
   }
 
+
   /*onFirstDataRendered(params: any): void {
     const allColumnIds = [];
     this.gridColumnApi.getAllColumns().forEach((column: any) => {
@@ -150,6 +161,21 @@ export class InvoiceProcessListComponent implements OnInit, OnDestroy {
 
   refreshGrid(): void {
     this.gridApi.refreshCells({});
+  }
+
+  refreshData() {
+    this.rowData = this.invoiceProcessService.getInvoiceProcess().pipe(
+      map((invoices: any) => {
+        const inv = invoices.map((invoice) => {
+          invoice['rxDate'] = (invoice['rxDate'] || '').substr(0, 10);
+          return invoice;
+        });
+        inv.sort((a, b) => parseInt(this.bpDate.formatDateRaw(b.invoiceDate)) - parseInt(this.bpDate.formatDateRaw(a.invoiceDate)));
+        return inv;
+      })
+    );
+
+    this.refreshDone.emit();
   }
 
   refreshList = (action) => {
