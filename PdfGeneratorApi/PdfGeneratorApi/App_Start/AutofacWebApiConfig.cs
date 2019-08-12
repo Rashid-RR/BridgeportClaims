@@ -2,6 +2,7 @@
 using System.Web.Http;
 using Autofac;
 using Autofac.Integration.WebApi;
+using PdfGeneratorApi.Data.DataProviders.InvoicePdfDocuments;
 using PdfGeneratorApi.Pdf.InvoiceProviders;
 
 namespace PdfGeneratorApi
@@ -14,6 +15,7 @@ namespace PdfGeneratorApi
         {
             Initialize(config, RegisterServices(new ContainerBuilder()));
         }
+
         public static void Initialize(HttpConfiguration config, IContainer container)
         {
             config.DependencyResolver = new AutofacWebApiDependencyResolver(container);
@@ -25,6 +27,7 @@ namespace PdfGeneratorApi
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
 
             builder.RegisterType<InvoiceProvider>().As<IInvoiceProvider>().InstancePerRequest();
+            builder.RegisterType<InvoicePdfDocumentProvider>().As<IInvoicePdfDocumentProvider>().InstancePerRequest();
 
             //Set the dependency resolver to be Autofac.  
             Container = builder.Build();

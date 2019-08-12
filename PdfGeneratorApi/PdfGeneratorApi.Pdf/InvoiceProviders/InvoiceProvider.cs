@@ -25,16 +25,11 @@ namespace PdfGeneratorApi.Pdf.InvoiceProviders
         private static readonly BaseFont BaseFont = BaseFont.CreateFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
         private static readonly Lazy<ILogger> Logger = new Lazy<ILogger>(LogManager.GetCurrentClassLogger);
 
-        public string Boo()
-        {
-            return "BOO";
-        }
-
         public bool ProcessInvoice(InvoicePdfModel data, string targetPath)
         {
             var success = true;
             DisposableService.Using(() => Assembly.GetExecutingAssembly()
-                .GetManifestResourceStream("BridgeportClaims.Pdf.EmbeddedResources.Invoice.pdf"), resourceStream =>
+                .GetManifestResourceStream("PdfGeneratorApi.Pdf.EmbeddedResources.Invoice.pdf"), resourceStream =>
             {
                 DisposableService.Using(() => File.Create(targetPath),
                     output => { CopyStream(resourceStream, output); });
