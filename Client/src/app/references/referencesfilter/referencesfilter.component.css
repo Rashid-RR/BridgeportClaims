@@ -142,9 +142,9 @@ mat-form-field{
   z-index: 1000000000 !important;
 }
 
-#modalAddAdjustor
+#modalAddAdjustor.fade.in
 {
-  display: flex;
+  display: flex !important;
 }
 #modalAddAdjustor .modal-dialog.modal-dialog-centered
 {
