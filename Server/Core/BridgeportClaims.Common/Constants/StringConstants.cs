@@ -37,6 +37,7 @@
 		public const string ImeLetterName = "IME Letter.docx";
 	    public const string DenialLetterName = "Denial Letter.docx";
 	    public const string DrLetterName = "Dr Note Request.docx";
+        public const string NcofLetterName = "NCOF Letter.docx";
         public const string BenefitsExhaustedLetter = "Benefits Exhausted Letter.docx";
 		public const string PipAppLetter = "PIP App Letter.docx";
 	    public const string UnderInvestigationLetterName = "Under Investigation.docx";
@@ -47,6 +48,7 @@
         public const string DenialLetterManifestResource = WordDocumentManifestPrefix + DenialLetterName;
 	    public const string PipAppLetterManifestResource = WordDocumentManifestPrefix + PipAppLetter;
 	    public const string DrNoteLetterManifestResource = WordDocumentManifestPrefix + DrLetterName;
+        public const string NcofLetterManifestResource = WordDocumentManifestPrefix + NcofLetterName;
         public const string ContentDispositionUniqueString = "inline; filename=";
 	    public const string ExcelContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 	    public const string BillingStatementName = "Billing Statement";

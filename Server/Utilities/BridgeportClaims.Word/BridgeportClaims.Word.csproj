@@ -206,6 +206,9 @@
     <EmbeddedResource Include="EmbeddedResources\Dr Note Request.docx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="EmbeddedResources\NCOF Letter.docx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
     <None Include="NuGetReferenceHintPathRewrite.targets" />
     <None Include="packages.config" />
   </ItemGroup>

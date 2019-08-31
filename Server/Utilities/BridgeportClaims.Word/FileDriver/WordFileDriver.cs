@@ -40,6 +40,9 @@ namespace BridgeportClaims.Word.FileDriver
                 case LetterType.DrNoteLetter:
                     resourceString = s.DrNoteLetterManifestResource;
                     break;
+                case LetterType.NcofLetter:
+                    resourceString = s.NcofLetterManifestResource;
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type), type, null);
             }

@@ -58,7 +58,7 @@ namespace BridgeportClaims.Web.Controllers
             try
             {
                 if (letterType.ToLower() != "be" && letterType.ToLower() != "pip" && letterType.ToLower() != "ime" &&
-                    letterType.ToLower() != "den" && letterType.ToLower() != "ui")
+                    letterType.ToLower() != "den" && letterType.ToLower() != "ui" && letterType.ToLower() != "ncof")
                 {
                     ThrowLetterTypeException(letterType);
                 }
@@ -90,6 +90,10 @@ namespace BridgeportClaims.Web.Controllers
                     case "ui":
                         type = LetterType.UnderInvestigation;
                         fileName = s.UnderInvestigationLetterName;
+                        break;
+                    case "ncof":
+                        type = LetterType.NcofLetter;
+                        fileName = s.NcofLetterName;
                         break;
                     default:
                         ThrowLetterTypeException(letterType);
