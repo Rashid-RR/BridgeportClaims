@@ -117,6 +117,9 @@ namespace BridgeportClaims.Word.WordProvider
                 case LetterType.DrNoteLetter:
                     fileName = s.DrLetterName;
                     break;
+                case LetterType.NcofLetter:
+                    fileName = s.NcofLetterName;
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type), type, null);
             }
