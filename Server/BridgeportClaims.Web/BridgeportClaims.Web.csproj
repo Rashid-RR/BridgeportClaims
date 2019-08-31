@@ -360,26 +360,6 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="1.680a471a26a205edcd97.js" />
-    <Content Include="10.acc0d58668f4affbff39.js" />
-    <Content Include="11.69094fcc7ce4da57e540.js" />
-    <Content Include="12.6a6088c99933e6cd14c9.js" />
-    <Content Include="13.63cc1a3b18a57f3868a6.js" />
-    <Content Include="14.114623ca63a81ef8cc1b.js" />
-    <Content Include="3rdpartylicenses.txt" />
-    <Content Include="5.55376b3465ad1007b744.js" />
-    <Content Include="6.fc313b44b54693f50660.js" />
-    <Content Include="7.1ac1e728a2dacb30c590.js" />
-    <Content Include="8.d4a920e3dd26c1bd55b6.js" />
-    <Content Include="9.228f52474bcce55671b3.js" />
-    <Content Include="aero%402x.30a715df6ce8bdea2c5d.png" />
-    <Content Include="aero%402x.b024258513da897cc573.png" />
-    <Content Include="aero%402x.e87893c94fe3c1ef0c46.png" />
-    <Content Include="aero.242eaf8c522bf3a99e20.png" />
-    <Content Include="aero.5681c3c82b05e7236a74.png" />
-    <Content Include="aero.72ad39ae940fcfe01676.png" />
-    <Content Include="alpha-horizontal.58fc83686953e32bce2b.png" />
-    <Content Include="alpha.10f4b956ec4d7e11c2b0.png" />
     <Content Include="assets\1.gif" />
     <Content Include="assets\accounts-receivable.png" />
     <Content Include="assets\B-2.png" />
@@ -724,14 +704,6 @@
     <Content Include="assets\Users_Icon_Design.png" />
     <Content Include="assets\view-check-hover.png" />
     <Content Include="assets\view-check-normal.png" />
-    <Content Include="blue%402x.0035ec50cf54ce054db8.png" />
-    <Content Include="blue%402x.2694acfdd21dfca86aa6.png" />
-    <Content Include="blue%402x.5e10458811e6aa98278d.png" />
-    <Content Include="blue.36ae7b1e1de65a74be29.png" />
-    <Content Include="blue.4a709f8cf673f2b25537.png" />
-    <Content Include="blue.96f8a9053c5b1ab49111.png" />
-    <Content Include="boxed-bg.7799dece2c79854f63f0.jpg" />
-    <Content Include="dropdown.de7bbd6cb69abd21f591.png" />
     <Content Include="EmailTemplates\WelcomeActivation.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -748,12 +720,6 @@
     <Content Include="EmailTemplates\EnvisionImportStatus.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="yellow%402x.04850a2414ba46fb33c9.png" />
-    <Content Include="yellow%402x.334c995aadc9bc51d9ba.png" />
-    <Content Include="yellow%402x.d963642adbb097446294.png" />
-    <Content Include="yellow.0bd13b604180462de5c6.png" />
-    <Content Include="yellow.251d5e87dd14be5dc1f2.png" />
-    <Content Include="yellow.b80c9cf4e68212b31e4b.png" />
     <Content Include="assets\css\font-awesome.css.map" />
     <Content Include="assets\css\maintenance\fonts\entypo.eot" />
     <Content Include="assets\css\maintenance\fonts\entypo.ttf" />
@@ -1180,22 +1146,7 @@
     <Content Include="assets\scss\_bootstrap-variables.scss" />
     <Content Include="assets\scss\_custom-variables.scss" />
     <Content Include="assets\scss\_custom.scss" />
-    <Content Include="context-menu-icons.0d98f94e7d9de089da09.eot" />
-    <Content Include="context-menu-icons.54eb5cdf6ee20d3fd554.woff2" />
-    <Content Include="context-menu-icons.58fc13bb64c589a8436b.ttf" />
-    <Content Include="context-menu-icons.dca3b2712da097614739.woff" />
-    <Content Include="fontawesome-webfont.1dc35d25e61d819a9c35.ttf" />
-    <Content Include="fontawesome-webfont.25a32416abee198dd821.eot" />
-    <Content Include="fontawesome-webfont.c8ddf1e5e5bf3682bc7b.woff" />
-    <Content Include="fontawesome-webfont.e6cf7c6ec7c2d6f670ae.woff2" />
-    <Content Include="glyphicons-halflings-regular.448c34a56d699c29117a.woff2" />
-    <Content Include="glyphicons-halflings-regular.68ed1dac06bf0409c18a.woff" />
-    <Content Include="glyphicons-halflings-regular.7ad17c6085dee9a33787.eot" />
-    <Content Include="glyphicons-halflings-regular.e18bbf611f2a2e43afc0.ttf" />
-    <Content Include="glyphicons-halflings-regular.e49d52e74b7689a0727d.ttf" />
-    <Content Include="glyphicons-halflings-regular.f4769f9bdb7466be6508.eot" />
-    <Content Include="glyphicons-halflings-regular.fa2772327f55d8198301.woff" />
-    <None Include="NuGetReferenceHintPathRewrite.targets" />
+    <Content Include="NuGetReferenceHintPathRewrite.targets" />
     <None Include="packages.config" />
     <None Include="Properties\PublishProfiles\BridgeportClaims - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\BridgeportClaims - Web Deploy.pubxml" />
@@ -1212,67 +1163,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="favicon.ico" />
-    <Content Include="flat%402x.0fd2837df39867a90c7a.png" />
-    <Content Include="flat.2176d6d6e814b0da1c71.png" />
-    <Content Include="fontawesome-webfont.2641fadf03fdf2cba0a7.svg" />
-    <Content Include="futurico%402x.1e5e6874101da646c4a6.png" />
-    <Content Include="futurico.6312475b0732cec0e485.png" />
-    <Content Include="glyphicons-halflings-regular.89889688147bd7575d63.svg" />
-    <Content Include="glyphicons-halflings-regular.9205b7c124d2bb82172f.svg" />
-    <Content Include="green%402x.1a0de24f0bfb1a31dd5d.png" />
-    <Content Include="green%402x.a2f047d499c054f4ca55.png" />
-    <Content Include="green%402x.e11d63f3475d3eb97bf6.png" />
-    <Content Include="green.3b4856d954f9bd92db9a.png" />
-    <Content Include="green.869a3a67e8e1ca55bc5e.png" />
-    <Content Include="green.bd7c28773430b3ea5c50.png" />
-    <Content Include="grey%402x.4cb83da4e00d7a3a0462.png" />
-    <Content Include="grey%402x.d160d152e6fe25409a36.png" />
-    <Content Include="grey%402x.fec2537d7a4b8ceb5a26.png" />
-    <Content Include="grey.30801d6a64f82a02413e.png" />
-    <Content Include="grey.aed7d43e7f00789bf6e1.png" />
-    <Content Include="grey.c2cdcc76c9b104baac8e.png" />
-    <Content Include="hue-horizontal.df1e75c9de8c1b5b68f7.png" />
-    <Content Include="hue.de10f7b98e37a57ee811.png" />
-    <Content Include="index.html" />
-    <Content Include="line%402x.8100ce3eb377de18b8cc.png" />
-    <Content Include="line.c446571504944686cf64.png" />
-    <Content Include="main.0d4d375c9032c1f97d96.js" />
-    <Content Include="maintenance.html" />
-    <Content Include="marker.0e3042f86c014d30e328.png" />
-    <Content Include="orange%402x.4a997518c98c5562c92b.png" />
-    <Content Include="orange%402x.97f1f8c82810b354063b.png" />
-    <Content Include="orange%402x.b9b55a9183b928c68be2.png" />
-    <Content Include="orange.1aeb9bfc53322703a9a7.png" />
-    <Content Include="orange.a0ef9dc171052d43ca07.png" />
-    <Content Include="orange.e7333f83e2802e2f7d18.png" />
-    <Content Include="pink%402x.61bca2872be7b37b4790.png" />
-    <Content Include="pink%402x.a4dd2663820b6e65ddb1.png" />
-    <Content Include="pink%402x.c7ec3487cb9b2227b520.png" />
-    <Content Include="pink.375a3b1920da847c3e42.png" />
-    <Content Include="pink.5db00a177725022a6a12.png" />
-    <Content Include="pink.ef2ce4dcf4e30f9c1864.png" />
-    <Content Include="polaris%402x.78fe5012ba83d554949a.png" />
-    <Content Include="polaris.01417e20badeedbada4c.png" />
-    <Content Include="polyfills.4539752b28ada7122e5d.js" />
-    <Content Include="purple%402x.158759dcf5248781e7d7.png" />
-    <Content Include="purple%402x.e13312afeae30a99b7d1.png" />
-    <Content Include="purple%402x.fca6329c2e393036dcf6.png" />
-    <Content Include="purple.9284a1280875a68f96b3.png" />
-    <Content Include="purple.da1144dfb4e10c4fa7c3.png" />
-    <Content Include="purple.e01e49af1de2f91c5904.png" />
-    <Content Include="red%402x.68651299040a20c2fd93.png" />
-    <Content Include="red%402x.c517aac442b70478eedf.png" />
-    <Content Include="red%402x.f1062c10dc82728ed1c3.png" />
-    <Content Include="red.5902e033b5c08edf7dde.png" />
-    <Content Include="red.7f62af20eca41e759681.png" />
-    <Content Include="red.ed1ce1933095ec957aef.png" />
-    <Content Include="runtime.d1e9a32df432b35eabc6.js" />
-    <Content Include="saturation.512a83ac26d1574e25d7.png" />
-    <Content Include="scripts.bdde17ebf8213c46b8f7.js" />
-    <Content Include="square%402x.a711b529b4fe1f20f0f9.png" />
-    <Content Include="square.86ba927efe80c36da9a4.png" />
-    <Content Include="styles.5282880636f95fd2f6ce.css" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
