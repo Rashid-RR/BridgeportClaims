@@ -288,7 +288,7 @@ AS BEGIN
 		( ClaimID, DateFilled, DateSubmitted, DEA, PrescriberNPI, RxNumber,	Quantity, DaySupply, RefillNumber, DAW,	Compound, ETLRowID, NDC, GPI, LabelName, MONY,
 			Generic, BillIngrCost, BillDispFee,	BilledTax, PayableAmount, BilledAmount,	TransactionType, TranID, ImportTypeID, CreatedOnUTC, UpdatedOnUTC, PharmacyNABP
 		)
-		VALUES (src.ClaimID, src.FillDate, src.ProcessDate, src.SubmittedPrescriberID, src.AltPrescriberID, src.RxNumber, src.QTY, src.DS, src.FillNumber, src.DAW,
+		VALUES (src.ClaimID, src.FillDate, src.ProcessDate, src.AltPrescriberID, src.SubmittedPrescriberID, src.RxNumber, src.QTY, src.DS, src.FillNumber, src.DAW,
 				src.Compound, src.ETLRowID, src.NDC, src.GPI, src.DrugName, src.MONY, src.Generic, src.IngredCost, src.DispFee, src.SalesTax, src.PayableAmount,
 				src.BilledAmount, src.TransactionType, src.TranID, src.ImportTypeID, src.Created, src.Updated, src.PharmacyNABP)
 		OUTPUT Inserted.PrescriptionID, src.RowID INTO @Scripts (PrescriptionID, RowID);

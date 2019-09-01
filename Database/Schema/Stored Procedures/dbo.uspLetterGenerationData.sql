@@ -40,6 +40,7 @@ AS BEGIN
 					, us.[StateCode]
 					, p.[PostalCode]
 					, [pay].[LetterName]
+					, [pay].[BillToName]
 					, @FirstName UserFirstName
 					, @LastName UserLastName
 					,(SELECT [p].[PharmacyName]
@@ -52,6 +53,4 @@ AS BEGIN
 		LEFT JOIN   [dbo].[UsState] AS [us] ON [us].[StateID] = [p].[StateID]
 	WHERE           [c].[ClaimID] = @ClaimID;
 END
-
-
 GO

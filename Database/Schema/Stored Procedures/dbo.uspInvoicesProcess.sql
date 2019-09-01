@@ -14,7 +14,7 @@ AS BEGIN
 	SET NOCOUNT ON;
 	SET XACT_ABORT ON;
 	DECLARE @ImportType INT = [etl].[udfGetImportTypeByCode]('ENVISION');
-    SELECT   p.[DateSubmitted]
+    SELECT   p.[DateFilled] RxDate
             ,Carrier = car.GroupName
             ,PatientName = pt.LastName + ', ' + pt.FirstName
             ,C.ClaimNumber
@@ -24,7 +24,8 @@ AS BEGIN
              INNER JOIN dbo.Payor AS car ON car.PayorID = C.PayorID
              INNER JOIN dbo.Patient AS pt ON pt.PatientID = C.PatientID
 	WHERE	p.[ImportTypeID] = @ImportType
-    GROUP BY p.[DateSubmitted]
+			AND NOT EXISTS (SELECT * FROM [dbo].[InvoiceDocument] AS [id] WHERE [id].[PrescriptionID] = [p].[PrescriptionID])
+    GROUP BY p.[DateFilled]
             ,car.GroupName
             ,pt.LastName + ', ' + pt.FirstName
             ,C.ClaimNumber;
