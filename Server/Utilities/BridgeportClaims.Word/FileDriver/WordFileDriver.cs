@@ -43,6 +43,12 @@ namespace BridgeportClaims.Word.FileDriver
                 case LetterType.NcofLetter:
                     resourceString = s.NcofLetterManifestResource;
                     break;
+                case LetterType.DeductibleLetter:
+                    resourceString = s.DeductibleLetterManifestResource;
+                    break;
+                case LetterType.LienRequestLetter:
+                    resourceString = s.LienRequestLetterManifestResource;
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type), type, null);
             }

@@ -120,6 +120,12 @@ namespace BridgeportClaims.Word.WordProvider
                 case LetterType.NcofLetter:
                     fileName = s.NcofLetterName;
                     break;
+                case LetterType.LienRequestLetter:
+                    fileName = s.LienRequestLetterName;
+                    break;
+                case LetterType.DeductibleLetter:
+                    fileName = s.DeductibleLetterName;
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type), type, null);
             }

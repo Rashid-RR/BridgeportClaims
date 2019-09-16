@@ -82,11 +82,23 @@
                                     </button>
                                 </li>
                                 <li>
-                                  <button class="btn btn-flat btn-sm dr-note" type="button" (click)="exportLetter('ncof')">
+                                  <button class="btn btn-flat btn-sm ncof" type="button" (click)="exportLetter('ncof')">
                                       <img [src]="over[8] ? 'assets/img/images/white/ncof.png' : 'assets/img/images/blue/ncof.png'"
                                           (mouseover)="over[8] = true" (mouseout)="over[8] = false" height="35px">
                                   </button>
                               </li>
+                              <li>
+                                <button class="btn btn-flat btn-sm lien" type="button" (click)="exportLetter('lien')">
+                                    <img [src]="over[9] ? 'assets/img/images/white/lien.png' : 'assets/img/images/blue/lien.png'"
+                                        (mouseover)="over[9] = true" (mouseout)="over[9] = false" height="35px">
+                                </button>
+                            </li>
+                            <li>
+                              <button class="btn btn-flat btn-sm deductible" type="button" (click)="exportLetter('deductible')">
+                                  <img [src]="over[10] ? 'assets/img/images/white/deductible.png' : 'assets/img/images/blue/deductible.png'"
+                                      (mouseover)="over[10] = true" (mouseout)="over[10] = false" height="35px">
+                              </button>
+                          </li>
                             </ul>
                         </div>
                     </div>

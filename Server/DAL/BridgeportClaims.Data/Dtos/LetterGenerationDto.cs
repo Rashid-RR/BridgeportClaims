@@ -25,6 +25,8 @@ namespace BridgeportClaims.Data.Dtos
         [Required]
         [StringLength(255)]
         public string LetterName { get; set; }
+        [StringLength(255)]
+        public string BillToName { get; set; }
         [StringLength(100)]
         public string UserFirstName { get; set; }
         [StringLength(100)]
@@ -33,5 +35,19 @@ namespace BridgeportClaims.Data.Dtos
         public string PharmacyName { get; set; }
         [StringLength(30)]
         public string Extension { get; set; }
+        [StringLength(255)]
+        public string AttorneyName { get; set; }
+        [StringLength(255)]
+        public string AttorneyAddress1 { get; set; }
+        [StringLength(255)]
+        public string AttorneyAddress2 { get; set; }
+        [StringLength(255)]
+        public string AttorneyCity { get; set; }
+        [StringLength(2)]
+        public string AttorneyStateCode { get; set; }
+        [StringLength(255)]
+        public string AttorneyPostalCode { get; set; }
+        [StringLength(255)]
+        public string ClaimNumber { get; set; }
     }
 }

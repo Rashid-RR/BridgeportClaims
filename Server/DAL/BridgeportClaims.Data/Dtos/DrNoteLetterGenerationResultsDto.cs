@@ -21,6 +21,7 @@ namespace BridgeportClaims.Data.Dtos
         public string ClaimNumber { get; set; }
         [Required]
         public string LetterName { get; set; }
+        public string BillToName { get; set; }
         [Required]
         public string Plurality { get; set; }
         public string UserFirstName { get; set; }

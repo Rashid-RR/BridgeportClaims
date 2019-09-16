@@ -120,6 +120,10 @@ namespace BridgeportClaims.Word.Templating
             docText = r18.Replace(docText, sb.ToString());
             var r19 = new Regex("IsArePlurality");
             docText = r19.Replace(docText, result.Plurality == "s" ? "are" : "is");
+            var r20 = new Regex("Payor.BillToName");
+            docText = r20.Replace(docText, result.BillToName.IsNotNullOrWhiteSpace()
+                ? ti.ToTitleCase(ti.ToLower(result.BillToName))
+                : string.Empty);
             return docText;
         }
 
@@ -179,6 +183,39 @@ namespace BridgeportClaims.Word.Templating
             var r12 = new Regex("AspNetUsers.Extension");
             docText = r12.Replace(docText, data.Extension.IsNotNullOrWhiteSpace()
                     ? "x " + ti.ToTitleCase(ti.ToLower(data.Extension)) : string.Empty);
+            var r13 = new Regex("Payor.BillToName");
+            docText = r13.Replace(docText, data.BillToName.IsNotNullOrWhiteSpace()
+                ? ti.ToTitleCase(ti.ToLower(data.BillToName))
+                : string.Empty);
+            var r14 = new Regex("Attorney.AttorneyName");
+            docText = r14.Replace(docText, data.AttorneyName.IsNotNullOrWhiteSpace()
+                ? ti.ToTitleCase(ti.ToLower(data.AttorneyName))
+                : string.Empty);
+            var r15 = new Regex("Attorney.Address1");
+            docText = r15.Replace(docText, data.AttorneyAddress1.IsNotNullOrWhiteSpace()
+                ? ti.ToTitleCase(ti.ToLower(data.AttorneyAddress1))
+                : string.Empty);
+            var r16 = new Regex("Attorney.Address1");
+            docText = r16.Replace(docText,
+                data.AttorneyAddress1.IsNotNullOrWhiteSpace()
+                    ? ti.ToTitleCase(ti.ToLower(data.AttorneyAddress1)) +
+                      (data.AttorneyAddress2.IsNotNullOrWhiteSpace()
+                          ? "</w:t><w:br/><w:t>" + ti.ToTitleCase(ti.ToLower(data.AttorneyAddress2))
+                          : string.Empty)
+                    : string.Empty);
+            var r17 = new Regex("Attorney.City");
+            docText = r17.Replace(docText,
+                data.AttorneyCity.IsNotNullOrWhiteSpace()
+                    ? ti.ToTitleCase(ti.ToLower(data.AttorneyCity))
+                    : string.Empty);
+            var r18 = new Regex("Attorney.PostalCode");
+            docText = r18.Replace(docText,
+                data.AttorneyPostalCode.IsNotNullOrWhiteSpace()
+                    ? ti.ToTitleCase(ti.ToLower(data.AttorneyPostalCode))
+                    : string.Empty);
+            var r19 = new Regex("Claim.ClaimNumber");
+            docText = r19.Replace(docText,
+                data.ClaimNumber.IsNotNullOrWhiteSpace() ? data.ClaimNumber : string.Empty);
             return docText;
         }
     }

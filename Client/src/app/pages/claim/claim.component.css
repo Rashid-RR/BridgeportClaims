@@ -259,7 +259,9 @@ app-claim{
 button.be,
 button.ime,
 button.pip,
-button.dr-note
+button.dr-note,
+button.ncof,
+button.lien
 {
   line-height:25px;
   padding:0px;

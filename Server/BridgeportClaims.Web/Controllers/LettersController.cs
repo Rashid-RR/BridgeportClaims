@@ -58,7 +58,8 @@ namespace BridgeportClaims.Web.Controllers
             try
             {
                 if (letterType.ToLower() != "be" && letterType.ToLower() != "pip" && letterType.ToLower() != "ime" &&
-                    letterType.ToLower() != "den" && letterType.ToLower() != "ui" && letterType.ToLower() != "ncof")
+                    letterType.ToLower() != "den" && letterType.ToLower() != "ui" && letterType.ToLower() != "ncof"
+                    && letterType.ToLower() != "ded" && letterType.ToLower() != "lien")
                 {
                     ThrowLetterTypeException(letterType);
                 }
@@ -71,6 +72,14 @@ namespace BridgeportClaims.Web.Controllers
                 var fileName = string.Empty;
                 switch (letterType.ToLower())
                 {
+                    case "ded":
+                        type = LetterType.DeductibleLetter;
+                        fileName = s.DeductibleLetterName;
+                        break;
+                    case "lien":
+                        type = LetterType.LienRequestLetter;
+                        fileName = s.LienRequestLetterName;
+                        break;
                     case "be":
                         type = LetterType.BenExhaust;
                         fileName = s.BenefitsExhaustedLetter;
