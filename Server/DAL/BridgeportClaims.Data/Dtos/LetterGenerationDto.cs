@@ -47,6 +47,7 @@ namespace BridgeportClaims.Data.Dtos
         public string AttorneyStateCode { get; set; }
         [StringLength(255)]
         public string AttorneyPostalCode { get; set; }
+        [Required]
         [StringLength(255)]
         public string ClaimNumber { get; set; }
     }
