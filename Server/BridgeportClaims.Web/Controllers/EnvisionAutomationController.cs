@@ -41,16 +41,17 @@ namespace BridgeportClaims.Web.Controllers
                 var userEmail = User.Identity.GetUserName();
                 if (cs.AppIsInDebugMode)
                 {
-                    Logger.Value.Info($"Starting the Envision file Automation at: {DateTime.UtcNow.ToMountainTime():M/d/yyyy h:mm:ss tt}");
+                    Logger.Value.Info(
+                        $"Starting the Envision file Automation at: {DateTime.UtcNow.ToMountainTime():M/d/yyyy h:mm:ss tt}");
                 }
-                var tuple = _envisionFileProcessor.ProcessEnvisionFile(importFileId);
+                var (envisionFileName, fullEnvisionFileTemporaryPath) = _envisionFileProcessor.ProcessEnvisionFile(importFileId);
                 string msg;
-                if (tuple.Item1 == s.NoEnvisionFilesFound)
+                if (envisionFileName == s.NoEnvisionFilesFound)
                     msg = s.NoEnvisionFilesFound;
                 else
                 {
-                    StartBackgroundThread(tuple.Item1, tuple.Item2, userEmail);
-                    msg = $"The Envision file import process has been started for \"{tuple.Item1}\"." +
+                    StartBackgroundThread(envisionFileName, fullEnvisionFileTemporaryPath, userEmail);
+                    msg = $"The Envision file import process has been started for \"{envisionFileName}\"." +
                           " It will take a few minutes.... So we'll send you an email when " +
                           "it's done.";
                 }
