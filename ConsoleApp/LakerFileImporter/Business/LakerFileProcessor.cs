@@ -91,9 +91,11 @@ namespace LakerFileImporter.Business
                 // Now that we've downloaded all SFTP files, we can simply traverse the local directory for the latest file (as we were originally doing)
                 var newestLakerFileInLocalDirectory = IoHelper.BrowseDirectoryToLocateFile();
                 var envisionFiles = IoHelper.BrowseDirectoryForTenEnvisionFiles();
-                // Process Envision Files.
+                // Upload Envision Files.
                 await UploadEnvisionFilesAsync(envisionFiles, envisionFilesFromDatabase);
-                // TODO: Process Envision files.
+                // Process Oldest Envision file.
+                var envisionFileProcessingResult = await ProcessFileToApiAsync(FileSource.Envision).ConfigureAwait(false);
+                results.Add(envisionFileProcessingResult);
 
                 // Move on to Laker File.
                 if (null == newestLakerFileInLocalDirectory)
@@ -125,8 +127,8 @@ namespace LakerFileImporter.Business
                     return results;
                 }
                 // Else, if the Laker file is already there, just not processed, then process it.
-                var result = await ProcessFileToApiAsync(FileSource.Laker).ConfigureAwait(false);
-                results.Add(result);
+                var lakerFileProcessingResult = await ProcessFileToApiAsync(FileSource.Laker).ConfigureAwait(false);
+                results.Add(lakerFileProcessingResult);
                 return results;
             }
             catch (Exception ex)

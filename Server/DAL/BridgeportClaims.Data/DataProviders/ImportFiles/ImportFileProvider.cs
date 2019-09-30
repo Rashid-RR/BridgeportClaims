@@ -225,51 +225,6 @@ namespace BridgeportClaims.Data.DataProviders.ImportFiles
             });
         }
 
-        public Tuple<string, byte[]> GetEnvisionFileBytes(int importFileId)
-        {
-            const string sp = "[dbo].[uspGetEnvisionFileBytes]";
-            return DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
-                {
-                    return DisposableService.Using(() => new SqlCommand(sp, conn), cmd =>
-                    {
-                        cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.CommandTimeout = 90; // 90 seconds, instead of 30
-                        if (conn.State != ConnectionState.Open)
-                        {
-                            conn.Open();
-                        }
-                        var importFileIdParam = new SqlParameter
-                        {
-                            Value = importFileId,
-                            SqlDbType = SqlDbType.Int,
-                            DbType = DbType.Int32,
-                            ParameterName = "@ImportFileID"
-                        };
-                        cmd.Parameters.Add(importFileIdParam);
-                        return DisposableService.Using(cmd.ExecuteReader, reader =>
-                        {
-                            byte[] bytes = null;
-                            string fileName = null;
-                            var fileBytesOrdinal = reader.GetOrdinal("FileBytes");
-                            var fileNameOrdinal = reader.GetOrdinal("FileName");
-                            while (reader.Read())
-                            {
-                                if (!reader.IsDBNull(fileBytesOrdinal))
-                                {
-                                    bytes = (byte[]) reader["FileBytes"];
-                                }
-                                if (!reader.IsDBNull(fileNameOrdinal))
-                                {
-                                    fileName = reader.GetString(fileNameOrdinal);
-                                }
-                                return new Tuple<string, byte[]>(fileName, bytes);
-                            }
-                            return null;
-                        });
-                    });
-                });
-        }
-
         public IList<ImportFileDto> GetImportFiles()
             => DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), connection =>
             {
@@ -442,6 +397,63 @@ namespace BridgeportClaims.Data.DataProviders.ImportFiles
                 });
             });
         }
+
+        public Tuple<string, byte[]> GetEnvisionFileBytes(int importFileId)
+        {
+            const string sp = "[dbo].[uspGetEnvisionFileBytes]";
+            return DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+            {
+                return DisposableService.Using(() => new SqlCommand(sp, conn), cmd =>
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandTimeout = 90; // 90 seconds, instead of 30
+                    if (conn.State != ConnectionState.Open)
+                    {
+                        conn.Open();
+                    }
+                    var importFileIdParam = new SqlParameter
+                    {
+                        Value = importFileId,
+                        SqlDbType = SqlDbType.Int,
+                        DbType = DbType.Int32,
+                        ParameterName = "@ImportFileID"
+                    };
+                    cmd.Parameters.Add(importFileIdParam);
+                    return DisposableService.Using(cmd.ExecuteReader, reader =>
+                    {
+                        byte[] bytes = null;
+                        string fileName = null;
+                        var fileBytesOrdinal = reader.GetOrdinal("FileBytes");
+                        var fileNameOrdinal = reader.GetOrdinal("FileName");
+                        while (reader.Read())
+                        {
+                            if (!reader.IsDBNull(fileBytesOrdinal))
+                            {
+                                bytes = (byte[])reader["FileBytes"];
+                            }
+                            if (!reader.IsDBNull(fileNameOrdinal))
+                            {
+                                fileName = reader.GetString(fileNameOrdinal);
+                            }
+                            return new Tuple<string, byte[]>(fileName, bytes);
+                        }
+                        return null;
+                    });
+                });
+            });
+        }
+
+        public Tuple<string, byte[]> GetOldestEnvisionFileBytes() =>
+            DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+            {
+                const string sp = "[dbo].[uspGetOldestEnvisionFileBytes]";
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                }
+                var dto = conn.Query<EnvisionFileBytesDto>(sp, commandType: CommandType.StoredProcedure, commandTimeout: 90)?.SingleOrDefault();
+                return null != dto ? new Tuple<string, byte[]>(dto.FileName, dto.FileBytes) : null;
+            });
 
         private static string GetFileSize(double byteCount)
         {

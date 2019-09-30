@@ -13,10 +13,12 @@ namespace BridgeportClaims.Business.EnvisionFileProcess
             _importFileProvider = importFileProvider;
         }
 
-        public Tuple<string, string> ProcessEnvisionFile(int importFileId)
+        public Tuple<string, string> ProcessEnvisionFile(int importFileId = -1)
         {
             // First, grab the bytes of the file from the database.
-            var tuple = _importFileProvider.Value.GetEnvisionFileBytes(importFileId);
+            var tuple = importFileId != -1
+                ? _importFileProvider.Value.GetEnvisionFileBytes(importFileId)
+                : _importFileProvider.Value.GetOldestEnvisionFileBytes();
             if (null == tuple)
             {
                 return new Tuple<string, string>(s.NoEnvisionFilesFound, null);

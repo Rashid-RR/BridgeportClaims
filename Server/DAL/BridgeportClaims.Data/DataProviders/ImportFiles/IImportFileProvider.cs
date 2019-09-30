@@ -16,10 +16,11 @@ namespace BridgeportClaims.Data.DataProviders.ImportFiles
         DataTable RetrieveDataTableFromFullFilePath(string fullFilePath, FileSource fileSource);
         void DeleteImportFile(int importFileId);
         Tuple<string, byte[]> GetOldestLakerFileBytes();
-        Tuple<string, byte[]> GetEnvisionFileBytes(int importFileId);
         IList<ImportFileDto> GetImportFiles();
         void MarkFileProcessed(string fileName);
         void SaveFileToDatabase(Stream stream, string fileName, string fileExtension, string fileDescription);
         void EtlLakerFile(string fileName);
+        Tuple<string, byte[]> GetEnvisionFileBytes(int importFileId);
+        Tuple<string, byte[]> GetOldestEnvisionFileBytes();
     }
 }

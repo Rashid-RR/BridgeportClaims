@@ -46,14 +46,14 @@ namespace BridgeportClaims.Web.Controllers
                 if (cs.AppIsInDebugMode)
                     Logger.Value.Info(
                         $"Starting the Laker file Automation at: {DateTime.UtcNow.ToMountainTime():M/d/yyyy h:mm:ss tt}");
-                var tuple = _lakerFileProcessor.ProcessOldestLakerFile();
+                var (lakerFileName, fullLakerFileTemporaryPath) = _lakerFileProcessor.ProcessOldestLakerFile();
                 string msg;
-                if (tuple.Item1 == StringConstants.NoLakerFilesToImportToast)
+                if (lakerFileName == StringConstants.NoLakerFilesToImportToast)
                     msg = StringConstants.NoLakerFilesToImportToast;
                 else
                 {
-                    StartBackgroundThread(tuple.Item1, tuple.Item2, userEmail);
-                    msg = $"The Laker file import process has been started for \"{tuple.Item1}\"." +
+                    StartBackgroundThread(lakerFileName, fullLakerFileTemporaryPath, userEmail);
+                    msg = $"The Laker file import process has been started for \"{lakerFileName}\"." +
                           " It will take a few minutes.... So we'll send you an email when " +
                           "it's done.";
                 }

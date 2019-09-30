@@ -231,6 +231,7 @@
     <Compile Include="Dtos\DrNoteLetterGenerationScriptsDto.cs" />
     <Compile Include="Dtos\DuplicateClaimDto.cs" />
     <Compile Include="Dtos\DuplicateClaimResultsDto.cs" />
+    <Compile Include="Dtos\EnvisionFileBytesDto.cs" />
     <Compile Include="Dtos\EpisodeBladeDto.cs" />
     <Compile Include="Dtos\EpisodeDto.cs" />
     <Compile Include="Dtos\EpisodeNotesDto.cs" />
