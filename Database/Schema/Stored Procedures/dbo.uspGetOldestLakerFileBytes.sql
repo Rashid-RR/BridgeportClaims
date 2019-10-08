@@ -12,13 +12,13 @@ GO
 CREATE PROC [dbo].[uspGetOldestLakerFileBytes]
 AS BEGIN
 	SET NOCOUNT ON;
-	SET TRAN ISOLATION LEVEL SERIALIZABLE
-	SET DEADLOCK_PRIORITY HIGH
+	SET TRAN ISOLATION LEVEL SERIALIZABLE;
+	SET DEADLOCK_PRIORITY HIGH;
 	SET XACT_ABORT ON;
 
 	DECLARE @Top INT = 1;
 
-	WITH OldestUnprocessedFileCTE AS
+	WITH OldestUnprocessedLakerFileCTE AS
 	(
 		SELECT TOP (@Top) SubstringDate=CAST(SUBSTRING(i.[FileName], 20, 8) AS DATE)
 		FROM util.ImportFile AS i
@@ -29,7 +29,7 @@ AS BEGIN
 		ORDER BY SubstringDate ASC
 	)
 	SELECT i.[FileName], i.FileBytes
-	FROM OldestUnprocessedFileCTE AS c
+	FROM OldestUnprocessedLakerFileCTE AS c
 		 INNER JOIN util.ImportFile AS i ON FORMAT(c.SubstringDate, 'yyyyMMdd') =
 		 SUBSTRING(i.[FileName], 20, 8)
 	IF @@ROWCOUNT NOT IN (1, 0)
