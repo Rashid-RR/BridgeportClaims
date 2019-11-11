@@ -57,6 +57,14 @@ closeTreeWindows() {
     return this.http.post('/oauth/token', data, { headers: headers });
   }
 
+  clockIn(data: any): Observable<any> {
+    return this.http.post(this.baseUrl + '/timesheet/clock-in', data);
+  }
+
+  clockOut(data: any): Observable<any> {
+    return this.http.post(this.baseUrl + '/timesheet/clock-out', data);
+  }
+
   referralTypes(data): Observable<any> {
     return this.http.post(this.baseUrl + '/admin/get-referral-types', data);
   }
