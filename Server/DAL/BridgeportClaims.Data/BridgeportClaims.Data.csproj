@@ -171,6 +171,8 @@
     <Compile Include="DataProviders\Prescriptions\PrescriptionsDataProvider.cs" />
     <Compile Include="DataProviders\Reports\IReportsDataProvider.cs" />
     <Compile Include="DataProviders\Reports\ReportsDataProvider.cs" />
+    <Compile Include="DataProviders\TimeSheets\ITimeSheetProvider.cs" />
+    <Compile Include="DataProviders\TimeSheets\TimeSheetProvider.cs" />
     <Compile Include="DataProviders\UserRoles\AssignUsersToRolesProvider.cs" />
     <Compile Include="DataProviders\ClaimNotes\ClaimNotesDataProvider.cs" />
     <Compile Include="DataProviders\Claims\ClaimsDataProvider.cs" />

@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Data;
 using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
 using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.DataProviders.LetterGenerations;
+using DataTable = System.Data.DataTable;
 
 namespace BridgeportClaims.Word.Templating
 {
@@ -188,12 +188,13 @@ namespace BridgeportClaims.Word.Templating
                 ? ti.ToTitleCase(ti.ToLower(data.BillToName))
                 : string.Empty);
             var r14 = new Regex("Attorney.AttorneyName");
+            // Take out Ampersand's in Attorney names // TODO: HACK Figure out how to render real ampersands
+            if (data.AttorneyName.Contains("&"))
+            {
+                data.AttorneyName = data.AttorneyName.Replace("&", "and");
+            }
             docText = r14.Replace(docText, data.AttorneyName.IsNotNullOrWhiteSpace()
                 ? ti.ToTitleCase(ti.ToLower(data.AttorneyName))
-                : string.Empty);
-            var r15 = new Regex("Attorney.Address1");
-            docText = r15.Replace(docText, data.AttorneyAddress1.IsNotNullOrWhiteSpace()
-                ? ti.ToTitleCase(ti.ToLower(data.AttorneyAddress1))
                 : string.Empty);
             var r16 = new Regex("Attorney.Address1");
             docText = r16.Replace(docText,

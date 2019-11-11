@@ -49,6 +49,7 @@ using BridgeportClaims.Data.DataProviders.PayorSearches;
 using BridgeportClaims.Data.DataProviders.PrescriptionPayments;
 using BridgeportClaims.Data.DataProviders.Prescriptions;
 using BridgeportClaims.Data.DataProviders.Reports;
+using BridgeportClaims.Data.DataProviders.TimeSheets;
 using BridgeportClaims.Data.DataProviders.Users;
 using BridgeportClaims.Data.DataProviders.Utilities;
 using BridgeportClaims.Pdf.Factories;
@@ -100,6 +101,7 @@ namespace BridgeportClaims.Web.IoCConfig
             builder.RegisterType<CollectionAssignmentProvider>().As<ICollectionAssignmentProvider>().InstancePerRequest();
             builder.RegisterType<PayorSearchProvider>().As<IPayorSearchProvider>().InstancePerRequest();
             builder.RegisterType<InvoicesProvider>().As<IInvoicesProvider>().InstancePerRequest();
+            builder.RegisterType<TimeSheetProvider>().As<ITimeSheetProvider>().InstancePerRequest();
             builder.RegisterType<RedisDomain>().As<IRedisDomain>().InstancePerRequest();
             builder.RegisterType<AdjustorDataProvider>().As<IAdjustorDataProvider>().InstancePerRequest();
             builder.RegisterType<PatientProvider>().As<IPatientProvider>().InstancePerRequest();

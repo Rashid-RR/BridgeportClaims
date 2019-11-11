@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using BridgeportClaims.RedisCache.Domain;
 using BridgeportClaims.RedisCache.Keys;
 using BridgeportClaims.RedisCache.Keys.Abstractions;
-using BridgeportClaims.RedisCache.Redis;
 
 namespace BridgeportClaims.RedisCache.Clearing
 {

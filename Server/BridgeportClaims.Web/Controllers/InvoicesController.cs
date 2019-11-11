@@ -7,7 +7,6 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
-using BridgeportClaims.Common.Disposable;
 using BridgeportClaims.Data.DataProviders.InvoicePdfDocuments;
 using BridgeportClaims.Data.DataProviders.InvoicesProvider;
 using cs = BridgeportClaims.Common.Config.ConfigService;
@@ -123,7 +122,7 @@ namespace BridgeportClaims.Web.Controllers
         }
     }
 
-    class ResponseModel
+    internal class ResponseModel
     {
         public string Message { get; set; }
     }
