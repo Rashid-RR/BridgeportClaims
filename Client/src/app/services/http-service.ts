@@ -57,12 +57,16 @@ closeTreeWindows() {
     return this.http.post('/oauth/token', data, { headers: headers });
   }
 
-  clockIn(data: any): Observable<any> {
-    return this.http.post(this.baseUrl + '/timesheet/clock-in', data);
+  clockIn(): Observable<any> {
+    return this.http.post(this.baseUrl + '/timesheet/clock-in', {});
   }
 
-  clockOut(data: any): Observable<any> {
-    return this.http.post(this.baseUrl + '/timesheet/clock-out', data);
+  clockOut(): Observable<any> {
+    return this.http.post(this.baseUrl + '/timesheet/clock-out', {});
+  }
+
+  getStartTime(): Observable<any> {
+    return this.http.post(this.baseUrl + '/timesheet/get-start-time', {});
   }
 
   referralTypes(data): Observable<any> {

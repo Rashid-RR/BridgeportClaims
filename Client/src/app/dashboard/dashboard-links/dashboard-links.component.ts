@@ -151,7 +151,7 @@ export class DashboardLinksComponent implements OnInit, AfterViewInit {
   }
 
   clockIn() {
-    this.http.clockIn({}).subscribe(response => {
+    this.http.clockIn().subscribe(response => {
       console.log(response);
       this.toast.success(response.message);
       this.isClockOut = true;
@@ -159,7 +159,7 @@ export class DashboardLinksComponent implements OnInit, AfterViewInit {
   }
 
   clockOut() {
-    this.http.clockOut(null).subscribe(response => {
+    this.http.clockOut().subscribe(response => {
       console.log(response);
       this.toast.success(response.message);
       this.isClockOut = false;
