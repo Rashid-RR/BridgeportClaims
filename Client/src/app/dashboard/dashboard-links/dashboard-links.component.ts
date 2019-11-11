@@ -5,6 +5,7 @@ import { EventsService } from '../../services/events-service';
 import { DatePipe } from '@angular/common';
 import { DomSanitizer } from '@angular/platform-browser';
 import { SwalComponent, SwalPartialTargets } from '@sweetalert2/ngx-sweetalert2';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-private',
@@ -37,10 +38,12 @@ export class DashboardLinksComponent implements OnInit, AfterViewInit {
     totalResolvedEpisodes: null,
     totalUnresolvedEpisodes: null
   };
+  isClockOut: boolean = false;
   constructor(
     private http: HttpService,
     private events: EventsService,
     private dp: DatePipe,
+    private toast: ToastrService,
     public readonly swalTargets: SwalPartialTargets,
     private sanitizer: DomSanitizer,
     private profileManager: ProfileManager
@@ -145,5 +148,21 @@ export class DashboardLinksComponent implements OnInit, AfterViewInit {
   get isClient(): Boolean {
     return (this.profileManager.profile && this.profileManager.profile.roles && (this.profileManager.profile.roles instanceof Array)
       && this.profileManager.profile.roles.indexOf('Client') > -1);
+  }
+
+  clockIn() {
+    this.http.clockIn({}).subscribe(response => {
+      console.log(response);
+      this.toast.success(response.message);
+      this.isClockOut = true;
+    });
+  }
+
+  clockOut() {
+    this.http.clockOut(null).subscribe(response => {
+      console.log(response);
+      this.toast.success(response.message);
+      this.isClockOut = false;
+    });
   }
 }

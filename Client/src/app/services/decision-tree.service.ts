@@ -155,7 +155,11 @@ export class DecisionTreeService {
     return this.totalRowCount ? Math.ceil(this.totalRowCount / this.data.pageSize) : null;
   }
   get treeArray(): Array<ITreeNode> {
-    return this.treeList.toArray();
+    return this.sortData(this.treeList.toArray());
+  }
+
+  sortData(array: Array<any>) {
+    return array.sort((a, b) => a.nodeName < b.nodeName ? -1 : 1);
   }
 
   onSortColumn(info: SortColumnInfo) {

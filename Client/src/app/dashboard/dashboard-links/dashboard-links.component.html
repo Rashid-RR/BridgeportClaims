@@ -17,6 +17,13 @@
   </div>
 </div>
 <div class="row" *ngIf="!isClient">
+  <div class="text-center">    
+    <!-- <button *ngIf="!isClockOut" mat-raised-button class="color-palette btn bg-DarkGreen btn-small" type="button" style="padding: 2px 14px 0px 13px;height: 36px;" (click)="clockIn()">
+      <i class="fa fa-clock-o" aria-hidden="true"></i> Clock In</button>
+    
+    <button *ngIf="isClockOut" mat-raised-button class="btn bg-darkRed" style="padding: 2px 14px 0px 13px;height: 36px;" type="button" (click)="clockOut()" id="claimSearchBtn">
+      <i class="fa fa-clock-o" aria-hidden="true"></i> Clock Out</button> -->
+  </div>
   <div class="col-md-12 full-height">
     <div id="private-nav">
       <div class="row parallel">
