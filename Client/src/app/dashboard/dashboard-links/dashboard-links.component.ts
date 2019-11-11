@@ -1,3 +1,5 @@
+import { Constants } from './../../shared/constants';
+import { LocalStorageService } from 'ngx-webstorage';
 import { Component, ElementRef, ViewEncapsulation, ViewChild, OnInit, AfterViewInit } from '@angular/core';
 import { HttpService } from '../../services/http-service';
 import { ProfileManager } from '../../services/profile-manager';
@@ -38,7 +40,7 @@ export class DashboardLinksComponent implements OnInit, AfterViewInit {
     totalResolvedEpisodes: null,
     totalUnresolvedEpisodes: null
   };
-  isClockOut: boolean = false;
+  isClockIn = false;
   constructor(
     private http: HttpService,
     private events: EventsService,
@@ -46,8 +48,9 @@ export class DashboardLinksComponent implements OnInit, AfterViewInit {
     private toast: ToastrService,
     public readonly swalTargets: SwalPartialTargets,
     private sanitizer: DomSanitizer,
-    private profileManager: ProfileManager
-  ) { }
+    private profileManager: ProfileManager,
+    private localStorage: LocalStorageService
+  ) {}
 
   ngAfterViewInit() {
 
@@ -63,7 +66,11 @@ export class DashboardLinksComponent implements OnInit, AfterViewInit {
   sanitize(style) {
     return this.sanitizer.bypassSecurityTrustStyle(style);
   }
+
   ngOnInit() {
+    this.isClockIn = this.localStorage.retrieve(Constants.IsClockInKey);
+    this.http.getStartTime().subscribe(startTime => console.log(startTime));
+
     if (!this.isClient) {
       this.http.getKPIs()
         .subscribe((result: any) => {
@@ -152,17 +159,17 @@ export class DashboardLinksComponent implements OnInit, AfterViewInit {
 
   clockIn() {
     this.http.clockIn().subscribe(response => {
-      console.log(response);
       this.toast.success(response.message);
-      this.isClockOut = true;
+      this.localStorage.store(Constants.IsClockInKey, true);
+      this.isClockIn = true;
     });
   }
 
   clockOut() {
     this.http.clockOut().subscribe(response => {
-      console.log(response);
       this.toast.success(response.message);
-      this.isClockOut = false;
+      this.localStorage.store(Constants.IsClockInKey, false);
+      this.isClockIn = false;
     });
   }
 }
