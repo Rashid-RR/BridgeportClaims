@@ -3,13 +3,14 @@ using System.Data;
 using System.Data.SqlClient;
 using BridgeportClaims.Common.Disposable;
 using Dapper;
+using cs = BridgeportClaims.Common.Config.ConfigService;
 
 namespace BridgeportClaims.Data.DataProviders.TimeSheets
 {
     public class TimeSheetProvider : ITimeSheetProvider
     {
         public void ClockIn(string userId) =>
-            DisposableService.Using(() => new SqlConnection(), conn =>
+            DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
                 const string sp = "[dbo].[uspUserTimeSheetClockIn]";
                 if (conn.State != ConnectionState.Open)
@@ -20,7 +21,7 @@ namespace BridgeportClaims.Data.DataProviders.TimeSheets
             });
 
         public void ClockOut(string userId) =>
-            DisposableService.Using(() => new SqlConnection(), conn =>
+            DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
                 const string sp = "[dbo].[uspUserTimeSheetClockOut]";
                 if (conn.State != ConnectionState.Open)
@@ -31,7 +32,7 @@ namespace BridgeportClaims.Data.DataProviders.TimeSheets
             });
 
         public DateTime? GetStartTime(string userId) =>
-            DisposableService.Using(() => new SqlConnection(), conn =>
+            DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
                 const string sp = "[dbo].[uspGetUserTimeSheetClockInTime]";
                 if (conn.State != ConnectionState.Open)
