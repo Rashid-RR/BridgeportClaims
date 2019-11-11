@@ -361,6 +361,30 @@ AS BEGIN
 			  ,@UtcNow
 		FROM [#ReturnTable] AS [r];
 
+		-- New Logic, make sure we're getting this right.
+		DECLARE @InvoiceID INT;
+		INSERT INTO [dbo].[Invoice]
+		(
+		    [InvoiceNumber]
+		   ,[InvoiceDate]
+		   ,[Amount]
+		)
+		VALUES
+		(
+			CONVERT(VARCHAR(100), @InvoiceNumber),
+			@TodaysLocalDate,
+			(SELECT SUM(rt.[BilledAmount]) FROM [#ReturnTable] AS [rt])
+		);
+		SET @InvoiceID = SCOPE_IDENTITY();
+
+		-- Now, circle back around to the scripts to update them with the Invoice ID that we just generated.
+		UPDATE [p]
+		SET [p].[InvoiceID] = @InvoiceID
+		FROM [dbo].[Prescription] AS [p]
+			 INNER JOIN [#ReturnTable] AS [r] ON [r].[PrescriptionId] = [p].[PrescriptionID];
+
+		-- End new logic.
+
 		SELECT [r].[ClaimId]
 			  ,[r].[BillToName]
 			  ,[r].[BillToAddress1]

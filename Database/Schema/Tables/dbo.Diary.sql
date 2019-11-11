@@ -5,7 +5,7 @@ CREATE TABLE [dbo].[Diary]
 [PrescriptionNoteID] [int] NOT NULL,
 [FollowUpDate] [date] NOT NULL,
 [DateResolved] [date] NULL,
-[CreatedDate] [date] NOT NULL CONSTRAINT [dfDiaryCreatedDate] DEFAULT (CONVERT([date],[dtme].[udfGetLocalDate](),(0))),
+[CreatedDate] [date] NOT NULL CONSTRAINT [dfDiaryCreatedDate] DEFAULT (CONVERT([date],[dtme].[udfGetLocalDate]())),
 [CreatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfDiaryCreatedOnUTC] DEFAULT (sysutcdatetime()),
 [UpdatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfDiaryUpdatedOnUTC] DEFAULT (sysutcdatetime()),
 [DataVersion] [timestamp] NOT NULL
@@ -18,6 +18,8 @@ GO
 ALTER TABLE [dbo].[Diary] ADD CONSTRAINT [pkDiary] PRIMARY KEY CLUSTERED  ([DiaryID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = ROW) ON [PRIMARY]
 GO
 CREATE NONCLUSTERED INDEX [idxDiaryCreatedDate] ON [dbo].[Diary] ([CreatedDate]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
+GO
+CREATE NONCLUSTERED INDEX [idxDiaryDateResolved] ON [dbo].[Diary] ([DateResolved]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
 CREATE NONCLUSTERED INDEX [idxDiaryPrescriptionNoteIDAssignedToUserIDIncludeAll] ON [dbo].[Diary] ([PrescriptionNoteID], [AssignedToUserID]) INCLUDE ([CreatedOnUTC], [DateResolved], [DiaryID], [FollowUpDate], [UpdatedOnUTC]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
