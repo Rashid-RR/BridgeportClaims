@@ -68,7 +68,14 @@ export class DashboardLinksComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    // Very important to read this from local storage, otherwise the page will
+    // load and the button will flash green for a second, when it should be red... or vice versa.
     this.isClockIn = this.localStorage.retrieve(Constants.IsClockInKey);
+    /******************************************************************/
+
+
+    // This is here just for testing...
+    // TODO: Need to use this to determine the amount of time on the clock that has elapsed.
     this.http.getStartTime().subscribe(startTime => console.log(startTime));
 
     if (!this.isClient) {
