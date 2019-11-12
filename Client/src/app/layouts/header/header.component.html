@@ -92,6 +92,7 @@
         </ul>
       </div>
       <ng-container *ngIf="profileManager.profile">
+        <div class="time-string">{{timeString}}</div>
         <ng-container *ngIf="adminOnly">
           <div  class="notification"
             [popover]="notificationCount == 0 ? 'No new Notifications...' : ''" triggers="mouseenter:mouseleave"

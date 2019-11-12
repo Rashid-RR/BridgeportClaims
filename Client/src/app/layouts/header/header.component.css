@@ -505,3 +505,12 @@ li a {
     top: 0px;
     left: 32px;
   }
+.time-string {
+  display: flex;
+  color: #fff;
+  justify-content: center;
+  align-items: center;
+  padding: 0 15px;
+  font-weight: bold;
+  font-size: 18px !important;
+}

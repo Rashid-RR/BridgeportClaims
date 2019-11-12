@@ -8,6 +8,7 @@ import { DatePipe } from '@angular/common';
 import { DomSanitizer } from '@angular/platform-browser';
 import { SwalComponent, SwalPartialTargets } from '@sweetalert2/ngx-sweetalert2';
 import { ToastrService } from 'ngx-toastr';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-private',
@@ -40,7 +41,9 @@ export class DashboardLinksComponent implements OnInit, AfterViewInit {
     totalResolvedEpisodes: null,
     totalUnresolvedEpisodes: null
   };
+
   isClockIn = false;
+
   constructor(
     private http: HttpService,
     private events: EventsService,
@@ -73,10 +76,8 @@ export class DashboardLinksComponent implements OnInit, AfterViewInit {
     this.isClockIn = this.localStorage.retrieve(Constants.IsClockInKey);
     /******************************************************************/
 
-
     // This is here just for testing...
     // TODO: Need to use this to determine the amount of time on the clock that has elapsed.
-    this.http.getStartTime().subscribe(startTime => console.log(startTime));
 
     if (!this.isClient) {
       this.http.getKPIs()
@@ -169,6 +170,7 @@ export class DashboardLinksComponent implements OnInit, AfterViewInit {
       this.toast.success(response.message);
       this.localStorage.store(Constants.IsClockInKey, true);
       this.isClockIn = true;
+      this.http.setClock(true);
     });
   }
 
@@ -176,7 +178,9 @@ export class DashboardLinksComponent implements OnInit, AfterViewInit {
     this.http.clockOut().subscribe(response => {
       this.toast.success(response.message);
       this.localStorage.store(Constants.IsClockInKey, false);
+      this.localStorage.getStrategyName()
       this.isClockIn = false;
+      this.http.setClock(false);
     });
   }
 }

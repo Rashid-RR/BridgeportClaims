@@ -12,6 +12,7 @@ import { GlobalSearchResult, HttpService } from '../../services/http-service';
 import { NotificationService } from '../../services/notification.service';
 import { ProfileManager } from '../../services/profile-manager';
 import { md5 } from '../md5/md5';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-header',
@@ -43,6 +44,11 @@ export class HeaderComponent implements OnInit {
   cleanSearch = true;
   notificationCount = 0;
   avatarHash: any;
+  timeString: string;
+  second: number;
+  minutes: number;
+  hours: number;
+  interval: any;
 
   private autocompleteOpened$: Subject<boolean> = new Subject<boolean>();
 
@@ -91,7 +97,84 @@ export class HeaderComponent implements OnInit {
       }
     }
     this.sidebarToggle();
+
+    this.http.getStartTime().subscribe(startTime => {      
+      if (startTime) {
+        let now  = moment().format("DD/MM/YYYY HH:mm:ss");
+        let then = moment(startTime + '-07:00').format("DD/MM/YYYY HH:mm:ss");
+
+        let ms = moment(now,"DD/MM/YYYY HH:mm:ss").diff(moment(then,"DD/MM/YYYY HH:mm:ss"));
+        let d = moment.duration(ms);
+        let s = Math.floor(d.asHours()) + moment.utc(ms).format(":mm:ss");
+        let time = s.split(":");
+        let sec = parseInt(time[2]);
+        this.updateClock(parseInt(time[0]), parseInt(time[1]), sec);
+        this.interval = setInterval(() => {
+          if (this.second || this.second == 0) {
+            this.updateClock(this.hours, this.minutes, this.second);
+          }
+        }, 1000);
+      }
+    });
+
+    this.http.getClock().subscribe(val => {
+      if (val == false) {
+        clearInterval(this.interval);
+      } else {
+        if (val) {
+          this.second = undefined;
+          this.hours = undefined;
+          this.minutes = undefined;
+          let s = "00:00:00";
+          let time = s.split(":");
+          let sec = parseInt(time[2]);
+          this.updateClock(parseInt(time[0]), parseInt(time[1]), sec);
+            this.interval = setInterval(() => {
+              if (this.second || this.second == 0) {
+                this.updateClock(this.hours, this.minutes, this.second);
+              }
+            }, 1000);
+        }
+      }
+    });
   }
+
+  updateClock(h, m, s) {
+    let hour = h, mins = m, secs = s;
+    secs = secs + 1;
+    this.second = secs;
+    this.minutes = mins;
+    this.hours = hour;
+      if (secs == 60){
+        secs = 0;
+        this.second = secs;
+        mins = mins + 1;
+        this.minutes = this.minutes + 1;
+      }
+      if (mins==60){
+        mins = 0;
+        this.minutes = mins;
+        hour = hour + 1;
+        this.hours = this.hours + 1;
+      }
+      if (hour==13){
+        hour = '0' + 1;
+        this.hours = 1;
+      }
+
+      this.timeString = this.formatDigit(hour) + ':' + this.formatDigit(mins) + ':' + this.formatDigit(secs);
+  }
+
+  formatDigit(digit){ 
+    let zpad = digit + '';
+    if (digit < 10) {
+        zpad = "0" + zpad;
+    }
+    return zpad;
+  }
+
+
+
   fetchNotifications(): void {
       this.notificationservice.getNotification().subscribe((countParam: number) => {
         if (!this.isClient) {

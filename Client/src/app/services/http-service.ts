@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 import { UUID } from 'angular2-uuid';
 import * as Immutable from 'immutable';
 import { ToastrService } from 'ngx-toastr';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { RootDecisionTreeModal } from '../interfaces/decision-tree-choice';
 import { EnvisionNotificationDismissal } from '../models/envision-notification-dismissal';
@@ -27,6 +27,7 @@ export class HttpService {
       return this.groupNameAutoSuggest(name);
     }
   };
+  private isClockIn = new BehaviorSubject<boolean>(undefined);
   documentWindow: Immutable.OrderedMap<number, Window> =  Immutable.OrderedMap<number, Window>();
   constructor(private router: Router, private http: HttpClient, private events: EventsService, private toast: ToastrService) {
 
@@ -51,6 +52,14 @@ closeTreeWindows() {
 
   setAuth(auth: String) {
     this.token = auth;
+  }
+  
+  setClock(value) {
+    this.isClockIn.next(value);
+  }
+
+  getClock() {
+    return this.isClockIn.asObservable();
   }
 
   login(data: any, headers: any): Observable<any> {
