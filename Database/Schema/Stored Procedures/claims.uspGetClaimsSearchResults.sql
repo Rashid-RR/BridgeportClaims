@@ -39,6 +39,7 @@ BEGIN
 				 , c.FirstName
 				 , c.Carrier
 				 , c.InjuryDate
+				 , c.PatientDob
 			FROM   [dbo].[vwClaimInfo] c WITH (NOEXPAND)
 				   INNER JOIN [#Prescriptions] AS [p] ON [p].[ClaimID] = [c].[ClaimID]
 			WHERE  1 = 1
@@ -55,6 +56,7 @@ BEGIN
 				 , c.FirstName
 				 , c.Carrier
 				 , c.InjuryDate
+				 , c.PatientDob
 			FROM   [dbo].[vwClaimInfo] c WITH (NOEXPAND)
 			WHERE  1 = 1
 				   AND (c.ClaimNumber LIKE '%' + @ClaimNumber + '%' OR @ClaimNumber IS NULL)
