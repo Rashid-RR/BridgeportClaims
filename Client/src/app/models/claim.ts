@@ -57,7 +57,7 @@ export class Claim {
     claimNote: ClaimNote;
     editing: Boolean = false;
     states: { stateId: number, stateName: string}[] = [];
-    constructor(claimId: Number, claimNumber: Number, dateOfBirth: Date, injuryDate: Date,
+    constructor(claimId: Number, claimNumber: Number, dateOfBirth: Date, injuryDate: Date, patientDob: Date,
         gender: String, carrier: String, adjustor: String, attorney: String, dateEntered: Date, name?: String, firstName?: String,
         lastName?: String, flex2?: String, eligibilityTermDate?: Date, address1?: string, address2?: string,
         city?: string, stateAbbreviation?: string,  postalCode?: any, genders?: any) {
@@ -81,6 +81,7 @@ export class Claim {
         this.dateEntered = dateEntered;
         this.eligibilityTermDate = eligibilityTermDate;
         this.genders = genders;
+        this.patientDob = patientDob;
     }
 
     setPrescription(prescription: Array<Prescription>) {

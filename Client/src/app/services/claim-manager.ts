@@ -239,7 +239,7 @@ export class ClaimManager {
           const res: Array<Claim> = result as Array<Claim>;
           this.claims = Immutable.OrderedMap<Number, Claim>();
           result.forEach((claim) => {
-            const c = new Claim(claim.claimId, claim.claimNumber, claim.dateOfBirth, claim.injuryDate || claim.dateOfInjury, claim.gender,
+            const c = new Claim(claim.claimId, claim.claimNumber, claim.dateOfBirth, claim.injuryDate || claim.dateOfInjury, claim.patientDob, claim.gender,
               claim.carrier, claim.adjustor, claim.attorney, claim.dateEntered,
               claim.name, claim.firstName, claim.lastName, claim.flex2, claim.eligibilityTermDate, claim.address1,
               claim.address2, claim.city, claim.stateAbbreviation, claim.postalCode, claim.genders);
@@ -267,11 +267,12 @@ export class ClaimManager {
             return;
           }
           this.claims = Immutable.OrderedMap<Number, Claim>();
-          const c = new Claim(result.claimId, result.claimNumber, result.date, result.injuryDate || result.dateOfInjury, result.gender,
+          const c = new Claim(result.claimId, result.claimNumber, result.date, result.injuryDate || result.dateOfInjury, result.patientDob, result.gender,
             result.carrier, result.adjustor, result.attorney, result.dateEntered, result.name, result.firstName,
             result.lastName, result.flex2, result.eligibilityTermDate, result.address1, result.address2, result.city,
             result.stateAbbreviation, result.postalCode, result.genders);
           c.dateOfBirth = result.dateOfBirth;
+          c.patientDob = result.patientDob;
           c.adjustor = result.adjustor;
           c.attorney = result.attorney;
           c.eligibilityTermDate = result.eligibilityTermDate;
@@ -395,7 +396,8 @@ export class ClaimManager {
     return this.episodeNoteTypes;
   }
   private configureClaim(id: number, result: any, currentClaim?: Claim, ): Claim {
-    const c = currentClaim || new Claim(result.claimId, result.claimNumber, result.date, result.injuryDate || result.dateOfInjury, result.gender,
+    const c = currentClaim || new Claim(result.claimId, result.claimNumber, result.date, result.injuryDate || result.dateOfInjury,
+      result.patientDob, result.gender,
       result.carrier, result.adjustor, result.attorney, result.dateEntered, result.name, result.firstName,
       result.lastName, result.flex2, result.eligibilityTermDate, result.address1, result.address2, result.city,
       result.stateAbbreviation, result.postalCode, result.genders);
@@ -413,6 +415,7 @@ export class ClaimManager {
     c.isAttorneyManaged = result.isAttorneyManaged;
     c.adjustorId = result.adjustorId;
     c.attorneyId = result.attorneyId;
+    c.patientDob = result.patientDob;
     c.payorId = result.payorId;
     c.genderId = result.patientGenderId;
     c.stateId = result.stateId;
