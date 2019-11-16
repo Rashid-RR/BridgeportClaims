@@ -18,6 +18,7 @@ export class Claim {
     claimNumber: Number;
     dateOfBirth: Date;
     injuryDate: Date;
+    patientDob: Date;
     gender: String;
     carrier: String;
     adjustor: String;

@@ -20,5 +20,7 @@ namespace BridgeportClaims.Data.Dtos
         public virtual string Carrier { get; set; }
         [StringLength(15)]
         public virtual DateTime? InjuryDate { get; set; }
+        [StringLength(15)]
+        public virtual DateTime? PatientDob { get; set; }
     }
 }

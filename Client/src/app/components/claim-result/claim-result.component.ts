@@ -64,7 +64,8 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
       address2: [undefined], // NULL
       city: [undefined], // NULL
       stateId: [undefined], // NULL
-      postalCode: [undefined] // NULL
+      postalCode: [undefined], // NULL
+      patientDob: [undefined] // NULL
     });
   }
 
@@ -112,6 +113,7 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
     const duplicate = this.claimManager.selectedClaims.find(c => c.claimId !== this.mergedClaim.ClaimId);
     const form = JSON.parse(JSON.stringify(this.mergedClaim));
     const InjuryDate = this.dp.transform(form.InjuryDate, 'MM/dd/yyyy');
+    const PatientDob = this.dp.transform(form.PatientDob, 'MM/dd/yyyy');
     const DateOfBirth = this.dp.transform(form.DateOfBirth, 'MM/dd/yyyy');
     form.DuplicateClaimId = duplicate.claimId;
     form.ClaimFlex2Id = form.ClaimFlex2Value === this.comparisonClaims.leftClaimFlex2Value ? this.comparisonClaims.leftClaimFlex2Value : (form.ClaimFlex2Value !== undefined ? this.comparisonClaims.rightClaimFlex2Id : undefined);
@@ -143,6 +145,9 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
     delete form.AdjustorName;
     delete form.Carrier;
     delete form.ClaimFlex2Value;
+    if (PatientDob) {
+      form.PatientDob = PatientDob;
+    }
     if (InjuryDate) {
       form.InjuryDate = InjuryDate;
     }
@@ -151,7 +156,7 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
     }
     if (form.DuplicateClaimId && form.hasOwnProperty('ClaimFlex2Id') && form.hasOwnProperty('ClaimId') &&
       form.hasOwnProperty('ClaimNumber') && form.hasOwnProperty('DateOfBirth') && form.hasOwnProperty('InjuryDate')
-      && form.hasOwnProperty('AdjustorId') && form.hasOwnProperty('PatientId') && form.hasOwnProperty('PayorId')) {
+      && form.hasOwnProperty('PatientDob') && form.hasOwnProperty('AdjustorId') && form.hasOwnProperty('PatientId') && form.hasOwnProperty('PayorId')) {
       this.claimManager.loading = true;
       this.http.getMergeClaims(form)
         .subscribe(r => {
@@ -268,6 +273,7 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
     this.adjustor = undefined;
     const dateOfBirth = this.formatDate(this.claimManager.selectedClaim.dateOfBirth as any);
     const injuryDate = this.formatDate(this.claimManager.selectedClaim.injuryDate as any);
+    const patientDob = this.formatDate(this.claimManager.selectedClaim.patientDob as any);
     this.form.patchValue({
       claimId: this.claimManager.selectedClaim.claimId,
       dateOfBirth: dateOfBirth, // NULL
@@ -281,7 +287,8 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
       address2: this.claimManager.selectedClaim.address2, // NULL
       city: this.claimManager.selectedClaim.city, // NULL
       stateId: this.claimManager.selectedClaim.stateId,
-      postalCode: this.claimManager.selectedClaim.postalCode
+      postalCode: this.claimManager.selectedClaim.postalCode,
+      patientDob: patientDob
     });
     this.lastForm = {
       claimId: this.claimManager.selectedClaim.claimId,
@@ -298,7 +305,8 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
       address2: this.claimManager.selectedClaim.address2, // NULL
       city: this.claimManager.selectedClaim.city, // NULL
       stateId: this.claimManager.selectedClaim.stateId,
-      postalCode: this.claimManager.selectedClaim.postalCode
+      postalCode: this.claimManager.selectedClaim.postalCode,
+      patientDob: patientDob
     };
 
     setTimeout(() => {
@@ -523,9 +531,15 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
         if (form.dateOfInjury) {
           this.claimManager.selectedClaim.injuryDate = form.dateOfInjury;
         }
+        if (form.patientDob) {
+          this.claimManager.selectedClaim.patientDob = form.dateOfBirth;
+        }
         // is the user nulls out the date of injury, remove it from the screen after saving.
         if (this.form.value.dateOfInjury == null) {
           this.claimManager.selectedClaim.injuryDate = null;
+        }
+        if (this.form.value.dateOfBirth == null) {
+          this.claimManager.selectedClaim.patientDob = null;
         }
         // non-nullable field so don't have to worry abouot removing it from the screen if the user removes it.
         if (form.dateOfBirth) {
