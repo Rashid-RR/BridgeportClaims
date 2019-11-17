@@ -66,17 +66,17 @@ tr:nth-of-type(even) {
 }
 
 .top-header{
-    height:56px;
+    /* height:56px; */
     width: calc(98% - 15px);
     width: -webkit-calc(98% - 15px);
     width: -o-calc(98% - 15px);
     width: -moz-calc(98% - 15px);
-    position: absolute;
+    position: inherit;
     overflow: hidden;
 }
 .table-body{
     position: absolute;
-    top:40px;
+    /* top:40px; */
     height: calc(100% - 10px);
     max-height: calc(100% - 10px);
     max-height: -moz-calc(100% - 10px);
@@ -156,5 +156,9 @@ thead span {
 }
 
 .pagination-row  .input-group .form-control{
+    height:28px;
+}
+
+.table>thead>tr>th {
     height:28px;
 }
