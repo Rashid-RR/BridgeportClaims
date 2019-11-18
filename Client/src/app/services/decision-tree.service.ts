@@ -13,6 +13,7 @@ import * as d3 from 'd3';
 import swal from 'sweetalert2';
 import * as _ from 'lodash';
 import { EpisodeNoteType } from '../models/episode-note-type';
+import { DebugRenderer2 } from '@angular/core/src/view/services';
 
 
 declare var $: any;
@@ -328,6 +329,8 @@ export class DecisionTreeService {
     if (next) {
       this.selectNode(d.children[0]);
     } else if (!d.children && !d._children) {
+      $(`#tree_node${d.id} circle`).css('fill','lightsteelblue');
+      $(`#tree_node${d.id} circle`).css('stroke','steelblue');
       this.setDescription(d);
     }
     this.loading = false;
@@ -542,13 +545,16 @@ export class DecisionTreeService {
       })
       .on('click', (n) => {
         // if (d3.event.defaultPrevented) return;
+       
         console.log("Readonly...",this.readonly);
         if (!this.readonly) {
           const _offset = $(`#tree_node${n.id}`).offset(),
+     
             position = {
               x: _offset.left + 10,
               y: _offset.top + 10
             };
+           
           if (this.claimRoute && n.data.picked) {
             return this.deSelectNode(n);
           } else if (this.claimRoute && !n.data.picked) {
@@ -561,6 +567,8 @@ export class DecisionTreeService {
               callback: (key, options) => { },
               items: this.treeNodeItems(n)
             });
+
+           // setTimeout(function () { $('.claim-col').contextMenu(position); }, 10);
             setTimeout(function () { $(`#tree_node${n.id}`).contextMenu(position); }, 10);
           }
         }
@@ -666,7 +674,10 @@ export class DecisionTreeService {
       d.x0 = d.x;
       d.y0 = d.y;
     });
+
   }
+
+
   getTextWidth(text) {
     // re-use canvas object for better performance
     const canvas = document.createElement('canvas');

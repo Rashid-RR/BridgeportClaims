@@ -47,7 +47,7 @@
               </div>
               <div class="box-body diary-results">
                 <div class="row claim-info">
-                  <div class="col-sm-12 claim-col expanded">
+                  <div class="col-sm-12 claim-col expanded" #scrollMe>
                     <div class="content-area" style="height:auto;width:100%">
                       <div class="relative_div">
                         <input type="range" orient="vertical" name="zoomLevel" [(ngModel)]="zoomLevel" (change)="handleZoomLevel(zoomLevel)" step="0.1" min="0" max="2"/>

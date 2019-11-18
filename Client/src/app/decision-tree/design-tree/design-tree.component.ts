@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ViewChild, NgZone, OnDestroy } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, NgZone, OnDestroy, ElementRef, AfterViewChecked } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as d3 from 'd3';
 import swal from 'sweetalert2';
@@ -17,7 +17,7 @@ let zoomX = 0, zoomY = 0, zoomZ = 1, clickOriginX = null, clickOriginY = null;
   templateUrl: './design-tree.component.html',
   styleUrls: ['./design-tree.component.css']
 })
-export class DesignTreeComponent implements OnInit, AfterViewInit, OnDestroy {
+export class DesignTreeComponent implements OnInit, AfterViewInit, OnDestroy,AfterViewChecked {
   zoomLevel = 1;
   over: boolean[];
   claimId: string;
@@ -27,6 +27,10 @@ export class DesignTreeComponent implements OnInit, AfterViewInit, OnDestroy {
   leafTreeId: any;
   rootText: string;
   @ViewChild('episodeSwal') private episodeSwal: SwalComponent;
+
+  
+ @ViewChild('scrollMe') private myScrollContainer: ElementRef;
+
   constructor(
     private localSt: LocalStorageService,
     public readonly swalTargets: SwalPartialTargets, private router: Router, private route: ActivatedRoute, private zone: NgZone,
@@ -34,6 +38,19 @@ export class DesignTreeComponent implements OnInit, AfterViewInit, OnDestroy {
     this.over = new Array(1);
     this.over.fill(false);
   }
+
+  ngAfterViewChecked() {      
+    this.scrollToLeft();        
+} 
+
+scrollToLeft(): void {
+  try {
+      this.myScrollContainer.nativeElement.scrollLeft = this.myScrollContainer.nativeElement.scrollWidth;
+  } catch(err) { }                 
+}
+
+
+
   episode() {
     // $("#newEpisode").modal('show');
     this.episodeSwal.show().then((r) => {
@@ -159,4 +176,7 @@ export class DesignTreeComponent implements OnInit, AfterViewInit, OnDestroy {
     zoomZ = x;
     d3.select('#decisionTree').attr('transform', `translate(${zoomX},${zoomY})scale(${zoomZ})`);
   }
+
+
+
 }
